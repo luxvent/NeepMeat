@@ -60,7 +60,7 @@ public class BERenderUtils
     public static void renderModel(Identifier model, MatrixStack matrices, World world, BlockPos pos, BlockState state, VertexConsumerProvider vertexConsumers)
     {
         BakedModelManager manager = MinecraftClient.getInstance().getBlockRenderManager().getModels().getModelManager();
-        BakedModel handle = BakedModelManagerHelper.getModel(manager, model);
+        BakedModel handle = manager.getModel(model);
         BlockModelRenderer renderer = MinecraftClient.getInstance().getBlockRenderManager().getModelRenderer();
 
         renderFlat(
@@ -94,14 +94,8 @@ public class BERenderUtils
             if (useWorldLight) {
                 light = WorldRenderer.getLightmapCoordinates(world, state, pos);
             }
-            MatrixStack.Entry entry = matrices.peek();
 
-//            Vec3i vec3i = bakedQuad.getFace().getVector();
-//            Vector3f Vector3f = new Vector3f(vec3i.getX(), vec3i.getY(), vec3i.getZ());
-//            Vector3f.transform(entry.getNormalMatrix());
-//            Direction newFace = nearestDirection(Vector3f);
-
-            float f = 1;
+            float f = 1; // What is this?
             accessor.callRenderQuad(world, state, pos, vertexConsumer, matrices.peek(), bakedQuad, f, f, f, f, light, light, light, light, overlay);
         }
     }

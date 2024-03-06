@@ -3,6 +3,7 @@ package com.neep.meatweapons;
 import com.neep.meatlib.item.BaseCraftingItem;
 import com.neep.meatlib.item.MeatlibItemSettings;
 import com.neep.meatlib.item.TooltipSupplier;
+import com.neep.meatlib.registry.ItemRegistry;
 import com.neep.meatweapons.item.*;
 import net.minecraft.item.Item;
 
@@ -16,6 +17,8 @@ public class MWItems
     public static Item LMG = new LMGItem();
 
     public static Item MA75 = new MA75Item();
+
+    public static Item MEATGUN = ItemRegistry.queue(new MeatgunItem("meatgun", TooltipSupplier.blank(), new MeatlibItemSettings().group(MeatWeapons.WEAPONS)));
 
 //    public static Item BLASTER = new BlasterItem();
     public static Item HEAVY_CANNON = new HeavyCannonItem();

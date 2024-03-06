@@ -1,6 +1,6 @@
 package com.neep.meatweapons.mm;
 
-// This for use with Manningham Mills. Currently not in use.
+// This was for Manningham Mills. Currently not in use.
 public class MWEarlyRiser implements Runnable
 {
     @Override

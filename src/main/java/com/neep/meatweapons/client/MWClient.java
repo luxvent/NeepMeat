@@ -12,9 +12,12 @@ import com.neep.meatweapons.client.sound.AirtruckSoundInstance;
 import com.neep.meatweapons.item.AssaultDrillItem;
 import com.neep.meatweapons.item.BaseGunItem;
 import com.neep.meatweapons.particle.*;
+import com.neep.neepmeat.client.NMExtraModels;
+import dev.monarkhes.myron_neepmeat.api.Myron;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.BufferBuilder;
@@ -73,6 +76,8 @@ public class MWClient implements ClientModInitializer
     @Override
     public void onInitializeClient()
     {
+        Myron.registerNamespace(MeatWeapons.NAMESPACE);
+
         registerEntityModels();
         registerAnimations();
         MWParticles.initClient();
@@ -87,6 +92,7 @@ public class MWClient implements ClientModInitializer
         GraphicsEffectClient.registerEffect(MWGraphicsEffects.BULLET_TRAIL, BulletTrailEffect::new);
         GraphicsEffectClient.registerEffect(MWGraphicsEffects.ZAP, ZapBeamEffect::new);
 
+        ModelLoadingRegistry.INSTANCE.registerModelProvider(MWExtraModels.EXTRA_MODELS);
 
         RenderItemGuiEvent.EVENT.register((textRenderer, stack, x, y, countLabel) ->
         {
