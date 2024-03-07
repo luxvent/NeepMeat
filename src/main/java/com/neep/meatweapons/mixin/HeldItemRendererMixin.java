@@ -69,7 +69,7 @@ public class HeldItemRendererMixin
     public void renderItemHead(AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand, float swingProgress, ItemStack item, float equipProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci)
     {
         isAiming = player.isSneaking();
-        if (item.getItem() instanceof WeakTwoHanded)
+        if (item.getItem() instanceof WeakTwoHanded weakTwoHanded && weakTwoHanded.displayArmFirstPerson(player.getStackInHand(hand), hand))
         {
             // Offhand will only be rendered if empty and not swinging.
             if (hand == Hand.MAIN_HAND && player.getOffHandStack().isEmpty() && !player.handSwinging && !isAiming)

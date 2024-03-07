@@ -4,6 +4,8 @@ import com.neep.meatlib.item.BaseItem;
 import com.neep.meatlib.item.TooltipSupplier;
 import com.neep.meatweapons.client.renderer.MeatgunRenderer;
 import net.minecraft.client.render.item.BuiltinModelItemRenderer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Hand;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.client.RenderProvider;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -13,7 +15,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class MeatgunItem extends BaseItem implements GeoItem
+public class MeatgunItem extends BaseItem implements GeoItem, WeakTwoHanded
 {
     private final AnimatableInstanceCache instanceCache = GeckoLibUtil.createInstanceCache(this);
     private final Supplier<Object> renderProvider = GeoItem.makeRenderer(this);
@@ -39,6 +41,12 @@ public class MeatgunItem extends BaseItem implements GeoItem
                 return renderer;
             }
         });
+    }
+
+    @Override
+    public boolean displayArmFirstPerson(ItemStack stack, Hand hand)
+    {
+        return true;
     }
 
     @Override

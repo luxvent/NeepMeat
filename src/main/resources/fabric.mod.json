@@ -38,7 +38,8 @@
       "com.neep.neepmeat.init.NMComponents"
     ],
     "cardinal-components-item": [
-      "com.neep.neepmeat.init.NMComponents"
+      "com.neep.neepmeat.init.NMComponents",
+      "com.neep.meatweapons.init.MWComponents"
     ],
     "rei_server": [
       "com.neep.neepmeat.compat.rei.NMCommonPlugin"
@@ -81,7 +82,8 @@
       "neepmeat:blood_network_chunk",
       "neepmeat:implant_manager",
       "neepmeat:enlightenment_manager",
-      "neepmeat:workpiece"
+      "neepmeat:workpiece",
+      "meatweapons:meatgun"
     ]
   },
   "accessWidener" : "neepmeat.accesswidener"

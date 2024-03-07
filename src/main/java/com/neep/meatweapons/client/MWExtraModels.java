@@ -13,11 +13,13 @@ public class MWExtraModels implements ExtraModelProvider
 
     public static Identifier MEATGUN_BASE = new Identifier(MeatWeapons.NAMESPACE, "item/meatgun/base_module");
     public static Identifier MEATGUN_BOSHER = new Identifier(MeatWeapons.NAMESPACE, "item/meatgun/bosher");
+    public static Identifier MEATGUN_CHUGGER = new Identifier(MeatWeapons.NAMESPACE, "item/meatgun/chugger");
 
     @Override
     public void provideExtraModels(ResourceManager manager, Consumer<Identifier> out)
     {
         out.accept(MEATGUN_BASE);
         out.accept(MEATGUN_BOSHER);
+        out.accept(MEATGUN_CHUGGER);
     }
 }

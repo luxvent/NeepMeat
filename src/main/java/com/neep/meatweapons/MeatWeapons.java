@@ -4,6 +4,7 @@ import com.neep.meatlib.MeatLib;
 import com.neep.meatlib.attachment.player.PlayerAttachmentManager;
 import com.neep.meatweapons.enchantment.MWEnchantments;
 import com.neep.meatweapons.entity.*;
+import com.neep.meatweapons.init.MWComponents;
 import com.neep.meatweapons.item.AssaultDrillItem;
 import com.neep.meatweapons.item.GunItem;
 import com.neep.meatweapons.network.MWAttackC2SPacket;

@@ -8,6 +8,7 @@ import com.neep.meatweapons.client.model.BulletEntityModel;
 import com.neep.meatweapons.client.model.CannonBulletEntityModel;
 import com.neep.meatweapons.client.model.PlasmaEntityModel;
 import com.neep.meatweapons.client.renderer.*;
+import com.neep.meatweapons.client.renderer.meatgun.MeatgunRenderers;
 import com.neep.meatweapons.client.sound.AirtruckSoundInstance;
 import com.neep.meatweapons.item.AssaultDrillItem;
 import com.neep.meatweapons.item.BaseGunItem;
@@ -94,6 +95,8 @@ public class MWClient implements ClientModInitializer
 
         ModelLoadingRegistry.INSTANCE.registerModelProvider(MWExtraModels.EXTRA_MODELS);
 
+        MeatgunRenderers.init();
+
         RenderItemGuiEvent.EVENT.register((textRenderer, stack, x, y, countLabel) ->
         {
             if (stack.getItem() instanceof BaseGunItem baseGunItem && baseGunItem.getShots(stack, 1) >= 0)
@@ -113,6 +116,6 @@ public class MWClient implements ClientModInitializer
             }
         });
 
-//        PlayerAttachmentManager.registerAttachment(DrillSoundInstance.ATTACHMENT_ID, DrillSoundInstance::new);
+
     }
 }
