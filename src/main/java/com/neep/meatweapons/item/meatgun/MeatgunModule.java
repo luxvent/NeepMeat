@@ -1,7 +1,11 @@
 package com.neep.meatweapons.item.meatgun;
 
 import com.neep.meatweapons.MeatWeapons;
+import com.neep.meatweapons.network.MWAttackC2SPacket;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.World;
 
 import java.util.List;
 
@@ -10,6 +14,13 @@ public interface MeatgunModule
     List<MeatgunModule> getChildren();
 
     Type<? extends MeatgunModule> getType();
+
+//    EnumSet<ChildProperties> getChildProperties();
+
+    default void trigger(World world, PlayerEntity player, ItemStack stack, int id, double pitch, double yaw, MWAttackC2SPacket.HandType handType)
+    {
+        getChildren().forEach(c -> c.trigger(world, player, stack, id, pitch, yaw, handType));
+    }
 
     MeatgunModule DEFAULT = new MeatgunModule()
     {
@@ -24,9 +35,17 @@ public interface MeatgunModule
         {
             return DEFAULT_TYPE;
         }
+
+//        @Override
+//        public EnumSet<ChildProperties> getChildProperties()
+//        {
+//             TODO
+//            return null;
+//        }
     };
 
     Type<?> DEFAULT_TYPE = new MeatgunModule.Type<>(new Identifier(MeatWeapons.NAMESPACE, "default"), p -> DEFAULT);
+
 
     @FunctionalInterface
     interface Factory<T extends MeatgunModule>
@@ -49,5 +68,17 @@ public interface MeatgunModule
         {
             return id;
         }
+    }
+
+    enum ChildProperties
+    {
+        AUXILIARY,
+
+
+    }
+
+    enum ParentProperties
+    {
+
     }
 }

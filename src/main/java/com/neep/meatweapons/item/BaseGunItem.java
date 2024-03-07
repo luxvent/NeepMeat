@@ -6,7 +6,6 @@ import com.neep.meatlib.registry.ItemRegistry;
 import com.neep.meatweapons.MeatWeapons;
 import com.neep.meatweapons.Util;
 import com.neep.meatweapons.client.renderer.BaseGunRenderer;
-import com.neep.meatweapons.damage.MWDamageSources;
 import com.neep.meatweapons.entity.BulletDamageSource;
 import com.neep.neepmeat.api.item.OverrideSwingItem;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -216,7 +215,7 @@ public abstract class BaseGunItem extends Item implements MeatlibItem, GunItem, 
         syncAnimation(world, player, stack, "fire", true);
     }
 
-    public static Optional<Entity> hitScan(@NotNull LivingEntity caster, Vec3d start, Vec3d end, double distance, GunItem gunItem)
+    public static Optional<Entity> hitScan(@NotNull LivingEntity caster, Vec3d start, Vec3d end, double distance, BeamEffectProvider gunItem)
     {
         World world = caster.getWorld();
         if (!world.isClient)

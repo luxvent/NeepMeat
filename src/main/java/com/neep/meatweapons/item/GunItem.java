@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public interface GunItem
+public interface GunItem extends BeamEffectProvider
 {
 
     static GunItem getGun(ItemStack stack)

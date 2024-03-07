@@ -22,11 +22,11 @@ import net.minecraft.util.math.random.Random;
 import java.util.List;
 
 @Environment(EnvType.CLIENT)
-public interface MeatgunModuleRenderer
+public interface MeatgunModuleRenderer<T extends MeatgunModule>
 {
     ItemColors COLOURS = new ItemColors();
 
-    void render(ItemStack stack, MeatgunComponent component, MeatgunModule module, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay);
+    void render(ItemStack stack, MeatgunComponent component, T module, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay);
 
     default void renderItem(
             ItemStack stack,

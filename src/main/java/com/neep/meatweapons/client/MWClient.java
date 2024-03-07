@@ -8,12 +8,11 @@ import com.neep.meatweapons.client.model.BulletEntityModel;
 import com.neep.meatweapons.client.model.CannonBulletEntityModel;
 import com.neep.meatweapons.client.model.PlasmaEntityModel;
 import com.neep.meatweapons.client.renderer.*;
-import com.neep.meatweapons.client.renderer.meatgun.MeatgunRenderers;
+import com.neep.meatweapons.client.renderer.meatgun.MeatgunModuleRenderers;
 import com.neep.meatweapons.client.sound.AirtruckSoundInstance;
 import com.neep.meatweapons.item.AssaultDrillItem;
 import com.neep.meatweapons.item.BaseGunItem;
 import com.neep.meatweapons.particle.*;
-import com.neep.neepmeat.client.NMExtraModels;
 import dev.monarkhes.myron_neepmeat.api.Myron;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -95,7 +94,7 @@ public class MWClient implements ClientModInitializer
 
         ModelLoadingRegistry.INSTANCE.registerModelProvider(MWExtraModels.EXTRA_MODELS);
 
-        MeatgunRenderers.init();
+        MeatgunModuleRenderers.init();
 
         RenderItemGuiEvent.EVENT.register((textRenderer, stack, x, y, countLabel) ->
         {

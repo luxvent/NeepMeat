@@ -4,7 +4,7 @@ import java.util.List;
 
 public class BaseModule implements MeatgunModule
 {
-    private MeatgunModule child = MeatgunModule.DEFAULT;
+    private MeatgunModule child = new ChuggerModule();
 
     public BaseModule()
     {
@@ -16,6 +16,10 @@ public class BaseModule implements MeatgunModule
     {
         return List.of(child);
     }
+
+//    public boolean canAttach(int slot, MeatgunModule other)
+//    {
+//    }
 
     @Override
     public Type<? extends MeatgunModule> getType()
