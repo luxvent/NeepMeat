@@ -240,7 +240,7 @@ public abstract class BaseGunItem extends Item implements MeatlibItem, GunItem, 
             }
 
             Vec3d hitPos = Objects.requireNonNullElse(entityResult, blockResult).getPos();
-            gunItem.syncBeamEffect((ServerWorld) world, start, hitPos, new Vec3d(0, 0, 0), 0.2f, 9, 100);
+            gunItem.syncBeamEffect((ServerWorld) world, start, hitPos, Vec3d.ZERO, 0.2f, 9, 100);
 
             return Optional.ofNullable(entity);
         }

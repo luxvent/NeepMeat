@@ -6,21 +6,23 @@ import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 
 @Environment(value= EnvType.CLIENT)
-public interface InputEvents
+public interface KeyboardEvents
 {
-    Event<InputEvents> PRE_INPUT = EventFactory.createArrayBacked(InputEvents.class,
+    Event<KeyboardEvents> PRE_INPUT = EventFactory.createArrayBacked(
+            KeyboardEvents.class,
             (listeners) -> (window, key, scancode, action, modifiers) ->
             {
-                for (InputEvents listener : listeners)
+                for (KeyboardEvents listener : listeners)
                 {
                     listener.onKey(window, key, scancode, action, modifiers);
                 }
             });
 
-    Event<InputEvents> POST_INPUT = EventFactory.createArrayBacked(InputEvents.class,
+    Event<KeyboardEvents> POST_INPUT = EventFactory.createArrayBacked(
+            KeyboardEvents.class,
             (listeners) -> (window, key, scancode, action, modifiers) ->
             {
-                for (InputEvents listener : listeners)
+                for (KeyboardEvents listener : listeners)
                 {
                     listener.onKey(window, key, scancode, action, modifiers);
                 }

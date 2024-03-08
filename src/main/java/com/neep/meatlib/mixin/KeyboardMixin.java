@@ -1,6 +1,6 @@
 package com.neep.meatlib.mixin;
 
-import com.neep.meatlib.api.event.InputEvents;
+import com.neep.meatlib.api.event.KeyboardEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Keyboard;
@@ -16,12 +16,12 @@ public class KeyboardMixin
     @Inject(method = "onKey", at = @At(value = "HEAD"))
     void preOnKey(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci)
     {
-        InputEvents.PRE_INPUT.invoker().onKey(window, key, scancode, action, modifiers);
+        KeyboardEvents.PRE_INPUT.invoker().onKey(window, key, scancode, action, modifiers);
     }
 
     @Inject(method = "onKey", at = @At(value = "TAIL"))
     void postOnKey(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci)
     {
-        InputEvents.POST_INPUT.invoker().onKey(window, key, scancode, action, modifiers);
+        KeyboardEvents.POST_INPUT.invoker().onKey(window, key, scancode, action, modifiers);
     }
 }

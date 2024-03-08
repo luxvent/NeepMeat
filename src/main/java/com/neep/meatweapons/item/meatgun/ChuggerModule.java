@@ -1,6 +1,8 @@
 package com.neep.meatweapons.item.meatgun;
 
 import com.neep.meatweapons.entity.BulletDamageSource;
+import com.neep.meatweapons.item.BaseGunItem;
+import com.neep.meatweapons.item.GunItem;
 import com.neep.meatweapons.network.MWAttackC2SPacket;
 import com.neep.meatweapons.network.MeatgunS2C;
 import com.neep.meatweapons.particle.MWGraphicsEffects;
@@ -57,7 +59,7 @@ public class ChuggerModule implements MeatgunModule
     @Override
     public void trigger(World world, PlayerEntity player, ItemStack stack, int id, double pitch, double yaw, MWAttackC2SPacket.HandType handType)
     {
-        if (shotsRemaining >= 0 && cooldown == 0)
+        if (shotsRemaining >= 0)
         {
             cooldown = maxCooldown;
 
@@ -94,15 +96,15 @@ public class ChuggerModule implements MeatgunModule
     protected void fireBeam(World world, PlayerEntity player, ItemStack stack, double pitchd, double yawd)
     {
         double d = 0.5;
-        double yaw = yawd + d * (shotRandom.nextFloat() - 0.5);
-        double pitch = pitchd + d * (shotRandom.nextFloat() - 0.5);
+        double yaw = yawd + d * 0.1 * (shotRandom.nextFloat() - 0.5);
+        double pitch = pitchd + d * 0.1 * (shotRandom.nextFloat() - 0.5);
 
         Vec3d pos = player.getEyePos();
         Vec3d transform = getMuzzleOffset(player, stack).rotateX((float) -pitchd).rotateY((float) -yawd);
         pos = pos.add(transform);
 
-        Vec3d end = pos.add(player.getRotationVec(1)
-                .multiply(40));
+        Vec3d end = pos.add(GunItem.getRotationVector(pitch, yaw).multiply(40));
+//        System.out.println();
         Optional<Entity> target = hitScan(player, pos, end, 40, this::syncBeamEffect);
         if (target.isPresent())
         {

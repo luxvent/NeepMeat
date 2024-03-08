@@ -2,7 +2,7 @@ package com.neep.meatweapons.item;
 
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Multimap;
-import com.neep.meatlib.api.event.InputEvents;
+import com.neep.meatlib.api.event.KeyboardEvents;
 import com.neep.meatlib.item.CustomEnchantable;
 import com.neep.meatlib.item.MeatlibItem;
 import com.neep.meatlib.item.PoweredItem;
@@ -480,7 +480,7 @@ public class AssaultDrillItem extends Item implements MeatlibItem, GeoItem, Powe
         {
             ClientTickEvents.START_CLIENT_TICK.register(Client::tick);
 
-            InputEvents.POST_INPUT.register((window, key, scancode, action, modifiers) ->
+            KeyboardEvents.POST_INPUT.register((window, key, scancode, action, modifiers) ->
             {
                 MinecraftClient client = MinecraftClient.getInstance();
                 if (client.player != null && client.options != null)

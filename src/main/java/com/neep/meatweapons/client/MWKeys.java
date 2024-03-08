@@ -1,6 +1,8 @@
 package com.neep.meatweapons.client;
 
-import com.neep.meatlib.api.event.InputEvents;
+import com.jozufozu.flywheel.event.RenderLayerEvent;
+import com.neep.meatlib.api.event.EntityLookEvents;
+import com.neep.meatlib.api.event.KeyboardEvents;
 import com.neep.meatlib.api.event.UseAttackCallback;
 import com.neep.meatweapons.MeatWeapons;
 import com.neep.meatweapons.item.GunItem;
@@ -26,6 +28,9 @@ public class MWKeys
     public static KeyBinding WEAPON_SECONDARY;
     public static KeyBinding WEAPON_PRIMARY;
 
+    public static float playerPitch;
+    public static float playerYaw;
+
     public static KeyBinding registerKeyBinding(String namespace, String id, String category, int def)
     {
         return KeyBindingHelper.registerKeyBinding(new KeyBinding("key." + namespace + "." + id,
@@ -37,18 +42,23 @@ public class MWKeys
     public static boolean primaryHeld;
     public static boolean secondaryHeld;
 
-
     public static void registerKeybinds()
     {
         AIRTRUCK_DOWN = registerKeyBinding(MeatWeapons.NAMESPACE, "down", "general", GLFW.GLFW_KEY_BACKSLASH);
 //        WEAPON_SECONDARY = registerKeyBinding(MeatWeapons.NAMESPACE, "fire_secondary", "general", GLFW.GLFW_KEY_M);
 //        WEAPON_PRIMARY = registerKeyBinding(MeatWeapons.NAMESPACE, "fire_primary", "general", GLFW.GLFW_MOUSE_BUTTON_1);
 
-        InputEvents.POST_INPUT.register(MWKeys::onKey);
+        KeyboardEvents.POST_INPUT.register(MWKeys::onKey);
 
         // Suppress use item and attack events when we are listening for key release events
         UseAttackCallback.DO_USE.register(client -> !primaryHeld);
         UseAttackCallback.DO_ATTACK.register(client -> !secondaryHeld);
+
+//        EntityLookEvents.CHANGE_LOOK.register((pitch, yaw) ->
+//        {
+//            playerPitch = pitch;
+//            playerYaw = yaw;
+//        });
     }
 
     public static void sendTrigger(World world, PlayerEntity player, GunItem main, GunItem off, int trigger, double pitch, double yaw, int handType, MWAttackC2SPacket.ActionType actionType)
@@ -82,11 +92,18 @@ public class MWKeys
             int handType = (mainHand != null ? 1 : 0) + (offHand != null ? 1 << 1 : 0);
 
             Camera camera = client.gameRenderer.getCamera();
-            double pitch = Math.toRadians(camera.getPitch());
-            double yaw = Math.toRadians(camera.getYaw());
+            double pitch = Math.toRadians(client.player.getPitch());
+            double yaw = Math.toRadians(client.player.getYaw());
+//            double pitch = Math.toRadians(camera.getPitch());
+//            double yaw = Math.toRadians(camera.getYaw());
 
             if (client.options.useKey.isPressed())
             {
+//                System.out.println(
+//                        "cam yaw: " + Math.toRadians(camera.getYaw()) +
+//                        " player yaw: " + Math.toRadians(client.player.getYaw()) +
+//                        " captured yaw: " + Math.toRadians(playerYaw));
+
                 if (!primaryHeld)
                     sendTrigger(world, client.player, mainHand, offHand,
                             MWAttackC2SPacket.TRIGGER_PRIMARY, pitch, yaw, handType, MWAttackC2SPacket.ActionType.PRESS);

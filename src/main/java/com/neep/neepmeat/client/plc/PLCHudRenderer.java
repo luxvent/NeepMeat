@@ -1,6 +1,6 @@
 package com.neep.neepmeat.client.plc;
 
-import com.neep.meatlib.api.event.InputEvents;
+import com.neep.meatlib.api.event.KeyboardEvents;
 import com.neep.neepmeat.client.screen.plc.PLCProgramScreen;
 import com.neep.neepmeat.machine.surgical_controller.SurgicalRobot;
 import com.neep.neepmeat.mixin.CameraAccessor;
@@ -130,7 +130,7 @@ public class PLCHudRenderer
         });
 
         // Screen.passEvents was removed before 1.20, so input events must be processed here while in the scree.
-        InputEvents.PRE_INPUT.register((window, key, scancode, action, modifiers) ->
+        KeyboardEvents.PRE_INPUT.register((window, key, scancode, action, modifiers) ->
         {
             MinecraftClient client = MinecraftClient.getInstance();
             PLCHudRenderer instance = getInstance();

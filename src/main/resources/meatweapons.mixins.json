@@ -9,8 +9,9 @@
   ],
   "client": [
     "ClientPlayerEntityMixin",
-    "HeldItemRendererMixin",
+    "GameRendererMixin",
     "HeldItemRendererAccessor",
+    "HeldItemRendererMixin",
     "MixinClientWorld",
     "PlayerEntityRendererMixin"
   ],

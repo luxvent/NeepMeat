@@ -6,6 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -38,6 +39,17 @@ public interface GunItem extends BeamEffectProvider
     Random getRandom();
 
     int getShots(ItemStack stack, int trigger);
+
+    static Vec3d getRotationVector(double pitchRad, double yawRad)
+    {
+        float f = (float) pitchRad;
+        float g = (float) -yawRad;
+        float h = MathHelper.cos(g);
+        float i = MathHelper.sin(g);
+        float j = MathHelper.cos(f);
+        float k = MathHelper.sin(f);
+        return new Vec3d(i * j, -k, h * j);
+    }
 
     // Removes ammunition from inventory. Returns null if none present.
     static ItemStack removeStack(Item type, PlayerEntity player)

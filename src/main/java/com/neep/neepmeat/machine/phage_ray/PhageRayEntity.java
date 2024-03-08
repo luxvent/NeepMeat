@@ -2,7 +2,7 @@ package com.neep.neepmeat.machine.phage_ray;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.neep.meatlib.api.event.InputEvents;
+import com.neep.meatlib.api.event.KeyboardEvents;
 import com.neep.meatlib.api.event.UseAttackCallback;
 import com.neep.meatlib.graphics.GraphicsEffects;
 import com.neep.meatlib.network.PacketBufUtil;
@@ -501,7 +501,7 @@ public class PhageRayEntity extends Entity
 
         public static void init()
         {
-            InputEvents.POST_INPUT.register((window, key, scancode, action, modifiers) ->
+            KeyboardEvents.POST_INPUT.register((window, key, scancode, action, modifiers) ->
             {
                 MinecraftClient client = MinecraftClient.getInstance();
                 if (client.player == null)
