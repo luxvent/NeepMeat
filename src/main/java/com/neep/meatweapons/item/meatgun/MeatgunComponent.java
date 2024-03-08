@@ -11,4 +11,7 @@ public interface MeatgunComponent extends Component
     MeatgunModule getRoot();
 
     void trigger(World world, PlayerEntity player, ItemStack stack, int id, double pitch, double yaw, MWAttackC2SPacket.HandType handType);
+
+    RecoilManager getRecoil();
+
 }

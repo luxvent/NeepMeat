@@ -1,6 +1,8 @@
 package com.neep.meatweapons.mixin;
 
+import com.neep.meatweapons.client.renderer.ArmRenderer;
 import com.neep.meatweapons.item.WeakTwoHanded;
+import myron.shaded.de.javagl.obj.Obj;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -16,34 +18,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/*
-    Redirects all calls to ItemStack.areEqual() in updateHeldItems() in order to prevent changes in NBT or damage from
-    causing the re-equip animation.
- */
-
 @Mixin(HeldItemRenderer.class)
 public class HeldItemRendererMixin
 {
-    @Shadow private ItemStack mainHand;
-    @Shadow private float equipProgressMainHand;
-    @Shadow private ItemStack offHand;
-    @Shadow private float equipProgressOffHand;
-
-    @Shadow
-    private void renderArmHoldingItem(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, float equipProgress, float swingProgress, Arm arm)
-    {
-    }
-
-    @Shadow
-    private void renderArm(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, Arm arm)
-    {
-    }
-
-    private boolean isAiming;
-    private float itemXOffset = 0;
-
-    private MinecraftClient client;
-
     @Inject(method = "updateHeldItems", at = @At(value = "TAIL"))
     public void render(CallbackInfo ci)
     {
@@ -68,23 +45,6 @@ public class HeldItemRendererMixin
     @Inject(method = "renderFirstPersonItem", at = @At(value = "TAIL"))
     public void renderItemHead(AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand, float swingProgress, ItemStack item, float equipProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci)
     {
-        isAiming = player.isSneaking();
-        if (item.getItem() instanceof WeakTwoHanded weakTwoHanded && weakTwoHanded.displayArmFirstPerson(player.getStackInHand(hand), hand))
-        {
-            // Offhand will only be rendered if empty and not swinging.
-            if (hand == Hand.MAIN_HAND && player.getOffHandStack().isEmpty() && !player.handSwinging && !isAiming)
-            {
-                matrices.push();
-                // Change rotation if main hand is left.
-                matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(player.getMainArm() == Arm.RIGHT ? -55 : 55));
-                this.renderArmHoldingItem(matrices, vertexConsumers, light, equipProgress, swingProgress, player.getMainArm().getOpposite());
-                matrices.pop();
-            }
-            if (isAiming)
-            {
-                matrices.push();
-                matrices.pop();
-            }
-        }
+        ArmRenderer.onRenderArm(matrices, player, item, hand, ((HeldItemRenderer) (Object) this), equipProgress, swingProgress, vertexConsumers, light);
     }
 }

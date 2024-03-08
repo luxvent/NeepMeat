@@ -101,6 +101,13 @@
     "sounds": [
       "meatweapons:drill_running"
     ]
+  },
+
+  "chugger_fire": {
+    "subtitle": "subtitles.meatweapons.chugger_fire",
+    "sounds": [
+      "meatweapons:chugger_fire"
+    ]
   }
 }
 

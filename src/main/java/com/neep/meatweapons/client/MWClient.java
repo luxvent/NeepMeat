@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.neep.meatlib.api.event.RenderItemGuiEvent;
 import com.neep.meatlib.graphics.client.GraphicsEffectClient;
 import com.neep.meatweapons.MeatWeapons;
+import com.neep.meatweapons.client.network.MeatgunC2S;
 import com.neep.meatweapons.client.model.BulletEntityModel;
 import com.neep.meatweapons.client.model.CannonBulletEntityModel;
 import com.neep.meatweapons.client.model.PlasmaEntityModel;
@@ -83,6 +84,8 @@ public class MWClient implements ClientModInitializer
         MWParticles.initClient();
         MWKeys.registerKeybinds();
         AirtruckSoundInstance.initEvent();
+
+        MeatgunC2S.init();
 
         AssaultDrillItem.Client.init();
 

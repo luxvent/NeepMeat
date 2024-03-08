@@ -8,6 +8,8 @@ import net.minecraft.world.World;
 
 public class MeatgunComponentImpl extends ItemComponent implements MeatgunComponent
 {
+    private final RecoilManager recoil = new RecoilManager();
+
     public MeatgunComponentImpl(ItemStack stack)
     {
         super(stack);
@@ -24,5 +26,11 @@ public class MeatgunComponentImpl extends ItemComponent implements MeatgunCompon
     public void trigger(World world, PlayerEntity player, ItemStack stack, int id, double pitch, double yaw, MWAttackC2SPacket.HandType handType)
     {
         root.trigger(world, player, stack, id, pitch, yaw, handType);
+    }
+
+    @Override
+    public RecoilManager getRecoil()
+    {
+        return recoil;
     }
 }

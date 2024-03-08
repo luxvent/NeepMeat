@@ -2,7 +2,9 @@ package com.neep.meatweapons.item.meatgun;
 
 import com.neep.meatweapons.entity.BulletDamageSource;
 import com.neep.meatweapons.network.MWAttackC2SPacket;
+import com.neep.meatweapons.network.MeatgunS2C;
 import com.neep.meatweapons.particle.MWGraphicsEffects;
+import com.neep.neepmeat.init.NMSounds;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -10,6 +12,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
@@ -101,8 +104,9 @@ public class ChuggerModule implements MeatgunModule
             entity.timeUntilRegen = 0;
         }
 
-
 //        syncAnimation(world, player, stack, "fire", true);
+        MeatgunS2C.sendRecoil((ServerPlayerEntity) player, MeatgunS2C.RecoilDirection.UP, 7, 0.2f,0.7f, 0.03f);
+        world.playSoundFromEntity(null, player, NMSounds.CHUGGER_FIRE, SoundCategory.PLAYERS, 1f, 1f);
     }
 
     public void syncBeamEffect(ServerWorld world, Vec3d pos, Vec3d end, Vec3d velocity, float width, int maxTime, double showRadius)
