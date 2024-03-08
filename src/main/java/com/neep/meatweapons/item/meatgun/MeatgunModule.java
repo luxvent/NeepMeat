@@ -15,12 +15,17 @@ public interface MeatgunModule
 
     Type<? extends MeatgunModule> getType();
 
-//    EnumSet<ChildProperties> getChildProperties();
+    default void tick()
+    {
+        getChildren().forEach(MeatgunModule::tick);
+    }
 
     default void trigger(World world, PlayerEntity player, ItemStack stack, int id, double pitch, double yaw, MWAttackC2SPacket.HandType handType)
     {
         getChildren().forEach(c -> c.trigger(world, player, stack, id, pitch, yaw, handType));
     }
+
+//    EnumSet<ChildProperties> getChildProperties();
 
     MeatgunModule DEFAULT = new MeatgunModule()
     {

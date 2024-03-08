@@ -14,4 +14,5 @@ public interface MeatgunComponent extends Component
 
     RecoilManager getRecoil();
 
+    void tick();
 }

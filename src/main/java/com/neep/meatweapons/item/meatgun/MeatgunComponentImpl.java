@@ -33,4 +33,10 @@ public class MeatgunComponentImpl extends ItemComponent implements MeatgunCompon
     {
         return recoil;
     }
+
+    @Override
+    public void tick()
+    {
+        root.tick();
+    }
 }

@@ -4,7 +4,6 @@ import com.neep.meatweapons.entity.BulletDamageSource;
 import com.neep.meatweapons.network.MWAttackC2SPacket;
 import com.neep.meatweapons.network.MeatgunS2C;
 import com.neep.meatweapons.particle.MWGraphicsEffects;
-import com.neep.meatweapons.particle.MWParticles;
 import com.neep.meatweapons.particle.MuzzleFlashParticleType;
 import com.neep.neepmeat.init.NMSounds;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -28,6 +27,8 @@ public class ChuggerModule implements MeatgunModule
 {
     private final int maxShots = 16;
     private int shotsRemaining = maxShots;
+    private int maxCooldown = 10;
+    private int cooldown = 0;
     private final Random shotRandom = Random.create();
 
     public ChuggerModule()
@@ -48,31 +49,35 @@ public class ChuggerModule implements MeatgunModule
     }
 
     @Override
+    public void tick()
+    {
+        cooldown = Math.max(0, cooldown - 1);
+    }
+
+    @Override
     public void trigger(World world, PlayerEntity player, ItemStack stack, int id, double pitch, double yaw, MWAttackC2SPacket.HandType handType)
     {
+        if (shotsRemaining >= 0 && cooldown == 0)
         {
-            if (shotsRemaining >= 0)
-            {
-//                player.getItemCooldownManager().set(this, 2);
+            cooldown = maxCooldown;
 
-                if (!world.isClient)
-                {
-                    fireBeam(world, player, stack, pitch, yaw);
+            if (!world.isClient)
+            {
+                fireBeam(world, player, stack, pitch, yaw);
 //                    if (!player.isCreative())
 //                        stack.setDamage(stack.getDamage() + 1);
-                }
             }
-            else // Weapon is out of ammunition.
+        }
+        else // Weapon is out of ammunition.
+        {
+            if (world.isClient)
             {
-                if (world.isClient)
-                {
-                    // Play empty sound.
-                }
-                else
-                {
-                    // Try to reload
+                // Play empty sound.
+            }
+            else
+            {
+                // Try to reload
 //                    this.reload(player, stack, null);
-                }
             }
         }
     }

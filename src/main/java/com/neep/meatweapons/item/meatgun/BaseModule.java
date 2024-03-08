@@ -17,9 +17,6 @@ public class BaseModule implements MeatgunModule
         return List.of(child);
     }
 
-//    public boolean canAttach(int slot, MeatgunModule other)
-//    {
-//    }
 
     @Override
     public Type<? extends MeatgunModule> getType()

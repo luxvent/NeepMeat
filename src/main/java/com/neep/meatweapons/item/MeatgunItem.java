@@ -6,6 +6,7 @@ import com.neep.meatweapons.client.renderer.MeatgunRenderer;
 import com.neep.meatweapons.init.MWComponents;
 import com.neep.meatweapons.network.MWAttackC2SPacket;
 import net.minecraft.client.render.item.BuiltinModelItemRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -67,6 +68,13 @@ public class MeatgunItem extends BaseItem implements GeoItem, WeakTwoHanded, Gun
     public Supplier<Object> getRenderProvider()
     {
         return renderProvider;
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected)
+    {
+        super.inventoryTick(stack, world, entity, slot, selected);
+        MWComponents.MEATGUN.get(stack).tick();
     }
 
     @Override
