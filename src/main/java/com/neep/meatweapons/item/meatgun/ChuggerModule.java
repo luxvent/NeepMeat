@@ -4,6 +4,8 @@ import com.neep.meatweapons.entity.BulletDamageSource;
 import com.neep.meatweapons.network.MWAttackC2SPacket;
 import com.neep.meatweapons.network.MeatgunS2C;
 import com.neep.meatweapons.particle.MWGraphicsEffects;
+import com.neep.meatweapons.particle.MWParticles;
+import com.neep.meatweapons.particle.MuzzleFlashParticleType;
 import com.neep.neepmeat.init.NMSounds;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.entity.Entity;
@@ -79,9 +81,9 @@ public class ChuggerModule implements MeatgunModule
     {
         boolean sneak = entity.isSneaking();
         return new Vec3d(
-                sneak ? 0 : entity.getMainHandStack().equals(stack) ? -0.2 : 0.2,
-                sneak ? -0.25 : 0.1,
-                .2);
+                sneak ? 0 : entity.getMainHandStack().equals(stack) ? -0.13 : 0.13,
+                -0.04,
+                .25);
     }
 
     protected void fireBeam(World world, PlayerEntity player, ItemStack stack, double pitchd, double yawd)
@@ -90,8 +92,8 @@ public class ChuggerModule implements MeatgunModule
         double yaw = yawd + d * (shotRandom.nextFloat() - 0.5);
         double pitch = pitchd + d * (shotRandom.nextFloat() - 0.5);
 
-        Vec3d pos = new Vec3d(player.getX(), player.getY() + 1.4, player.getZ());
-        Vec3d transform = getMuzzleOffset(player, stack).rotateX((float) -pitch).rotateY((float) -yaw);
+        Vec3d pos = player.getEyePos();
+        Vec3d transform = getMuzzleOffset(player, stack).rotateX((float) -pitchd).rotateY((float) -yawd);
         pos = pos.add(transform);
 
         Vec3d end = pos.add(player.getRotationVec(1)
@@ -107,6 +109,14 @@ public class ChuggerModule implements MeatgunModule
 //        syncAnimation(world, player, stack, "fire", true);
         MeatgunS2C.sendRecoil((ServerPlayerEntity) player, MeatgunS2C.RecoilDirection.UP, 7, 0.2f,0.7f, 0.03f);
         world.playSoundFromEntity(null, player, NMSounds.CHUGGER_FIRE, SoundCategory.PLAYERS, 1f, 1f);
+        if (world instanceof ServerWorld serverWorld)
+        {
+            serverWorld.spawnParticles(
+//                    new MuzzleFlashParticleType.MuzzleFlashParticleEffect(player, transform.x, transform.y, transform.z)
+                    new MuzzleFlashParticleType.MuzzleFlashParticleEffect(player, 0.45, -0.2, -1.1)
+                    , pos.getX(), pos.getY(), pos.getZ(),
+                    1, 0, 0, 0, 0.1);
+        }
     }
 
     public void syncBeamEffect(ServerWorld world, Vec3d pos, Vec3d end, Vec3d velocity, float width, int maxTime, double showRadius)

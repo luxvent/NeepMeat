@@ -10,6 +10,7 @@ import com.neep.meatweapons.client.model.CannonBulletEntityModel;
 import com.neep.meatweapons.client.model.PlasmaEntityModel;
 import com.neep.meatweapons.client.renderer.*;
 import com.neep.meatweapons.client.renderer.meatgun.MeatgunModuleRenderers;
+import com.neep.meatweapons.client.renderer.meatgun.MeatgunParticleManager;
 import com.neep.meatweapons.client.sound.AirtruckSoundInstance;
 import com.neep.meatweapons.item.AssaultDrillItem;
 import com.neep.meatweapons.item.BaseGunItem;
@@ -98,6 +99,7 @@ public class MWClient implements ClientModInitializer
         ModelLoadingRegistry.INSTANCE.registerModelProvider(MWExtraModels.EXTRA_MODELS);
 
         MeatgunModuleRenderers.init();
+        MeatgunParticleManager.init();
 
         RenderItemGuiEvent.EVENT.register((textRenderer, stack, x, y, countLabel) ->
         {

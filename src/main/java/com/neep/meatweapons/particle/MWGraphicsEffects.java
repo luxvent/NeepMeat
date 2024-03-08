@@ -20,6 +20,7 @@ public class MWGraphicsEffects
     public static final GraphicsEffectType BULLET_TRAIL = GraphicsEffects.register(MeatWeapons.NAMESPACE, "bullet_trail", new GraphicsEffectType());
 
     public static final GraphicsEffectType ZAP = GraphicsEffects.register(MeatWeapons.NAMESPACE, "zap", new GraphicsEffectType());
+//    public static final GraphicsEffectType NORMAL_MUZZLE_FLASH = GraphicsEffects.register(MeatWeapons.NAMESPACE, "normal_muzzle_flash", new GraphicsEffectType());
 
     public static void syncBeamEffect(ServerPlayerEntity player, GraphicsEffectType factory, World world, Vec3d start, Vec3d end, Vec3d velocity, float scale, int maxTime)
     {

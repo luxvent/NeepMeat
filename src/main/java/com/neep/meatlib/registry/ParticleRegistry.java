@@ -12,15 +12,15 @@ import java.util.function.Function;
 
 public class ParticleRegistry
 {
-    public static DefaultParticleType register(String namespace, String id, DefaultParticleType particleType)
+    public static <T extends ParticleType<?>> T register(String namespace, String id, T particleType)
     {
         return Registry.register(Registries.PARTICLE_TYPE, new Identifier(namespace, id), particleType);
     }
 
-    public static <T extends ParticleEffect> ParticleType<T> register(String namespace, String id, ParticleEffect.Factory<T> factory, final Function<ParticleType<T>, Codec<T>> function) {
+    public static <T extends ParticleEffect> ParticleType<T> register(String namespace, String id, ParticleEffect.Factory<T> factory, final Function<ParticleType<T>, Codec<T>> function)
+    {
         return Registry.register(Registries.PARTICLE_TYPE, new Identifier(namespace, id), new ParticleType<T>(false, factory)
         {
-
             @Override
             public Codec<T> getCodec()
             {

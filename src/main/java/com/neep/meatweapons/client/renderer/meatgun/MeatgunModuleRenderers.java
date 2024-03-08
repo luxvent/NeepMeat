@@ -12,10 +12,10 @@ import java.util.Map;
 @Environment(EnvType.CLIENT)
 public class MeatgunModuleRenderers
 {
-    private static final Map<MeatgunModule.Type<?>, MeatgunModuleRenderer.Factory> RENDERER_FACTORIES = new HashMap<>();
+    private static final Map<MeatgunModule.Type<?>, MeatgunModuleRenderer.Factory<?>> RENDERER_FACTORIES = new HashMap<>();
     private static final Map<MeatgunModule.Type<? extends MeatgunModule>, MeatgunModuleRenderer<?>> RENDERERS = new HashMap<>();
 
-    public static void register(MeatgunModule.Type<?> type, MeatgunModuleRenderer.Factory factory)
+    public static <T extends MeatgunModule> void register(MeatgunModule.Type<T> type, MeatgunModuleRenderer.Factory<T> factory)
     {
         RENDERER_FACTORIES.put(type, factory);
     }

@@ -2,6 +2,7 @@ package com.neep.meatweapons.client.renderer;
 
 import com.neep.meatweapons.client.renderer.meatgun.MeatgunModuleRenderer;
 import com.neep.meatweapons.client.renderer.meatgun.MeatgunModuleRenderers;
+import com.neep.meatweapons.client.renderer.meatgun.MeatgunParticleManager;
 import com.neep.meatweapons.init.MWComponents;
 import com.neep.meatweapons.item.meatgun.MeatgunComponent;
 import com.neep.meatweapons.item.meatgun.MeatgunModule;
@@ -11,14 +12,12 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.item.BuiltinModelItemRenderer;
-import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.render.model.json.Transformation;
+import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Arm;
@@ -79,8 +78,17 @@ public class MeatgunRenderer extends BuiltinModelItemRenderer
         matrices.pop();
         matrices.push();
 
-//        matrices.translate(transformation.translation.x, transformation.translation.y, transformation.translation.z);
-        transformRecoil(matrices, recoil);
+        // Particles
+        if (mode.isFirstPerson())
+        {
+            Camera camera = client.gameRenderer.getCamera();
+            transformRecoil(matrices, recoil);
+            VertexConsumer consumer = vcp.getBuffer(RenderLayer.getEntityTranslucent(SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE));
+            for (var particle : MeatgunParticleManager.getParticles())
+            {
+                particle.render(matrices, camera, consumer, overlay, client.getTickDelta());
+            }
+        }
 
         Hand hand = mainHand ? Hand.MAIN_HAND : Hand.OFF_HAND;
         Hand otherHand = mainHand ? Hand.OFF_HAND : Hand.MAIN_HAND;

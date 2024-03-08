@@ -41,6 +41,9 @@
       "com.neep.neepmeat.init.NMComponents",
       "com.neep.meatweapons.init.MWComponents"
     ],
+    "cardinal-components-world": [
+      "com.neep.meatweapons.init.MWComponents"
+    ],
     "rei_server": [
       "com.neep.neepmeat.compat.rei.NMCommonPlugin"
     ],

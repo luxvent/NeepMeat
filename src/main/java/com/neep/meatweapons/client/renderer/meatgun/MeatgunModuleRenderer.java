@@ -59,7 +59,7 @@ public interface MeatgunModuleRenderer<T extends MeatgunModule>
         }
     }
 
-    private void renderBakedItemModel(BakedModel model, ItemStack stack, int light, int overlay, MatrixStack matrices, VertexConsumer vertices)
+    private void renderBakedItemModel(BakedModel model, ItemStack stack, int light, int overlay, MatrixStack matrices, VertexConsumer consumer)
     {
         Random random = Random.create();
         long l = 42L;
@@ -67,14 +67,14 @@ public interface MeatgunModuleRenderer<T extends MeatgunModule>
         for (Direction direction : Direction.values())
         {
             random.setSeed(42L);
-            this.renderBakedItemQuads(matrices, vertices, model.getQuads(null, direction, random), stack, light, overlay);
+            this.renderBakedItemQuads(matrices, consumer, model.getQuads(null, direction, random), stack, light, overlay);
         }
 
         random.setSeed(42L);
-        this.renderBakedItemQuads(matrices, vertices, model.getQuads(null, null, random), stack, light, overlay);
+        this.renderBakedItemQuads(matrices, consumer, model.getQuads(null, null, random), stack, light, overlay);
     }
 
-    private void renderBakedItemQuads(MatrixStack matrices, VertexConsumer vertices, List<BakedQuad> quads, ItemStack stack, int light, int overlay)
+    private void renderBakedItemQuads(MatrixStack matrices, VertexConsumer consumer, List<BakedQuad> quads, ItemStack stack, int light, int overlay)
     {
         MatrixStack.Entry entry = matrices.peek();
 
@@ -89,13 +89,13 @@ public interface MeatgunModuleRenderer<T extends MeatgunModule>
             float f = (float) (i >> 16 & 0xFF) / 255.0F;
             float g = (float) (i >> 8 & 0xFF) / 255.0F;
             float h = (float) (i & 0xFF) / 255.0F;
-            vertices.quad(entry, bakedQuad, f, g, h, light, overlay);
+            consumer.quad(entry, bakedQuad, f, g, h, light, overlay);
         }
     }
 
     @FunctionalInterface
-    interface Factory
+    interface Factory<T extends MeatgunModule>
     {
-        MeatgunModuleRenderer create(MinecraftClient client);
+        MeatgunModuleRenderer<T> create(MinecraftClient client);
     }
 }
