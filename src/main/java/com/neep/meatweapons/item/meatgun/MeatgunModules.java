@@ -14,6 +14,7 @@ public class MeatgunModules
     public static final MeatgunModule.Type<BaseModule> BASE = register(new Identifier(MeatWeapons.NAMESPACE, "base"), p -> new BaseModule());
     public static final MeatgunModule.Type<ChuggerModule> CHUGGER = register(new Identifier(MeatWeapons.NAMESPACE, "chugger"), p -> new ChuggerModule());
     public static final MeatgunModule.Type<TripleCarouselModule> TRIPLE_CAROUSEL = register(new Identifier(MeatWeapons.NAMESPACE, "triple_carousel"), p -> new TripleCarouselModule());
+    public static final MeatgunModule.Type<DoubleCarouselModule> DOUBLE_CAROUSEL = register(new Identifier(MeatWeapons.NAMESPACE, "double_carousel"), p -> new DoubleCarouselModule());
 
     public static <T extends MeatgunModule> MeatgunModule.Type<T> register(Identifier id, MeatgunModule.Factory<T> factory)
     {

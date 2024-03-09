@@ -1,5 +1,6 @@
 package com.neep.meatweapons.client.renderer.meatgun;
 
+import com.neep.meatweapons.item.meatgun.DoubleCarouselModule;
 import com.neep.meatweapons.item.meatgun.MeatgunModule;
 import com.neep.meatweapons.item.meatgun.MeatgunModules;
 import com.neep.meatweapons.item.meatgun.TripleCarouselModule;
@@ -32,5 +33,6 @@ public class MeatgunModuleRenderers
         register(MeatgunModules.BASE, BaseModuleRenderer::new);
         register(MeatgunModules.CHUGGER, ChuggerModuleRenderer::new);
         register(MeatgunModules.TRIPLE_CAROUSEL, TripleCarouselModuleRenderer::new);
+        register(MeatgunModules.DOUBLE_CAROUSEL, DoubleCarouselModuleRenderer::new);
     }
 }

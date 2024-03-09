@@ -1,23 +1,26 @@
 package com.neep.meatweapons.item.meatgun;
 
+import org.joml.Matrix4f;
+
 import java.util.List;
 
-public class BaseModule implements MeatgunModule
+public class BaseModule extends AbstractMeatgunModule
 {
 //    private MeatgunModule child = new ChuggerModule();
-    private MeatgunModule child = new TripleCarouselModule();
+//    private MeatgunModule child = new TripleCarouselModule();
+    private final MeatgunModule child = new DoubleCarouselModule();
+    private final ModuleSlot front = new SimpleModuleSlot(new Matrix4f());
 
     public BaseModule()
     {
-
+        front.set(child);
     }
 
     @Override
-    public List<MeatgunModule> getChildren()
+    public List<ModuleSlot> getChildren()
     {
-        return List.of(child);
+        return List.of(front);
     }
-
 
     @Override
     public Type<? extends MeatgunModule> getType()

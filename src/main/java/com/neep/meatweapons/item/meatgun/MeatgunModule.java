@@ -6,31 +6,34 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
+import org.joml.Matrix4f;
 
 import java.util.List;
 
 public interface MeatgunModule
 {
-    List<MeatgunModule> getChildren();
+    List<ModuleSlot> getChildren();
 
     Type<? extends MeatgunModule> getType();
 
     default void tick()
     {
-        getChildren().forEach(MeatgunModule::tick);
+        getChildren().forEach(s -> s.get().tick());
     }
 
     default void trigger(World world, PlayerEntity player, ItemStack stack, int id, double pitch, double yaw, MWAttackC2SPacket.HandType handType)
     {
-        getChildren().forEach(c -> c.trigger(world, player, stack, id, pitch, yaw, handType));
+        getChildren().forEach(c -> c.get().trigger(world, player, stack, id, pitch, yaw, handType));
     }
+
+    void setTransform(Matrix4f transform);
 
 //    EnumSet<ChildProperties> getChildProperties();
 
     MeatgunModule DEFAULT = new MeatgunModule()
     {
         @Override
-        public List<MeatgunModule> getChildren()
+        public List<ModuleSlot> getChildren()
         {
             return List.of();
         }
@@ -39,6 +42,12 @@ public interface MeatgunModule
         public Type<? extends MeatgunModule> getType()
         {
             return DEFAULT_TYPE;
+        }
+
+        @Override
+        public void setTransform(Matrix4f transform)
+        {
+
         }
 
 //        @Override

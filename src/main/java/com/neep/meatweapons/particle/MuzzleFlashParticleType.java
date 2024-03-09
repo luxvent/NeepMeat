@@ -25,11 +25,12 @@ public class MuzzleFlashParticleType extends ParticleType<MuzzleFlashParticleTyp
                     UUID_CODEC.fieldOf("uuid").forGetter(e -> e.playerUUID),
                     Codec.DOUBLE.fieldOf("dx").forGetter(e -> e.dx),
                     Codec.DOUBLE.fieldOf("dy").forGetter(e -> e.dy),
-                    Codec.DOUBLE.fieldOf("dz").forGetter(e -> e.dz))
+                    Codec.DOUBLE.fieldOf("dz").forGetter(e -> e.dz),
+                    Codec.FLOAT.fieldOf("scale").forGetter(e -> e.scale))
                 .apply(instance, MuzzleFlashParticleEffect::new)
     );
 
-    public static final ParticleEffect.Factory<MuzzleFlashParticleEffect> PARAMETER_FACTORY = new ParticleEffect.Factory<MuzzleFlashParticleEffect>()
+    public static final ParticleEffect.Factory<MuzzleFlashParticleEffect> PARAMETER_FACTORY = new ParticleEffect.Factory<>()
     {
         @Override
         public MuzzleFlashParticleEffect read(ParticleType<MuzzleFlashParticleEffect> type, StringReader reader) throws CommandSyntaxException
@@ -40,13 +41,14 @@ public class MuzzleFlashParticleType extends ParticleType<MuzzleFlashParticleTyp
             double dx = 0;
             double dy = 0;
             double dz = 0;
-            return new MuzzleFlashParticleEffect(uuid, dx, dy, dz);
+            float scale = 1;
+            return new MuzzleFlashParticleEffect(uuid, dx, dy, dz, scale);
         }
 
         @Override
         public MuzzleFlashParticleEffect read(ParticleType<MuzzleFlashParticleEffect> type, PacketByteBuf buf)
         {
-            return new MuzzleFlashParticleEffect(buf.readUuid(), buf.readDouble(), buf.readDouble(), buf.readDouble());
+            return new MuzzleFlashParticleEffect(buf.readUuid(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readFloat());
         }
     };
 
@@ -65,21 +67,20 @@ public class MuzzleFlashParticleType extends ParticleType<MuzzleFlashParticleTyp
     {
         private final UUID playerUUID;
         public final double dx, dy, dz;
+        public final float scale;
 
-        public MuzzleFlashParticleEffect(PlayerEntity player, double dx, double dy, double dz)
+        public MuzzleFlashParticleEffect(PlayerEntity player, double dx, double dy, double dz, float scale)
         {
-            this.playerUUID = player.getUuid();
-            this.dx = dx;
-            this.dy = dy;
-            this.dz = dz;
+            this(player.getUuid(), dx, dy, dz, scale);
         }
 
-        public MuzzleFlashParticleEffect(UUID uuid, double dx, double dy, double dz)
+        public MuzzleFlashParticleEffect(UUID uuid, double dx, double dy, double dz, float scale)
         {
             this.playerUUID = uuid;
             this.dx = dx;
             this.dy = dy;
             this.dz = dz;
+            this.scale = scale;
         }
 
         @Override
@@ -95,6 +96,7 @@ public class MuzzleFlashParticleType extends ParticleType<MuzzleFlashParticleTyp
             buf.writeDouble(dx);
             buf.writeDouble(dy);
             buf.writeDouble(dz);
+            buf.writeFloat(scale);
         }
 
         public UUID getPlayerUUID()

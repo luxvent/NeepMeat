@@ -75,20 +75,23 @@ public class MeatgunRenderer extends BuiltinModelItemRenderer
         renderRecursive(matrices, root, stack, component, mode, vcp, light, overlay);
         matrices.pop();
 
-        matrices.pop();
-        matrices.push();
-
         // Particles
         if (mode.isFirstPerson())
         {
+            matrices.push();
             Camera camera = client.gameRenderer.getCamera();
-            transformRecoil(matrices, recoil);
+            matrices.translate(0.5, 0, 1); // No idea why this transform is necessary, but this puts (0,0,0) at (8,0,16) in model coords.
+//            transformRecoil(matrices, recoil);
             VertexConsumer consumer = vcp.getBuffer(RenderLayer.getEntityTranslucent(SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE));
             for (var particle : MeatgunParticleManager.getParticles())
             {
                 particle.render(matrices, camera, consumer, overlay, client.getTickDelta());
             }
+            matrices.pop();
         }
+
+        matrices.pop();
+        matrices.push();
 
         Hand hand = mainHand ? Hand.MAIN_HAND : Hand.OFF_HAND;
         Hand otherHand = mainHand ? Hand.OFF_HAND : Hand.MAIN_HAND;
@@ -131,7 +134,12 @@ public class MeatgunRenderer extends BuiltinModelItemRenderer
 
         for (var child : module.getChildren())
         {
-            renderRecursive(matrices, child, stack, component, mode, vcp, light, overlay);
+            matrices.push();
+            matrices.translate(0.5, 0, 0);
+            matrices.multiplyPositionMatrix(child.transform());
+            matrices.translate(-0.5, 0, 0);
+            renderRecursive(matrices, child.get(), stack, component, mode, vcp, light, overlay);
+            matrices.pop();
         }
     }
 

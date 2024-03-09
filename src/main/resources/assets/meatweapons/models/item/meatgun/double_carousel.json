@@ -1,0 +1,62 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "meatweapons:item/meatgun/double_carousel",
+		"particle": "meatweapons:item/meatgun/double_carousel"
+	},
+	"elements": [
+		{
+			"from": [6, 3, 13],
+			"to": [10, 7, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 4, 4], "texture": "#0"},
+				"east": {"uv": [0, 0, 3, 4], "texture": "#0"},
+				"south": {"uv": [0, 0, 4, 4], "texture": "#0"},
+				"west": {"uv": [0, 0, 3, 4], "texture": "#0"},
+				"up": {"uv": [0, 0, 3, 4], "rotation": 270, "texture": "#0"},
+				"down": {"uv": [0, 0, 3, 4], "rotation": 90, "texture": "#0"}
+			}
+		},
+		{
+			"from": [6, -7, 13],
+			"to": [10, -3, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 4, 4], "texture": "#0"},
+				"east": {"uv": [0, 0, 3, 4], "texture": "#0"},
+				"south": {"uv": [0, 0, 4, 4], "texture": "#0"},
+				"west": {"uv": [0, 0, 3, 4], "texture": "#0"},
+				"up": {"uv": [0, 0, 3, 4], "rotation": 270, "texture": "#0"},
+				"down": {"uv": [0, 0, 3, 4], "rotation": 90, "texture": "#0"}
+			}
+		},
+		{
+			"from": [5, -3, 13],
+			"to": [11, 3, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 6, 6], "texture": "#0"},
+				"east": {"uv": [0, 0, 3, 6], "texture": "#0"},
+				"south": {"uv": [0, 0, 6, 6], "texture": "#0"},
+				"west": {"uv": [0, 0, 3, 6], "texture": "#0"},
+				"up": {"uv": [0, 0, 3, 6], "rotation": 270, "texture": "#0"},
+				"down": {"uv": [0, 0, 3, 6], "rotation": 90, "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"translation": [0, 10.5, -9.75]
+		},
+		"firstperson_righthand": {
+			"translation": [-3.75, 9.25, -2.75],
+			"scale": [0.53515, 0.53515, 0.53515]
+		},
+		"gui": {
+			"rotation": [30, 225, 0],
+			"translation": [3.75, 2.5, 0],
+			"scale": [0.625, 0.625, 0.625]
+		}
+	}
+}

@@ -14,7 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Quaternionf;
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -35,7 +35,7 @@ public class MuzzleFlashParticleFactory implements ParticleFactory<MuzzleFlashPa
     public Particle createParticle(MuzzleFlashParticleType.MuzzleFlashParticleEffect parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ)
     {
         PlayerEntity player = world.getPlayerByUuid(parameters.getPlayerUUID());
-        MuzzleFlashParticle particle = new MuzzleFlashParticle(world, player, x, y, z, parameters.dx, parameters.dy, parameters.dz);
+        MuzzleFlashParticle particle = new MuzzleFlashParticle(world, player, x, y, z, parameters.dx, parameters.dy, parameters.dz, parameters.scale);
         particle.setSprite(spriteProvider);
         return particle;
     }
@@ -45,14 +45,16 @@ public class MuzzleFlashParticleFactory implements ParticleFactory<MuzzleFlashPa
         private final float scale0;
         private final double x0, y0, z0;
         private final PlayerEntity player;
+        private final float fpScale;
 
-        protected MuzzleFlashParticle(ClientWorld clientWorld, @Nullable PlayerEntity player, double d, double e, double f, double dx, double dy, double dz)
+        protected MuzzleFlashParticle(ClientWorld clientWorld, @Nullable PlayerEntity player, double d, double e, double f, double dx, double dy, double dz, float fpScale)
         {
             super(clientWorld, d, e, f);
             this.player = player;
             this.maxAge = 1;
             this.scale = 0.2F * (this.random.nextFloat() * 0.5F + 0.5F) * 2.0F;
             this.scale0 = scale;
+            this.fpScale = fpScale;
 
             this.x0 = dx;
             this.y0 = dy;
@@ -115,23 +117,22 @@ public class MuzzleFlashParticleFactory implements ParticleFactory<MuzzleFlashPa
             float g = (float) y0;
             float h = (float) z0;
 
-            float i = this.getSize(tickDelta);
+            float i = this.getSize(tickDelta) * fpScale;
             Vector3f[] vector3fs = new Vector3f[]{
                     new Vector3f(-1.0F, -1.0F, 0F),
                     new Vector3f(-1.0F, 1.0F, 0F),
                     new Vector3f(1.0F, 1.0F, 0F),
                     new Vector3f(1.0F, -1.0F, 0F)};
 
-            matrices.push();
-            matrices.pop();
             for (int j = 0; j < 4; ++j)
             {
                 Vector3f vector3f = vector3fs[j];
                 vector3f.mul(i);
                 vector3f.add(f, g, h);
 
-                var v4 = new Vector4f(vector3f, 0);
-                v4.mul(matrices.peek().getPositionMatrix());
+                var v4 = new Vector4f(vector3f, 1);
+                Matrix4f mat = new Matrix4f(matrices.peek().getPositionMatrix());
+                v4.mul(mat);
                 vector3f.set(v4.x, v4.y, v4.z);
             }
 

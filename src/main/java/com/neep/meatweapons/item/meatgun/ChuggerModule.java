@@ -1,7 +1,6 @@
 package com.neep.meatweapons.item.meatgun;
 
 import com.neep.meatweapons.entity.BulletDamageSource;
-import com.neep.meatweapons.item.BaseGunItem;
 import com.neep.meatweapons.item.GunItem;
 import com.neep.meatweapons.network.MWAttackC2SPacket;
 import com.neep.meatweapons.network.MeatgunS2C;
@@ -16,16 +15,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import org.joml.Vector4d;
 
 import java.util.List;
 import java.util.Optional;
 
 import static com.neep.meatweapons.item.BaseGunItem.hitScan;
 
-public class ChuggerModule implements MeatgunModule
+public class ChuggerModule extends AbstractMeatgunModule
 {
     private final int maxShots = 16;
     private int shotsRemaining = maxShots;
@@ -39,7 +40,7 @@ public class ChuggerModule implements MeatgunModule
     }
 
     @Override
-    public List<MeatgunModule> getChildren()
+    public List<ModuleSlot> getChildren()
     {
         return List.of();
     }
@@ -118,9 +119,16 @@ public class ChuggerModule implements MeatgunModule
         world.playSoundFromEntity(null, player, NMSounds.CHUGGER_FIRE, SoundCategory.PLAYERS, 1f, 1f);
         if (world instanceof ServerWorld serverWorld)
         {
+//            Vector4d v = new Vector4d(0.45, -0.2, -1.1, 0);
+            Vector4d v = new Vector4d(0, 0, -13 / 16f, 1);
+//            v.add(-0.5, -0.5, -0.5, 0);
+//            v.add(-0.5, 0, -1, 0);
+            v.mul(this.transform);
+//            v.rotateZ(Math.toRadians(90));
+//            v.add(0.5, 0, 1, 0);
+//            v.add(0.5, 0.5, 0.5, 0);
             serverWorld.spawnParticles(
-//                    new MuzzleFlashParticleType.MuzzleFlashParticleEffect(player, transform.x, transform.y, transform.z)
-                    new MuzzleFlashParticleType.MuzzleFlashParticleEffect(player, 0.45, -0.2, -1.1)
+                    new MuzzleFlashParticleType.MuzzleFlashParticleEffect(player, v.x, v.y, v.z, 2.2f)
                     , pos.getX(), pos.getY(), pos.getZ(),
                     1, 0, 0, 0, 0.1);
         }
