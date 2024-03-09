@@ -4,7 +4,8 @@ import java.util.List;
 
 public class BaseModule implements MeatgunModule
 {
-    private MeatgunModule child = new ChuggerModule();
+//    private MeatgunModule child = new ChuggerModule();
+    private MeatgunModule child = new TripleCarouselModule();
 
     public BaseModule()
     {
