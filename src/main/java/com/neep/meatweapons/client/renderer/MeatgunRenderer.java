@@ -135,9 +135,9 @@ public class MeatgunRenderer extends BuiltinModelItemRenderer
         for (var child : module.getChildren())
         {
             matrices.push();
-            matrices.translate(0.5, 0, 0);
+            matrices.translate(0.5, 0, 1);
             matrices.multiplyPositionMatrix(child.transform());
-            matrices.translate(-0.5, 0, 0);
+            matrices.translate(-0.5, 0, -1);
             renderRecursive(matrices, child.get(), stack, component, mode, vcp, light, overlay);
             matrices.pop();
         }

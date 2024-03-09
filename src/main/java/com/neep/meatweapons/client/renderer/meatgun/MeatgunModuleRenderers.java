@@ -31,8 +31,10 @@ public class MeatgunModuleRenderers
     public static void init()
     {
         register(MeatgunModules.BASE, BaseModuleRenderer::new);
+        register(MeatgunModules.PISTOL, PistolModuleRenderer::new);
         register(MeatgunModules.CHUGGER, ChuggerModuleRenderer::new);
         register(MeatgunModules.TRIPLE_CAROUSEL, TripleCarouselModuleRenderer::new);
         register(MeatgunModules.DOUBLE_CAROUSEL, DoubleCarouselModuleRenderer::new);
+        register(MeatgunModules.BATTERY, BatteryModuleRenderer::new);
     }
 }
