@@ -25,15 +25,15 @@ import java.util.Optional;
 
 import static com.neep.meatweapons.item.BaseGunItem.hitScan;
 
-public class PistolModule extends AbstractMeatgunModule
+public class LongBoiModule extends AbstractMeatgunModule
 {
     private final int maxShots = 8;
     private int shotsRemaining = maxShots;
-    private int maxCooldown = 10;
+    private int maxCooldown = 20;
     private int cooldown = 0;
     private final Random shotRandom = Random.create();
 
-    public PistolModule()
+    public LongBoiModule()
     {
 
     }
@@ -47,7 +47,7 @@ public class PistolModule extends AbstractMeatgunModule
     @Override
     public Type<? extends MeatgunModule> getType()
     {
-        return MeatgunModules.PISTOL;
+        return MeatgunModules.LONG_BOI;
     }
 
     @Override
@@ -108,7 +108,7 @@ public class PistolModule extends AbstractMeatgunModule
         if (target.isPresent())
         {
             Entity entity = target.get();
-            target.get().damage(BulletDamageSource.create(world, player, 0.1f), 2);
+            target.get().damage(BulletDamageSource.create(world, player, 0.1f), 10);
             entity.timeUntilRegen = 0;
         }
 
@@ -116,7 +116,7 @@ public class PistolModule extends AbstractMeatgunModule
         world.playSoundFromEntity(null, player, NMSounds.CHUGGER_FIRE, SoundCategory.PLAYERS, 1f, 1f);
         if (world instanceof ServerWorld serverWorld)
         {
-            Vector4d v = new Vector4d(0, 0, -8 / 16f, 1);
+            Vector4d v = new Vector4d(0, 0, -34 / 16f, 1);
             v.mul(this.transform);
             serverWorld.spawnParticles(
                     new MuzzleFlashParticleType.MuzzleFlashParticleEffect(player, v.x, v.y, v.z, 1.9f)

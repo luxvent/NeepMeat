@@ -31,6 +31,7 @@ public class MeatgunModuleRenderers
         register(MeatgunModules.PISTOL, PistolModuleRenderer::new);
         register(MeatgunModules.CHUGGER, ChuggerModuleRenderer::new);
         register(MeatgunModules.BOSHER, BosherModuleRenderer::new);
+        register(MeatgunModules.LONG_BOI, LongBoiModuleRenderer::new);
         register(MeatgunModules.TRIPLE_CAROUSEL, TripleCarouselModuleRenderer::new);
         register(MeatgunModules.DOUBLE_CAROUSEL, DoubleCarouselModuleRenderer::new);
         register(MeatgunModules.BATTERY, BatteryModuleRenderer::new);

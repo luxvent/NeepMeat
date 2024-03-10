@@ -15,7 +15,7 @@ public class DoubleCarouselModule extends AbstractMeatgunModule
 
     public DoubleCarouselModule()
     {
-        upSlot.set(new ChuggerModule());
+        upSlot.set(new LongBoiModule());
         downSlot.set(new BosherModule());
         auxSlot.set(new BatteryModule());
         slots.add(upSlot);
