@@ -8,7 +8,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -21,16 +20,15 @@ public class Util
 
         Box box = caster.getBoundingBox().stretch(endPos.subtract(startPos)).expand(1.0, 1.0, 1.0);
 
-        // Remove entities not intersecting with the ray
-        List<EntityHitResult> list = new ArrayList<>();
-        world.getOtherEntities(caster, box, predicate).forEach(entity ->
+        return world.getOtherEntities(caster, box, predicate)
+                .stream()
+                .<EntityHitResult>mapMulti((entity, consumer) ->
         {
             Optional<Vec3d> optional = entity.getBoundingBox().expand(entity.getTargetingMargin() + margin).raycast(startPos, endPos);
-            optional.ifPresent(vec3d -> list.add(new EntityHitResult(entity, vec3d)));
-        });
-
-        return list;
+            optional.ifPresent(vec3d -> consumer.accept(new EntityHitResult(entity, vec3d)));
+        }).toList();
     }
+
 
     public static Vec3d getRotationVector(float pitch, float yaw)
     {

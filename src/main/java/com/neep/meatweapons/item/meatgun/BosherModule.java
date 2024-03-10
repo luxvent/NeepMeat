@@ -1,6 +1,7 @@
 package com.neep.meatweapons.item.meatgun;
 
 import com.neep.meatweapons.entity.BulletDamageSource;
+import com.neep.meatweapons.item.BeamEffectProvider;
 import com.neep.meatweapons.item.GunItem;
 import com.neep.meatweapons.network.MWAttackC2SPacket;
 import com.neep.meatweapons.network.MeatgunS2C;
@@ -15,15 +16,21 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector4d;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import static com.neep.meatweapons.item.BaseGunItem.hitScan;
+import java.util.function.Predicate;
 
 public class BosherModule extends AbstractMeatgunModule
 {
@@ -31,7 +38,7 @@ public class BosherModule extends AbstractMeatgunModule
     private int shotsRemaining = maxShots;
     private int maxCooldown = 20;
     private int cooldown = 0;
-    private final Random shotRandom = Random.create();
+    private final Random random = Random.create();
 
     public BosherModule()
     {
@@ -95,42 +102,106 @@ public class BosherModule extends AbstractMeatgunModule
 
     protected void fireBeam(World world, PlayerEntity player, ItemStack stack, double pitchd, double yawd)
     {
-        double d = 0.5;
-        double yaw = yawd + d * 0.1 * (shotRandom.nextFloat() - 0.5);
-        double pitch = pitchd + d * 0.1 * (shotRandom.nextFloat() - 0.5);
-
         Vec3d pos = player.getEyePos();
         Vec3d transform = getMuzzleOffset(player, stack).rotateX((float) -pitchd).rotateY((float) -yawd);
         pos = pos.add(transform);
 
-        Vec3d end = pos.add(GunItem.getRotationVector(pitch, yaw).multiply(40));
-//        System.out.println();
-        Optional<Entity> target = hitScan(player, pos, end, 40, this::syncBeamEffect);
-        if (target.isPresent())
+        List<Entity> targets = hitScan(player, pos, pitchd, yawd, 5, 1.5,
+                40, random, this::syncBeamEffect);
+        for (var target : targets)
         {
-            Entity entity = target.get();
-            target.get().damage(BulletDamageSource.create(world, player, 0.1f), 2);
-            entity.timeUntilRegen = 0;
+            if (target.isAlive())
+            {
+                target.damage(BulletDamageSource.create(world, player, 0.1f), 2);
+                target.timeUntilRegen = 0;
+            }
         }
 
-//        syncAnimation(world, player, stack, "fire", true);
-        MeatgunS2C.sendRecoil((ServerPlayerEntity) player, MeatgunS2C.RecoilDirection.UP, 7, 0.2f,0.7f, 0.03f);
+        MeatgunS2C.sendRecoil((ServerPlayerEntity) player, MeatgunS2C.RecoilDirection.UP, 7, 0.4f,0.3f, 0.01f);
         world.playSoundFromEntity(null, player, NMSounds.CHUGGER_FIRE, SoundCategory.PLAYERS, 1f, 1f);
         if (world instanceof ServerWorld serverWorld)
         {
-//            Vector4d v = new Vector4d(0.45, -0.2, -1.1, 0);
             Vector4d v = new Vector4d(0, 0, -13 / 16f, 1);
-//            v.add(-0.5, -0.5, -0.5, 0);
-//            v.add(-0.5, 0, -1, 0);
             v.mul(this.transform);
-//            v.rotateZ(Math.toRadians(90));
-//            v.add(0.5, 0, 1, 0);
-//            v.add(0.5, 0.5, 0.5, 0);
             serverWorld.spawnParticles(
                     new MuzzleFlashParticleType.MuzzleFlashParticleEffect(player, v.x, v.y, v.z, 2.2f)
                     , pos.getX(), pos.getY(), pos.getZ(),
                     1, 0, 0, 0, 0.1);
         }
+    }
+
+    public static List<Entity> hitScan(@NotNull LivingEntity caster, Vec3d start, double pitch, double yaw, int numRays,
+                                           double perturbRadians, double distance, Random random, BeamEffectProvider gunItem)
+    {
+        // Form list of vectors from perturbed pitch and yaw
+        List<Vec3d> rays = new ArrayList<>(numRays);
+        for (int i = 0; i < numRays; ++i)
+        {
+            double yaw1 = yaw + perturbRadians * 0.1 * (random.nextFloat() - 0.5);
+            double pitch1 = pitch + perturbRadians * 0.1 * (random.nextFloat() - 0.5);
+
+            Vec3d ray = GunItem.getRotationVector(pitch1, yaw1).multiply(distance);
+            rays.add(ray);
+        }
+
+        // Use the original ray to find the distance before block collision
+        Vec3d end = start.add(GunItem.getRotationVector(pitch, yaw).multiply(distance));
+        Predicate<Entity> entityFilter = entity -> !entity.isSpectator() && entity.canHit();
+
+        List<Entity> targets = new ArrayList<>();
+        for (var hit : getRayTargets(caster, start, end, rays, distance, entityFilter, 0.1))
+        {
+            if (hit.getType() == HitResult.Type.ENTITY)
+            {
+                targets.add(((EntityHitResult) hit).getEntity());
+            }
+
+            gunItem.syncBeamEffect((ServerWorld) caster.getWorld(), start, hit.getPos(), Vec3d.ZERO, 0.2f, 9, 50);
+        }
+
+        return targets;
+    }
+
+    public static List<HitResult> getRayTargets(LivingEntity caster, Vec3d startPos, Vec3d mainRayEnd, List<Vec3d> rays, double distance, Predicate<Entity> predicate, double margin)
+    {
+        World world = caster.getWorld();
+        Box box = caster.getBoundingBox().stretch(mainRayEnd.subtract(startPos)).expand(1.0, 1.0, 1.0);
+
+        List<Entity> boxEntities = world.getOtherEntities(caster, box, predicate);
+        List<HitResult> list = new ArrayList<>();
+        for (Vec3d ray : rays)
+        {
+            Vec3d endPos = startPos.add(ray);
+
+            double minDistance = distance;
+            @Nullable EntityHitResult minEntity = null;
+            for (var entity : boxEntities)
+            {
+                Vec3d hitPos = entity.getBoundingBox().expand(entity.getTargetingMargin() + margin).raycast(startPos, endPos).orElse(null);
+                if (hitPos != null)
+                {
+                    double dist = hitPos.distanceTo(startPos);
+                    if (dist < minDistance)
+                    {
+                        minDistance = distance;
+                        minEntity = new EntityHitResult(entity, hitPos);
+                    }
+                }
+            }
+
+            if (minEntity != null)
+            {
+                list.add(minEntity);
+            }
+            else
+            {
+                RaycastContext ctx = new RaycastContext(startPos, endPos, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, caster);
+                BlockHitResult blockResult = world.raycast(ctx);
+                list.add(blockResult);
+            }
+        }
+
+        return list;
     }
 
     public void syncBeamEffect(ServerWorld world, Vec3d pos, Vec3d end, Vec3d velocity, float width, int maxTime, double showRadius)
