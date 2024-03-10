@@ -36,8 +36,10 @@ public class BulletTrailEffect extends BeamGraphicsEffect
         VertexConsumer consumer = consumers.getBuffer(TRAIL_LAYER);
         float x = (maxTime - time + 2 - tickDelta) / (float) maxTime;
         BeamRenderer.renderBeam(matrices, consumer, camera.getPos(),
-                start, end, 214, 175, 32,
+                start, end, (int) col.x, (int) col.y, (int) col.z,
                255, scale, 255);
         matrices.pop();
+
+//        214, 175, 32,
     }
 }

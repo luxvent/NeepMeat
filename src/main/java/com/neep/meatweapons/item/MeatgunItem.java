@@ -31,7 +31,7 @@ public class MeatgunItem extends BaseItem implements GeoItem, WeakTwoHanded, Gun
 
     public MeatgunItem(String registryName, TooltipSupplier tooltipSupplier, Settings settings)
     {
-        super(registryName, tooltipSupplier, settings);
+        super(registryName, tooltipSupplier, settings.maxCount(1));
     }
 
     @Override

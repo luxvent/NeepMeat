@@ -32,7 +32,7 @@ public interface GunItem extends BeamEffectProvider
 
     void playSound(World world, LivingEntity entity, GunSounds sound);
 
-   default void syncBeamEffect(ServerWorld world, Vec3d pos, Vec3d end, Vec3d velocity, float width, int maxTime, double showRadius) {}
+   default void syncBeamEffect(ServerWorld world, Vec3d pos, Vec3d end, float width, int maxTime, double showRadius) {}
 
    void syncAnimation(World world, LivingEntity player, ItemStack stack, String animation, boolean broadcast);
 

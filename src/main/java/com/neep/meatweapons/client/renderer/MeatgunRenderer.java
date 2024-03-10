@@ -64,8 +64,9 @@ public class MeatgunRenderer extends BuiltinModelItemRenderer
         // Step recoil
         MeatgunComponent component = MWComponents.MEATGUN.get(stack);
         RecoilManager recoil = component.getRecoil();
-        recoil.horAmount = Math.max(0, recoil.horAmount - recoil.horReturnSpeed * MinecraftClient.getInstance().getLastFrameDuration());
-        recoil.amount = Math.max(0, recoil.amount - recoil.returnSpeed * MinecraftClient.getInstance().getLastFrameDuration());
+        float lastFrame = !client.isPaused() ? client.getLastFrameDuration() : 0;
+        recoil.horAmount = Math.max(0, recoil.horAmount - recoil.horReturnSpeed * lastFrame);
+        recoil.amount = Math.max(0, recoil.amount - recoil.returnSpeed * lastFrame);
 
         transformRecoil(matrices, recoil);
 
@@ -99,6 +100,7 @@ public class MeatgunRenderer extends BuiltinModelItemRenderer
                 && player.getStackInHand(otherHand).isEmpty()
                 && hand == Hand.MAIN_HAND) // Prevent three arms when the main hand is empty
         {
+            transformRecoil(matrices, recoil);
             if (leftHanded)
             {
                 matrices.translate(0.6, -0.4, 0.2);

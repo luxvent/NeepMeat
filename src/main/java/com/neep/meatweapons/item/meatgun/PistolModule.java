@@ -105,7 +105,7 @@ public class PistolModule extends AbstractMeatgunModule
 
         Vec3d end = pos.add(GunItem.getRotationVector(pitch, yaw).multiply(40));
 //        System.out.println();
-        Optional<Entity> target = hitScan(player, pos, end, 40, this::syncBeamEffect);
+        Optional<Entity> target = hitScan(player, pos, end, 40, (world1, pos1, end1, width, maxTime, showRadius) -> syncBeamEffect(world1, pos1, end1, width, maxTime, showRadius));
         if (target.isPresent())
         {
             Entity entity = target.get();
@@ -133,11 +133,12 @@ public class PistolModule extends AbstractMeatgunModule
         }
     }
 
-    public void syncBeamEffect(ServerWorld world, Vec3d pos, Vec3d end, Vec3d velocity, float width, int maxTime, double showRadius)
+    public void syncBeamEffect(ServerWorld world, Vec3d pos, Vec3d end, float width, int maxTime, double showRadius)
     {
+        Vec3d col = new Vec3d(214, 175, 32);
         for (ServerPlayerEntity player : PlayerLookup.around(world, pos, showRadius))
         {
-            MWGraphicsEffects.syncBeamEffect(player, MWGraphicsEffects.BULLET_TRAIL, world, pos, end, velocity, 0.1f, 1);
+            MWGraphicsEffects.syncBeamEffect(player, MWGraphicsEffects.BULLET_TRAIL, world, pos, end, col, 0.1f, 1);
         }
     }
 }

@@ -7,5 +7,5 @@ import net.minecraft.util.math.Vec3d;
 public
 interface BeamEffectProvider
 {
-    void syncBeamEffect(ServerWorld world, Vec3d pos, Vec3d end, Vec3d velocity, float width, int maxTime, double showRadius);
+    void syncBeamEffect(ServerWorld world, Vec3d pos, Vec3d end, float width, int maxTime, double showRadius);
 }

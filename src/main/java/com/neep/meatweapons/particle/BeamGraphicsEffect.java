@@ -16,7 +16,7 @@ public abstract class BeamGraphicsEffect implements GraphicsEffect
     public boolean alive = true;
     protected Vec3d start;
     protected Vec3d end;
-    protected Vec3d velocity;
+    protected Vec3d col;
     protected int maxTime;
     protected float scale;
 
@@ -26,7 +26,7 @@ public abstract class BeamGraphicsEffect implements GraphicsEffect
         this.uuid = uuid;
         this.start = PacketBufUtil.readVec3d(buf);
         this.end = PacketBufUtil.readVec3d(buf);
-        this.velocity = PacketBufUtil.readVec3d(buf);
+        this.col = PacketBufUtil.readVec3d(buf);
         this.scale = buf.readFloat();
         this.maxTime = buf.readInt();
     }

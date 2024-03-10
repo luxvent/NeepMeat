@@ -96,11 +96,12 @@ public class LMGItem extends BaseGunItem
     }
 
     @Override
-    public void syncBeamEffect(ServerWorld world, Vec3d pos, Vec3d end, Vec3d velocity, float width, int maxTime, double showRadius)
+    public void syncBeamEffect(ServerWorld world, Vec3d pos, Vec3d end, float width, int maxTime, double showRadius)
     {
+        Vec3d col = new Vec3d(214, 175, 32);
         for (ServerPlayerEntity player : PlayerLookup.around(world, pos, showRadius))
         {
-            MWGraphicsEffects.syncBeamEffect(player, MWGraphicsEffects.BULLET_TRAIL, world, pos, end, velocity, 0.1f, 1);
+            MWGraphicsEffects.syncBeamEffect(player, MWGraphicsEffects.BULLET_TRAIL, world, pos, end, col, 0.1f, 1);
         }
     }
 

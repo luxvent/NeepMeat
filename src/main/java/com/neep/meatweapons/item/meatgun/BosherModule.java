@@ -106,7 +106,7 @@ public class BosherModule extends AbstractMeatgunModule
         Vec3d transform = getMuzzleOffset(player, stack).rotateX((float) -pitchd).rotateY((float) -yawd);
         pos = pos.add(transform);
 
-        List<Entity> targets = hitScan(player, pos, pitchd, yawd, 5, 1.5,
+        List<Entity> targets = hitScan(player, pos, pitchd, yawd, 5, 3.5,
                 40, random, this::syncBeamEffect);
         for (var target : targets)
         {
@@ -131,14 +131,14 @@ public class BosherModule extends AbstractMeatgunModule
     }
 
     public static List<Entity> hitScan(@NotNull LivingEntity caster, Vec3d start, double pitch, double yaw, int numRays,
-                                           double perturbRadians, double distance, Random random, BeamEffectProvider gunItem)
+                                           double perturb, double distance, Random random, BeamEffectProvider gunItem)
     {
         // Form list of vectors from perturbed pitch and yaw
         List<Vec3d> rays = new ArrayList<>(numRays);
         for (int i = 0; i < numRays; ++i)
         {
-            double yaw1 = yaw + perturbRadians * 0.1 * (random.nextFloat() - 0.5);
-            double pitch1 = pitch + perturbRadians * 0.1 * (random.nextFloat() - 0.5);
+            double yaw1 = yaw + perturb * 0.1 * (random.nextFloat() - 0.5);
+            double pitch1 = pitch + perturb * 0.1 * (random.nextFloat() - 0.5);
 
             Vec3d ray = GunItem.getRotationVector(pitch1, yaw1).multiply(distance);
             rays.add(ray);
@@ -156,7 +156,7 @@ public class BosherModule extends AbstractMeatgunModule
                 targets.add(((EntityHitResult) hit).getEntity());
             }
 
-            gunItem.syncBeamEffect((ServerWorld) caster.getWorld(), start, hit.getPos(), Vec3d.ZERO, 0.2f, 9, 50);
+            gunItem.syncBeamEffect((ServerWorld) caster.getWorld(), start, hit.getPos(), 0.2f, 9, 50);
         }
 
         return targets;
@@ -181,9 +181,9 @@ public class BosherModule extends AbstractMeatgunModule
                 if (hitPos != null)
                 {
                     double dist = hitPos.distanceTo(startPos);
-                    if (dist < minDistance)
+                    if (dist <= minDistance)
                     {
-                        minDistance = distance;
+                        minDistance = dist;
                         minEntity = new EntityHitResult(entity, hitPos);
                     }
                 }
@@ -204,11 +204,12 @@ public class BosherModule extends AbstractMeatgunModule
         return list;
     }
 
-    public void syncBeamEffect(ServerWorld world, Vec3d pos, Vec3d end, Vec3d velocity, float width, int maxTime, double showRadius)
+    public void syncBeamEffect(ServerWorld world, Vec3d pos, Vec3d end, float width, int maxTime, double showRadius)
     {
+        Vec3d col = new Vec3d(255, 90, 90);
         for (ServerPlayerEntity player : PlayerLookup.around(world, pos, showRadius))
         {
-            MWGraphicsEffects.syncBeamEffect(player, MWGraphicsEffects.BULLET_TRAIL, world, pos, end, velocity, 0.1f, 1);
+            MWGraphicsEffects.syncBeamEffect(player, MWGraphicsEffects.BULLET_TRAIL, world, pos, end, col, 0.1f, 1);
         }
     }
 }
