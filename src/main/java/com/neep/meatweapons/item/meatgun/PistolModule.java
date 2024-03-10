@@ -59,7 +59,7 @@ public class PistolModule extends AbstractMeatgunModule
     @Override
     public void trigger(World world, PlayerEntity player, ItemStack stack, int id, double pitch, double yaw, MWAttackC2SPacket.HandType handType)
     {
-        if (shotsRemaining >= 0 && cooldown < maxCooldown)
+        if (shotsRemaining >= 0 && cooldown == 0)
         {
             cooldown = maxCooldown;
 

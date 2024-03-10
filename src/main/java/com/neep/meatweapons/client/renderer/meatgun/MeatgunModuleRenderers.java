@@ -1,9 +1,6 @@
 package com.neep.meatweapons.client.renderer.meatgun;
 
-import com.neep.meatweapons.item.meatgun.DoubleCarouselModule;
-import com.neep.meatweapons.item.meatgun.MeatgunModule;
-import com.neep.meatweapons.item.meatgun.MeatgunModules;
-import com.neep.meatweapons.item.meatgun.TripleCarouselModule;
+import com.neep.meatweapons.item.meatgun.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -33,6 +30,7 @@ public class MeatgunModuleRenderers
         register(MeatgunModules.BASE, BaseModuleRenderer::new);
         register(MeatgunModules.PISTOL, PistolModuleRenderer::new);
         register(MeatgunModules.CHUGGER, ChuggerModuleRenderer::new);
+        register(MeatgunModules.BOSHER, BosherModuleRenderer::new);
         register(MeatgunModules.TRIPLE_CAROUSEL, TripleCarouselModuleRenderer::new);
         register(MeatgunModules.DOUBLE_CAROUSEL, DoubleCarouselModuleRenderer::new);
         register(MeatgunModules.BATTERY, BatteryModuleRenderer::new);

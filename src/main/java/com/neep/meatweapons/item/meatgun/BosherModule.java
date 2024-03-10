@@ -15,7 +15,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
@@ -26,15 +25,15 @@ import java.util.Optional;
 
 import static com.neep.meatweapons.item.BaseGunItem.hitScan;
 
-public class ChuggerModule extends AbstractMeatgunModule
+public class BosherModule extends AbstractMeatgunModule
 {
     private final int maxShots = 16;
     private int shotsRemaining = maxShots;
-    private int maxCooldown = 10;
+    private int maxCooldown = 20;
     private int cooldown = 0;
     private final Random shotRandom = Random.create();
 
-    public ChuggerModule()
+    public BosherModule()
     {
 
     }
@@ -48,7 +47,7 @@ public class ChuggerModule extends AbstractMeatgunModule
     @Override
     public Type<? extends MeatgunModule> getType()
     {
-        return MeatgunModules.CHUGGER;
+        return MeatgunModules.BOSHER;
     }
 
     @Override

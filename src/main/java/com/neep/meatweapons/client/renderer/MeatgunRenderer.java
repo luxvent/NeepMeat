@@ -76,7 +76,7 @@ public class MeatgunRenderer extends BuiltinModelItemRenderer
         matrices.pop();
 
         // Particles
-        if (mode.isFirstPerson())
+//        if (mode.isFirstPerson())
         {
             matrices.push();
             Camera camera = client.gameRenderer.getCamera();

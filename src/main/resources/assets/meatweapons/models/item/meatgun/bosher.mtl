@@ -1,4 +1,3 @@
 # Made in Blockbench 4.9.4
-newmtl m_d58dc16f-dec6-1384-7e37-3d2f65479639
-map_Kd neepmeat:block/rusty_metal
-newmtl none
+newmtl m_12230272-cd79-a928-2232-5316bccfeaad
+map_Kd meatweapons:item/meatgun/bosher
