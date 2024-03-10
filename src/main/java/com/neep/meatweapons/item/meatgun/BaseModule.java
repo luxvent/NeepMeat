@@ -8,7 +8,8 @@ public class BaseModule extends AbstractMeatgunModule
 {
 //    private MeatgunModule child = new ChuggerModule();
 //    private MeatgunModule child = new TripleCarouselModule();
-    private final MeatgunModule child = new DoubleCarouselModule();
+//    private final MeatgunModule child = new DoubleCarouselModule();
+    private final MeatgunModule child = new UnderbarrelModule();
 //    private final MeatgunModule child = new BosherModule();
 //    private final MeatgunModule child = new BatteryModule();
 //    private final MeatgunModule child = new LongBoiModule();

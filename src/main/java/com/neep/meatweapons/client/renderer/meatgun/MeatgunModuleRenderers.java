@@ -34,6 +34,7 @@ public class MeatgunModuleRenderers
         register(MeatgunModules.LONG_BOI, LongBoiModuleRenderer::new);
         register(MeatgunModules.TRIPLE_CAROUSEL, TripleCarouselModuleRenderer::new);
         register(MeatgunModules.DOUBLE_CAROUSEL, DoubleCarouselModuleRenderer::new);
+        register(MeatgunModules.UNDERBARREL, UnderbarrelModuleRenderer::new);
         register(MeatgunModules.BATTERY, BatteryModuleRenderer::new);
     }
 }

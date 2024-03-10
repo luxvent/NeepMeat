@@ -16,8 +16,9 @@ public class MWExtraModels implements ExtraModelProvider
     public static Identifier MEATGUN_PISTOL = new Identifier(MeatWeapons.NAMESPACE, "item/meatgun/pistol");
     public static Identifier MEATGUN_CHUGGER = new Identifier(MeatWeapons.NAMESPACE, "item/meatgun/chugger");
     public static Identifier LONG_BOI = new Identifier(MeatWeapons.NAMESPACE, "item/meatgun/long_boi");
-    public static Identifier MEATGUN_TRIPLE_CAROUSEL = new Identifier(MeatWeapons.NAMESPACE, "item/meatgun/triple_carousel");
-    public static Identifier MEATGUN_DOUBLE_CAROUSEL = new Identifier(MeatWeapons.NAMESPACE, "item/meatgun/double_carousel");
+    public static Identifier TRIPLE_CAROUSEL = new Identifier(MeatWeapons.NAMESPACE, "item/meatgun/triple_carousel");
+    public static Identifier DOUBLE_CAROUSEL = new Identifier(MeatWeapons.NAMESPACE, "item/meatgun/double_carousel");
+    public static Identifier UNDERBARREL = new Identifier(MeatWeapons.NAMESPACE, "item/meatgun/underbarrel");
     public static Identifier BATTERY = new Identifier(MeatWeapons.NAMESPACE, "item/meatgun/battery");
 
     @Override
@@ -28,8 +29,9 @@ public class MWExtraModels implements ExtraModelProvider
         out.accept(BOSHER);
         out.accept(MEATGUN_CHUGGER);
         out.accept(LONG_BOI);
-        out.accept(MEATGUN_TRIPLE_CAROUSEL);
-        out.accept(MEATGUN_DOUBLE_CAROUSEL);
+        out.accept(TRIPLE_CAROUSEL);
+        out.accept(DOUBLE_CAROUSEL);
+        out.accept(UNDERBARREL);
         out.accept(BATTERY);
     }
 }

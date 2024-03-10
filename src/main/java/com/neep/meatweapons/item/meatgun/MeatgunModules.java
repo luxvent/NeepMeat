@@ -18,6 +18,7 @@ public class MeatgunModules
     public static final MeatgunModule.Type<LongBoiModule> LONG_BOI = register(new Identifier(MeatWeapons.NAMESPACE, "long_boi"), p -> new LongBoiModule());
     public static final MeatgunModule.Type<TripleCarouselModule> TRIPLE_CAROUSEL = register(new Identifier(MeatWeapons.NAMESPACE, "triple_carousel"), p -> new TripleCarouselModule());
     public static final MeatgunModule.Type<DoubleCarouselModule> DOUBLE_CAROUSEL = register(new Identifier(MeatWeapons.NAMESPACE, "double_carousel"), p -> new DoubleCarouselModule());
+    public static final MeatgunModule.Type<UnderbarrelModule> UNDERBARREL = register(new Identifier(MeatWeapons.NAMESPACE, "underbarrel"), p -> new UnderbarrelModule());
 
     public static final MeatgunModule.Type<BatteryModule> BATTERY = register(new Identifier(MeatWeapons.NAMESPACE, "battery"), p -> new BatteryModule());
 
