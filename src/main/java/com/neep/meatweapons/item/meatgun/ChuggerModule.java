@@ -13,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -26,23 +27,20 @@ import java.util.Optional;
 
 import static com.neep.meatweapons.item.BaseGunItem.hitScan;
 
-public class ChuggerModule extends AbstractMeatgunModule
+public class ChuggerModule extends ShooterModule
 {
-    private final int maxShots = 16;
-    private int shotsRemaining = maxShots;
-    private int maxCooldown = 10;
-    private int cooldown = 0;
     private final Random shotRandom = Random.create();
 
     public ChuggerModule()
     {
-
+        super(8, 15);
+        shotsRemaining = maxShots;
     }
 
-    @Override
-    public List<ModuleSlot> getChildren()
+    public ChuggerModule(NbtCompound nbt)
     {
-        return List.of();
+        this();
+        readNbt(nbt);
     }
 
     @Override
@@ -90,7 +88,7 @@ public class ChuggerModule extends AbstractMeatgunModule
         boolean sneak = entity.isSneaking();
         return new Vec3d(
                 sneak ? 0 : entity.getMainHandStack().equals(stack) ? -0.13 : 0.13,
-                -0.04,
+                0,
                 .25);
     }
 

@@ -1,5 +1,7 @@
 package com.neep.meatweapons.item.meatgun;
 
+import net.minecraft.nbt.NbtCompound;
+
 import java.util.List;
 
 public class BatteryModule extends AbstractMeatgunModule
@@ -8,10 +10,8 @@ public class BatteryModule extends AbstractMeatgunModule
     {
     }
 
-    @Override
-    public List<ModuleSlot> getChildren()
+    public BatteryModule(NbtCompound nbt)
     {
-        return List.of();
     }
 
     @Override

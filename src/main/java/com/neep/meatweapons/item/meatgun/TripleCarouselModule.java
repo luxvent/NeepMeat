@@ -1,6 +1,6 @@
 package com.neep.meatweapons.item.meatgun;
 
-import java.util.List;
+import net.minecraft.nbt.NbtCompound;
 
 public class TripleCarouselModule extends AbstractMeatgunModule
 {
@@ -9,10 +9,9 @@ public class TripleCarouselModule extends AbstractMeatgunModule
 
     }
 
-    @Override
-    public List<ModuleSlot> getChildren()
+    public TripleCarouselModule(NbtCompound nbt)
     {
-        return List.of();
+
     }
 
     @Override

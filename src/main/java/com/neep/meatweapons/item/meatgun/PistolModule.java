@@ -13,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -26,23 +27,24 @@ import java.util.Optional;
 
 import static com.neep.meatweapons.item.BaseGunItem.hitScan;
 
-public class PistolModule extends AbstractMeatgunModule
+public class PistolModule extends ShooterModule
 {
-    private final int maxShots = 8;
-    private int shotsRemaining = maxShots;
-    private int maxCooldown = 10;
-    private int cooldown = 0;
     private final Random shotRandom = Random.create();
+
+    private final int maxShots = 8;
+    private final int maxCooldown = 10;
+
+    private int shotsRemaining = maxShots;
+    private int cooldown = 0;
 
     public PistolModule()
     {
-
+        super(8, 10);
     }
 
-    @Override
-    public List<ModuleSlot> getChildren()
+    public PistolModule(NbtCompound nbt)
     {
-        return List.of();
+        this();
     }
 
     @Override

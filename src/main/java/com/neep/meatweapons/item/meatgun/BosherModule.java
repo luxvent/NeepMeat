@@ -14,6 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -33,17 +34,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class BosherModule extends AbstractMeatgunModule
+public class BosherModule extends ShooterModule
 {
-    private final int maxShots = 16;
-    private int shotsRemaining = maxShots;
-    private int maxCooldown = 20;
-    private int cooldown = 0;
     private final Random random = Random.create();
 
     public BosherModule()
     {
+        super(1, 20);
+        shotsRemaining = maxShots;
+    }
 
+    public BosherModule(NbtCompound nbt)
+    {
+        this();
     }
 
     @Override

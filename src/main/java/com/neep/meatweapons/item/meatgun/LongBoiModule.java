@@ -13,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -21,28 +22,22 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.joml.Vector4d;
 
-import java.util.List;
 import java.util.Optional;
 
 import static com.neep.meatweapons.item.BaseGunItem.hitScan;
 
-public class LongBoiModule extends AbstractMeatgunModule
+public class LongBoiModule extends ShooterModule
 {
-    private final int maxShots = 8;
-    private int shotsRemaining = maxShots;
-    private int maxCooldown = 20;
-    private int cooldown = 0;
     private final Random shotRandom = Random.create();
 
     public LongBoiModule()
     {
-
+        super(4, 20);
     }
 
-    @Override
-    public List<ModuleSlot> getChildren()
+    public LongBoiModule(NbtCompound nbt)
     {
-        return List.of();
+        this();
     }
 
     @Override
@@ -90,7 +85,7 @@ public class LongBoiModule extends AbstractMeatgunModule
         boolean sneak = entity.isSneaking();
         return new Vec3d(
                 sneak ? 0 : entity.getMainHandStack().equals(stack) ? -0.13 : 0.13,
-                -0.04,
+                0,
                 .25);
     }
 
@@ -110,7 +105,7 @@ public class LongBoiModule extends AbstractMeatgunModule
         if (target.isPresent())
         {
             Entity entity = target.get();
-            target.get().damage(BulletDamageSource.create(world, player, 0.1f), 10);
+            target.get().damage(BulletDamageSource.create(world, player, 0.1f), 15);
             entity.timeUntilRegen = 0;
         }
 

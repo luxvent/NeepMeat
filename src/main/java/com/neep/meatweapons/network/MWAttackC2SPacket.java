@@ -56,35 +56,39 @@ public class MWAttackC2SPacket
 
         HandType handType = HandType.values()[hand];
 
-        switch (actionType)
+        server.execute(() ->
         {
-            case PRESS ->
+            switch (actionType)
             {
-                if ((hand & 0b01) > 0 && mainStack.getItem() instanceof GunItem gunItem)
+                case PRESS ->
                 {
-                    gunItem.trigger(player.getWorld(), player, mainStack, triggerId, pitch, yaw, handType);
-                }
+                    if ((hand & 0b01) > 0 && mainStack.getItem() instanceof GunItem gunItem)
+                    {
+                        gunItem.trigger(player.getWorld(), player, mainStack, triggerId, pitch, yaw, handType);
+                    }
 
-                if ((hand & 0b10) > 0 && offStack.getItem() instanceof GunItem gunItem)
+                    if ((hand & 0b10) > 0 && offStack.getItem() instanceof GunItem gunItem)
+                    {
+                        gunItem.trigger(player.getWorld(), player, offStack, triggerId, pitch, yaw, handType);
+                    }
+                }
+                case RELEASE ->
                 {
-                    gunItem.trigger(player.getWorld(), player, offStack, triggerId, pitch, yaw, handType);
+                    if ((hand & 0b01) > 0 && mainStack.getItem() instanceof GunItem gunItem)
+                    {
+                        gunItem.release(player.getWorld(), player, mainStack, triggerId, pitch, yaw, handType);
+                    }
+
+                    if ((hand & 0b10) > 0 && offStack.getItem() instanceof GunItem gunItem)
+                    {
+                        gunItem.release(player.getWorld(), player, offStack, triggerId, pitch, yaw, handType);
+                    }
                 }
             }
-            case RELEASE ->
-            {
-                if ((hand & 0b01) > 0 && mainStack.getItem() instanceof GunItem gunItem)
-                {
-                    gunItem.release(player.getWorld(), player, mainStack, triggerId, pitch, yaw, handType);
-                }
 
-                if ((hand & 0b10) > 0 && offStack.getItem() instanceof GunItem gunItem)
-                {
-                    gunItem.release(player.getWorld(), player, offStack, triggerId, pitch, yaw, handType);
-                }
-            }
-        }
+            player.meatweapons$getWeaponManager().updateStatus(handType, triggerId, actionType);
+        });
 
-        player.meatweapons$getWeaponManager().updateStatus(handType, triggerId, actionType);
     }
 
     public enum HandType

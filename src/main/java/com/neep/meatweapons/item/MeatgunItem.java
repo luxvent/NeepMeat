@@ -65,6 +65,12 @@ public class MeatgunItem extends BaseItem implements GeoItem, WeakTwoHanded, Gun
     }
 
     @Override
+    public void tickTrigger(World world, PlayerEntity player, ItemStack stack, int id, double pitch, double yaw, MWAttackC2SPacket.HandType handType)
+    {
+        MWComponents.MEATGUN.get(stack).tickTrigger(world, player, stack, id, pitch, yaw, handType);
+    }
+
+    @Override
     public Supplier<Object> getRenderProvider()
     {
         return renderProvider;
