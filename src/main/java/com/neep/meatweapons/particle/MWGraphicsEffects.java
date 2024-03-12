@@ -18,6 +18,7 @@ public class MWGraphicsEffects
 
     public static final GraphicsEffectType BEAM = GraphicsEffects.register(MeatWeapons.NAMESPACE, "beam", new GraphicsEffectType());
     public static final GraphicsEffectType BULLET_TRAIL = GraphicsEffects.register(MeatWeapons.NAMESPACE, "bullet_trail", new GraphicsEffectType());
+    public static final GraphicsEffectType LONG_BULLET_TRAIL = GraphicsEffects.register(MeatWeapons.NAMESPACE, "long_bullet_trail", new GraphicsEffectType());
 
     public static final GraphicsEffectType ZAP = GraphicsEffects.register(MeatWeapons.NAMESPACE, "zap", new GraphicsEffectType());
 //    public static final GraphicsEffectType NORMAL_MUZZLE_FLASH = GraphicsEffects.register(MeatWeapons.NAMESPACE, "normal_muzzle_flash", new GraphicsEffectType());

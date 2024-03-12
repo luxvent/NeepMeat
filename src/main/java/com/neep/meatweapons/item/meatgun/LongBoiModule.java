@@ -5,6 +5,7 @@ import com.neep.meatweapons.item.GunItem;
 import com.neep.meatweapons.network.MWAttackC2SPacket;
 import com.neep.meatweapons.network.MeatgunS2C;
 import com.neep.meatweapons.particle.MWGraphicsEffects;
+import com.neep.meatweapons.particle.MWParticles;
 import com.neep.meatweapons.particle.MuzzleFlashParticleType;
 import com.neep.neepmeat.init.NMSounds;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -95,7 +96,7 @@ public class LongBoiModule extends AbstractMeatgunModule
 
     protected void fireBeam(World world, PlayerEntity player, ItemStack stack, double pitchd, double yawd)
     {
-        double d = 0.5;
+        double d = 0.1;
         double yaw = yawd + d * 0.1 * (shotRandom.nextFloat() - 0.5);
         double pitch = pitchd + d * 0.1 * (shotRandom.nextFloat() - 0.5);
 
@@ -103,8 +104,9 @@ public class LongBoiModule extends AbstractMeatgunModule
         Vec3d transform = getMuzzleOffset(player, stack).rotateX((float) -pitchd).rotateY((float) -yawd);
         pos = pos.add(transform);
 
-        Vec3d end = pos.add(GunItem.getRotationVector(pitch, yaw).multiply(40));
-        Optional<Entity> target = hitScan(player, pos, end, 40, this::syncBeamEffect);
+        int range = 100;
+        Vec3d end = pos.add(GunItem.getRotationVector(pitch, yaw).multiply(range));
+        Optional<Entity> target = hitScan(player, pos, end, range, this::syncBeamEffect);
         if (target.isPresent())
         {
             Entity entity = target.get();
@@ -112,14 +114,14 @@ public class LongBoiModule extends AbstractMeatgunModule
             entity.timeUntilRegen = 0;
         }
 
-        MeatgunS2C.sendRecoil((ServerPlayerEntity) player, MeatgunS2C.RecoilDirection.UP, 7, 0.2f,0.7f, 0.03f);
-        world.playSoundFromEntity(null, player, NMSounds.CHUGGER_FIRE, SoundCategory.PLAYERS, 1f, 1f);
+        MeatgunS2C.sendRecoil((ServerPlayerEntity) player, MeatgunS2C.RecoilDirection.UP, 10, 1.4f,0.7f, 0.03f);
+        world.playSoundFromEntity(null, player, NMSounds.LONG_BOI_FIRE, SoundCategory.PLAYERS, 1f, 1f);
         if (world instanceof ServerWorld serverWorld)
         {
             Vector4d v = new Vector4d(0, 0, -34 / 16f, 1);
             v.mul(this.transform);
             serverWorld.spawnParticles(
-                    new MuzzleFlashParticleType.MuzzleFlashParticleEffect(player, v.x, v.y, v.z, 1.9f)
+                    new MuzzleFlashParticleType.MuzzleFlashParticleEffect(MWParticles.LONG_BOI_MUZZLE_FLASH, player, v.x, v.y, v.z, 1.9f)
                     , pos.getX(), pos.getY(), pos.getZ(),
                     1, 0, 0, 0, 0.1);
         }
@@ -127,10 +129,10 @@ public class LongBoiModule extends AbstractMeatgunModule
 
     public void syncBeamEffect(ServerWorld world, Vec3d pos, Vec3d end, float width, int maxTime, double showRadius)
     {
-        Vec3d col = new Vec3d(214, 175, 32);
+        Vec3d col = new Vec3d(214, 214, 214);
         for (ServerPlayerEntity player : PlayerLookup.around(world, pos, showRadius))
         {
-            MWGraphicsEffects.syncBeamEffect(player, MWGraphicsEffects.BULLET_TRAIL, world, pos, end, col, 0.1f, 1);
+            MWGraphicsEffects.syncBeamEffect(player, MWGraphicsEffects.LONG_BULLET_TRAIL, world, pos, end, col, 0.5f, 40);
         }
     }
 }

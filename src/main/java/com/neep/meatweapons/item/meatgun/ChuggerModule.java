@@ -5,6 +5,7 @@ import com.neep.meatweapons.item.GunItem;
 import com.neep.meatweapons.network.MWAttackC2SPacket;
 import com.neep.meatweapons.network.MeatgunS2C;
 import com.neep.meatweapons.particle.MWGraphicsEffects;
+import com.neep.meatweapons.particle.MWParticles;
 import com.neep.meatweapons.particle.MuzzleFlashParticleType;
 import com.neep.neepmeat.init.NMSounds;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -127,7 +128,7 @@ public class ChuggerModule extends AbstractMeatgunModule
 //            v.add(0.5, 0, 1, 0);
 //            v.add(0.5, 0.5, 0.5, 0);
             serverWorld.spawnParticles(
-                    new MuzzleFlashParticleType.MuzzleFlashParticleEffect(player, v.x, v.y, v.z, 2.2f)
+                    new MuzzleFlashParticleType.MuzzleFlashParticleEffect(MWParticles.NORMAL_MUZZLE_FLASH, player, v.x, v.y, v.z, 2.2f)
                     , pos.getX(), pos.getY(), pos.getZ(),
                     1, 0, 0, 0, 0.1);
         }

@@ -94,6 +94,7 @@ public class MWClient implements ClientModInitializer
 
         GraphicsEffectClient.registerEffect(MWGraphicsEffects.BEAM, BeamEffect::new);
         GraphicsEffectClient.registerEffect(MWGraphicsEffects.BULLET_TRAIL, BulletTrailEffect::new);
+        GraphicsEffectClient.registerEffect(MWGraphicsEffects.LONG_BULLET_TRAIL, LongBulletTrailEffect::new);
         GraphicsEffectClient.registerEffect(MWGraphicsEffects.ZAP, ZapBeamEffect::new);
 
         ModelLoadingRegistry.INSTANCE.registerModelProvider(MWExtraModels.EXTRA_MODELS);

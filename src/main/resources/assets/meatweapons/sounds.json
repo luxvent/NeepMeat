@@ -108,6 +108,19 @@
     "sounds": [
       "meatweapons:chugger_fire"
     ]
+  },
+
+  "long_boi_charge": {
+    "subtitle": "subtitles.meatweapons.long_boi_charge",
+    "sounds": [
+      "meatweapons:long_boi_charge"
+    ]
+  },
+  "long_boi_fire": {
+    "subtitle": "subtitles.meatweapons.long_boi_fire",
+    "sounds": [
+      "meatweapons:long_boi_fire"
+    ]
   }
 }
 
