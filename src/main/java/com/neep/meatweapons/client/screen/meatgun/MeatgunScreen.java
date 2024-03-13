@@ -1,0 +1,121 @@
+package com.neep.meatweapons.client.screen.meatgun;
+
+import com.neep.meatweapons.screen.MeatgunScreenHandler;
+import com.neep.neepmeat.api.plc.PLCCols;
+import com.neep.neepmeat.client.screen.util.Border;
+import com.neep.neepmeat.client.screen.util.BorderSlot;
+import com.neep.neepmeat.client.screen.util.GUIUtil;
+import com.neep.neepmeat.client.screen.util.Rectangle;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.Drawable;
+import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.text.Text;
+
+public class MeatgunScreen extends HandledScreen<MeatgunScreenHandler>
+{
+    private final DisplayPane displayPane = new DisplayPane();
+    private final TreePane treePane = new TreePane();
+
+    public MeatgunScreen(MeatgunScreenHandler handler, PlayerInventory inventory, Text title)
+    {
+        super(handler, inventory, title);
+    }
+
+    @Override
+    protected void init()
+    {
+        backgroundWidth = MeatgunScreenHandler.BACKGROUND_WIDTH;
+        backgroundHeight = MeatgunScreenHandler.BACKGROUND_HEIGHT;
+        super.init();
+
+        Border border = new Border(x, y, backgroundWidth, backgroundHeight, 3, () -> PLCCols.BORDER.col);
+        Rectangle withoutPadding = border.withoutPadding();
+        Rectangle bounds = new Rectangle.Immutable(withoutPadding.x(), withoutPadding.y(), withoutPadding.w(), withoutPadding.h() - 22);
+        addDrawable(border);
+
+        // Hotbar and slot
+        addDrawable(new BorderSlot(bounds.x(), withoutPadding.y() + withoutPadding.h() - border.padding() - 17, () -> PLCCols.BORDER.col));
+        addDrawable(new Border(bounds.x() + 18 + 1, withoutPadding.y() + withoutPadding.h() - border.padding() - 17, 18 * 9, 17, 0, () -> PLCCols.BORDER.col));
+
+        int hotbarExtent = 18 * 9 + 17 + 2;
+        Rectangle.Mutable displayPaneBounds = new Rectangle.Mutable(bounds).setW(18 * 9 + 17 + 2);
+        displayPane.init(displayPaneBounds);
+        addDrawableChild(displayPane);
+
+        Rectangle.Mutable treePaneBounds = new Rectangle.Mutable(bounds)
+                .setX(displayPaneBounds.x() + displayPaneBounds.w() + 2)
+                .setW(bounds.w() - displayPaneBounds.w() - border.padding() - 2);
+        treePane.init(treePaneBounds);
+        addDrawableChild(treePane);
+    }
+
+    @Override
+    public void render(DrawContext context, int mouseX, int mouseY, float delta)
+    {
+        super.render(context, mouseX, mouseY, delta);
+    }
+
+    @Override
+    protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY)
+    {
+        super.renderBackground(context);
+    }
+
+    @Override
+    protected void drawForeground(DrawContext context, int mouseX, int mouseY)
+    {
+    }
+
+    static abstract class PaneWidget implements Drawable, Element, Selectable
+    {
+        private boolean focused;
+        private int x, y;
+        private int w, h;
+
+        public void init(Rectangle parentSize)
+        {
+            this.x = parentSize.x();
+            this.y = parentSize.y();
+            this.w = parentSize.w();
+            this.h = parentSize.h();
+
+//            this.w = MathHelper.floor(parentSize.w() / 2f);
+//            this.h = MathHelper.floor(parentSize.h());
+        }
+
+        @Override
+        public void render(DrawContext context, int mouseX, int mouseY, float delta)
+        {
+            GUIUtil.renderBorder(context, x, y, w, h, PLCCols.BORDER.col, 0);
+        }
+
+        @Override
+        public void setFocused(boolean focused)
+        {
+            this.focused = focused;
+        }
+
+        @Override
+        public boolean isFocused()
+        {
+            return focused;
+        }
+
+        @Override
+        public SelectionType getType()
+        {
+            return SelectionType.NONE;
+        }
+
+        @Override
+        public void appendNarrations(NarrationMessageBuilder builder)
+        {
+
+        }
+    }
+
+}

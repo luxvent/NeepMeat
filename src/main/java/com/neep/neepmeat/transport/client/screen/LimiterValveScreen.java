@@ -1,7 +1,7 @@
 package com.neep.neepmeat.transport.client.screen;
 
 import com.neep.neepmeat.NeepMeat;
-import com.neep.neepmeat.client.screen.tablet.GUIUtil;
+import com.neep.neepmeat.client.screen.util.GUIUtil;
 import com.neep.neepmeat.network.ScreenPropertyC2SPacket;
 import com.neep.neepmeat.transport.screen_handler.LimiterValveScreenHandler;
 import net.fabricmc.api.EnvType;

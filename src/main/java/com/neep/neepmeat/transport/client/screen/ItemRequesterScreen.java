@@ -2,7 +2,7 @@ package com.neep.neepmeat.transport.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.neep.neepmeat.NeepMeat;
-import com.neep.neepmeat.client.screen.tablet.GUIUtil;
+import com.neep.neepmeat.client.screen.util.GUIUtil;
 import com.neep.neepmeat.transport.network.SyncRequesterScreenS2CPacket;
 import com.neep.neepmeat.transport.screen_handler.ItemRequesterScreenHandler;
 import net.fabricmc.api.EnvType;

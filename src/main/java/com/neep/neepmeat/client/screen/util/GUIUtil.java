@@ -1,9 +1,11 @@
-package com.neep.neepmeat.client.screen.tablet;
+package com.neep.neepmeat.client.screen.util;
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
+
+import java.util.function.Supplier;
 
 public interface GUIUtil
 {
@@ -67,4 +69,5 @@ public interface GUIUtil
         }
         context.fill(x, y1 + 1, x + 1, y2, color);
     }
+
 }

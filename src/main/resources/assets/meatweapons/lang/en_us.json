@@ -1,5 +1,5 @@
 {
-  "itemGroup.neepmeat.weapons": "NEEPMeat Weapons",
+  "itemGroup.meatweapons.weapons": "NEEPMeat Weapons",
 
   "item.meatweapons.ballistic_cartridge": "Ballistic Cartridge",
 
@@ -12,6 +12,8 @@
   "item.meatweapons.heavy_cannon": "Pocket Howitzer",
   "item.meatweapons.engine": "Engine",
 
+  "item.meatweapons.meatgun": "Meatgun",
+
   "item.meatweapons.assault_drill": "Assault Drill",
   "item.meatweapons.assault_drill.lore": "Shred your enemies! Impress your friends! Tons of fun at parties!",
   "item.meatweapons.assault_drill.damage_per_tick": "Damage per tick: %s",
@@ -19,6 +21,8 @@
   "item.meatweapons.airtruck": "Airtruck",
   "item.meatweapons.airtruck.lore_0": "A flying vehicle that carries a pilot and a passenger.",
   "item.meatweapons.airtruck.lore_1": "Shift-click to disassemble.",
+
+  "block.meatweapons.tinker_table": "Tinker Table",
 
   "key.meatweapons.category.general": "MeatWeapons",
   "key.meatweapons.down": "Vehicle Down",

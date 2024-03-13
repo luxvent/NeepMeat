@@ -102,6 +102,8 @@ public class MWClient implements ClientModInitializer
         MeatgunModuleRenderers.init();
         MeatgunParticleManager.init();
 
+        MWScreens.init();
+
         RenderItemGuiEvent.EVENT.register((textRenderer, stack, x, y, countLabel) ->
         {
             if (stack.getItem() instanceof BaseGunItem baseGunItem && baseGunItem.getShots(stack, 1) >= 0)

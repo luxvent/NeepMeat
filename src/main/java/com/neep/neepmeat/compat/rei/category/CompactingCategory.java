@@ -25,7 +25,7 @@ package com.neep.neepmeat.compat.rei.category;
 
 import com.google.common.collect.Lists;
 import com.neep.neepmeat.NeepMeat;
-import com.neep.neepmeat.client.screen.tablet.GUIUtil;
+import com.neep.neepmeat.client.screen.util.GUIUtil;
 import com.neep.neepmeat.compat.rei.NMREIPlugin;
 import com.neep.neepmeat.compat.rei.display.CompactingDisplay;
 import com.neep.neepmeat.init.NMBlocks;

@@ -1,8 +1,6 @@
 package com.neep.meatweapons.item;
 
-import net.fabricmc.api.Environment;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 

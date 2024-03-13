@@ -1,7 +1,7 @@
 package com.neep.neepmeat.guide.article;
 
 import com.neep.neepmeat.client.screen.tablet.ArticleTextWidget;
-import com.neep.neepmeat.client.screen.tablet.GUIUtil;
+import com.neep.neepmeat.client.screen.util.GUIUtil;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.MutableText;

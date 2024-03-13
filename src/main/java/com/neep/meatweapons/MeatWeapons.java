@@ -4,7 +4,10 @@ import com.neep.meatlib.MeatLib;
 import com.neep.meatlib.attachment.player.PlayerAttachmentManager;
 import com.neep.meatweapons.enchantment.MWEnchantments;
 import com.neep.meatweapons.entity.*;
+import com.neep.meatweapons.init.MWBlockEntities;
+import com.neep.meatweapons.init.MWBlocks;
 import com.neep.meatweapons.init.MWComponents;
+import com.neep.meatweapons.init.MWScreenHandlers;
 import com.neep.meatweapons.item.AssaultDrillItem;
 import com.neep.meatweapons.item.GunItem;
 import com.neep.meatweapons.network.MWAttackC2SPacket;
@@ -75,10 +78,14 @@ public class MeatWeapons implements ModInitializer
                     .trackRangeBlocks(40)
                     .build());
 
-            new MWItems();
+            MWBlocks.init();
+            MWItems.init();
+            MWBlockEntities.init();
             MWParticles.init();
             MWGraphicsEffects.init();
             MWAttackC2SPacket.init();
+
+            MWScreenHandlers.init();
 
             Registry.register(Registries.ITEM_GROUP, new Identifier(NAMESPACE, "weapons"), WEAPONS);
 

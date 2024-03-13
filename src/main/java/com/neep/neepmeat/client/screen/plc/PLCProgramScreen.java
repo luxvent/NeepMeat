@@ -50,8 +50,8 @@ import org.lwjgl.glfw.GLFW;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.neep.neepmeat.client.screen.tablet.GUIUtil.drawHorizontalLine1;
-import static com.neep.neepmeat.client.screen.tablet.GUIUtil.drawVerticalLine1;
+import static com.neep.neepmeat.client.screen.util.GUIUtil.drawHorizontalLine1;
+import static com.neep.neepmeat.client.screen.util.GUIUtil.drawVerticalLine1;
 
 public class PLCProgramScreen extends Screen implements ScreenHandlerProvider<PLCScreenHandler>
 {

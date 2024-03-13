@@ -6,7 +6,7 @@ import com.neep.neepmeat.api.plc.PLCCols;
 import com.neep.neepmeat.api.plc.instruction.SimpleInstructionProvider;
 import com.neep.neepmeat.client.screen.ScreenSubElement;
 import com.neep.neepmeat.client.screen.plc.edit.InstructionBrowserWidget;
-import com.neep.neepmeat.client.screen.tablet.GUIUtil;
+import com.neep.neepmeat.client.screen.util.GUIUtil;
 import com.neep.neepmeat.network.plc.PLCSyncThings;
 import com.neep.neepmeat.plc.instruction.Argument;
 import com.neep.neepmeat.plc.instruction.InstructionProvider;
@@ -19,7 +19,6 @@ import net.minecraft.client.render.GameRenderer;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.system.windows.WINDOWPLACEMENT;
 
 import java.util.List;
 
