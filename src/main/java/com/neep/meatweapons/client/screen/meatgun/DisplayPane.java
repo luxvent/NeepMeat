@@ -4,7 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 
-class DisplayPane extends MeatgunScreen.PaneWidget
+class DisplayPane extends TinkerTableScreen.PaneWidget
 {
     private TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
 

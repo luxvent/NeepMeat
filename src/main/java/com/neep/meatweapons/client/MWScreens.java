@@ -1,6 +1,6 @@
 package com.neep.meatweapons.client;
 
-import com.neep.meatweapons.client.screen.meatgun.MeatgunScreen;
+import com.neep.meatweapons.client.screen.meatgun.TinkerTableScreen;
 import com.neep.meatweapons.init.MWScreenHandlers;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -11,6 +11,6 @@ public class MWScreens
 {
     public static void init()
     {
-        HandledScreens.register(MWScreenHandlers.MEATGUN, MeatgunScreen::new);
+        HandledScreens.register(MWScreenHandlers.MEATGUN, TinkerTableScreen::new);
     }
 }

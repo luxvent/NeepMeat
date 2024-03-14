@@ -1,10 +1,13 @@
 package com.neep.meatweapons.client.screen.meatgun;
 
-import com.neep.meatweapons.screen.MeatgunScreenHandler;
+import com.neep.meatweapons.screen.TinkerTableScreenHandler;
 import com.neep.neepmeat.api.plc.PLCCols;
 import com.neep.neepmeat.client.screen.util.Border;
 import com.neep.neepmeat.client.screen.util.BorderSlot;
 import com.neep.neepmeat.client.screen.util.Rectangle;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
@@ -14,22 +17,26 @@ import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 
-public class MeatgunScreen extends HandledScreen<MeatgunScreenHandler>
+@Environment(EnvType.CLIENT)
+public class TinkerTableScreen extends HandledScreen<TinkerTableScreenHandler>
 {
     private final DisplayPane displayPane = new DisplayPane();
     private final TreePane treePane;
 
-    public MeatgunScreen(MeatgunScreenHandler handler, PlayerInventory inventory, Text title)
+    public TinkerTableScreen(TinkerTableScreenHandler handler, PlayerInventory inventory, Text title)
     {
         super(handler, inventory, title);
-        treePane = new TreePane(handler.getSlot(0));
+
+
+
+        treePane = new TreePane(handler, handler.getSlot(0));
     }
 
     @Override
     protected void init()
     {
-        backgroundWidth = MeatgunScreenHandler.BACKGROUND_WIDTH;
-        backgroundHeight = MeatgunScreenHandler.BACKGROUND_HEIGHT;
+        backgroundWidth = TinkerTableScreenHandler.BACKGROUND_WIDTH;
+        backgroundHeight = TinkerTableScreenHandler.BACKGROUND_HEIGHT;
         super.init();
 
         Border border = new Border(x, y, backgroundWidth, backgroundHeight, 3, () -> PLCCols.BORDER.col);

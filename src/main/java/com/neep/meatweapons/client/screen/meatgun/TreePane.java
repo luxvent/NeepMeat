@@ -1,9 +1,12 @@
 package com.neep.meatweapons.client.screen.meatgun;
 
+import com.neep.meatweapons.MeatWeapons;
 import com.neep.meatweapons.init.MWComponents;
+import com.neep.meatweapons.item.MeatgunModuleItem;
 import com.neep.meatweapons.item.meatgun.MeatgunComponent;
 import com.neep.meatweapons.item.meatgun.MeatgunModule;
 import com.neep.meatweapons.item.meatgun.ModuleSlot;
+import com.neep.meatweapons.screen.TinkerTableScreenHandler;
 import com.neep.neepmeat.api.plc.PLCCols;
 import com.neep.neepmeat.client.screen.util.GUIUtil;
 import com.neep.neepmeat.client.screen.util.Rectangle;
@@ -12,24 +15,30 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class TreePane extends MeatgunScreen.PaneWidget
+class TreePane extends TinkerTableScreen.PaneWidget
 {
+    public static final Identifier WIDGETS_TEXTURE = new Identifier(MeatWeapons.NAMESPACE, "textures/gui/tinker_table/widgets.png");
+
     private final TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
     private final List<ModuleWidget> moduleWidgets = new ArrayList<>();
+    private final TinkerTableScreenHandler handler;
     private final Slot slot;
     @Nullable private MeatgunComponent meatgun;
     private boolean scissor;
 
-    public TreePane(Slot slot)
+    public TreePane(TinkerTableScreenHandler handler, Slot itemSlot)
     {
-        this.slot = slot;
+        this.handler = handler;
+        this.slot = itemSlot;
     }
 
     @Override
@@ -136,27 +145,56 @@ class TreePane extends MeatgunScreen.PaneWidget
         reorganise();
     }
 
-    private static class ModuleSlotWidget implements Drawable
+    private class ModuleSlotWidget implements Drawable
     {
         private static final Rectangle size = new Rectangle.Immutable(0, 0, 18, 18);
+        private final TextRenderer textRenderer;
+        private final ModuleSlot slot1;
         private Rectangle local = new Rectangle.Immutable(size);
         private Rectangle bounds = new Rectangle.Immutable(size);
 
-        public ModuleSlotWidget(MeatgunModule module, ModuleSlot slot)
-        {
+        private final ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
+        private final ItemStack defaultStack;
 
+        public ModuleSlotWidget(TextRenderer textRenderer, MeatgunModule module, ModuleSlot slot)
+        {
+            this.textRenderer = textRenderer;
+            slot1 = slot;
+            MeatgunModule.Type<?> type = slot1.get().getType();
+            if (type != MeatgunModule.DEFAULT_TYPE)
+                defaultStack = MeatgunModuleItem.get(type);
+            else
+                defaultStack = ItemStack.EMPTY;
         }
 
         @Override
         public void render(DrawContext context, int mouseX, int mouseY, float delta)
         {
-
             int bordereCol = PLCCols.BORDER.col;
             if (bounds.isWithin(mouseX, mouseY))
             {
                 bordereCol = PLCCols.SELECTED.col;
+                renderTooltip(context, mouseX, mouseY, delta);
             }
-            GUIUtil.renderBorder(context, bounds.x(), bounds.y(), bounds.w(), bounds.h(), bordereCol, 0);
+            GUIUtil.drawTexture(WIDGETS_TEXTURE, context, bounds.x(), bounds.y(), 0, 0, 18, 19, bordereCol);
+            context.drawItem(defaultStack, bounds.x() + 1, bounds.y() + 1);
+        }
+
+        private void renderTooltip(DrawContext context, int mouseX, int mouseY, float delta)
+        {
+            if (defaultStack.isEmpty())
+                return;
+
+            // There must be an easier way
+            if (scissor)
+            {
+                disableScissor(context);
+                context.drawItemTooltip(textRenderer, defaultStack, mouseX, mouseY);
+                context.draw();
+                enableScissor(context);
+            }
+            else
+                context.drawItemTooltip(textRenderer, defaultStack, mouseX, mouseY);
         }
 
         public void updateOrigin(int ox, int oy)
@@ -178,6 +216,8 @@ class TreePane extends MeatgunScreen.PaneWidget
         {
             if (bounds.isWithin(mouseX, mouseY))
             {
+                handler.setCursorStack(defaultStack);
+
                 return true;
             }
             return false;
@@ -189,7 +229,7 @@ class TreePane extends MeatgunScreen.PaneWidget
         }
     }
 
-    private static class ModuleWidget implements Drawable
+    private class ModuleWidget implements Drawable
     {
         private final MeatgunModule module;
         private int ox, oy;
@@ -208,7 +248,7 @@ class TreePane extends MeatgunScreen.PaneWidget
             int totalSlotWidth = 0;
             for (var slot : module.getChildren())
             {
-                ModuleSlotWidget slotWidget = new ModuleSlotWidget(module, slot);
+                ModuleSlotWidget slotWidget = new ModuleSlotWidget(textRenderer, module, slot);
                 slots.add(slotWidget);
                 totalSlotWidth += ModuleSlotWidget.width() + 2;
             }
@@ -284,7 +324,11 @@ class TreePane extends MeatgunScreen.PaneWidget
         {
             if (bounds.isWithin(mouseX, mouseY))
             {
-                return true;
+                for (var slot : slots)
+                {
+                    if (slot.mouseClicked(mouseX, mouseY, button))
+                        return true;
+                }
             }
             return false;
         }

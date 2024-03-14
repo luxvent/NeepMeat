@@ -2,14 +2,13 @@ package com.neep.meatweapons.block.entity;
 
 import com.neep.meatlib.blockentity.SyncableBlockEntity;
 import com.neep.meatlib.inventory.ImplementedInventory;
-import com.neep.meatweapons.screen.MeatgunScreenHandler;
+import com.neep.meatweapons.screen.TinkerTableScreenHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.DefaultedRegistry;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
@@ -65,6 +64,6 @@ public class TinkerTableBlockEntity extends SyncableBlockEntity implements Named
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player)
     {
-        return new MeatgunScreenHandler(syncId, playerInventory, inventory);
+        return new TinkerTableScreenHandler(syncId, playerInventory, inventory);
     }
 }

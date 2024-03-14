@@ -5,6 +5,7 @@ import com.neep.meatlib.item.MeatlibItemSettings;
 import com.neep.meatlib.item.TooltipSupplier;
 import com.neep.meatlib.registry.ItemRegistry;
 import com.neep.meatweapons.item.*;
+import com.neep.meatweapons.item.meatgun.MeatgunModules;
 import net.minecraft.item.Item;
 
 public class MWItems
@@ -25,6 +26,9 @@ public class MWItems
     public static Item AIRTRUCK_ITEM = new AirtruckItem("airtruck", TooltipSupplier.hidden(2), new MeatlibItemSettings().group(MeatWeapons.WEAPONS));
 
     public static Item ASSAULT_DRILL = new AssaultDrillItem("assault_drill", 1000, new MeatlibItemSettings().group(MeatWeapons.WEAPONS));
+
+    public static MeatgunModuleItem BOSHER = ItemRegistry.queue("bosher", new MeatgunModuleItem(MeatgunModules.BOSHER, new MeatlibItemSettings().group(MeatWeapons.WEAPONS)));
+    public static MeatgunModuleItem UNDERBARREL = ItemRegistry.queue("underbarrel", new MeatgunModuleItem(MeatgunModules.UNDERBARREL, new MeatlibItemSettings().group(MeatWeapons.WEAPONS)));
 
     public static void init()
     {

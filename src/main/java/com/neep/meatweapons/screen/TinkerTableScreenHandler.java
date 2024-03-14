@@ -9,17 +9,17 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
 
-public class MeatgunScreenHandler extends BasicScreenHandler
+public class TinkerTableScreenHandler extends BasicScreenHandler
 {
     public static final int BACKGROUND_WIDTH = 340;
     public static final int BACKGROUND_HEIGHT = 200;
 
-    public MeatgunScreenHandler(int syncId, PlayerInventory playerInventory)
+    public TinkerTableScreenHandler(int syncId, PlayerInventory playerInventory)
     {
         this(syncId, playerInventory, new SimpleInventory(1));
     }
 
-    public MeatgunScreenHandler(int syncId, PlayerInventory playerInventory, Inventory blockInv)
+    public TinkerTableScreenHandler(int syncId, PlayerInventory playerInventory, Inventory blockInv)
     {
         super(MWScreenHandlers.MEATGUN, playerInventory, blockInv, syncId, null);
 

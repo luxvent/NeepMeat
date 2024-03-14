@@ -32,11 +32,11 @@ public class ItemRegistry
     public static <T extends Item & MeatlibItem> T queue(T item)
     {
         MeatLib.assertActive(item);
-        ITEMS.put(new Identifier(MeatLib.CURRENT_NAMESPACE, item.getRegistryName()), (Item) item);
+        ITEMS.put(new Identifier(MeatLib.CURRENT_NAMESPACE, item.getRegistryName()), item);
         return item;
     }
 
-    public static Item queue(String path, Item item)
+    public static <T extends Item> T queue(String path, T item)
     {
         MeatLib.assertActive(item);
         ITEMS.put(new Identifier(MeatLib.CURRENT_NAMESPACE, path), item);
