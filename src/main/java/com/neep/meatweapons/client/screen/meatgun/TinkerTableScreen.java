@@ -1,5 +1,7 @@
 package com.neep.meatweapons.client.screen.meatgun;
 
+import com.neep.meatlib.client.ClientChannelSender;
+import com.neep.meatlib.network.Sender;
 import com.neep.meatweapons.screen.TinkerTableScreenHandler;
 import com.neep.neepmeat.api.plc.PLCCols;
 import com.neep.neepmeat.client.screen.util.Border;
@@ -7,7 +9,6 @@ import com.neep.neepmeat.client.screen.util.BorderSlot;
 import com.neep.neepmeat.client.screen.util.Rectangle;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
@@ -22,14 +23,14 @@ public class TinkerTableScreen extends HandledScreen<TinkerTableScreenHandler>
 {
     private final DisplayPane displayPane = new DisplayPane();
     private final TreePane treePane;
+    private final Sender<TinkerTableScreenHandler.Thing> sender;
 
     public TinkerTableScreen(TinkerTableScreenHandler handler, PlayerInventory inventory, Text title)
     {
         super(handler, inventory, title);
-
-
-
         treePane = new TreePane(handler, handler.getSlot(0));
+
+        this.sender = new ClientChannelSender<>(TinkerTableScreenHandler.CHANNEL_ID, TinkerTableScreenHandler.CHANNEL_FORMAT);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.neep.meatweapons.client.screen.meatgun;
 
+import com.neep.meatlib.client.ClientChannelSender;
+import com.neep.meatlib.network.Sender;
 import com.neep.meatweapons.MeatWeapons;
 import com.neep.meatweapons.init.MWComponents;
 import com.neep.meatweapons.item.MeatgunModuleItem;
@@ -35,10 +37,13 @@ class TreePane extends TinkerTableScreen.PaneWidget
     @Nullable private MeatgunComponent meatgun;
     private boolean scissor;
 
+    private Sender<TinkerTableScreenHandler.Thing> sender;
+
     public TreePane(TinkerTableScreenHandler handler, Slot itemSlot)
     {
         this.handler = handler;
         this.slot = itemSlot;
+        this.sender = new ClientChannelSender<>(TinkerTableScreenHandler.CHANNEL_ID, TinkerTableScreenHandler.CHANNEL_FORMAT);
     }
 
     @Override
@@ -216,7 +221,8 @@ class TreePane extends TinkerTableScreen.PaneWidget
         {
             if (bounds.isWithin(mouseX, mouseY))
             {
-                handler.setCursorStack(defaultStack);
+//                handler.setCursorStack(defaultStack);
+                sender.emitter().apply(5, 7);
 
                 return true;
             }
