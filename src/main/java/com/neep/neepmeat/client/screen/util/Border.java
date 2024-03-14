@@ -24,9 +24,14 @@ public class Border implements Rectangle, Drawable
         this.col = col;
     }
 
+    public Border(Rectangle bounds, int padding, Supplier<Integer> col)
+    {
+        this( bounds.x(), bounds.y(), bounds.w(), bounds.h(), padding, col);
+    }
+
     public Rectangle withoutPadding()
     {
-        return new Immutable(x + padding, y + padding, w - padding, h - padding);
+        return new Immutable(x + padding, y + padding, w - padding * 2, h - padding * 2);
     }
 
     @Override

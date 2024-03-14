@@ -28,5 +28,14 @@
   "key.meatweapons.down": "Vehicle Down",
   "key.meatweapons.fire_secondary": "Secondary Trigger",
 
-  "enchantment.meatweapons.spikes": "Spikes"
+  "enchantment.meatweapons.spikes": "Spikes",
+
+  "meatgun_module.meatweapons.pistol": "Pistol",
+  "meatgun_module.meatweapons.chugger": "Chugger",
+  "meatgun_module.meatweapons.bosher": "Bøsher",
+  "meatgun_module.meatweapons.long_boi": "Long Boi",
+  "meatgun_module.meatweapons.triple_carousel": "Triple Carousel",
+  "meatgun_module.meatweapons.double_carousel": "Double Carousel",
+  "meatgun_module.meatweapons.underbarrel": "Underbarrel",
+  "meatgun_module.meatweapons.base": "Base"
 }

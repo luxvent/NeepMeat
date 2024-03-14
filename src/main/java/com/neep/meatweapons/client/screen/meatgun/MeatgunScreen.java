@@ -4,7 +4,6 @@ import com.neep.meatweapons.screen.MeatgunScreenHandler;
 import com.neep.neepmeat.api.plc.PLCCols;
 import com.neep.neepmeat.client.screen.util.Border;
 import com.neep.neepmeat.client.screen.util.BorderSlot;
-import com.neep.neepmeat.client.screen.util.GUIUtil;
 import com.neep.neepmeat.client.screen.util.Rectangle;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
@@ -18,11 +17,12 @@ import net.minecraft.text.Text;
 public class MeatgunScreen extends HandledScreen<MeatgunScreenHandler>
 {
     private final DisplayPane displayPane = new DisplayPane();
-    private final TreePane treePane = new TreePane();
+    private final TreePane treePane;
 
     public MeatgunScreen(MeatgunScreenHandler handler, PlayerInventory inventory, Text title)
     {
         super(handler, inventory, title);
+        treePane = new TreePane(handler.getSlot(0));
     }
 
     @Override
@@ -34,21 +34,20 @@ public class MeatgunScreen extends HandledScreen<MeatgunScreenHandler>
 
         Border border = new Border(x, y, backgroundWidth, backgroundHeight, 3, () -> PLCCols.BORDER.col);
         Rectangle withoutPadding = border.withoutPadding();
-        Rectangle bounds = new Rectangle.Immutable(withoutPadding.x(), withoutPadding.y(), withoutPadding.w(), withoutPadding.h() - 22);
+        Rectangle bounds = new Rectangle.Immutable(withoutPadding.x(), withoutPadding.y(), withoutPadding.w(), withoutPadding.h() - 19);
         addDrawable(border);
 
         // Hotbar and slot
-        addDrawable(new BorderSlot(bounds.x(), withoutPadding.y() + withoutPadding.h() - border.padding() - 17, () -> PLCCols.BORDER.col));
-        addDrawable(new Border(bounds.x() + 18 + 1, withoutPadding.y() + withoutPadding.h() - border.padding() - 17, 18 * 9, 17, 0, () -> PLCCols.BORDER.col));
+        addDrawable(new BorderSlot(bounds.x(), withoutPadding.y() + withoutPadding.h() - 17, () -> PLCCols.BORDER.col));
+        addDrawable(new Border(bounds.x() + 18 + 1, withoutPadding.y() + withoutPadding.h() - 17, 18 * 9, 17, 0, () -> PLCCols.BORDER.col));
 
-        int hotbarExtent = 18 * 9 + 17 + 2;
         Rectangle.Mutable displayPaneBounds = new Rectangle.Mutable(bounds).setW(18 * 9 + 17 + 2);
         displayPane.init(displayPaneBounds);
         addDrawableChild(displayPane);
 
-        Rectangle.Mutable treePaneBounds = new Rectangle.Mutable(bounds)
+        Rectangle.Mutable treePaneBounds = new Rectangle.Mutable(withoutPadding)
                 .setX(displayPaneBounds.x() + displayPaneBounds.w() + 2)
-                .setW(bounds.w() - displayPaneBounds.w() - border.padding() - 2);
+                .setW(bounds.w() - displayPaneBounds.w() - border.padding() + 1);
         treePane.init(treePaneBounds);
         addDrawableChild(treePane);
     }
@@ -70,27 +69,28 @@ public class MeatgunScreen extends HandledScreen<MeatgunScreenHandler>
     {
     }
 
+    @Override
+    protected void handledScreenTick()
+    {
+        treePane.tick();
+    }
+
     static abstract class PaneWidget implements Drawable, Element, Selectable
     {
-        private boolean focused;
-        private int x, y;
-        private int w, h;
+        protected boolean focused;
+        protected Rectangle bounds;
+        protected Border border;
 
         public void init(Rectangle parentSize)
         {
-            this.x = parentSize.x();
-            this.y = parentSize.y();
-            this.w = parentSize.w();
-            this.h = parentSize.h();
-
-//            this.w = MathHelper.floor(parentSize.w() / 2f);
-//            this.h = MathHelper.floor(parentSize.h());
+            this.bounds = new Rectangle.Immutable(parentSize);
+            this.border = new Border(bounds, 0, () -> PLCCols.BORDER.col);
         }
 
         @Override
         public void render(DrawContext context, int mouseX, int mouseY, float delta)
         {
-            GUIUtil.renderBorder(context, x, y, w, h, PLCCols.BORDER.col, 0);
+            border.render(context, mouseX, mouseY, delta);
         }
 
         @Override
@@ -117,5 +117,4 @@ public class MeatgunScreen extends HandledScreen<MeatgunScreenHandler>
 
         }
     }
-
 }
