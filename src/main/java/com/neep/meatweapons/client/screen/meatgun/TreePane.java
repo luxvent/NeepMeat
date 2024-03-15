@@ -20,7 +20,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +37,23 @@ class TreePane extends TinkerTableScreen.PaneWidget
     @Nullable private MeatgunComponent meatgun;
     private boolean scissor;
 
+    private float ox, oy;
+
     private final Sender<TinkerTableScreenHandler.SlotClick> sender;
 
     public TreePane(TinkerTableScreenHandler handler, Slot itemSlot)
     {
         this.slot = itemSlot;
         this.sender = new ClientChannelSender<>(TinkerTableScreenHandler.CHANNEL_ID, TinkerTableScreenHandler.CHANNEL_FORMAT);
+
+    }
+
+    @Override
+    public void init(Rectangle parentSize)
+    {
+        super.init(parentSize);
+        ox = bounds.x() + (float) bounds.w() / 2;
+        oy = bounds.y() + 10;
     }
 
     @Override
@@ -50,10 +63,32 @@ class TreePane extends TinkerTableScreen.PaneWidget
         enableScissor(context);
         for (var moduleWidget : moduleWidgets)
         {
-            moduleWidget.updateOrigin(bounds.x() + bounds.w() / 2, bounds.y() + 10);
             moduleWidget.render(context, mouseX, mouseY, delta);
         }
         disableScissor(context);
+    }
+
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY)
+    {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_2 || button == GLFW.GLFW_MOUSE_BUTTON_3)
+        {
+            double thing = 1;
+            ox += deltaX * thing;
+            oy += deltaY * thing;
+
+            updateWidgetOrigins();
+            return true;
+        }
+        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+    }
+
+    private void updateWidgetOrigins()
+    {
+        for (var widget : moduleWidgets)
+        {
+            widget.updateOrigin(Math.round(ox), Math.round(oy));
+        }
     }
 
     private void reorganise()
@@ -89,6 +124,7 @@ class TreePane extends TinkerTableScreen.PaneWidget
 
             offsetY += thingHeight;
         }
+        updateWidgetOrigins();
     }
 
     private void process(List<List<ModuleWidget>> levels, int level, MeatgunModule module)
@@ -108,6 +144,7 @@ class TreePane extends TinkerTableScreen.PaneWidget
 
             process(levels, level + 1, slot.get());
         }
+
     }
 
     @Override

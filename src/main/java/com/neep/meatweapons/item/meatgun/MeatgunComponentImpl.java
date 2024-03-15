@@ -104,7 +104,7 @@ public class MeatgunComponentImpl extends ItemComponent implements MeatgunCompon
             if (child.getUuid().equals(uuid))
                 return child;
 
-            findRecursive(child, uuid);
+            return findRecursive(child, uuid);
         }
         return null;
     }

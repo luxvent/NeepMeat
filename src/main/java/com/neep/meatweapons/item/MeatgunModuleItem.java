@@ -5,7 +5,9 @@ import com.neep.meatweapons.item.meatgun.MeatgunModule;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
+import net.minecraft.util.Util;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,7 +19,21 @@ public class MeatgunModuleItem extends Item
 {
     private static final Map<MeatgunModuleItem, MeatgunModule.Type<?>> ITEM_TO_TYPE = new HashMap<>();
     private static final Map<MeatgunModule.Type<?>, MeatgunModuleItem> TYPE_TO_ITEM = new HashMap<>();
-    @Nullable private final TooltipSupplier tooltipSupplier;
+    @Nullable
+    private final TooltipSupplier tooltipSupplier;
+    private String translationKey;
+
+    public MeatgunModuleItem(MeatgunModule.Type<?> type, @Nullable TooltipSupplier tooltipSupplier, Settings settings)
+    {
+        super(settings);
+        this.tooltipSupplier = tooltipSupplier;
+        register(this, type);
+    }
+
+    public MeatgunModuleItem(MeatgunModule.Type<?> type, Settings settings)
+    {
+        this(type, null, settings);
+    }
 
     public static void register(MeatgunModuleItem item, MeatgunModule.Type<?> type)
     {
@@ -51,16 +67,21 @@ public class MeatgunModuleItem extends Item
         return MeatgunModule.DEFAULT_TYPE;
     }
 
-    public MeatgunModuleItem(MeatgunModule.Type<?> type, @Nullable TooltipSupplier tooltipSupplier, Settings settings)
+    @Override
+    protected String getOrCreateTranslationKey()
     {
-        super(settings);
-        this.tooltipSupplier = tooltipSupplier;
-        register(this, type);
+        if (this.translationKey == null)
+        {
+            this.translationKey = Util.createTranslationKey("meatgun_module", Registries.ITEM.getId(this));
+        }
+
+        return this.translationKey;
     }
 
-    public MeatgunModuleItem(MeatgunModule.Type<?> type, Settings settings)
+    @Override
+    public String getTranslationKey()
     {
-        this(type, null, settings);
+        return this.getOrCreateTranslationKey();
     }
 
     @Override

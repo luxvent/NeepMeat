@@ -27,8 +27,15 @@ public class MWItems
 
     public static Item ASSAULT_DRILL = new AssaultDrillItem("assault_drill", 1000, new MeatlibItemSettings().group(MeatWeapons.WEAPONS));
 
+    public static MeatgunModuleItem PISTOL = ItemRegistry.queue("pistol", new MeatgunModuleItem(MeatgunModules.PISTOL, new MeatlibItemSettings().group(MeatWeapons.WEAPONS)));
     public static MeatgunModuleItem BOSHER = ItemRegistry.queue("bosher", new MeatgunModuleItem(MeatgunModules.BOSHER, new MeatlibItemSettings().group(MeatWeapons.WEAPONS)));
+    public static MeatgunModuleItem CHUGGER = ItemRegistry.queue("chugger", new MeatgunModuleItem(MeatgunModules.CHUGGER, new MeatlibItemSettings().group(MeatWeapons.WEAPONS)));
+    public static MeatgunModuleItem LONG_BOI = ItemRegistry.queue("long_boi", new MeatgunModuleItem(MeatgunModules.LONG_BOI, new MeatlibItemSettings().group(MeatWeapons.WEAPONS)));
     public static MeatgunModuleItem UNDERBARREL = ItemRegistry.queue("underbarrel", new MeatgunModuleItem(MeatgunModules.UNDERBARREL, new MeatlibItemSettings().group(MeatWeapons.WEAPONS)));
+    public static MeatgunModuleItem DOUBLE_CAROUSEL = ItemRegistry.queue("double_carousel", new MeatgunModuleItem(MeatgunModules.DOUBLE_CAROUSEL, new MeatlibItemSettings().group(MeatWeapons.WEAPONS)));
+    public static MeatgunModuleItem TRIPLE_CAROUSEL = ItemRegistry.queue("triple_carousel", new MeatgunModuleItem(MeatgunModules.TRIPLE_CAROUSEL, new MeatlibItemSettings().group(MeatWeapons.WEAPONS)));
+
+    public static MeatgunModuleItem BATTERY = ItemRegistry.queue("battery", new MeatgunModuleItem(MeatgunModules.BATTERY, new MeatlibItemSettings().group(MeatWeapons.WEAPONS)));
 
     public static void init()
     {

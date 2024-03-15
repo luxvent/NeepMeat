@@ -21,6 +21,7 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
+import java.awt.desktop.AboutHandler;
 import java.util.UUID;
 
 public class TinkerTableScreenHandler extends BasicScreenHandler
@@ -46,7 +47,8 @@ public class TinkerTableScreenHandler extends BasicScreenHandler
         super(MWScreenHandlers.MEATGUN, playerInventory, blockInv, syncId, null);
 
         addSlot(new Slot(blockInv, 0, 4, BACKGROUND_HEIGHT - 2 - 17));
-        createHotbar(5 + 18, BACKGROUND_HEIGHT - 19, playerInventory); // Yay! I love hardcoding!
+        createInventory(5 + 18, BACKGROUND_HEIGHT - 74, playerInventory);
+        createHotbar(5 + 18, BACKGROUND_HEIGHT - 19, playerInventory);
 
         if (playerInventory.player instanceof ServerPlayerEntity serverPlayerEntity)
             this.receiver = new ServerChannelReceiver<>(serverPlayerEntity, CHANNEL_ID, CHANNEL_FORMAT, this::onSlotClick);
@@ -81,28 +83,54 @@ public class TinkerTableScreenHandler extends BasicScreenHandler
             {
                 ModuleSlot slot1 = parent.getChildren().get(slotIdx);
 
-                if (slot1.get() != MeatgunModule.DEFAULT)
+                boolean slotEmpty = slot1.get() == MeatgunModule.DEFAULT;
+                boolean canChange = true;
+                if (!slotEmpty)
                 {
-                    boolean foundChild = false;
                     for (var childSlot : slot1.get().getChildren())
                     {
-                        foundChild = foundChild || childSlot.get() != MeatgunModule.DEFAULT;
+                        if (childSlot.get() != MeatgunModule.DEFAULT)
+                        {
+                            canChange = false;
+                        }
                     }
-
-                    if (foundChild)
-                        return;
-
-                    setCursorStack(MeatgunModuleItem.get(slot1.get().getType()));
-                    slot1.set(MeatgunModule.DEFAULT);
-                    syncState();
                 }
-                else
+
+                boolean cursorEmpty = getCursorStack().isEmpty();
+
+                if (!slotEmpty && canChange)
+                {
+                    if (cursorEmpty)
+                    {
+                        ItemStack moduleStack = MeatgunModuleItem.get(slot1.get().getType());
+
+                        if (moduleStack.isEmpty())
+                            return;
+
+                        setCursorStack(moduleStack);
+                        slot1.set(MeatgunModule.DEFAULT);
+                        syncState();
+                    }
+                    else if (getCursorStack().getCount() == 1)
+                    {
+                        // Swap
+                        MeatgunModule.Type<?> cursorType = MeatgunModuleItem.get(getCursorStack());
+                        if (cursorType != MeatgunModule.DEFAULT_TYPE)
+                        {
+                            setCursorStack(MeatgunModuleItem.get(slot1.get().getType()));
+
+                            slot1.set(cursorType.create(meatgun.getListener(), parent));
+                            syncState();
+                        }
+                    }
+                }
+                else if (slotEmpty && canChange)
                 {
                     MeatgunModule.Type<?> cursorType = MeatgunModuleItem.get(getCursorStack());
-                    if (cursorType != null)
+                    if (cursorType != MeatgunModule.DEFAULT_TYPE)
                     {
-                        getCursorStack().decrement(1);
                         slot1.set(cursorType.create(meatgun.getListener(), parent));
+                        getCursorStack().decrement(1);
                         syncState();
                     }
                 }

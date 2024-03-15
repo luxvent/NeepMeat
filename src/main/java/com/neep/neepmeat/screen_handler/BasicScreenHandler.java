@@ -42,6 +42,12 @@ public abstract class BasicScreenHandler extends ScreenHandler
 
     protected void createPlayerSlots(int startX, int startY, PlayerInventory playerInventory)
     {
+        createInventory(startX, startY, playerInventory);
+        createHotbar(startX, startY + 58, playerInventory);
+    }
+
+    protected void createInventory(int startX, int startY, PlayerInventory playerInventory)
+    {
         for (int m = 0; m < 3; ++m)
         {
             for (int l = 0; l < 9; ++l)
@@ -49,8 +55,6 @@ public abstract class BasicScreenHandler extends ScreenHandler
                 this.addSlot(new Slot(playerInventory, l + m * 9 + 9, startX + l * 18, startY + m * 18));
             }
         }
-
-        createHotbar(startX, startY + 58, playerInventory);
     }
 
     protected void createHotbar(int startX, int startY, PlayerInventory playerInventory)

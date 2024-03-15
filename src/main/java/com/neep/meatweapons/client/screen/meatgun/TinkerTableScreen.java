@@ -47,9 +47,13 @@ public class TinkerTableScreen extends HandledScreen<TinkerTableScreenHandler>
 
         // Hotbar and slot
         addDrawable(new BorderSlot(bounds.x(), withoutPadding.y() + withoutPadding.h() - 17, () -> PLCCols.BORDER.col));
-        addDrawable(new Border(bounds.x() + 18 + 1, withoutPadding.y() + withoutPadding.h() - 17, 18 * 9, 17, 0, () -> PLCCols.BORDER.col));
+        addDrawable(new Border(bounds.x() + 18 + 1, withoutPadding.y() + withoutPadding.h() - 17, 18 * 9 - 1, 17, 0, () -> PLCCols.BORDER.col));
+        var inventoryBorder = new Border(bounds.x() + 18 + 1, withoutPadding.y() + withoutPadding.h() - 72, 18 * 9 - 1, 3 * 17 + 2, 0, () -> PLCCols.BORDER.col);
+        addDrawable(inventoryBorder);
 
-        Rectangle.Mutable displayPaneBounds = new Rectangle.Mutable(bounds).setW(18 * 9 + 17 + 2);
+        Rectangle.Mutable displayPaneBounds = new Rectangle.Mutable(bounds)
+                .setH(inventoryBorder.y() - bounds.y() - 2)
+                .setW(18 * 9 + 17 + 1);
         displayPane.init(displayPaneBounds);
         addDrawableChild(displayPane);
 
@@ -60,10 +64,12 @@ public class TinkerTableScreen extends HandledScreen<TinkerTableScreenHandler>
         addDrawableChild(treePane);
     }
 
+
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta)
     {
         super.render(context, mouseX, mouseY, delta);
+        drawMouseoverTooltip(context, mouseX, mouseY);
     }
 
     @Override
@@ -75,6 +81,16 @@ public class TinkerTableScreen extends HandledScreen<TinkerTableScreenHandler>
     @Override
     protected void drawForeground(DrawContext context, int mouseX, int mouseY)
     {
+    }
+
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY)
+    {
+        if (treePane.isMouseOver(mouseX, mouseY))
+        {
+            return treePane.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+        }
+        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
     }
 
     @Override
@@ -99,6 +115,12 @@ public class TinkerTableScreen extends HandledScreen<TinkerTableScreenHandler>
         public void render(DrawContext context, int mouseX, int mouseY, float delta)
         {
             border.render(context, mouseX, mouseY, delta);
+        }
+
+        @Override
+        public boolean isMouseOver(double mouseX, double mouseY)
+        {
+            return bounds.isWithin(mouseX, mouseY);
         }
 
         @Override
