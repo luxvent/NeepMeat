@@ -21,7 +21,7 @@ import net.minecraft.text.Text;
 @Environment(EnvType.CLIENT)
 public class TinkerTableScreen extends HandledScreen<TinkerTableScreenHandler>
 {
-    private final DisplayPane displayPane = new DisplayPane();
+    private final DisplayPane displayPane;
     private final TreePane treePane;
     private final Sender<TinkerTableScreenHandler.SlotClick> sender;
 
@@ -29,6 +29,7 @@ public class TinkerTableScreen extends HandledScreen<TinkerTableScreenHandler>
     {
         super(handler, inventory, title);
         treePane = new TreePane(handler, handler.getSlot(0));
+        displayPane = new DisplayPane(handler.getSlot(0));
 
         this.sender = new ClientChannelSender<>(TinkerTableScreenHandler.CHANNEL_ID, TinkerTableScreenHandler.CHANNEL_FORMAT);
     }
@@ -90,6 +91,10 @@ public class TinkerTableScreen extends HandledScreen<TinkerTableScreenHandler>
         {
             return treePane.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
         }
+        else if (displayPane.isMouseOver(mouseX, mouseY))
+        {
+            return displayPane.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+        }
         return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
     }
 
@@ -97,6 +102,7 @@ public class TinkerTableScreen extends HandledScreen<TinkerTableScreenHandler>
     protected void handledScreenTick()
     {
         treePane.tick();
+        displayPane.tick();
     }
 
     static abstract class PaneWidget implements Drawable, Element, Selectable
