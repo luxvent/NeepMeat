@@ -44,6 +44,7 @@ public class MeatWeapons implements ModInitializer
     public static EntityType<FusionBlastEntity> FUSION_BLAST;
     public static EntityType<ExplodingShellEntity> EXPLODING_SHELL;
     public static EntityType<AirtruckEntity> AIRTRUCK;
+    public static EntityType<BounceGrenadeEntity> BOUNCE_GRENADE;
 
     public static <T extends Entity> EntityType<T> registerEntity(String id, FabricEntityTypeBuilder<T> builder)
     {
@@ -70,12 +71,16 @@ public class MeatWeapons implements ModInitializer
             ZAP = registerEntity("zap", FabricEntityTypeBuilder.create(SpawnGroup.MISC, ZapProjectileEntity::new));
             FUSION_BLAST = registerEntity("fusion_blast", FabricEntityTypeBuilder.create(SpawnGroup.MISC, FusionBlastEntity::new));
             EXPLODING_SHELL = registerEntity("exploding_shell", FabricEntityTypeBuilder.create(SpawnGroup.MISC, ExplodingShellEntity::new));
+            BOUNCE_GRENADE = registerEntity("bounce_grenade", FabricEntityTypeBuilder.<BounceGrenadeEntity>create(SpawnGroup.MISC, BounceGrenadeEntity::new)
+                    .trackRangeBlocks(200)
+                    .build()
+            );
 
             AIRTRUCK = registerEntity("airtruck", FabricEntityTypeBuilder.create(SpawnGroup.MISC, AirtruckEntity::new)
                     .trackedUpdateRate(1)
                     .forceTrackedVelocityUpdates(true)
                     .dimensions(EntityDimensions.fixed(3F, 2.2F))
-                    .trackRangeBlocks(40)
+                    .trackRangeBlocks(100)
                     .build());
 
             MWBlocks.init();

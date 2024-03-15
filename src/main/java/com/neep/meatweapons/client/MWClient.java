@@ -37,9 +37,12 @@ public class MWClient implements ClientModInitializer
     public static final EntityModelLayer FUSION_BLAST_LAYER = new EntityModelLayer(new Identifier(MeatWeapons.NAMESPACE, "fusion_blast"), "main");
     public static final EntityModelLayer MODEL_PLASMA_LAYER = new EntityModelLayer(new Identifier(MeatWeapons.NAMESPACE, "plasma"), "main");
     public static final EntityModelLayer MODEL_SHELL_LAYER = new EntityModelLayer(new Identifier(MeatWeapons.NAMESPACE, "shell"), "main");
+    public static final EntityModelLayer BOUNCE_GRENADE_LAYER = new EntityModelLayer(new Identifier(MeatWeapons.NAMESPACE, "bounce_grenade"), "main");
 
     public static void registerEntityModels()
     {
+        MWInstances.init();
+
         EntityRendererRegistry.register(MeatWeapons.BULLET, BulletEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_BULLET_LAYER, BulletEntityModel::getTexturedModelData);
 
@@ -57,6 +60,9 @@ public class MWClient implements ClientModInitializer
 
         EntityRendererRegistry.register(MeatWeapons.EXPLODING_SHELL, ShellEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_SHELL_LAYER, PlasmaEntityModel::getTexturedModelData);
+
+        EntityRendererRegistry.register(MeatWeapons.BOUNCE_GRENADE, GrenadeEntityRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(BOUNCE_GRENADE_LAYER, PlasmaEntityModel::getTexturedModelData);
     }
 
     public static void registerAnimations()

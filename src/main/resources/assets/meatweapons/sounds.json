@@ -121,6 +121,12 @@
     "sounds": [
       "meatweapons:long_boi_fire"
     ]
+  },
+  "grenade_launcher_fire": {
+    "subtitle": "subtitles.meatweapons.grenade_launcher_fire",
+    "sounds": [
+      "meatweapons:grenade_launcher_fire"
+    ]
   }
 }
 

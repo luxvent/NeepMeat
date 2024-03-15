@@ -32,6 +32,7 @@ public class MWItems
     public static MeatgunModuleItem CHUGGER = ItemRegistry.queue("chugger", new MeatgunModuleItem(MeatgunModules.CHUGGER, new MeatlibItemSettings().group(MeatWeapons.WEAPONS)));
     public static MeatgunModuleItem LONG_BOI = ItemRegistry.queue("long_boi", new MeatgunModuleItem(MeatgunModules.LONG_BOI, new MeatlibItemSettings().group(MeatWeapons.WEAPONS)));
     public static MeatgunModuleItem UNDERBARREL = ItemRegistry.queue("underbarrel", new MeatgunModuleItem(MeatgunModules.UNDERBARREL, new MeatlibItemSettings().group(MeatWeapons.WEAPONS)));
+    public static MeatgunModuleItem GRENADE_LAUNCHER = ItemRegistry.queue("grenade_launcher", new MeatgunModuleItem(MeatgunModules.GRENADE_LAUNCHER, new MeatlibItemSettings().group(MeatWeapons.WEAPONS)));
     public static MeatgunModuleItem DOUBLE_CAROUSEL = ItemRegistry.queue("double_carousel", new MeatgunModuleItem(MeatgunModules.DOUBLE_CAROUSEL, new MeatlibItemSettings().group(MeatWeapons.WEAPONS)));
     public static MeatgunModuleItem TRIPLE_CAROUSEL = ItemRegistry.queue("triple_carousel", new MeatgunModuleItem(MeatgunModules.TRIPLE_CAROUSEL, new MeatlibItemSettings().group(MeatWeapons.WEAPONS)));
 

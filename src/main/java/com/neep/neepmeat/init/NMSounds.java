@@ -51,6 +51,7 @@ public class NMSounds
     public static SoundEvent CHUGGER_FIRE = SoundRegistry.registerSound(MeatWeapons.NAMESPACE, "chugger_fire");
     public static SoundEvent LONG_BOI_CHARGE = SoundRegistry.registerSound(MeatWeapons.NAMESPACE, "long_boi_charge");
     public static SoundEvent LONG_BOI_FIRE = SoundRegistry.registerSound(MeatWeapons.NAMESPACE, "long_boi_fire");
+    public static SoundEvent GRENADE_LAUNCHER_FIRE = SoundRegistry.registerSound(MeatWeapons.NAMESPACE, "grenade_launcher_fire");
 
     public static SoundEvent HAND_CANNON_FIRE = SoundRegistry.registerSound(MeatWeapons.NAMESPACE, "hand_cannon_fire");
     public static SoundEvent HAND_CANNON_HIT = SoundRegistry.registerSound(MeatWeapons.NAMESPACE, "fusion_hit");
