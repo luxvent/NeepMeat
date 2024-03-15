@@ -6,12 +6,14 @@ import java.util.List;
 
 public class BatteryModule extends AbstractMeatgunModule
 {
-    public BatteryModule()
+    public BatteryModule(ModuleSlot.Listener listener)
     {
+        super(listener);
     }
 
-    public BatteryModule(NbtCompound nbt)
+    public BatteryModule(ModuleSlot.Listener listener, NbtCompound nbt)
     {
+        this(listener);
     }
 
     @Override

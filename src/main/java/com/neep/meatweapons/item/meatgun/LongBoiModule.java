@@ -30,14 +30,14 @@ public class LongBoiModule extends ShooterModule
 {
     private final Random shotRandom = Random.create();
 
-    public LongBoiModule()
+    public LongBoiModule(ModuleSlot.Listener listener)
     {
-        super(4, 20);
+        super(listener, 4, 20);
     }
 
-    public LongBoiModule(NbtCompound nbt)
+    public LongBoiModule(ModuleSlot.Listener listener, NbtCompound nbt)
     {
-        this();
+        this(listener);
     }
 
     @Override

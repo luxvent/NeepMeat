@@ -12,20 +12,27 @@ import java.util.List;
 
 public class UnderbarrelModule extends AbstractMeatgunModule
 {
-    private final ModuleSlot upSlot = new SimpleModuleSlot(new Matrix4f().translate(0, 0, -3 / 16f));
-    private final ModuleSlot downSlot = new SimpleModuleSlot(new Matrix4f().rotateZ(MathHelper.PI).translate(0, 3 / 16f, -3 / 16f));
+    private final ModuleSlot upSlot;
+    private final ModuleSlot downSlot;
 
-    public UnderbarrelModule()
+    public UnderbarrelModule(ModuleSlot.Listener listener)
     {
+        super(listener);
+        upSlot = new SimpleModuleSlot(this.listener, new Matrix4f().translate(0, 0, -3 / 16f));
+        downSlot = new SimpleModuleSlot(this.listener, new Matrix4f()
+                .scale(0.999f, 1f, 1f)
+                .translate(0, 0, -0.001f)
+                .rotateZ(MathHelper.PI)
+                .translate(0, 3 / 16f, -3 / 16f));
         setSlots(List.of(upSlot, downSlot));
 
-        upSlot.set(new LongBoiModule());
-        downSlot.set(new BosherModule());
+        upSlot.set(new LongBoiModule(listener));
+        downSlot.set(new BosherModule(listener));
     }
 
-    public UnderbarrelModule(NbtCompound nbt)
+    public UnderbarrelModule(ModuleSlot.Listener listener, NbtCompound nbt)
     {
-        this();
+        this(listener);
         readNbt(nbt);
     }
 

@@ -5,6 +5,9 @@ import dev.onyxstudios.cca.api.v3.component.Component;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.UUID;
 
 public interface MeatgunComponent extends Component
 {
@@ -19,4 +22,12 @@ public interface MeatgunComponent extends Component
     void tick();
 
     void markDirty();
+
+    @Nullable
+    MeatgunModule find(UUID uuid);
+
+    default ModuleSlot.Listener getListener()
+    {
+        return this::markDirty;
+    }
 }

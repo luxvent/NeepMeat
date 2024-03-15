@@ -10,4 +10,9 @@ public interface ModuleSlot
     void set(MeatgunModule module);
 
     Matrix4f transform();
+
+    interface Listener
+    {
+        void markDirty();
+    }
 }

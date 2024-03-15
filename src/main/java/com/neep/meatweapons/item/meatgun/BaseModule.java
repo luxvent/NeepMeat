@@ -13,19 +13,22 @@ public class BaseModule extends AbstractMeatgunModule
 //    private final MeatgunModule child = new BosherModule();
 //    private final MeatgunModule child = new BatteryModule();
 //    private final MeatgunModule child = new LongBoiModule();
-    private final ModuleSlot front = new SimpleModuleSlot(new Matrix4f());
 
-    public BaseModule()
+    private final ModuleSlot front;
+
+    public BaseModule(ModuleSlot.Listener listener)
     {
+        super(listener);
+        front = new SimpleModuleSlot(this.listener, new Matrix4f());
+
         setSlots(List.of(front));
-        MeatgunModule child = new BosherModule();
-//        MeatgunModule child = new UnderbarrelModule();
+        MeatgunModule child = new BosherModule(listener);
         front.set(child);
     }
 
-    public BaseModule(NbtCompound nbt)
+    public BaseModule(ModuleSlot.Listener listener, NbtCompound nbt)
     {
-        this();
+        this(listener);
     }
 
     @Override
@@ -34,8 +37,8 @@ public class BaseModule extends AbstractMeatgunModule
         return MeatgunModules.BASE;
     }
 
-    public static BaseModule fromNbt(NbtCompound nt)
+    public static BaseModule fromNbt(ModuleSlot.Listener listener, NbtCompound nt)
     {
-        return new BaseModule(nt);
+        return new BaseModule(listener, nt);
     }
 }

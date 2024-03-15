@@ -7,26 +7,37 @@ import org.joml.Matrix4f;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.IntStream;
 
 public abstract class AbstractMeatgunModule implements MeatgunModule
 {
     protected Matrix4f transform = new Matrix4f();
     protected List<ModuleSlot> slots;
+    protected UUID uuid = UUID.randomUUID();
+    protected final ModuleSlot.Listener listener;
 
-    public AbstractMeatgunModule(List<ModuleSlot> slots)
+    public AbstractMeatgunModule(ModuleSlot.Listener listener, List<ModuleSlot> slots)
     {
+        this.listener = listener;
         this.slots = Collections.unmodifiableList(slots);
     }
 
-    public AbstractMeatgunModule()
+    public AbstractMeatgunModule(ModuleSlot.Listener listener)
     {
+        this.listener = listener;
         this.slots = Collections.emptyList();
     }
 
     protected void setSlots(List<ModuleSlot> slots)
     {
         this.slots = Collections.unmodifiableList(slots);
+    }
+
+    @Override
+    public UUID getUuid()
+    {
+        return uuid;
     }
 
     @Override
@@ -44,6 +55,8 @@ public abstract class AbstractMeatgunModule implements MeatgunModule
     @Override
     public NbtCompound writeNbt(NbtCompound nbt)
     {
+        nbt.putUuid("uuid", uuid);
+
         float[] fs = transform.get(new float[16]);
         nbt.putIntArray("transform", IntStream.range(0, fs.length).map(i -> Float.floatToIntBits(fs[i])).toArray());
 
@@ -55,12 +68,16 @@ public abstract class AbstractMeatgunModule implements MeatgunModule
         }
         nbt.put("slots", slotsNbt);
 
+
         return nbt;
     }
 
     @Override
     public void readNbt(NbtCompound nbt)
     {
+        if (nbt.containsUuid("uuid"))
+            this.uuid = nbt.getUuid("uuid");
+
         int[] bits = nbt.getIntArray("transform");
         if (bits.length == 16) // Prevent crash if tag is empty.
         {
@@ -84,7 +101,7 @@ public abstract class AbstractMeatgunModule implements MeatgunModule
             Type<?> type = MeatgunModule.readType(slotNbt);
             if (type != preType)
             {
-                MeatgunModule module = type.create(slotNbt);
+                MeatgunModule module = type.create(listener, slotNbt);
                 module.readNbt(slotNbt);
                 slots.get(i).set(module);
             }

@@ -24,6 +24,7 @@ import net.minecraft.util.Arm;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
+import org.joml.Matrix4f;
 
 @Environment(EnvType.CLIENT)
 public class MeatgunRenderer extends BuiltinModelItemRenderer
@@ -138,7 +139,8 @@ public class MeatgunRenderer extends BuiltinModelItemRenderer
         {
             matrices.push();
             matrices.translate(0.5, 0, 1);
-            matrices.multiplyPositionMatrix(child.transform());
+            Matrix4f matrix4f = child.transform();
+            matrices.multiplyPositionMatrix(matrix4f);
             matrices.translate(-0.5, 0, -1);
             renderRecursive(matrices, child.get(), stack, component, mode, vcp, light, overlay);
             matrices.pop();

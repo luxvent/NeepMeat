@@ -10,8 +10,9 @@ public abstract class ShooterModule extends AbstractMeatgunModule
     protected int shotsRemaining;
     protected int cooldown;
 
-    public ShooterModule(int maxShots, int maxCooldown)
+    public ShooterModule(ModuleSlot.Listener listener, int maxShots, int maxCooldown)
     {
+        super(listener);
         this.maxShots = maxShots;
         this.maxCooldown = maxCooldown;
 

@@ -10,9 +10,12 @@ import net.minecraft.world.World;
 import org.joml.Matrix4f;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface MeatgunModule
 {
+    UUID getUuid();
+
     List<ModuleSlot> getChildren();
 
     Type<? extends MeatgunModule> getType();
@@ -55,6 +58,12 @@ public interface MeatgunModule
     MeatgunModule DEFAULT = new MeatgunModule()
     {
         @Override
+        public UUID getUuid()
+        {
+            return UUID.fromString("");
+        }
+
+        @Override
         public List<ModuleSlot> getChildren()
         {
             return List.of();
@@ -92,20 +101,20 @@ public interface MeatgunModule
 //        }
     };
 
-    Type<?> DEFAULT_TYPE = new MeatgunModule.Type<>(new Identifier(MeatWeapons.NAMESPACE, "default"), p -> DEFAULT, n -> DEFAULT);
+    Type<?> DEFAULT_TYPE = new MeatgunModule.Type<>(new Identifier(MeatWeapons.NAMESPACE, "default"), (l, p) -> DEFAULT, (l, n) -> DEFAULT);
 
 
 
     @FunctionalInterface
     interface Factory<T extends MeatgunModule>
     {
-        T create(MeatgunModule parent);
+        T create(ModuleSlot.Listener listener, MeatgunModule parent);
     }
 
     @FunctionalInterface
     interface NbtFactory<T extends MeatgunModule>
     {
-        T create(NbtCompound nbt);
+        T create(ModuleSlot.Listener listener, NbtCompound nbt);
     }
 
     class Type<T extends MeatgunModule>
@@ -113,22 +122,28 @@ public interface MeatgunModule
         private final Identifier id;
         private final Factory<T> factory;
 
-        private final NbtFactory<T> decoder;
+        private final NbtFactory<T> nbtFactory;
 
-        public Type(Identifier id, Factory<T> factory, NbtFactory decoder)
+        public Type(Identifier id, Factory<T> factory, NbtFactory<T> nbtFactory)
         {
             this.id = id;
             this.factory = factory;
-            this.decoder = decoder;
+            this.nbtFactory = nbtFactory;
         }
 
         public Identifier getId()
         {
             return id;
         }
-        public T create(NbtCompound nbt)
+
+        public T create(ModuleSlot.Listener listener, MeatgunModule parent)
         {
-            return decoder.create(nbt);
+            return factory.create(listener, parent);
+        }
+
+        public T create(ModuleSlot.Listener listener, NbtCompound nbt)
+        {
+            return nbtFactory.create(listener, nbt);
         }
 
     }

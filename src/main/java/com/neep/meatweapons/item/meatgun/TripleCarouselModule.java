@@ -4,14 +4,14 @@ import net.minecraft.nbt.NbtCompound;
 
 public class TripleCarouselModule extends AbstractMeatgunModule
 {
-    public TripleCarouselModule()
+    public TripleCarouselModule(ModuleSlot.Listener listener)
     {
-
+        super(listener);
     }
 
-    public TripleCarouselModule(NbtCompound nbt)
+    public TripleCarouselModule(ModuleSlot.Listener listener, NbtCompound nbt)
     {
-
+        this(listener);
     }
 
     @Override

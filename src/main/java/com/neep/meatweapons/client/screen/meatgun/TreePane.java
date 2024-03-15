@@ -16,7 +16,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
-import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
@@ -32,16 +31,14 @@ class TreePane extends TinkerTableScreen.PaneWidget
 
     private final TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
     private final List<ModuleWidget> moduleWidgets = new ArrayList<>();
-    private final TinkerTableScreenHandler handler;
     private final Slot slot;
     @Nullable private MeatgunComponent meatgun;
     private boolean scissor;
 
-    private Sender<TinkerTableScreenHandler.Thing> sender;
+    private final Sender<TinkerTableScreenHandler.SlotClick> sender;
 
     public TreePane(TinkerTableScreenHandler handler, Slot itemSlot)
     {
-        this.handler = handler;
         this.slot = itemSlot;
         this.sender = new ClientChannelSender<>(TinkerTableScreenHandler.CHANNEL_ID, TinkerTableScreenHandler.CHANNEL_FORMAT);
     }
@@ -141,8 +138,7 @@ class TreePane extends TinkerTableScreen.PaneWidget
 
     public void tick()
     {
-        MeatgunComponent foundComponent = MWComponents.MEATGUN.getNullable(slot.getStack());
-        meatgun = foundComponent;
+        meatgun = MWComponents.MEATGUN.getNullable(slot.getStack());
 //        if (foundComponent != meatgun)
 //        {
 //            foundComponent = meatgun;
@@ -154,16 +150,19 @@ class TreePane extends TinkerTableScreen.PaneWidget
     {
         private static final Rectangle size = new Rectangle.Immutable(0, 0, 18, 18);
         private final TextRenderer textRenderer;
+        private final MeatgunModule module;
+        private final int slotIdx;
         private final ModuleSlot slot1;
         private Rectangle local = new Rectangle.Immutable(size);
         private Rectangle bounds = new Rectangle.Immutable(size);
 
-        private final ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
         private final ItemStack defaultStack;
 
-        public ModuleSlotWidget(TextRenderer textRenderer, MeatgunModule module, ModuleSlot slot)
+        public ModuleSlotWidget(TextRenderer textRenderer, MeatgunModule module, int slotIdx, ModuleSlot slot)
         {
             this.textRenderer = textRenderer;
+            this.module = module;
+            this.slotIdx = slotIdx;
             slot1 = slot;
             MeatgunModule.Type<?> type = slot1.get().getType();
             if (type != MeatgunModule.DEFAULT_TYPE)
@@ -221,8 +220,7 @@ class TreePane extends TinkerTableScreen.PaneWidget
         {
             if (bounds.isWithin(mouseX, mouseY))
             {
-//                handler.setCursorStack(defaultStack);
-                sender.emitter().apply(5, 7);
+                sender.emitter().apply(module.getUuid(), slotIdx);
 
                 return true;
             }
@@ -251,14 +249,12 @@ class TreePane extends TinkerTableScreen.PaneWidget
             this.textRenderer = textRenderer;
             this.module = module;
 
-            int totalSlotWidth = 0;
-            for (var slot : module.getChildren())
+            for (int slotIdx = 0; slotIdx < module.getChildren().size(); slotIdx++)
             {
-                ModuleSlotWidget slotWidget = new ModuleSlotWidget(textRenderer, module, slot);
+                var slot = module.getChildren().get(slotIdx);
+                ModuleSlotWidget slotWidget = new ModuleSlotWidget(textRenderer, module, slotIdx, slot);
                 slots.add(slotWidget);
-                totalSlotWidth += ModuleSlotWidget.width() + 2;
             }
-
         }
 
         public void init(int x, int y)
@@ -315,8 +311,6 @@ class TreePane extends TinkerTableScreen.PaneWidget
         @Override
         public void render(DrawContext context, int mouseX, int mouseY, float delta)
         {
-//            border.render(context, mouseX, mouseY, delta);
-
             GUIUtil.drawText(context, textRenderer, getName(), bounds.x() + 3, bounds.y() + 2, PLCCols.TEXT.col, false);
             GUIUtil.renderBorder(context, bounds.x(), bounds.y(), bounds.w(), bounds.h(), PLCCols.BORDER.col, 0);
 

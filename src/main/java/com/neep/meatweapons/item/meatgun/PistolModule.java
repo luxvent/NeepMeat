@@ -37,14 +37,14 @@ public class PistolModule extends ShooterModule
     private int shotsRemaining = maxShots;
     private int cooldown = 0;
 
-    public PistolModule()
+    public PistolModule(ModuleSlot.Listener listener)
     {
-        super(8, 10);
+        super(listener, 8, 10);
     }
 
-    public PistolModule(NbtCompound nbt)
+    public PistolModule(ModuleSlot.Listener listener, NbtCompound nbt)
     {
-        this();
+        this(listener);
     }
 
     @Override

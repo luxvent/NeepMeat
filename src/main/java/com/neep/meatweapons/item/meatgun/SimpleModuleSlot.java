@@ -6,11 +6,13 @@ import org.joml.Matrix4f;
 public class SimpleModuleSlot implements ModuleSlot
 {
     private final Matrix4f matrix;
+    private final Listener listener;
     private MeatgunModule module = MeatgunModule.DEFAULT;
 
-    public SimpleModuleSlot(Matrix4f matrix)
+    public SimpleModuleSlot(Listener listener, Matrix4f matrix)
     {
-        this.matrix = matrix;
+        this.listener = listener;
+        this.matrix = new Matrix4f(matrix);
     }
 
     @Override
@@ -23,17 +25,19 @@ public class SimpleModuleSlot implements ModuleSlot
     public void set(MeatgunModule module)
     {
         this.module = module;
-        module.setTransform(matrix);
+        module.setTransform(new Matrix4f(matrix));
+        listener.markDirty();
     }
 
     @Override
     public Matrix4f transform()
     {
-        return matrix;
+        return new Matrix4f(matrix);
     }
 
     public Matrix4f transformStack()
     {
         return null;
     }
+
 }

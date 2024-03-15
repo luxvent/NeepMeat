@@ -34,22 +34,26 @@ public class DoubleCarouselModule extends AbstractMeatgunModule
 //        )
 //    })
 
-    private final ModuleSlot upSlot = new SimpleModuleSlot(new Matrix4f().translate(0, 4 / 16f, -3 / 16f));
-    private final ModuleSlot downSlot = new SimpleModuleSlot(new Matrix4f().rotateZ(MathHelper.PI).translate(0, 4 / 16f, -3 / 16f));
-    private final ModuleSlot auxSlot = new SimpleModuleSlot(new Matrix4f().rotateY(MathHelper.PI).translate(0, 5 / 16f, 0 / 16f));
+    private final ModuleSlot upSlot;
+    private final ModuleSlot downSlot;
+    private final ModuleSlot auxSlot;
 
-    public DoubleCarouselModule()
+    public DoubleCarouselModule(ModuleSlot.Listener listener)
     {
+        super(listener);
+        auxSlot = new SimpleModuleSlot(this.listener, new Matrix4f().rotateY(MathHelper.PI).translate(0, 5 / 16f, 0 / 16f));
+        downSlot = new SimpleModuleSlot(this.listener, new Matrix4f().rotateZ(MathHelper.PI).translate(0, 4 / 16f, -3 / 16f));
+        upSlot = new SimpleModuleSlot(this.listener, new Matrix4f().translate(0, 4 / 16f, -3 / 16f));
         setSlots(List.of(upSlot, downSlot, auxSlot));
 
-        upSlot.set(new LongBoiModule());
-        downSlot.set(new BosherModule());
-        auxSlot.set(new BatteryModule());
+        upSlot.set(new LongBoiModule(listener));
+        downSlot.set(new BosherModule(listener));
+        auxSlot.set(new BatteryModule(listener));
     }
 
-    public DoubleCarouselModule(NbtCompound nbt)
+    public DoubleCarouselModule(ModuleSlot.Listener listener, NbtCompound nbt)
     {
-        this();
+        this(listener);
     }
 
     @Override

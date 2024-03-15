@@ -31,15 +31,15 @@ public class ChuggerModule extends ShooterModule
 {
     private final Random shotRandom = Random.create();
 
-    public ChuggerModule()
+    public ChuggerModule(ModuleSlot.Listener listener)
     {
-        super(8, 15);
+        super(listener, 8, 15);
         shotsRemaining = maxShots;
     }
 
-    public ChuggerModule(NbtCompound nbt)
+    public ChuggerModule(ModuleSlot.Listener listener, NbtCompound nbt)
     {
-        this();
+        this(listener);
         readNbt(nbt);
     }
 

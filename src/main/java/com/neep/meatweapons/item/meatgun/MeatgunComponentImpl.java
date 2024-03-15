@@ -6,15 +6,16 @@ import dev.onyxstudios.cca.api.v3.item.ItemComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.UUID;
 
 public class MeatgunComponentImpl extends ItemComponent implements MeatgunComponent
 {
+    private final RecoilManager recoil = new RecoilManager();
+    private final BaseModule root = new BaseModule(this::markDirty);
     private boolean dirty = true;
     private boolean invalidated = false;
-
-    private final RecoilManager recoil = new RecoilManager();
-
-    private final BaseModule root = new BaseModule();
 
     public MeatgunComponentImpl(ItemStack stack, ComponentKey<MeatgunComponent> key)
     {
@@ -77,13 +78,42 @@ public class MeatgunComponentImpl extends ItemComponent implements MeatgunCompon
     @Override
     public void markDirty()
     {
-        dirty = true;
+        if (root != null)
+            root.writeNbt(getOrCreateRootTag());
+    }
+
+    @Override
+    @Nullable
+    public MeatgunModule find(UUID uuid)
+    {
+        return findRecursive(root, uuid);
+    }
+
+    @Nullable
+    private MeatgunModule findRecursive(MeatgunModule module, UUID uuid)
+    {
+        if (module.getUuid().equals(uuid))
+            return module;
+
+        for (var slot : module.getChildren())
+        {
+            MeatgunModule child = slot.get();
+            if (child == MeatgunModule.DEFAULT)
+                continue;
+
+            if (child.getUuid().equals(uuid))
+                return child;
+
+            findRecursive(child, uuid);
+        }
+        return null;
     }
 
     @Override
     public void onTagInvalidated()
     {
         super.onTagInvalidated();
+        dirty = true;
         invalidated = true;
     }
 }

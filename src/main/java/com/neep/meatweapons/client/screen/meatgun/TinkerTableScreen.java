@@ -23,7 +23,7 @@ public class TinkerTableScreen extends HandledScreen<TinkerTableScreenHandler>
 {
     private final DisplayPane displayPane = new DisplayPane();
     private final TreePane treePane;
-    private final Sender<TinkerTableScreenHandler.Thing> sender;
+    private final Sender<TinkerTableScreenHandler.SlotClick> sender;
 
     public TinkerTableScreen(TinkerTableScreenHandler handler, PlayerInventory inventory, Text title)
     {

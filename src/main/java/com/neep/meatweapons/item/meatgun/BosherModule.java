@@ -38,15 +38,15 @@ public class BosherModule extends ShooterModule
 {
     private final Random random = Random.create();
 
-    public BosherModule()
+    public BosherModule(ModuleSlot.Listener listener)
     {
-        super(1, 20);
+        super(listener, 1, 20);
         shotsRemaining = maxShots;
     }
 
-    public BosherModule(NbtCompound nbt)
+    public BosherModule(ModuleSlot.Listener listener, NbtCompound nbt)
     {
-        this();
+        this(listener);
     }
 
     @Override
