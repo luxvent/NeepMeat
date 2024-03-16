@@ -41,5 +41,6 @@
   "meatgun_module.meatweapons.battery": "Battery",
   "meatgun_module.meatweapons.base": "Base",
 
-  "text.meatweapons.tinker_table.item_here": "Place Meatgun here"
+  "text.meatweapons.tinker_table.item_here": "Place Meatgun here",
+  "tooltip.meatweapons.meatgun_module_1": "Meatgun Module - install in a Tinker Table"
 }

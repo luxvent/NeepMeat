@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -87,6 +88,7 @@ public class MeatgunModuleItem extends Item
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context)
     {
+        tooltip.add(Text.translatable("tooltip.meatweapons.meatgun_module_1").formatted(Formatting.GOLD).formatted(Formatting.BOLD));
         super.appendTooltip(stack, world, tooltip, context);
     }
 }
