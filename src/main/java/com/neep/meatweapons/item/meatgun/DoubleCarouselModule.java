@@ -45,10 +45,6 @@ public class DoubleCarouselModule extends AbstractMeatgunModule
         downSlot = new SimpleModuleSlot(this.listener, new Matrix4f().rotateZ(MathHelper.PI).translate(0, 4 / 16f, -3 / 16f));
         upSlot = new SimpleModuleSlot(this.listener, new Matrix4f().translate(0, 4 / 16f, -3 / 16f));
         setSlots(List.of(upSlot, downSlot, auxSlot));
-
-        upSlot.set(new LongBoiModule(listener));
-        downSlot.set(new BosherModule(listener));
-        auxSlot.set(new BatteryModule(listener));
     }
 
     public DoubleCarouselModule(ModuleSlot.Listener listener, NbtCompound nbt)

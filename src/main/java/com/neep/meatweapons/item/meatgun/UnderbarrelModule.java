@@ -23,11 +23,8 @@ public class UnderbarrelModule extends AbstractMeatgunModule
                 .scale(0.999f, 1f, 1f)
                 .translate(0, 0, -0.001f)
                 .rotateZ(MathHelper.PI)
-                .translate(0, 3 / 16f, -3 / 16f));
+                .translate(0, 4 / 16f, -3 / 16f));
         setSlots(List.of(upSlot, downSlot));
-
-        upSlot.set(new LongBoiModule(listener));
-        downSlot.set(new BosherModule(listener));
     }
 
     public UnderbarrelModule(ModuleSlot.Listener listener, NbtCompound nbt)

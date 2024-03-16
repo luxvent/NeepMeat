@@ -105,7 +105,7 @@ public class GrenadeLauncherModule extends ShooterModule
         double speed = 0.8;
         Vec3d vel = GunItem.getRotationVector(pitch, yaw).multiply(speed);
 
-        BounceGrenadeEntity entity = new BounceGrenadeEntity(world, 2, 100, false, pos.x, pos.y, pos.z, vel.x, vel.y, vel.z);
+        BounceGrenadeEntity entity = new BounceGrenadeEntity(world, 2, 40, false, pos.x, pos.y, pos.z, vel.x, vel.y, vel.z);
         world.spawnEntity(entity);
 
         MeatgunS2C.sendRecoil((ServerPlayerEntity) player, MeatgunS2C.RecoilDirection.UP, 7, 0.2f,0.7f, 0.03f);
