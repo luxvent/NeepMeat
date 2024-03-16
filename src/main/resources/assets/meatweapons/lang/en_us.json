@@ -39,5 +39,7 @@
   "meatgun_module.meatweapons.double_carousel": "Double Carousel",
   "meatgun_module.meatweapons.underbarrel": "Underbarrel",
   "meatgun_module.meatweapons.battery": "Battery",
-  "meatgun_module.meatweapons.base": "Base"
+  "meatgun_module.meatweapons.base": "Base",
+
+  "text.meatweapons.tinker_table.item_here": "Place Meatgun here"
 }

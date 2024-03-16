@@ -4,6 +4,7 @@ import com.neep.meatlib.api.network.ChannelFormat;
 import com.neep.meatlib.api.network.ParamCodec;
 import com.neep.meatlib.network.Receiver;
 import com.neep.meatlib.network.ServerChannelReceiver;
+import com.neep.meatweapons.MWItems;
 import com.neep.meatweapons.MeatWeapons;
 import com.neep.meatweapons.init.MWComponents;
 import com.neep.meatweapons.init.MWScreenHandlers;
@@ -45,9 +46,16 @@ public class TinkerTableScreenHandler extends BasicScreenHandler
     {
         super(MWScreenHandlers.MEATGUN, playerInventory, blockInv, syncId, null);
 
-        addSlot(new Slot(blockInv, 0, 4, BACKGROUND_HEIGHT - 2 - 17));
-        createInventory(5 + 18, BACKGROUND_HEIGHT - 74, playerInventory);
-        createHotbar(5 + 18, BACKGROUND_HEIGHT - 19, playerInventory);
+        addSlot(new Slot(blockInv, 0, 8, BACKGROUND_HEIGHT - 2 - 21)
+        {
+            @Override
+            public boolean canInsert(ItemStack stack)
+            {
+                return stack.isOf(MWItems.MEATGUN);
+            }
+        });
+        createInventory(5 + 24, BACKGROUND_HEIGHT - 80, playerInventory);
+        createHotbar(5 + 24, BACKGROUND_HEIGHT - 23, playerInventory);
 
         if (playerInventory.player instanceof ServerPlayerEntity serverPlayerEntity)
             this.receiver = new ServerChannelReceiver<>(serverPlayerEntity, CHANNEL_ID, CHANNEL_FORMAT, this::onSlotClick);
@@ -56,7 +64,8 @@ public class TinkerTableScreenHandler extends BasicScreenHandler
     @Override
     public ItemStack quickMove(PlayerEntity player, int slot)
     {
-        return ItemStack.EMPTY;
+        return super.quickMove(player, slot);
+//        return ItemStack.EMPTY;
     }
 
     @Override

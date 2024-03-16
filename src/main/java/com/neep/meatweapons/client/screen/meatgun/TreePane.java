@@ -2,7 +2,6 @@ package com.neep.meatweapons.client.screen.meatgun;
 
 import com.neep.meatlib.client.ClientChannelSender;
 import com.neep.meatlib.network.Sender;
-import com.neep.meatweapons.MeatWeapons;
 import com.neep.meatweapons.init.MWComponents;
 import com.neep.meatweapons.item.MeatgunModuleItem;
 import com.neep.meatweapons.item.meatgun.MeatgunComponent;
@@ -19,17 +18,13 @@ import net.minecraft.client.gui.Drawable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
 
 class TreePane extends TinkerTableScreen.PaneWidget
 {
-    public static final Identifier WIDGETS_TEXTURE = new Identifier(MeatWeapons.NAMESPACE, "textures/gui/tinker_table/widgets.png");
-
     private final TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
     private final List<ModuleWidget> moduleWidgets = new ArrayList<>();
     private final Slot slot;
@@ -161,7 +156,7 @@ class TreePane extends TinkerTableScreen.PaneWidget
 
     private void enableScissor(DrawContext context)
     {
-        context.enableScissor(bounds.x(), bounds.y(), bounds.x() + bounds.w(), bounds.y() + bounds.h());
+        context.enableScissor(bounds.x() + 2, bounds.y() + 2, bounds.x() + bounds.w() - 2, bounds.y() + bounds.h() - 2);
         scissor = true;
     }
 
@@ -215,7 +210,7 @@ class TreePane extends TinkerTableScreen.PaneWidget
                 bordereCol = PLCCols.SELECTED.col;
                 renderTooltip(context, mouseX, mouseY, delta);
             }
-            GUIUtil.drawTexture(WIDGETS_TEXTURE, context, bounds.x(), bounds.y(), 0, 0, 18, 19, bordereCol);
+            GUIUtil.drawTexture(TinkerTableScreen.WIDGETS_TEXTURE, context, bounds.x(), bounds.y(), 0, 0, 18, 19, bordereCol);
             context.drawItem(defaultStack, bounds.x() + 1, bounds.y() + 1);
         }
 

@@ -1,5 +1,6 @@
 package com.neep.meatweapons.client.screen.meatgun;
 
+import com.neep.meatweapons.MWItems;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -40,12 +41,13 @@ class DisplayPane extends TinkerTableScreen.PaneWidget
         float cx = bounds.x() + bounds.w() / 2f + offsetX;
         float cy = bounds.y() + bounds.h() / 2f + offsetY;
 
+        int zOffset = stack.isOf(MWItems.MEATGUN) ? 4 : 0;
         Matrix4f modelTransform = new Matrix4f()
-                .translate(0, 8, 4)
+                .translate(0, 8, zOffset)
                 .scale(scale)
-                .rotateY(rotY)
                 .rotateX(rotX)
-                .translate(0, -8, -4)
+                .rotateY(rotY)
+                .translate(0, -8, -zOffset)
                 ;
 
         MatrixStack matrices = context.getMatrices();
@@ -54,7 +56,7 @@ class DisplayPane extends TinkerTableScreen.PaneWidget
         matrices.multiplyPositionMatrix(modelTransform);
         matrices.multiplyPositionMatrix((new Matrix4f()).scaling(1.0F, -1.0F, 1.0F));
         matrices.scale(16.0F, 16.0F, 16.0F);
-        context.enableScissor(bounds.x() + 1, bounds.y() + 1, bounds.x() + bounds.w(), bounds.y() + bounds.h());
+        context.enableScissor(bounds.x() + 2, bounds.y() + 2, bounds.x() + bounds.w() - 2, bounds.y() + bounds.h() - 2);
         itemRenderer.renderItem(stack, ModelTransformationMode.NONE,
                 15728880, OverlayTexture.DEFAULT_UV,
                 context.getMatrices(), context.getVertexConsumers(), null, 0);

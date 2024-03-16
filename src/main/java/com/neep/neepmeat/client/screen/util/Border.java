@@ -1,5 +1,6 @@
 package com.neep.neepmeat.client.screen.util;
 
+import com.neep.neepmeat.api.plc.PLCCols;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
 
@@ -7,12 +8,12 @@ import java.util.function.Supplier;
 
 public class Border implements Rectangle, Drawable
 {
-    private final int x;
-    private final int y;
-    private final int w;
-    private final int h;
-    private final int padding;
-    private final Supplier<Integer> col;
+    protected final int x;
+    protected final int y;
+    protected final int w;
+    protected final int h;
+    protected final int padding;
+    protected final Supplier<Integer> col;
 
     public Border(int x, int y, int w, int h, int padding, Supplier<Integer> col)
     {
@@ -37,7 +38,8 @@ public class Border implements Rectangle, Drawable
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta)
     {
-        GUIUtil.renderBorder(context, x, y, w, h, col.get(), 0);
+        GUIUtil.renderBorder(context, x, y, w - 1, h - 1, col.get(), 0);
+        GUIUtil.renderBorder(context, x, y, w - 1, h - 1, PLCCols.TRANSPARENT.col, -1);
     }
 
     @Override

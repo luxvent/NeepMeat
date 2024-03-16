@@ -102,7 +102,7 @@ public class GrenadeLauncherModule extends ShooterModule
         Vec3d transform = getMuzzleOffset(player, stack).rotateX((float) -pitchd).rotateY((float) -yawd);
         pos = pos.add(transform);
 
-        double speed = 0.6;
+        double speed = 0.8;
         Vec3d vel = GunItem.getRotationVector(pitch, yaw).multiply(speed);
 
         BounceGrenadeEntity entity = new BounceGrenadeEntity(world, 2, 100, false, pos.x, pos.y, pos.z, vel.x, vel.y, vel.z);

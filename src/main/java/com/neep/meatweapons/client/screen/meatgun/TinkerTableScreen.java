@@ -2,12 +2,10 @@ package com.neep.meatweapons.client.screen.meatgun;
 
 import com.neep.meatlib.client.ClientChannelSender;
 import com.neep.meatlib.network.Sender;
+import com.neep.meatweapons.MeatWeapons;
 import com.neep.meatweapons.screen.TinkerTableScreenHandler;
 import com.neep.neepmeat.api.plc.PLCCols;
-import com.neep.neepmeat.client.screen.util.Background;
-import com.neep.neepmeat.client.screen.util.Border;
-import com.neep.neepmeat.client.screen.util.BorderSlot;
-import com.neep.neepmeat.client.screen.util.Rectangle;
+import com.neep.neepmeat.client.screen.util.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
@@ -17,11 +15,17 @@ import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+
+import java.util.List;
+import java.util.function.Supplier;
 
 @Environment(EnvType.CLIENT)
 public class TinkerTableScreen extends HandledScreen<TinkerTableScreenHandler>
 {
+    public static final Identifier WIDGETS_TEXTURE = new Identifier(MeatWeapons.NAMESPACE, "textures/gui/tinker_table/widgets.png");
     private final DisplayPane displayPane;
     private final TreePane treePane;
     private final Sender<TinkerTableScreenHandler.SlotClick> sender;
@@ -47,21 +51,25 @@ public class TinkerTableScreen extends HandledScreen<TinkerTableScreenHandler>
         Rectangle bounds = new Rectangle.Immutable(withoutPadding.x(), withoutPadding.y(), withoutPadding.w(), withoutPadding.h() - 19);
         addDrawable(border);
 
-        // Hotbar and slot
-        addDrawable(new BorderSlot(bounds.x(), withoutPadding.y() + withoutPadding.h() - 17, () -> PLCCols.BORDER.col));
-        addDrawable(new Border(bounds.x() + 18 + 1, withoutPadding.y() + withoutPadding.h() - 17, 18 * 9 - 1, 17, 0, () -> PLCCols.BORDER.col));
-        var inventoryBorder = new Border(bounds.x() + 18 + 1, withoutPadding.y() + withoutPadding.h() - 72, 18 * 9 - 1, 3 * 17 + 2, 0, () -> PLCCols.BORDER.col);
+        // Slot
+        addDrawable(new ItemBorderSlot(handler.getSlot(0), bounds.x(), withoutPadding.y() + withoutPadding.h() - 19, () -> PLCCols.BORDER.col));
+
+        // Hotbar
+        addDrawable(new Border(bounds.x() + 20 + 1, withoutPadding.y() + withoutPadding.h() - 19, 18 * 9 + 2, 20, 0, () -> PLCCols.BORDER.col));
+
+        // Inventory
+        var inventoryBorder = new Border(bounds.x() + 20 + 1, withoutPadding.y() + withoutPadding.h() - 80, 18 * 9 + 2, 3 * 19 + 3, 0, () -> PLCCols.BORDER.col);
         addDrawable(inventoryBorder);
 
         Rectangle.Mutable displayPaneBounds = new Rectangle.Mutable(bounds)
-                .setH(inventoryBorder.y() - bounds.y() - 2)
-                .setW(18 * 9 + 17 + 1);
+                .setH(inventoryBorder.y() - bounds.y() - 1)
+                .setW(18 * 9 + 20 + 3);
         displayPane.init(displayPaneBounds);
         addDrawableChild(displayPane);
 
         Rectangle.Mutable treePaneBounds = new Rectangle.Mutable(withoutPadding)
-                .setX(displayPaneBounds.x() + displayPaneBounds.w() + 2)
-                .setW(bounds.x() + bounds.w() - (displayPaneBounds.x() + displayPaneBounds.w()) - 2);
+                .setX(displayPaneBounds.x() + displayPaneBounds.w() + 1)
+                .setW(bounds.x() + bounds.w() - (displayPaneBounds.x() + displayPaneBounds.w()));
         treePane.init(treePaneBounds);
         addDrawableChild(treePane);
     }
@@ -152,6 +160,33 @@ public class TinkerTableScreen extends HandledScreen<TinkerTableScreenHandler>
         public void appendNarrations(NarrationMessageBuilder builder)
         {
 
+        }
+    }
+
+    private class ItemBorderSlot extends BorderSlot
+    {
+        private final Slot slot;
+        private final Text tooltip = Text.translatable("text.meatweapons.tinker_table.item_here");
+
+        public ItemBorderSlot(Slot slot, int x, int y, Supplier<Integer> col)
+        {
+            super(x, y, col);
+            this.slot = slot;
+        }
+
+        @Override
+        public void render(DrawContext context, int mouseX, int mouseY, float delta)
+        {
+            super.render(context, mouseX, mouseY, delta);
+
+            if (!slot.hasStack())
+            {
+                GUIUtil.drawTexture(WIDGETS_TEXTURE, context, x + 2, y + 2, 19, 1, 16, 16);
+                if (isWithin(mouseX, mouseY))
+                {
+                    context.drawTooltip(textRenderer, List.of(tooltip), mouseX, mouseY);
+                }
+            }
         }
     }
 }
