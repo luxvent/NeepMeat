@@ -4,6 +4,7 @@ import com.neep.meatlib.client.ClientChannelSender;
 import com.neep.meatlib.network.Sender;
 import com.neep.meatweapons.screen.TinkerTableScreenHandler;
 import com.neep.neepmeat.api.plc.PLCCols;
+import com.neep.neepmeat.client.screen.util.Background;
 import com.neep.neepmeat.client.screen.util.Border;
 import com.neep.neepmeat.client.screen.util.BorderSlot;
 import com.neep.neepmeat.client.screen.util.Rectangle;
@@ -41,7 +42,7 @@ public class TinkerTableScreen extends HandledScreen<TinkerTableScreenHandler>
         backgroundHeight = TinkerTableScreenHandler.BACKGROUND_HEIGHT;
         super.init();
 
-        Border border = new Border(x, y, backgroundWidth, backgroundHeight, 3, () -> PLCCols.BORDER.col);
+        Background border = new Background(x, y, backgroundWidth, backgroundHeight, 6, () -> PLCCols.BORDER.col);
         Rectangle withoutPadding = border.withoutPadding();
         Rectangle bounds = new Rectangle.Immutable(withoutPadding.x(), withoutPadding.y(), withoutPadding.w(), withoutPadding.h() - 19);
         addDrawable(border);
@@ -60,7 +61,7 @@ public class TinkerTableScreen extends HandledScreen<TinkerTableScreenHandler>
 
         Rectangle.Mutable treePaneBounds = new Rectangle.Mutable(withoutPadding)
                 .setX(displayPaneBounds.x() + displayPaneBounds.w() + 2)
-                .setW(bounds.w() - displayPaneBounds.w() - border.padding() + 1);
+                .setW(bounds.x() + bounds.w() - (displayPaneBounds.x() + displayPaneBounds.w()) - 2);
         treePane.init(treePaneBounds);
         addDrawableChild(treePane);
     }

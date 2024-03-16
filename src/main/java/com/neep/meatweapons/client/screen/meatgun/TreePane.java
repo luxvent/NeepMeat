@@ -44,7 +44,6 @@ class TreePane extends TinkerTableScreen.PaneWidget
     {
         this.slot = itemSlot;
         this.sender = new ClientChannelSender<>(TinkerTableScreenHandler.CHANNEL_ID, TinkerTableScreenHandler.CHANNEL_FORMAT);
-
     }
 
     @Override
@@ -70,7 +69,7 @@ class TreePane extends TinkerTableScreen.PaneWidget
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY)
     {
-        if (button == GLFW.GLFW_MOUSE_BUTTON_2 || button == GLFW.GLFW_MOUSE_BUTTON_3)
+//        if (button == GLFW.GLFW_MOUSE_BUTTON_2 || button == GLFW.GLFW_MOUSE_BUTTON_3)
         {
             double thing = 1;
             ox += deltaX * thing;
@@ -79,7 +78,7 @@ class TreePane extends TinkerTableScreen.PaneWidget
             updateWidgetOrigins();
             return true;
         }
-        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+//        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
     }
 
     private void updateWidgetOrigins()

@@ -28,14 +28,24 @@ public interface GUIUtil
         drawTexture(texture, context, x, y, 0, (float) u, (float) v, width, height, 256, 256, r, g, b, a);
     }
 
+    static void drawTexture(Identifier texture, DrawContext context, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight)
+    {
+        drawTexture(texture, context, x, x + width, y, y + height, 0, width, height, u, v, textureWidth, textureHeight, 1, 1, 1, 1);
+    }
+
     static void drawTexture(Identifier texture, DrawContext context, int x, int y, int z, float u, float v, int width, int height, int textureWidth, int textureHeight, float r, float g, float b, float a)
     {
         drawTexture(texture, context, x, x + width, y, y + height, z, width, height, u, v, textureWidth, textureHeight, r, g, b, a);
     }
 
-    static void drawTexture(Identifier texture, DrawContext context, int x1, int x2, int y1, int y2, int z, int regionWidth, int regionHeight, float u, float v, int textureWidth, int textureHeight, float r, float g, float b, float a)
+    static void drawTextureStretch(Identifier texture, DrawContext context, int x1, int y1, int w, int h, float u, float v, int du, int dv, int textureWidth, int textureHeight)
     {
-        drawTexturedQuad(texture, context, x1, x2, y1, y2, z, (u + 0.0F) / textureWidth, (u + regionWidth) / textureWidth, (v + 0.0F) / textureHeight, (v + regionHeight) / textureHeight, r, g, b, a);
+        drawTexturedQuad(texture, context, x1, x1 + w, y1, y1 + h, 0, u / textureWidth, (u + du) / textureWidth, v / textureHeight, (v + dv) / textureHeight, 1, 1, 1, 1);
+    }
+
+    static void drawTexture(Identifier texture, DrawContext context, int x1, int x2, int y1, int y2, int z, int du, int dv, float u, float v, int textureWidth, int textureHeight, float r, float g, float b, float a)
+    {
+        drawTexturedQuad(texture, context, x1, x2, y1, y2, z, u / textureWidth, (u + du) / textureWidth, v / textureHeight, (v + dv) / textureHeight, r, g, b, a);
     }
 
     private static void drawTexturedQuad(Identifier texture, DrawContext context, int x1, int x2, int y1, int y2, int z, float u1, float u2, float v1, float v2, float r, float g, float b, float a)

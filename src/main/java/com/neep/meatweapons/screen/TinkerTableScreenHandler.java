@@ -21,7 +21,6 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
-import java.awt.desktop.AboutHandler;
 import java.util.UUID;
 
 public class TinkerTableScreenHandler extends BasicScreenHandler
