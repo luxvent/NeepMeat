@@ -77,6 +77,12 @@ public class GrenadeLauncherModule extends ShooterModule
         }
     }
 
+    @Override
+    public void tickTrigger(World world, PlayerEntity player, ItemStack stack, int id, double pitch, double yaw, MWAttackC2SPacket.HandType handType)
+    {
+        trigger(world, player, stack, id, pitch, yaw, handType);
+    }
+
     public Vec3d getMuzzleOffset(LivingEntity entity, ItemStack stack)
     {
         boolean sneak = entity.isSneaking();

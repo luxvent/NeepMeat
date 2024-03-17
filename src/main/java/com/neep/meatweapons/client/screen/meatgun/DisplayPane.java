@@ -60,6 +60,7 @@ class DisplayPane extends TinkerTableScreen.PaneWidget
         itemRenderer.renderItem(stack, ModelTransformationMode.NONE,
                 15728880, OverlayTexture.DEFAULT_UV,
                 context.getMatrices(), context.getVertexConsumers(), null, 0);
+        context.draw(); // Draw now so that the scissor works consistently (?)
         context.disableScissor();
         matrices.pop();
     }
