@@ -109,6 +109,12 @@
       "meatweapons:chugger_fire"
     ]
   },
+  "bosher_fire": {
+    "subtitle": "subtitles.meatweapons.bosher_fire",
+    "sounds": [
+      "meatweapons:bosher_fire"
+    ]
+  },
 
   "long_boi_charge": {
     "subtitle": "subtitles.meatweapons.long_boi_charge",

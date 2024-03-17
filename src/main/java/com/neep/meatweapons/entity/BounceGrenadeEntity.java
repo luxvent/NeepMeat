@@ -38,7 +38,7 @@ public class BounceGrenadeEntity extends PersistentProjectileEntity
         }
     };
 
-    protected int explosionPower = 1;
+    protected float explosionPower = 1;
     protected boolean destructive;
     protected int fuse = 100;
 
@@ -47,7 +47,7 @@ public class BounceGrenadeEntity extends PersistentProjectileEntity
         super(entityType, world);
     }
 
-    public BounceGrenadeEntity(World world, int explosionPower, int fuse, boolean destructive, double x, double y, double z, double vx, double vy, double vz)
+    public BounceGrenadeEntity(World world, float explosionPower, int fuse, boolean destructive, double x, double y, double z, double vx, double vy, double vz)
     {
         super(MeatWeapons.BOUNCE_GRENADE, x, y, z, world);
         this.setVelocity(vx, vy, vz);
@@ -166,17 +166,14 @@ public class BounceGrenadeEntity extends PersistentProjectileEntity
     public void writeCustomDataToNbt(NbtCompound nbt)
     {
         super.writeCustomDataToNbt(nbt);
-        nbt.putByte("ExplosionPower", (byte) this.explosionPower);
+        nbt.putFloat("ExplosionPower", this.explosionPower);
     }
 
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt)
     {
         super.readCustomDataFromNbt(nbt);
-        if (nbt.contains("ExplosionPower", 99))
-        {
-            this.explosionPower = nbt.getByte("ExplosionPower");
-        }
+        this.explosionPower = nbt.getFloat("ExplosionPower");
     }
 
     protected void explode()

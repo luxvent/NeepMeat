@@ -70,29 +70,38 @@ public class BosherModule extends ShooterModule
     @Override
     public void trigger(World world, PlayerEntity player, ItemStack stack, int id, double pitch, double yaw, MWAttackC2SPacket.HandType handType)
     {
-        if (shotsRemaining >= 0 && cooldown == 0)
+        if (id == 1)
         {
-            cooldown = maxCooldown;
-
-            if (!world.isClient)
+            if (shotsRemaining >= 0 && cooldown == 0)
             {
-                fireBeam(world, player, stack, pitch, yaw);
+                cooldown = maxCooldown;
+
+                if (!world.isClient)
+                {
+                    fireBeam(world, player, stack, pitch, yaw);
 //                    if (!player.isCreative())
 //                        stack.setDamage(stack.getDamage() + 1);
+                }
             }
-        }
-        else // Weapon is out of ammunition.
-        {
-            if (world.isClient)
+            else // Weapon is out of ammunition.
             {
-                // Play empty sound.
-            }
-            else
-            {
-                // Try to reload
+                if (world.isClient)
+                {
+                    // Play empty sound.
+                }
+                else
+                {
+                    // Try to reload
 //                    this.reload(player, stack, null);
+                }
             }
         }
+    }
+
+    @Override
+    public void tickTrigger(World world, PlayerEntity player, ItemStack stack, int id, double pitch, double yaw, MWAttackC2SPacket.HandType handType)
+    {
+        trigger(world, player, stack, id, pitch, yaw, handType);
     }
 
     public Vec3d getMuzzleOffset(LivingEntity entity, ItemStack stack)
@@ -116,19 +125,19 @@ public class BosherModule extends ShooterModule
         {
             if (target.isAlive())
             {
-                target.damage(BulletDamageSource.create(world, player, 0.1f), 3);
+                target.damage(BulletDamageSource.create(world, player, 0.1f), 4);
                 target.timeUntilRegen = 0;
             }
         }
 
         MeatgunNetwork.sendRecoil((ServerPlayerEntity) player, MeatgunNetwork.RecoilDirection.UP, 7, 0.4f,0.3f, 0.01f);
-        world.playSoundFromEntity(null, player, NMSounds.CHUGGER_FIRE, SoundCategory.PLAYERS, 1f, 1f);
+        world.playSoundFromEntity(null, player, NMSounds.BOSHER_FIRE, SoundCategory.PLAYERS, 1f, 1f);
         if (world instanceof ServerWorld serverWorld)
         {
             Vector4d v = new Vector4d(0, 0, -13 / 16f, 1);
             v.mul(this.transform);
             serverWorld.spawnParticles(
-                    new MuzzleFlashParticleType.MuzzleFlashParticleEffect(MWParticles.NORMAL_MUZZLE_FLASH, player, v.x, v.y, v.z, 2.2f)
+                    new MuzzleFlashParticleType.MuzzleFlashParticleEffect(MWParticles.BOSHER_MUZZLE_FLASH, player, v.x, v.y, v.z, 2.2f, 1)
                     , pos.getX(), pos.getY(), pos.getZ(),
                     1, 0, 0, 0, 0.1);
         }

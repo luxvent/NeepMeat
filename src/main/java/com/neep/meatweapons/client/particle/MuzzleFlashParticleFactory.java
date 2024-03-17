@@ -35,7 +35,7 @@ public class MuzzleFlashParticleFactory implements ParticleFactory<MuzzleFlashPa
     public Particle createParticle(MuzzleFlashParticleType.MuzzleFlashParticleEffect parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ)
     {
         PlayerEntity player = world.getPlayerByUuid(parameters.getPlayerUUID());
-        MuzzleFlashParticle particle = new MuzzleFlashParticle(world, player, x, y, z, parameters.dx, parameters.dy, parameters.dz, parameters.scale);
+        MuzzleFlashParticle particle = new MuzzleFlashParticle(world, player, x, y, z, parameters.dx, parameters.dy, parameters.dz, parameters.scale, parameters.maxAge);
         particle.setSprite(spriteProvider);
         return particle;
     }
@@ -47,11 +47,11 @@ public class MuzzleFlashParticleFactory implements ParticleFactory<MuzzleFlashPa
         private final PlayerEntity player;
         private final float fpScale;
 
-        protected MuzzleFlashParticle(ClientWorld clientWorld, @Nullable PlayerEntity player, double d, double e, double f, double dx, double dy, double dz, float fpScale)
+        protected MuzzleFlashParticle(ClientWorld clientWorld, @Nullable PlayerEntity player, double d, double e, double f, double dx, double dy, double dz, float fpScale, int maxAge)
         {
             super(clientWorld, d, e, f);
             this.player = player;
-            this.maxAge = 1;
+            this.maxAge = maxAge;
             this.scale = 0.2F * (this.random.nextFloat() * 0.5F + 0.5F) * 2.0F;
             this.scale0 = scale;
             this.fpScale = fpScale;

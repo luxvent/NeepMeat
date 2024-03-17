@@ -57,7 +57,18 @@ public class TripleCarouselModule extends AbstractMeatgunModule
     @Override
     public void tickTrigger(World world, PlayerEntity player, ItemStack stack, int id, double pitch, double yaw, MWAttackC2SPacket.HandType handType)
     {
-        trigger(world, player, stack, id, pitch, yaw, handType);
+        if (!isRotating(world.getTime()))
+        {
+            if (id == 2)
+            {
+                rotate(player);
+            }
+            else
+            {
+                slots.get(selected).get().tickTrigger(world, player, stack, id, pitch, yaw, handType);
+                rotate(player);
+            }
+        }
     }
 
     private void rotate(PlayerEntity player)

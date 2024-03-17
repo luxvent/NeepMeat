@@ -37,10 +37,20 @@ public class UnderbarrelModule extends AbstractMeatgunModule
     public void trigger(World world, PlayerEntity player, ItemStack stack, int id, double pitch, double yaw, MWAttackC2SPacket.HandType handType)
     {
         if (id == 1)
-            upSlot.get().trigger(world, player, stack, 0, pitch, yaw, handType);
+            upSlot.get().trigger(world, player, stack, 1, pitch, yaw, handType);
 
         if (id == 2)
-            downSlot.get().trigger(world, player, stack, 0, pitch, yaw, handType);
+            downSlot.get().trigger(world, player, stack, 1, pitch, yaw, handType);
+    }
+
+    @Override
+    public void tickTrigger(World world, PlayerEntity player, ItemStack stack, int id, double pitch, double yaw, MWAttackC2SPacket.HandType handType)
+    {
+        if (id == 1)
+            upSlot.get().tickTrigger(world, player, stack, 1, pitch, yaw, handType);
+
+        if (id == 2)
+            downSlot.get().tickTrigger(world, player, stack, 1, pitch, yaw, handType);
     }
 
     @Override

@@ -131,7 +131,7 @@ public class ChuggerModule extends ShooterModule
 //            v.add(0.5, 0, 1, 0);
 //            v.add(0.5, 0.5, 0.5, 0);
             serverWorld.spawnParticles(
-                    new MuzzleFlashParticleType.MuzzleFlashParticleEffect(MWParticles.NORMAL_MUZZLE_FLASH, player, v.x, v.y, v.z, 2.2f)
+                    new MuzzleFlashParticleType.MuzzleFlashParticleEffect(MWParticles.NORMAL_MUZZLE_FLASH, player, v.x, v.y, v.z, 2.2f, 1)
                     , pos.getX(), pos.getY(), pos.getZ(),
                     1, 0, 0, 0, 0.1);
         }

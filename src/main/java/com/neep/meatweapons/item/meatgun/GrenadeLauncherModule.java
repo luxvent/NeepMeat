@@ -99,7 +99,7 @@ public class GrenadeLauncherModule extends ShooterModule
         double speed = 0.8;
         Vec3d vel = GunItem.getRotationVector(pitch, yaw).multiply(speed);
 
-        BounceGrenadeEntity entity = new BounceGrenadeEntity(world, 2, 40, false, pos.x, pos.y, pos.z, vel.x, vel.y, vel.z);
+        BounceGrenadeEntity entity = new BounceGrenadeEntity(world, 1.7f, 40, false, pos.x, pos.y, pos.z, vel.x, vel.y, vel.z);
         world.spawnEntity(entity);
 
         MeatgunNetwork.sendRecoil((ServerPlayerEntity) player, MeatgunNetwork.RecoilDirection.UP, 7, 0.2f,0.7f, 0.03f);
@@ -109,7 +109,7 @@ public class GrenadeLauncherModule extends ShooterModule
             Vector4d v = new Vector4d(0, 0, -13 / 16f, 1);
             v.mul(this.transform);
             serverWorld.spawnParticles(
-                    new MuzzleFlashParticleType.MuzzleFlashParticleEffect(MWParticles.NORMAL_MUZZLE_FLASH, player, v.x, v.y, v.z, 2.2f)
+                    new MuzzleFlashParticleType.MuzzleFlashParticleEffect(MWParticles.BLOB_MUZZLE_FLASH, player, v.x, v.y, v.z, 2.2f, 1)
                     , pos.getX(), pos.getY(), pos.getZ(),
                     1, 0, 0, 0, 0.1);
         }

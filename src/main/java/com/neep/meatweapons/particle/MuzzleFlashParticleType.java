@@ -28,9 +28,10 @@ public class MuzzleFlashParticleType extends ParticleType<MuzzleFlashParticleTyp
                                 Codec.DOUBLE.fieldOf("dx").forGetter(e -> e.dx),
                                 Codec.DOUBLE.fieldOf("dy").forGetter(e -> e.dy),
                                 Codec.DOUBLE.fieldOf("dz").forGetter(e -> e.dz),
-                                Codec.FLOAT.fieldOf("scale").forGetter(e -> e.scale))
-                        .apply(instance, (uuid, aDouble, aDouble2, aDouble3, aFloat) ->
-                                new MuzzleFlashParticleEffect(type, uuid, aDouble, aDouble2, aDouble3, aFloat))
+                                Codec.FLOAT.fieldOf("scale").forGetter(e -> e.scale),
+                                Codec.INT.fieldOf("max_age").forGetter(e -> e.maxAge))
+                        .apply(instance, (uuid, aDouble, aDouble2, aDouble3, aFloat, maxAge) ->
+                                new MuzzleFlashParticleEffect(type, uuid, aDouble, aDouble2, aDouble3, aFloat, maxAge))
         );
     }
 
@@ -48,14 +49,14 @@ public class MuzzleFlashParticleType extends ParticleType<MuzzleFlashParticleTyp
             double dy = 0;
             double dz = 0;
             float scale = 1;
-            return new MuzzleFlashParticleEffect(MWParticles.LONG_BOI_MUZZLE_FLASH, uuid, dx, dy, dz, scale);
+            return new MuzzleFlashParticleEffect(MWParticles.LONG_BOI_MUZZLE_FLASH, uuid, dx, dy, dz, scale, 1);
         }
 
         @Override
         public MuzzleFlashParticleEffect read(ParticleType<MuzzleFlashParticleEffect> type, PacketByteBuf buf)
         {
             ParticleType<MuzzleFlashParticleEffect> type1 = (ParticleType<MuzzleFlashParticleEffect>) buf.readRegistryValue(Registries.PARTICLE_TYPE);
-            return new MuzzleFlashParticleEffect(type1, buf.readUuid(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readFloat());
+            return new MuzzleFlashParticleEffect(type1, buf.readUuid(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readFloat(), buf.readInt());
         }
     };
 
@@ -77,13 +78,14 @@ public class MuzzleFlashParticleType extends ParticleType<MuzzleFlashParticleTyp
         private final UUID playerUUID;
         public final double dx, dy, dz;
         public final float scale;
+        public final int maxAge;
 
-        public MuzzleFlashParticleEffect(ParticleType<MuzzleFlashParticleEffect> type, PlayerEntity player, double dx, double dy, double dz, float scale)
+        public MuzzleFlashParticleEffect(ParticleType<MuzzleFlashParticleEffect> type, PlayerEntity player, double dx, double dy, double dz, float scale, int maxAge)
         {
-            this(type, player.getUuid(), dx, dy, dz, scale);
+            this(type, player.getUuid(), dx, dy, dz, scale, maxAge);
         }
 
-        public MuzzleFlashParticleEffect(ParticleType<MuzzleFlashParticleEffect> type, UUID uuid, double dx, double dy, double dz, float scale)
+        public MuzzleFlashParticleEffect(ParticleType<MuzzleFlashParticleEffect> type, UUID uuid, double dx, double dy, double dz, float scale, int maxAge)
         {
             this.type = type;
             this.playerUUID = uuid;
@@ -91,6 +93,7 @@ public class MuzzleFlashParticleType extends ParticleType<MuzzleFlashParticleTyp
             this.dy = dy;
             this.dz = dz;
             this.scale = scale;
+            this.maxAge = maxAge;
         }
 
         @Override
@@ -107,6 +110,7 @@ public class MuzzleFlashParticleType extends ParticleType<MuzzleFlashParticleTyp
             buf.writeDouble(dy);
             buf.writeDouble(dz);
             buf.writeFloat(scale);
+            buf.writeInt(maxAge);
         }
 
         public UUID getPlayerUUID()

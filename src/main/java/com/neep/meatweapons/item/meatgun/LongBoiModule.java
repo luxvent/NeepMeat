@@ -116,7 +116,7 @@ public class LongBoiModule extends ShooterModule
             Vector4d v = new Vector4d(0, 0, -34 / 16f, 1);
             v.mul(this.transform);
             serverWorld.spawnParticles(
-                    new MuzzleFlashParticleType.MuzzleFlashParticleEffect(MWParticles.LONG_BOI_MUZZLE_FLASH, player, v.x, v.y, v.z, 1.9f)
+                    new MuzzleFlashParticleType.MuzzleFlashParticleEffect(MWParticles.LONG_BOI_MUZZLE_FLASH, player, v.x, v.y, v.z, 1.9f, 4)
                     , pos.getX(), pos.getY(), pos.getZ(),
                     1, 0, 0, 0, 0.1);
         }
