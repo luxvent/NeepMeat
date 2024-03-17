@@ -86,6 +86,12 @@ public class PistolModule extends ShooterModule
         }
     }
 
+    @Override
+    public void tickTrigger(World world, PlayerEntity player, ItemStack stack, int id, double pitch, double yaw, MWAttackC2SPacket.HandType handType)
+    {
+        trigger(world, player, stack, id, pitch, yaw, handType);
+    }
+
     public Vec3d getMuzzleOffset(LivingEntity entity, ItemStack stack)
     {
         boolean sneak = entity.isSneaking();
@@ -110,7 +116,7 @@ public class PistolModule extends ShooterModule
         if (target.isPresent())
         {
             Entity entity = target.get();
-            target.get().damage(BulletDamageSource.create(world, player, 0.1f), 2);
+            target.get().damage(BulletDamageSource.create(world, player, 0.1f), 4);
             entity.timeUntilRegen = 0;
         }
 

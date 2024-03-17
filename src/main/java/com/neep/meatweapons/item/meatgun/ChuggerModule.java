@@ -107,7 +107,7 @@ public class ChuggerModule extends ShooterModule
         if (target.isPresent())
         {
             Entity entity = target.get();
-            target.get().damage(BulletDamageSource.create(world, player, 0.1f), 2);
+            target.get().damage(BulletDamageSource.create(world, player, 0.1f), 7);
             entity.timeUntilRegen = 0;
         }
 

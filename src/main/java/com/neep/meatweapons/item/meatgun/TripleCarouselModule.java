@@ -89,6 +89,10 @@ public class TripleCarouselModule extends AbstractMeatgunModule
                 sync(player);
             }
         }
+        else if (time == rotateStartTime + rotateTicks)
+        {
+            selected = (selected + 1) % 3;
+        }
     }
 
     void sync(PlayerEntity player)
