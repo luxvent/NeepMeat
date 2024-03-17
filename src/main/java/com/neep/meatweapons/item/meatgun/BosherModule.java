@@ -116,7 +116,7 @@ public class BosherModule extends ShooterModule
         {
             if (target.isAlive())
             {
-                target.damage(BulletDamageSource.create(world, player, 0.1f), 2);
+                target.damage(BulletDamageSource.create(world, player, 0.1f), 3);
                 target.timeUntilRegen = 0;
             }
         }

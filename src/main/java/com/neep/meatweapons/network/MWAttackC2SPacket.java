@@ -49,7 +49,10 @@ public class MWAttackC2SPacket
         double pitch = buf.readDouble();
         double yaw = buf.readDouble();
         byte hand = buf.readByte();
-        ActionType actionType = ActionType.values()[buf.readByte()];
+
+        // Sometimes the ActionType mysteriously becomes null between here and the switch statement.
+        PacketByteBuf copy = PacketByteBufs.copy(buf);
+        ActionType actionType = ActionType.values()[copy.readByte()];
 
         ItemStack mainStack = player.getStackInHand(Hand.MAIN_HAND);
         ItemStack offStack = player.getStackInHand(Hand.OFF_HAND);
