@@ -2,7 +2,6 @@ package com.neep.meatweapons.client.renderer.meatgun;
 
 import com.neep.meatweapons.client.MWExtraModels;
 import com.neep.meatweapons.item.meatgun.BatteryModule;
-import com.neep.meatweapons.item.meatgun.DoubleCarouselModule;
 import com.neep.meatweapons.item.meatgun.MeatgunComponent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -22,7 +21,7 @@ public class BatteryModuleRenderer implements MeatgunModuleRenderer<BatteryModul
     }
 
     @Override
-    public void render(ItemStack stack, MeatgunComponent component, BatteryModule module, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay)
+    public void render(ItemStack stack, MeatgunComponent component, BatteryModule module, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, long time, float tickDelta, int light, int overlay)
     {
         BakedModel base = itemRenderer.getModels().getModelManager().getModel(MWExtraModels.BATTERY);
         renderItem(stack, mode, false, matrices, vertexConsumers, light, overlay, base);

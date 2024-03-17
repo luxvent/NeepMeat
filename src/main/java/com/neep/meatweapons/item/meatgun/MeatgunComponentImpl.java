@@ -1,10 +1,14 @@
 package com.neep.meatweapons.item.meatgun;
 
 import com.neep.meatweapons.network.MWAttackC2SPacket;
+import com.neep.meatweapons.network.MeatgunModuleNetwork;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.onyxstudios.cca.api.v3.item.ItemComponent;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,13 +17,17 @@ import java.util.UUID;
 public class MeatgunComponentImpl extends ItemComponent implements MeatgunComponent
 {
     private final RecoilManager recoil = new RecoilManager();
-    private final BaseModule root = new BaseModule(this::markDirty);
+    private final BaseModule root;
     private boolean dirty = true;
     private boolean invalidated = false;
+    private final Listener listener = new Listener();
+
+    // TODO: cache modules in UUID-object map
 
     public MeatgunComponentImpl(ItemStack stack, ComponentKey<MeatgunComponent> key)
     {
         super(stack, key);
+        root = new BaseModule(listener);
         root.readNbt(getOrCreateRootTag());
     }
 
@@ -27,6 +35,18 @@ public class MeatgunComponentImpl extends ItemComponent implements MeatgunCompon
     public MeatgunModule getRoot()
     {
         return root;
+    }
+
+    @Override
+    public UUID getUuid()
+    {
+        UUID foundUUID = getUuid("meatgun_uuid");
+        if (foundUUID == null)
+        {
+            putUuid("meatgun_uuid", UUID.randomUUID());
+            return getUuid("meatgun_uuid");
+        }
+        return foundUUID;
     }
 
     public void trigger(World world, PlayerEntity player, ItemStack stack, int id, double pitch, double yaw, MWAttackC2SPacket.HandType handType)
@@ -58,9 +78,9 @@ public class MeatgunComponentImpl extends ItemComponent implements MeatgunCompon
     }
 
     @Override
-    public void tick()
+    public void tick(PlayerEntity player)
     {
-        root.tick();
+        root.tick(player);
 
         if (dirty)
         {
@@ -89,6 +109,12 @@ public class MeatgunComponentImpl extends ItemComponent implements MeatgunCompon
         return findRecursive(root, uuid);
     }
 
+    @Override
+    public Listener getListener()
+    {
+        return listener;
+    }
+
     @Nullable
     private MeatgunModule findRecursive(MeatgunModule module, UUID uuid)
     {
@@ -115,5 +141,46 @@ public class MeatgunComponentImpl extends ItemComponent implements MeatgunCompon
         super.onTagInvalidated();
         dirty = true;
         invalidated = true;
+    }
+
+    public int getInt()
+    {
+        return getInt("ooer");
+    }
+
+    public void writeInt(int i)
+    {
+        putInt("ooer", i);
+    }
+
+    private class Listener implements MeatgunComponent.Listener
+    {
+        @Override
+        public MeatgunComponent get()
+        {
+            return MeatgunComponentImpl.this;
+        }
+
+        @Override
+        public PacketByteBuf getBuf(MeatgunModule module)
+        {
+            PacketByteBuf buf = PacketByteBufs.create();
+            buf.writeUuid(get().getUuid());
+            buf.writeUuid(module.getUuid());
+            return buf;
+        }
+
+        @Override
+        public void send(PlayerEntity player, PacketByteBuf buf)
+        {
+            if (player instanceof ServerPlayerEntity serverPlayerEntity)
+                MeatgunModuleNetwork.send(serverPlayerEntity, buf);
+        }
+
+        @Override
+        public void markDirty()
+        {
+            MeatgunComponentImpl.this.markDirty();
+        }
     }
 }

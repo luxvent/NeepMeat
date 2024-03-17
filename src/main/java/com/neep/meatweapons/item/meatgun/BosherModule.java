@@ -4,7 +4,7 @@ import com.neep.meatweapons.entity.BulletDamageSource;
 import com.neep.meatweapons.item.BeamEffectProvider;
 import com.neep.meatweapons.item.GunItem;
 import com.neep.meatweapons.network.MWAttackC2SPacket;
-import com.neep.meatweapons.network.MeatgunS2C;
+import com.neep.meatweapons.network.MeatgunNetwork;
 import com.neep.meatweapons.particle.MWGraphicsEffects;
 import com.neep.meatweapons.particle.MWParticles;
 import com.neep.meatweapons.particle.MuzzleFlashParticleType;
@@ -38,13 +38,13 @@ public class BosherModule extends ShooterModule
 {
     private final Random random = Random.create();
 
-    public BosherModule(ModuleSlot.Listener listener)
+    public BosherModule(MeatgunComponent.Listener listener)
     {
         super(listener, 1, 20);
         shotsRemaining = maxShots;
     }
 
-    public BosherModule(ModuleSlot.Listener listener, NbtCompound nbt)
+    public BosherModule(MeatgunComponent.Listener listener, NbtCompound nbt)
     {
         this(listener);
     }
@@ -62,7 +62,7 @@ public class BosherModule extends ShooterModule
     }
 
     @Override
-    public void tick()
+    public void tick(PlayerEntity player)
     {
         cooldown = Math.max(0, cooldown - 1);
     }
@@ -121,7 +121,7 @@ public class BosherModule extends ShooterModule
             }
         }
 
-        MeatgunS2C.sendRecoil((ServerPlayerEntity) player, MeatgunS2C.RecoilDirection.UP, 7, 0.4f,0.3f, 0.01f);
+        MeatgunNetwork.sendRecoil((ServerPlayerEntity) player, MeatgunNetwork.RecoilDirection.UP, 7, 0.4f,0.3f, 0.01f);
         world.playSoundFromEntity(null, player, NMSounds.CHUGGER_FIRE, SoundCategory.PLAYERS, 1f, 1f);
         if (world instanceof ServerWorld serverWorld)
         {

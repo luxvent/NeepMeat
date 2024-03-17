@@ -74,7 +74,9 @@ public class MeatgunRenderer extends BuiltinModelItemRenderer
         // Recursive module rendering
         matrices.push();
         var root = component.getRoot();
-        renderRecursive(matrices, root, stack, component, mode, vcp, light, overlay);
+        renderRecursive(matrices, root, stack, component, mode, vcp,
+                MinecraftClient.getInstance().world.getTime(),
+                MinecraftClient.getInstance().getTickDelta(), light, overlay);
         matrices.pop();
 
         // Particles
@@ -127,22 +129,22 @@ public class MeatgunRenderer extends BuiltinModelItemRenderer
     }
 
     private <T extends MeatgunModule> void renderRecursive(MatrixStack matrices, T module, ItemStack stack, MeatgunComponent component,
-                                                           ModelTransformationMode mode, VertexConsumerProvider vcp, int light, int overlay)
+                                                           ModelTransformationMode mode, VertexConsumerProvider vcp, long time, float tickDelta, int light, int overlay)
     {
         if (module == MeatgunModule.DEFAULT)
             return;
 
         MeatgunModuleRenderer<T> renderer = MeatgunModuleRenderers.get(module);
-        renderer.render(stack, component, module, mode, matrices, vcp, light, overlay);
+        renderer.render(stack, component, module, mode, matrices, vcp, time, tickDelta, light, overlay);
 
         for (var child : module.getChildren())
         {
             matrices.push();
             matrices.translate(0.5, 0, 1);
-            Matrix4f matrix4f = child.transform();
+            Matrix4f matrix4f = child.transform(tickDelta);
             matrices.multiplyPositionMatrix(matrix4f);
             matrices.translate(-0.5, 0, -1);
-            renderRecursive(matrices, child.get(), stack, component, mode, vcp, light, overlay);
+            renderRecursive(matrices, child.get(), stack, component, mode, vcp, time, tickDelta, light, overlay);
             matrices.pop();
         }
     }

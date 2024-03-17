@@ -5,6 +5,7 @@ import com.neep.meatlib.item.TooltipSupplier;
 import com.neep.meatweapons.client.renderer.MeatgunRenderer;
 import com.neep.meatweapons.init.MWComponents;
 import com.neep.meatweapons.network.MWAttackC2SPacket;
+import com.neep.neepmeat.api.item.OverrideSwingItem;
 import net.minecraft.client.render.item.BuiltinModelItemRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -23,7 +24,7 @@ import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class MeatgunItem extends BaseItem implements GeoItem, WeakTwoHanded, GunItem
+public class MeatgunItem extends BaseItem implements GeoItem, WeakTwoHanded, GunItem, OverrideSwingItem
 {
     private final AnimatableInstanceCache instanceCache = GeckoLibUtil.createInstanceCache(this);
     private final Supplier<Object> renderProvider = GeoItem.makeRenderer(this);
@@ -80,7 +81,9 @@ public class MeatgunItem extends BaseItem implements GeoItem, WeakTwoHanded, Gun
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected)
     {
         super.inventoryTick(stack, world, entity, slot, selected);
-        MWComponents.MEATGUN.get(stack).tick();
+
+        if (entity instanceof PlayerEntity player)
+            MWComponents.MEATGUN.get(stack).tick(player);
     }
 
     @Override

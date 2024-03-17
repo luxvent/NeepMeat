@@ -5,11 +5,11 @@ import org.joml.Matrix4f;
 
 public class SimpleModuleSlot implements ModuleSlot
 {
-    private final Matrix4f matrix;
-    private final Listener listener;
+    protected final Matrix4f matrix;
+    private final MeatgunComponent.Listener listener;
     private MeatgunModule module = MeatgunModule.DEFAULT;
 
-    public SimpleModuleSlot(Listener listener, Matrix4f matrix)
+    public SimpleModuleSlot(MeatgunComponent.Listener listener, Matrix4f matrix)
     {
         this.listener = listener;
         this.matrix = new Matrix4f(matrix);
@@ -31,6 +31,12 @@ public class SimpleModuleSlot implements ModuleSlot
 
     @Override
     public Matrix4f transform()
+    {
+        return new Matrix4f(matrix);
+    }
+
+    @Override
+    public Matrix4f transform(float tickDelta)
     {
         return new Matrix4f(matrix);
     }

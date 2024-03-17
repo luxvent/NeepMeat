@@ -7,9 +7,9 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
-public class MeatgunS2C
+public class MeatgunNetwork
 {
-    public static Identifier CHANNEL = new Identifier(MeatWeapons.NAMESPACE, "meatgun");
+    public static Identifier CHANNEL = new Identifier(MeatWeapons.NAMESPACE, "meatgun_recoil");
 
     public static void sendRecoil(ServerPlayerEntity player, RecoilDirection direction, float amount, float horAmount, float returnSpeed, float horReturnSpeed)
     {

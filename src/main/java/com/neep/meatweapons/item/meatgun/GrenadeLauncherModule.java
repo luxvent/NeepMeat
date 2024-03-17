@@ -1,16 +1,14 @@
 package com.neep.meatweapons.item.meatgun;
 
 import com.neep.meatweapons.entity.BounceGrenadeEntity;
-import com.neep.meatweapons.entity.BulletDamageSource;
 import com.neep.meatweapons.item.GunItem;
 import com.neep.meatweapons.network.MWAttackC2SPacket;
-import com.neep.meatweapons.network.MeatgunS2C;
+import com.neep.meatweapons.network.MeatgunNetwork;
 import com.neep.meatweapons.particle.MWGraphicsEffects;
 import com.neep.meatweapons.particle.MWParticles;
 import com.neep.meatweapons.particle.MuzzleFlashParticleType;
 import com.neep.neepmeat.init.NMSounds;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -23,21 +21,17 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.joml.Vector4d;
 
-import java.util.Optional;
-
-import static com.neep.meatweapons.item.BaseGunItem.hitScan;
-
 public class GrenadeLauncherModule extends ShooterModule
 {
     private final Random shotRandom = Random.create();
 
-    public GrenadeLauncherModule(ModuleSlot.Listener listener)
+    public GrenadeLauncherModule(MeatgunComponent.Listener listener)
     {
         super(listener, 8, 15);
         shotsRemaining = maxShots;
     }
 
-    public GrenadeLauncherModule(ModuleSlot.Listener listener, NbtCompound nbt)
+    public GrenadeLauncherModule(MeatgunComponent.Listener listener, NbtCompound nbt)
     {
         this(listener);
         readNbt(nbt);
@@ -50,7 +44,7 @@ public class GrenadeLauncherModule extends ShooterModule
     }
 
     @Override
-    public void tick()
+    public void tick(PlayerEntity player)
     {
         cooldown = Math.max(0, cooldown - 1);
     }
@@ -108,7 +102,7 @@ public class GrenadeLauncherModule extends ShooterModule
         BounceGrenadeEntity entity = new BounceGrenadeEntity(world, 2, 40, false, pos.x, pos.y, pos.z, vel.x, vel.y, vel.z);
         world.spawnEntity(entity);
 
-        MeatgunS2C.sendRecoil((ServerPlayerEntity) player, MeatgunS2C.RecoilDirection.UP, 7, 0.2f,0.7f, 0.03f);
+        MeatgunNetwork.sendRecoil((ServerPlayerEntity) player, MeatgunNetwork.RecoilDirection.UP, 7, 0.2f,0.7f, 0.03f);
         world.playSoundFromEntity(null, player, NMSounds.GRENADE_LAUNCHER_FIRE, SoundCategory.PLAYERS, 1f, 1f);
         if (world instanceof ServerWorld serverWorld)
         {

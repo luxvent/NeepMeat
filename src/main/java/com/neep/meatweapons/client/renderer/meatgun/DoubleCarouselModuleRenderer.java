@@ -21,7 +21,7 @@ public class DoubleCarouselModuleRenderer implements MeatgunModuleRenderer<Doubl
     }
 
     @Override
-    public void render(ItemStack stack, MeatgunComponent component, DoubleCarouselModule module, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay)
+    public void render(ItemStack stack, MeatgunComponent component, DoubleCarouselModule module, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, long time, float tickDelta, int light, int overlay)
     {
         BakedModel base = itemRenderer.getModels().getModelManager().getModel(MWExtraModels.DOUBLE_CAROUSEL);
         renderItem(stack, mode, false, matrices, vertexConsumers, light, overlay, base);

@@ -1,7 +1,6 @@
 package com.neep.meatweapons.client.renderer.meatgun;
 
 import com.neep.meatweapons.client.MWExtraModels;
-import com.neep.meatweapons.item.meatgun.ChuggerModule;
 import com.neep.meatweapons.item.meatgun.MeatgunComponent;
 import com.neep.meatweapons.item.meatgun.PistolModule;
 import net.minecraft.client.MinecraftClient;
@@ -22,7 +21,7 @@ public class PistolModuleRenderer implements MeatgunModuleRenderer<PistolModule>
     }
 
     @Override
-    public void render(ItemStack stack, MeatgunComponent component, PistolModule module, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay)
+    public void render(ItemStack stack, MeatgunComponent component, PistolModule module, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, long time, float tickDelta, int light, int overlay)
     {
         BakedModel base = itemRenderer.getModels().getModelManager().getModel(MWExtraModels.MEATGUN_PISTOL);
         renderItem(stack, mode, false, matrices, vertexConsumers, light, overlay, base);

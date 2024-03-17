@@ -11,8 +11,5 @@ public interface ModuleSlot
 
     Matrix4f transform();
 
-    interface Listener
-    {
-        void markDirty();
-    }
+    Matrix4f transform(float tickDelta);
 }

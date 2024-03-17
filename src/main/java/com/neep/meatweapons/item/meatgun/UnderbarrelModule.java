@@ -15,7 +15,7 @@ public class UnderbarrelModule extends AbstractMeatgunModule
     private final ModuleSlot upSlot;
     private final ModuleSlot downSlot;
 
-    public UnderbarrelModule(ModuleSlot.Listener listener)
+    public UnderbarrelModule(MeatgunComponent.Listener listener)
     {
         super(listener);
         upSlot = new SimpleModuleSlot(this.listener, new Matrix4f().translate(0, 0, -3 / 16f));
@@ -27,7 +27,7 @@ public class UnderbarrelModule extends AbstractMeatgunModule
         setSlots(List.of(upSlot, downSlot));
     }
 
-    public UnderbarrelModule(ModuleSlot.Listener listener, NbtCompound nbt)
+    public UnderbarrelModule(MeatgunComponent.Listener listener, NbtCompound nbt)
     {
         this(listener);
         readNbt(nbt);

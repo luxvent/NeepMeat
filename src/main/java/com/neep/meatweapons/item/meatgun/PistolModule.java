@@ -3,7 +3,7 @@ package com.neep.meatweapons.item.meatgun;
 import com.neep.meatweapons.entity.BulletDamageSource;
 import com.neep.meatweapons.item.GunItem;
 import com.neep.meatweapons.network.MWAttackC2SPacket;
-import com.neep.meatweapons.network.MeatgunS2C;
+import com.neep.meatweapons.network.MeatgunNetwork;
 import com.neep.meatweapons.particle.MWGraphicsEffects;
 import com.neep.meatweapons.particle.MWParticles;
 import com.neep.meatweapons.particle.MuzzleFlashParticleType;
@@ -22,7 +22,6 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.joml.Vector4d;
 
-import java.util.List;
 import java.util.Optional;
 
 import static com.neep.meatweapons.item.BaseGunItem.hitScan;
@@ -37,12 +36,12 @@ public class PistolModule extends ShooterModule
     private int shotsRemaining = maxShots;
     private int cooldown = 0;
 
-    public PistolModule(ModuleSlot.Listener listener)
+    public PistolModule(MeatgunComponent.Listener listener)
     {
         super(listener, 8, 10);
     }
 
-    public PistolModule(ModuleSlot.Listener listener, NbtCompound nbt)
+    public PistolModule(MeatgunComponent.Listener listener, NbtCompound nbt)
     {
         this(listener);
     }
@@ -54,7 +53,7 @@ public class PistolModule extends ShooterModule
     }
 
     @Override
-    public void tick()
+    public void tick(PlayerEntity player)
     {
         cooldown = Math.max(0, cooldown - 1);
     }
@@ -115,7 +114,7 @@ public class PistolModule extends ShooterModule
             entity.timeUntilRegen = 0;
         }
 
-        MeatgunS2C.sendRecoil((ServerPlayerEntity) player, MeatgunS2C.RecoilDirection.UP, 7, 0.2f,0.7f, 0.03f);
+        MeatgunNetwork.sendRecoil((ServerPlayerEntity) player, MeatgunNetwork.RecoilDirection.UP, 7, 0.2f,0.7f, 0.03f);
         world.playSoundFromEntity(null, player, NMSounds.CHUGGER_FIRE, SoundCategory.PLAYERS, 1f, 1f);
         if (world instanceof ServerWorld serverWorld)
         {

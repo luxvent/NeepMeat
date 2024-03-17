@@ -21,7 +21,7 @@ public class LongBoiModuleRenderer implements MeatgunModuleRenderer<LongBoiModul
     }
 
     @Override
-    public void render(ItemStack stack, MeatgunComponent component, LongBoiModule module, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay)
+    public void render(ItemStack stack, MeatgunComponent component, LongBoiModule module, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, long time, float tickDelta, int light, int overlay)
     {
         BakedModel base = itemRenderer.getModels().getModelManager().getModel(MWExtraModels.LONG_BOI);
         renderItem(stack, mode, false, matrices, vertexConsumers, light, overlay, base);

@@ -14,6 +14,7 @@ import com.neep.meatweapons.client.renderer.meatgun.MeatgunParticleManager;
 import com.neep.meatweapons.client.sound.AirtruckSoundInstance;
 import com.neep.meatweapons.item.AssaultDrillItem;
 import com.neep.meatweapons.item.BaseGunItem;
+import com.neep.meatweapons.network.MeatgunModuleNetwork;
 import com.neep.meatweapons.particle.*;
 import dev.monarkhes.myron_neepmeat.api.Myron;
 import net.fabricmc.api.ClientModInitializer;
@@ -93,6 +94,7 @@ public class MWClient implements ClientModInitializer
         AirtruckSoundInstance.initEvent();
 
         MeatgunC2S.init();
+        MeatgunModuleNetwork.Client.init();
 
         AssaultDrillItem.Client.init();
 

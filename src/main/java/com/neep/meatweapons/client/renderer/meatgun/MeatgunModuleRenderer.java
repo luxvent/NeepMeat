@@ -26,7 +26,7 @@ public interface MeatgunModuleRenderer<T extends MeatgunModule>
 {
     ItemColors COLOURS = new ItemColors();
 
-    void render(ItemStack stack, MeatgunComponent component, T module, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay);
+    void render(ItemStack stack, MeatgunComponent component, T module, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, long time, float tickDelta, int light, int overlay);
 
     default void renderItem(
             ItemStack stack,

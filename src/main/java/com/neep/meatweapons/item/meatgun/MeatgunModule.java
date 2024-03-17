@@ -5,6 +5,7 @@ import com.neep.meatweapons.network.MWAttackC2SPacket;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import org.joml.Matrix4f;
@@ -20,9 +21,11 @@ public interface MeatgunModule
 
     Type<? extends MeatgunModule> getType();
 
-    default void tick()
+    default void receivePacket(PacketByteBuf buf) {}
+
+    default void tick(PlayerEntity player)
     {
-        getChildren().forEach(s -> s.get().tick());
+        getChildren().forEach(s -> s.get().tick(player));
     }
 
     default void trigger(World world, PlayerEntity player, ItemStack stack, int id, double pitch, double yaw, MWAttackC2SPacket.HandType handType)
@@ -108,13 +111,13 @@ public interface MeatgunModule
     @FunctionalInterface
     interface Factory<T extends MeatgunModule>
     {
-        T create(ModuleSlot.Listener listener, MeatgunModule parent);
+        T create(MeatgunComponent.Listener listener, MeatgunModule parent);
     }
 
     @FunctionalInterface
     interface NbtFactory<T extends MeatgunModule>
     {
-        T create(ModuleSlot.Listener listener, NbtCompound nbt);
+        T create(MeatgunComponent.Listener listener, NbtCompound nbt);
     }
 
     class Type<T extends MeatgunModule>
@@ -136,12 +139,12 @@ public interface MeatgunModule
             return id;
         }
 
-        public T create(ModuleSlot.Listener listener, MeatgunModule parent)
+        public T create(MeatgunComponent.Listener listener, MeatgunModule parent)
         {
             return factory.create(listener, parent);
         }
 
-        public T create(ModuleSlot.Listener listener, NbtCompound nbt)
+        public T create(MeatgunComponent.Listener listener, NbtCompound nbt)
         {
             return nbtFactory.create(listener, nbt);
         }

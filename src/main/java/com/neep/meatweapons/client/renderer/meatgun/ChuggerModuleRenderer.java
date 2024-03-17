@@ -21,7 +21,7 @@ public class ChuggerModuleRenderer implements MeatgunModuleRenderer<ChuggerModul
     }
 
     @Override
-    public void render(ItemStack stack, MeatgunComponent component, ChuggerModule module, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay)
+    public void render(ItemStack stack, MeatgunComponent component, ChuggerModule module, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, long time, float tickDelta, int light, int overlay)
     {
         BakedModel base = itemRenderer.getModels().getModelManager().getModel(MWExtraModels.MEATGUN_CHUGGER);
         renderItem(stack, mode, false, matrices, vertexConsumers, light, overlay, base);

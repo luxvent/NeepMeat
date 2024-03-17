@@ -3,11 +3,13 @@ package com.neep.meatweapons.item;
 import com.neep.meatlib.item.TooltipSupplier;
 import com.neep.meatweapons.item.meatgun.MeatgunModule;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Util;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -90,5 +92,11 @@ public class MeatgunModuleItem extends Item
     {
         tooltip.add(Text.translatable("tooltip.meatweapons.meatgun_module_1").formatted(Formatting.GOLD).formatted(Formatting.BOLD));
         super.appendTooltip(stack, world, tooltip, context);
+    }
+
+    @Override
+    public boolean allowNbtUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack, ItemStack newStack)
+    {
+        return false;
     }
 }

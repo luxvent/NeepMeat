@@ -21,7 +21,7 @@ public class BaseModuleRenderer implements MeatgunModuleRenderer<BaseModule>
     }
 
     @Override
-    public void render(ItemStack stack, MeatgunComponent component, BaseModule module, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay)
+    public void render(ItemStack stack, MeatgunComponent component, BaseModule module, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, long time, float tickDelta, int light, int overlay)
     {
         BakedModel base = itemRenderer.getModels().getModelManager().getModel(MWExtraModels.MEATGUN_BASE);
         renderItem(stack, mode, false, matrices, vertexConsumers, light, overlay, base);

@@ -2,7 +2,7 @@ package com.neep.meatweapons.client.network;
 
 import com.neep.meatweapons.init.MWComponents;
 import com.neep.meatweapons.item.meatgun.MeatgunComponent;
-import com.neep.meatweapons.network.MeatgunS2C;
+import com.neep.meatweapons.network.MeatgunNetwork;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -12,9 +12,9 @@ public class MeatgunC2S
 {
     public static void init()
     {
-        ClientPlayNetworking.registerGlobalReceiver(MeatgunS2C.CHANNEL, (client, handler, buf, responseSender) ->
+        ClientPlayNetworking.registerGlobalReceiver(MeatgunNetwork.CHANNEL, (client, handler, buf, responseSender) ->
         {
-            MeatgunS2C.RecoilDirection direction = MeatgunS2C.RecoilDirection.values()[buf.readInt()];
+            MeatgunNetwork.RecoilDirection direction = MeatgunNetwork.RecoilDirection.values()[buf.readInt()];
             float amount = buf.readFloat();
             float horAmount = buf.readFloat();
             float returnSpeed = buf.readFloat();

@@ -15,15 +15,15 @@ public abstract class AbstractMeatgunModule implements MeatgunModule
     protected Matrix4f transform = new Matrix4f();
     protected List<ModuleSlot> slots;
     protected UUID uuid = UUID.randomUUID();
-    protected final ModuleSlot.Listener listener;
+    protected final MeatgunComponent.Listener listener;
 
-    public AbstractMeatgunModule(ModuleSlot.Listener listener, List<ModuleSlot> slots)
+    public AbstractMeatgunModule(MeatgunComponent.Listener listener, List<ModuleSlot> slots)
     {
         this.listener = listener;
         this.slots = Collections.unmodifiableList(slots);
     }
 
-    public AbstractMeatgunModule(ModuleSlot.Listener listener)
+    public AbstractMeatgunModule(MeatgunComponent.Listener listener)
     {
         this.listener = listener;
         this.slots = Collections.emptyList();
