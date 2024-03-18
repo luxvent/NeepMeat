@@ -7,6 +7,7 @@ import com.neep.meatweapons.init.MWComponents;
 import com.neep.meatweapons.item.meatgun.MeatgunComponent;
 import com.neep.meatweapons.item.meatgun.MeatgunModule;
 import com.neep.meatweapons.client.meatgun.RecoilManager;
+import com.neep.meatweapons.mixin.HeldItemRendererAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
@@ -54,8 +55,7 @@ public class MeatgunRenderer extends BuiltinModelItemRenderer
         AbstractClientPlayerEntity player = client.player;
         PlayerEntityRenderer playerEntityRenderer = (PlayerEntityRenderer) MinecraftClient.getInstance().getEntityRenderDispatcher().getRenderer(player);
 
-        boolean mainHand = true;
-//        boolean mainHand = player.getMainHandStack().equals(stack);
+        boolean mainHand = ((HeldItemRendererAccessor) client.gameRenderer.firstPersonRenderer).getMainHand().equals(stack);
         boolean leftHanded = mode.isFirstPerson()
                 && (player.getMainArm() == Arm.LEFT && mainHand || player.getMainArm() == Arm.RIGHT && !mainHand);
 

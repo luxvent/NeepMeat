@@ -1,6 +1,5 @@
 package com.neep.neepmeat.mixin;
 
-import com.neep.meatweapons.MWItems;
 import com.neep.meatweapons.item.AssaultDrillItem;
 import com.neep.meatweapons.item.MeatgunItem;
 import com.neep.neepmeat.api.item.OverrideSwingItem;
@@ -26,6 +25,10 @@ public class HeldItemRendererMixin
 
     @Shadow private ItemStack mainHand;
 
+    @Shadow private ItemStack offHand;
+
+    @Shadow private float equipProgressOffHand;
+
     @Inject(method = "renderFirstPersonItem", at = @At(value = "TAIL"))
     public void renderItemHead(AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand, float swingProgress, ItemStack stack, float equipProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci)
     {
@@ -42,16 +45,24 @@ public class HeldItemRendererMixin
     public void render(CallbackInfo ci)
     {
         ClientPlayerEntity clientPlayer = MinecraftClient.getInstance().player;
-        ItemStack itemStack = clientPlayer.getMainHandStack();
+        ItemStack mainHandStack = clientPlayer.getMainHandStack();
+        ItemStack offHandStack = clientPlayer.getOffHandStack();
 
-        if ((itemStack.getItem() instanceof AssaultDrillItem || itemStack.getItem() instanceof MeatgunItem) &&
-                ItemStack.areItemsEqual(mainHand, itemStack)
+        if ((mainHandStack.getItem() instanceof AssaultDrillItem || mainHandStack.getItem() instanceof MeatgunItem) &&
+                ItemStack.areItemsEqual(mainHand, mainHandStack)
         )
 //            || (itemStack.isOf(MWItems.MEATGUN) && ItemStack.areItemsEqual(mainHand, itemStack)))
         {
             this.equipProgressMainHand = 1;
-            this.mainHand = itemStack;
+            this.mainHand = mainHandStack;
         }
+
+        if (offHandStack.getItem() instanceof MeatgunItem && ItemStack.areItemsEqual(offHand, offHandStack))
+        {
+            this.equipProgressOffHand = 1;
+            this.offHand = offHandStack;
+        }
+
     }
 
     @Inject(method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;Lnet/minecraft/client/network/ClientPlayerEntity;I)V", at = @At(value = "HEAD"), cancellable = true)
