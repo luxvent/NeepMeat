@@ -1,5 +1,6 @@
 package com.neep.meatweapons.item.meatgun;
 
+import com.neep.meatweapons.client.meatgun.RecoilManager;
 import com.neep.meatweapons.network.MWAttackC2SPacket;
 import com.neep.meatweapons.network.MeatgunModuleNetwork;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
@@ -16,7 +17,7 @@ import java.util.UUID;
 
 public class MeatgunComponentImpl extends ItemComponent implements MeatgunComponent
 {
-    private final RecoilManager recoil = new RecoilManager();
+    @Nullable private RecoilManager recoil;
     private final BaseModule root;
     private boolean dirty = true;
     private boolean invalidated = false;
@@ -29,6 +30,7 @@ public class MeatgunComponentImpl extends ItemComponent implements MeatgunCompon
         super(stack, key);
         root = new BaseModule(listener);
         root.readNbt(getOrCreateRootTag());
+        getUuid();
     }
 
     @Override
@@ -74,6 +76,9 @@ public class MeatgunComponentImpl extends ItemComponent implements MeatgunCompon
     @Override
     public RecoilManager getRecoil()
     {
+        if (recoil == null)
+            recoil = RecoilManager.getOrCreate(getUuid());
+
         return recoil;
     }
 

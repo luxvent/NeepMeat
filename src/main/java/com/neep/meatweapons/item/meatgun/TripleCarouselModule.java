@@ -109,10 +109,12 @@ public class TripleCarouselModule extends AbstractMeatgunModule
 
     void sync(PlayerEntity player)
     {
-        PacketByteBuf buf = listener.getBuf(this);
-        buf.writeLong(rotateStartTime);
-        buf.writeInt(selected);
-        listener.send(player, buf);
+
+//        PacketByteBuf buf = listener.getBuf(this);
+//        buf.writeLong(rotateStartTime);
+//        buf.writeInt(selected);
+//        listener.send(player, buf);
+        listener.markDirty();
     }
 
     @Override
@@ -142,6 +144,7 @@ public class TripleCarouselModule extends AbstractMeatgunModule
         super.writeNbt(nbt);
 //        nbt.putInt("rotate_ticks", rotateTicks);
         nbt.putInt("selected", selected);
+        nbt.putLong("rotate_start_time", rotateStartTime);
         return nbt;
     }
 
@@ -151,6 +154,7 @@ public class TripleCarouselModule extends AbstractMeatgunModule
         super.readNbt(nbt);
 //        this.rotateTicks = nbt.getInt("rotate_ticks");
         this.selected = nbt.getInt("selected");
+        this.rotateStartTime = nbt.getLong("rotate_start_time");
     }
 
     @Override

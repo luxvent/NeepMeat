@@ -2,6 +2,7 @@ package com.neep.neepmeat.mixin;
 
 import com.neep.meatweapons.MWItems;
 import com.neep.meatweapons.item.AssaultDrillItem;
+import com.neep.meatweapons.item.MeatgunItem;
 import com.neep.neepmeat.api.item.OverrideSwingItem;
 import com.neep.neepmeat.client.plc.PLCHudRenderer;
 import net.minecraft.client.MinecraftClient;
@@ -43,7 +44,9 @@ public class HeldItemRendererMixin
         ClientPlayerEntity clientPlayer = MinecraftClient.getInstance().player;
         ItemStack itemStack = clientPlayer.getMainHandStack();
 
-        if (itemStack.getItem() instanceof AssaultDrillItem && ItemStack.areItemsEqual(mainHand, itemStack))
+        if ((itemStack.getItem() instanceof AssaultDrillItem || itemStack.getItem() instanceof MeatgunItem) &&
+                ItemStack.areItemsEqual(mainHand, itemStack)
+        )
 //            || (itemStack.isOf(MWItems.MEATGUN) && ItemStack.areItemsEqual(mainHand, itemStack)))
         {
             this.equipProgressMainHand = 1;

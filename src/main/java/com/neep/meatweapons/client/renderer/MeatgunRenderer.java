@@ -6,9 +6,10 @@ import com.neep.meatweapons.client.renderer.meatgun.MeatgunParticleManager;
 import com.neep.meatweapons.init.MWComponents;
 import com.neep.meatweapons.item.meatgun.MeatgunComponent;
 import com.neep.meatweapons.item.meatgun.MeatgunModule;
-import com.neep.meatweapons.item.meatgun.RecoilManager;
+import com.neep.meatweapons.client.meatgun.RecoilManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -53,7 +54,8 @@ public class MeatgunRenderer extends BuiltinModelItemRenderer
         AbstractClientPlayerEntity player = client.player;
         PlayerEntityRenderer playerEntityRenderer = (PlayerEntityRenderer) MinecraftClient.getInstance().getEntityRenderDispatcher().getRenderer(player);
 
-        boolean mainHand = player.getMainHandStack().equals(stack);
+        boolean mainHand = true;
+//        boolean mainHand = player.getMainHandStack().equals(stack);
         boolean leftHanded = mode.isFirstPerson()
                 && (player.getMainArm() == Arm.LEFT && mainHand || player.getMainArm() == Arm.RIGHT && !mainHand);
 
@@ -65,11 +67,14 @@ public class MeatgunRenderer extends BuiltinModelItemRenderer
         // Step recoil
         MeatgunComponent component = MWComponents.MEATGUN.get(stack);
         RecoilManager recoil = component.getRecoil();
-        float lastFrame = !client.isPaused() ? client.getLastFrameDuration() : 0;
-        recoil.horAmount = Math.max(0, recoil.horAmount - recoil.horReturnSpeed * lastFrame);
-        recoil.amount = Math.max(0, recoil.amount - recoil.returnSpeed * lastFrame);
+        if (mode.isFirstPerson())
+        {
+            float lastFrame = !client.isPaused() ? client.getLastFrameDuration() : 0;
+            recoil.horAmount = Math.max(0, recoil.horAmount - recoil.horReturnSpeed * lastFrame);
+            recoil.amount = Math.max(0, recoil.amount - recoil.returnSpeed * lastFrame);
 
-        transformRecoil(matrices, recoil);
+            transformRecoil(matrices, recoil);
+        }
 
         // Recursive module rendering
         matrices.push();
