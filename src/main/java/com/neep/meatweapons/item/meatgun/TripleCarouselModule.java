@@ -126,11 +126,11 @@ public class TripleCarouselModule extends AbstractMeatgunModule
 
     public float getRotation(long time, float tickDelta)
     {
-        float thing = rotateTicks - (rotateStartTime + rotateTicks - time) + tickDelta;
-        if (thing >= rotateTicks)
+        float thing = rotateTicks - (rotateStartTime + rotateTicks - time);
+        if (thing > rotateTicks)
             return 0;
 
-        return MathHelper.clamp(thing / rotateTicks, 0, 1);
+        return MathHelper.clamp((thing + tickDelta) / rotateTicks, 0, 1);
     }
 
     public int getSelected()
