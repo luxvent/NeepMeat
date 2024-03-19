@@ -105,6 +105,7 @@ public class MuzzleFlashParticleType extends ParticleType<MuzzleFlashParticleTyp
         @Override
         public void write(PacketByteBuf buf)
         {
+            buf.writeRegistryValue(Registries.PARTICLE_TYPE, getType());
             buf.writeUuid(playerUUID);
             buf.writeDouble(dx);
             buf.writeDouble(dy);

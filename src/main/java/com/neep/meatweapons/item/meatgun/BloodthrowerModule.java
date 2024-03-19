@@ -94,7 +94,7 @@ public class BloodthrowerModule extends ShooterModule
         {
             if (target.isAlive())
             {
-                target.damage(BulletDamageSource.create(world, player, 0.0f), 1);
+                target.damage(BulletDamageSource.create(world, player, 0.0f), 0.5f);
                 target.timeUntilRegen = 0;
             }
         }
