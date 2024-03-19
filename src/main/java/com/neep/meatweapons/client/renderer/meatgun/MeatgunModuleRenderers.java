@@ -33,6 +33,7 @@ public class MeatgunModuleRenderers
         register(MeatgunModules.BOSHER, BosherModuleRenderer::new);
         register(MeatgunModules.LONG_BOI, LongBoiModuleRenderer::new);
         register(MeatgunModules.GRENADE_LAUNCHER, GrenadeLauncherModuleRenderer::new);
+        register(MeatgunModules.BLOODTHROWER, BloodthrowerModuleRenderer::new);
         register(MeatgunModules.TRIPLE_CAROUSEL, TripleCarouselModuleRenderer::new);
         register(MeatgunModules.DOUBLE_CAROUSEL, DoubleCarouselModuleRenderer::new);
         register(MeatgunModules.UNDERBARREL, UnderbarrelModuleRenderer::new);

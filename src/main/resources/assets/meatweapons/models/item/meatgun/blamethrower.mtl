@@ -1,0 +1,4 @@
+# Blender 4.0.2 MTL File: 'blamethrower.blend'
+# www.blender.org
+newmtl Material
+map_Kd meatweapons:item/meatgun/blamethrower

@@ -17,6 +17,7 @@ public class MWExtraModels implements ExtraModelProvider
     public static Identifier MEATGUN_PISTOL = new Identifier(MeatWeapons.NAMESPACE, "item/meatgun/pistol");
     public static Identifier MEATGUN_CHUGGER = new Identifier(MeatWeapons.NAMESPACE, "item/meatgun/chugger");
     public static Identifier LONG_BOI = new Identifier(MeatWeapons.NAMESPACE, "item/meatgun/long_boi");
+    public static Identifier BLOODTHROWER = new Identifier(MeatWeapons.NAMESPACE, "item/meatgun/blamethrower");
     public static Identifier GRENADE_LAUNCHER = new Identifier(MeatWeapons.NAMESPACE, "item/meatgun/grenade_launcher");
     public static Identifier TRIPLE_CAROUSEL = new Identifier(MeatWeapons.NAMESPACE, "item/meatgun/triple_carousel");
     public static Identifier DOUBLE_CAROUSEL = new Identifier(MeatWeapons.NAMESPACE, "item/meatgun/double_carousel");

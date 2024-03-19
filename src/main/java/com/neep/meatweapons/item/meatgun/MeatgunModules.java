@@ -18,6 +18,7 @@ public class MeatgunModules
     public static final MeatgunModule.Type<BosherModule> BOSHER = register(new Identifier(MeatWeapons.NAMESPACE, "bosher"), (l, p) -> new BosherModule(l), BosherModule::new);
     public static final MeatgunModule.Type<LongBoiModule> LONG_BOI = register(new Identifier(MeatWeapons.NAMESPACE, "long_boi"), (l, p) -> new LongBoiModule(l), LongBoiModule::new);
     public static final MeatgunModule.Type<GrenadeLauncherModule> GRENADE_LAUNCHER = register(new Identifier(MeatWeapons.NAMESPACE, "grenade_launcher"), (l, p) -> new GrenadeLauncherModule(l), GrenadeLauncherModule::new);
+    public static final MeatgunModule.Type<BloodthrowerModule> BLOODTHROWER = register(new Identifier(MeatWeapons.NAMESPACE, "bloodthrower"), (l, p) -> new BloodthrowerModule(l), BloodthrowerModule::new);
     public static final MeatgunModule.Type<TripleCarouselModule> TRIPLE_CAROUSEL = register(new Identifier(MeatWeapons.NAMESPACE, "triple_carousel"), (l, p) -> new TripleCarouselModule(l), TripleCarouselModule::new);
     public static final MeatgunModule.Type<DoubleCarouselModule> DOUBLE_CAROUSEL = register(new Identifier(MeatWeapons.NAMESPACE, "double_carousel"), (l, p) -> new DoubleCarouselModule(l), DoubleCarouselModule::new);
     public static final MeatgunModule.Type<UnderbarrelModule> UNDERBARREL = register(new Identifier(MeatWeapons.NAMESPACE, "underbarrel"), (l, p) -> new UnderbarrelModule(l), UnderbarrelModule::new);

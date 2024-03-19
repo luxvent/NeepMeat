@@ -42,10 +42,10 @@ public class MuzzleFlashParticleFactory implements ParticleFactory<MuzzleFlashPa
 
     public static class MuzzleFlashParticle extends SpriteBillboardParticle implements MeatgunParticle
     {
-        private final float scale0;
-        private final double x0, y0, z0;
-        private final PlayerEntity player;
-        private final float fpScale;
+        protected final float scale0;
+        protected final double x0, y0, z0;
+        protected final PlayerEntity player;
+        protected final float fpScale; // First person scale
 
         protected MuzzleFlashParticle(ClientWorld clientWorld, @Nullable PlayerEntity player, double d, double e, double f, double dx, double dy, double dz, float fpScale, int maxAge)
         {
@@ -60,7 +60,8 @@ public class MuzzleFlashParticleFactory implements ParticleFactory<MuzzleFlashPa
             this.y0 = dy;
             this.z0 = dz;
 
-            MeatgunParticleManager.add(this);
+            if (player == MinecraftClient.getInstance().player)
+                MeatgunParticleManager.add(this);
         }
 
         @Override
@@ -71,10 +72,14 @@ public class MuzzleFlashParticleFactory implements ParticleFactory<MuzzleFlashPa
         }
 
         @Override
+        public float getSize(float tickDelta)
+        {
+            return MathHelper.lerp((age + tickDelta) / maxAge, scale0, scale0 * 0.8f);
+        }
+
+        @Override
         public void buildGeometry(VertexConsumer vertexConsumer, Camera camera, float tickDelta)
         {
-            scale = MathHelper.lerp((age + tickDelta) / maxAge, scale0, scale0 * 0.8f);
-
             if (player != null)
             {
                 if (player == MinecraftClient.getInstance().player)

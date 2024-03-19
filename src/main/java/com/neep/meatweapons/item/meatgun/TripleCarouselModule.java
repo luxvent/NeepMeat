@@ -22,9 +22,6 @@ public class TripleCarouselModule extends AbstractMeatgunModule
     public TripleCarouselModule(MeatgunComponent.Listener listener)
     {
         super(listener);
-//        var slot0 = new TCSlot(this.listener, new Matrix4f().rotateZ(0).translate(0, 4 / 16f, -2 / 16f));
-//        var slot1 = new TCSlot(this.listener, new Matrix4f().rotateZ(2f / 3f * MathHelper.PI).translate(0, 4 / 16f, -2 / 16f));
-//        var slot2 = new TCSlot(this.listener, new Matrix4f().rotateZ(4f / 3f * MathHelper.PI).translate(0, 4 / 16f, -2 / 16f));
         var slot0 = new TCSlot(this.listener, 0);
         var slot1 = new TCSlot(this.listener, 1);
         var slot2 = new TCSlot(this.listener, 2);

@@ -133,7 +133,14 @@
     "sounds": [
       "meatweapons:grenade_launcher_fire"
     ]
+  },
+  "bloodthrower_active": {
+    "subtitle": "subtitles.meatweapons.bloodthrower_active",
+    "sounds": [
+      "meatweapons:bloodthrower_active"
+    ]
   }
+
 }
 
 
