@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/block",
-  "model": "meatweapons:item/meatgun/blamethrower",
+  "model": "meatweapons:item/meatgun/bloodthrower",
   "display": {
     "thirdperson_righthand": {
       "translation": [4, 4, 4],
