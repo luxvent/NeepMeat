@@ -7,7 +7,6 @@ import com.neep.meatlib.item.TooltipSupplier;
 import com.neep.meatlib.registry.BlockRegistry;
 import com.neep.neepmeat.api.NMSoundGroups;
 import com.neep.neepmeat.api.big_block.BigBlock;
-import com.neep.neepmeat.api.multiblock.MultiBlock;
 import com.neep.neepmeat.api.multiblock2.Multiblock2ControllerBlock;
 import com.neep.neepmeat.api.multiblock2.TestMultiblock;
 import com.neep.neepmeat.block.*;
@@ -105,7 +104,7 @@ public class NMBlocks
 
 //    public static Block OBJ_TEST = BlockRegistry.queue(new BigBlock("obj_test", FabricBlockSettings.copyOf(Blocks.STONE)));
 
-    public static Block TEST_MULTIBLOCK = BlockRegistry.queue(new TestMultiblock("test_multiblock", FabricBlockSettings.create()));
+//    public static Block TEST_MULTIBLOCK = BlockRegistry.queue(new TestMultiblock("test_multiblock", FabricBlockSettings.create()));
 
     public static BasePaintedBlock SMOOTH_TILE = new BasePaintedBlock("smooth_tile", FabricBlockSettings.create().hardness(5.0f));
 
