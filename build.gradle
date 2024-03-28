@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.4-SNAPSHOT'
+	id 'fabric-loom' version '1.5-SNAPSHOT'
 	id 'maven-publish'
 
 	id "com.modrinth.minotaur" version "2.+"
@@ -60,6 +60,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	// Geckolib
+	modImplementation "com.eliotlash.mclib:mclib:20"
 	modImplementation "software.bernie.geckolib:geckolib-fabric-${project.geckolib_version}"
 
 	// Cardinal Components
