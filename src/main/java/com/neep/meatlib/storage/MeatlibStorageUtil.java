@@ -7,6 +7,9 @@ import net.fabricmc.fabric.api.transfer.v1.storage.base.ResourceAmount;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.apache.commons.lang3.function.TriFunction;
 import org.jetbrains.annotations.Nullable;
 
@@ -90,6 +93,14 @@ public class MeatlibStorageUtil
             }
         }
         return null;
+    }
+
+    public static void scatterAmount(World world, BlockPos pos, @Nullable ResourceAmount<ItemVariant> resourceAmount)
+    {
+        if (resourceAmount != null)
+        {
+            ItemScatterer.spawn(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ()+ 0.5, resourceAmount.resource().toStack((int) resourceAmount.amount()));
+        }
     }
 
     public static NbtCompound amountToNbt(ResourceAmount<ItemVariant> resourceAmount)
