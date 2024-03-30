@@ -245,17 +245,18 @@ public class ItemRequesterScreen extends HandledScreen<ItemRequesterScreenHandle
             if (ra == null) return;
 
             ItemStack itemStack = ra.resource().toStack((int) ra.amount());
-            String string = null;
             matrices.getMatrices().push();
-            matrices.getMatrices().translate(x, y, 100);
+            matrices.getMatrices().translate(x, y, 0);
 
 //            this.setZOffset(100);
 //            itemRenderer.zOffset = 100.0f;
 
-            RenderSystem.enableDepthTest();
+//            RenderSystem.enableDepthTest();
 //            this.itemRenderer.renderInGuiWithOverrides(this.client.player, itemStack, x, y, slot.x + slot.y * this.backgroundWidth);
-            itemRenderer.renderItem(itemStack, ModelTransformationMode.GUI, 0xF000F0, OverlayTexture.DEFAULT_UV, matrices.getMatrices(), matrices.getVertexConsumers(), null, 0);
+//            itemRenderer.renderItem(itemStack, ModelTransformationMode.GUI, 0xF000F0, OverlayTexture.DEFAULT_UV, matrices.getMatrices(), matrices.getVertexConsumers(), null, 0);
 //            itemRenderer.renderGuiItemOverlay(textRenderer, itemStack, x, y, string);
+            matrices.drawItem(itemStack, 0, 0, 100);
+            matrices.drawItemInSlot(textRenderer, itemStack, 0, 0);
             matrices.getMatrices().pop();
         }
     }
