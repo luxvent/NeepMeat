@@ -128,6 +128,8 @@
   "block.neepmeat.machine_block": "Machine Block",
   "block.neepmeat.motor_port": "Motor Port",
   "block.neepmeat.item_output_port": "Item Output Port",
+  "block.neepmeat.crusher_segment": "Crusher Segment",
+  "block.neepmeat.largest_hopper": "Largest Hopper",
 
   "block.neepmeat.meat_steel_block": "Meat Steel Block",
   "block.neepmeat.meat_steel_block_slab": "Meat Steel Slab",
@@ -294,7 +296,6 @@
   "block.neepmeat.router.lore_0": "Distributes items based on filters.",
   "block.neepmeat.grinder": "Crusher",
   "block.neepmeat.large_crusher": "Large Crusher",
-  "block.neepmeat.crusher_segment": "Crusher Segment",
   "block.neepmeat.alloy_kiln": "Alloy Kiln",
   "block.neepmeat.collector": "Fat Collector",
   "block.neepmeat.crucible": "Rendering Basin",
