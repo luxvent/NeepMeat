@@ -190,6 +190,7 @@ public class PowerFlowerControllerBlockEntity extends SyncableBlockEntity
                     else if (world.getBlockEntity(mutable) instanceof PowerFlowerFluidPortBlock.PFPortBlockEntity port)
                     {
                         port.setController(pos);
+                        visited.add(mutable.toImmutable());
                     }
                 }
             }
