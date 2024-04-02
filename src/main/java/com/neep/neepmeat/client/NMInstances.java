@@ -13,6 +13,7 @@ import com.neep.neepmeat.machine.flywheel.FlywheelInstance;
 import com.neep.neepmeat.machine.grinder.GrinderInstance;
 import com.neep.neepmeat.machine.grinder.GrinderRenderer;
 import com.neep.neepmeat.machine.hydraulic_press.HydraulicPressInstance;
+import com.neep.neepmeat.machine.large_crusher.CrusherSegmentInstance;
 import com.neep.neepmeat.machine.large_crusher.LargeCrusherInstance;
 import com.neep.neepmeat.machine.large_crusher.LargeCrusherRenderer;
 import com.neep.neepmeat.machine.large_motor.LargeMotorInstance;
@@ -35,6 +36,8 @@ public class NMInstances
 
         InstancedRenderRegistry.configure(NMBlockEntities.LARGE_CRUSHER).factory(LargeCrusherInstance::new).apply();
         BlockEntityRendererFactories.register(NMBlockEntities.LARGE_CRUSHER, LargeCrusherRenderer::new);
+
+        InstancedRenderRegistry.configure(LivingMachines.CRUSHER_SEGMENT_BE).factory(CrusherSegmentInstance::new).apply();
 
         BlockEntityRendererFactories.register(LivingMachines.LARGEST_HOPPER_BE, LargestHopperRenderer::new);
 
