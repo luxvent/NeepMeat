@@ -1,6 +1,7 @@
 package com.neep.neepmeat.client;
 
 import com.jozufozu.flywheel.backend.instancing.InstancedRenderRegistry;
+import com.neep.neepmeat.client.instance.LargeTrommelInstance;
 import com.neep.neepmeat.client.instance.RoboticArmInstance;
 import com.neep.neepmeat.client.renderer.LinearOscillatorInstance;
 import com.neep.neepmeat.client.renderer.block.LargestHopperRenderer;
@@ -38,6 +39,8 @@ public class NMInstances
         BlockEntityRendererFactories.register(NMBlockEntities.LARGE_CRUSHER, LargeCrusherRenderer::new);
 
         InstancedRenderRegistry.configure(LivingMachines.CRUSHER_SEGMENT_BE).factory(CrusherSegmentInstance::new).apply();
+
+        InstancedRenderRegistry.configure(LivingMachines.LARGE_TROMMEL_BE).factory(LargeTrommelInstance::new).apply();
 
         BlockEntityRendererFactories.register(LivingMachines.LARGEST_HOPPER_BE, LargestHopperRenderer::new);
 
