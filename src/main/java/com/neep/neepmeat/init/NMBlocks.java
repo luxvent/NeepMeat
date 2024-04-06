@@ -7,9 +7,7 @@ import com.neep.meatlib.item.TooltipSupplier;
 import com.neep.meatlib.registry.BlockRegistry;
 import com.neep.neepmeat.api.NMSoundGroups;
 import com.neep.neepmeat.api.big_block.BigBlock;
-import com.neep.neepmeat.api.live_machine.TestLivingMachineBE;
 import com.neep.neepmeat.api.multiblock2.Multiblock2ControllerBlock;
-import com.neep.neepmeat.api.multiblock2.TestMultiblock;
 import com.neep.neepmeat.block.*;
 import com.neep.neepmeat.block.entity.CandleCronenCakeBlock;
 import com.neep.neepmeat.block.entity.CronenCakeBlock;
@@ -111,7 +109,6 @@ public class NMBlocks
     public static BasePaintedBlock SMOOTH_TILE = new BasePaintedBlock("smooth_tile", FabricBlockSettings.create().hardness(5.0f));
 
     public static Block TEST_LIVING_MACHINE = BlockRegistry.queueWithItem(new TestLivingMachineBlock("test_living_machine", FabricBlockSettings.copyOf(MACHINE_SETTINGS)), ItemSettings.block());
-    public static Block MACHINE_BLOCK = BlockRegistry.queue(new MachineBlock("machine_block", FabricBlockSettings.copyOf(MACHINE_SETTINGS)));
 
     public static Block POLISHED_IRON_BRICKS = new BaseBuildingBlock("polished_metal_bricks", true, FabricBlockSettings.create().strength(3.0f).sounds(NMSoundGroups.METAL));
     public static Block POLISHED_MERAL_SMALL_BRICKS = new BaseBuildingBlock("polished_metal_small_bricks", true, FabricBlockSettings.create().strength(3.0f).sounds(NMSoundGroups.METAL));
