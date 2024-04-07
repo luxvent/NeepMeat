@@ -68,7 +68,7 @@ public class MeatRecipeProvider extends FabricRecipeProvider
 
     public static CraftingRecipeJsonBuilder createEightDyeingRecipe(ItemConvertible output, Ingredient dye, Ingredient input)
     {
-        return ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, output).input('i', input).input('d', dye).pattern("iii").pattern("idi").pattern("iii");
+        return ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, output, 8).input('i', input).input('d', dye).pattern("iii").pattern("idi").pattern("iii");
     }
 
     // Aargh! Multiple DataGeneratorEntrypoints under the namespace overwrite each other so I am forced to employ this method...
