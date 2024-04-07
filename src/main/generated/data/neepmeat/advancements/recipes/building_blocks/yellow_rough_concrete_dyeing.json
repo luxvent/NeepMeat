@@ -13,16 +13,16 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "neepmeat:white_rough_concrete"
+        "recipe": "neepmeat:yellow_rough_concrete_dyeing"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "has_white_dye": {
+    "has_yellow_dye": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:white_dye"
+              "minecraft:yellow_dye"
             ]
           }
         ]
@@ -33,13 +33,13 @@
   "requirements": [
     [
       "has_dye",
-      "has_white_dye",
+      "has_yellow_dye",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "neepmeat:white_rough_concrete"
+      "neepmeat:yellow_rough_concrete_dyeing"
     ]
   },
   "sends_telemetry_event": false

@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "neepmeat:rough_concrete"
+            "tag": "neepmeat:smooth_tile"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "neepmeat:white_rough_concrete"
+        "recipe": "neepmeat:smooth_tile_white_dyeing"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -39,7 +39,7 @@
   ],
   "rewards": {
     "recipes": [
-      "neepmeat:white_rough_concrete"
+      "neepmeat:smooth_tile_white_dyeing"
     ]
   },
   "sends_telemetry_event": false

@@ -22,16 +22,16 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider
     @Override
     protected void configure(RegistryWrapper.WrapperLookup arg)
     {
-        for (Map.Entry<Identifier, Block> entry : BlockRegistry.REGISTERED_BLOCKS.entrySet())
+        for (Block entry : BlockRegistry.REGISTERED_BLOCKS)
         {
-            if (entry.getValue() instanceof MeatlibBlock meatBlock)
+            if (entry instanceof MeatlibBlock meatBlock)
             {
-                this.getOrCreateTagBuilder(meatBlock.getPreferredTool()).add(entry.getValue());
+                this.getOrCreateTagBuilder(meatBlock.getPreferredTool()).add(entry);
             }
 
-            if (entry.getValue() instanceof BaseWallBlock wall)
+            if (entry instanceof BaseWallBlock wall)
             {
-                this.getOrCreateTagBuilder(wall.getWallTag()).add(entry.getValue());
+                this.getOrCreateTagBuilder(wall.getWallTag()).add(entry);
             }
         }
     }

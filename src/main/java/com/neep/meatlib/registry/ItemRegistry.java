@@ -10,13 +10,12 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ItemRegistry
 {
     public static Map<Identifier, Item> ITEMS = new LinkedHashMap<>();
+    public static final List<Item> REGISTERED_ITEMS = new ArrayList<>();
 
     public static Item queue(String namespace, MeatlibItem item)
     {
@@ -57,6 +56,8 @@ public class ItemRegistry
             {
                 MeatlibItemGroups.add(group, entry.getValue());
             }
+
+            REGISTERED_ITEMS.add(entry.getValue());
 
             it.remove();
         }

@@ -11,35 +11,35 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "neepmeat:white_rough_concrete"
-      },
-      "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_white_dye": {
+    "has_red_dye": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:white_dye"
+              "minecraft:red_dye"
             ]
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "neepmeat:red_rough_concrete_dyeing"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
       "has_dye",
-      "has_white_dye",
+      "has_red_dye",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "neepmeat:white_rough_concrete"
+      "neepmeat:red_rough_concrete_dyeing"
     ]
   },
   "sends_telemetry_event": false

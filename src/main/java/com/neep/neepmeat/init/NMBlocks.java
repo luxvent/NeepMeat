@@ -8,7 +8,6 @@ import com.neep.meatlib.registry.BlockRegistry;
 import com.neep.neepmeat.api.NMSoundGroups;
 import com.neep.neepmeat.api.big_block.BigBlock;
 import com.neep.neepmeat.api.multiblock2.Multiblock2ControllerBlock;
-import com.neep.neepmeat.api.multiblock2.TestMultiblock;
 import com.neep.neepmeat.block.*;
 import com.neep.neepmeat.block.entity.CandleCronenCakeBlock;
 import com.neep.neepmeat.block.entity.CronenCakeBlock;
@@ -79,6 +78,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -106,7 +106,7 @@ public class NMBlocks
 
 //    public static Block TEST_MULTIBLOCK = BlockRegistry.queue(new TestMultiblock("test_multiblock", FabricBlockSettings.create()));
 
-    public static BasePaintedBlock SMOOTH_TILE = new BasePaintedBlock("smooth_tile", FabricBlockSettings.create().hardness(5.0f));
+    public static SmoothTileBlock SMOOTH_TILE = new SmoothTileBlock("smooth_tile", FabricBlockSettings.create().hardness(3.0f));
 
     public static Block MACHINE_BLOCK = BlockRegistry.queue(new BaseBlock("machine_block", FabricBlockSettings.copyOf(MACHINE_SETTINGS)));
 
@@ -115,11 +115,11 @@ public class NMBlocks
     public static BaseBuildingBlock POLISHED_METAL = new BaseBuildingBlock("polished_metal", true, FabricBlockSettings.create().strength(3.0f).sounds(NMSoundGroups.METAL));
     public static Block BLUE_IRON_BLOCK = new BaseBuildingBlock("blue_polished_metal", true, FabricBlockSettings.create().strength(3.0f).sounds(NMSoundGroups.METAL));
     public static Block RUSTY_METAL_BLOCK = new BaseBuildingBlock("rusty_metal", false, FabricBlockSettings.create().strength(3.0f).sounds(NMSoundGroups.METAL));
-    public static Block WHITE_ROUGH_CONCRETE = new BaseBuildingBlock("white_rough_concrete", false, FabricBlockSettings.create().strength(1.8f).sounds(BlockSoundGroup.STONE));
-    public static Block GREY_ROUGH_CONCRETE = new BaseBuildingBlock("grey_rough_concrete", false, FabricBlockSettings.create().strength(1.8f).sounds(BlockSoundGroup.STONE));
-    public static Block YELLOW_ROUGH_CONCRETE = new BaseBuildingBlock("yellow_rough_concrete", false, FabricBlockSettings.create().strength(1.8f).sounds(BlockSoundGroup.STONE));
-    public static Block RED_ROUGH_CONCRETE = new BaseBuildingBlock("red_rough_concrete", false, FabricBlockSettings.create().strength(1.8f).sounds(BlockSoundGroup.STONE));
-    public static Block BLUE_ROUGH_CONCRETE = new BaseBuildingBlock("blue_rough_concrete", false, FabricBlockSettings.create().strength(1.8f).sounds(BlockSoundGroup.STONE));
+    public static Block WHITE_ROUGH_CONCRETE = new RoughConcreteBlock("white_rough_concrete", false, DyeColor.WHITE, FabricBlockSettings.create().strength(1.8f).sounds(BlockSoundGroup.STONE));
+    public static Block GREY_ROUGH_CONCRETE = new RoughConcreteBlock("grey_rough_concrete", false, DyeColor.GRAY, FabricBlockSettings.create().strength(1.8f).sounds(BlockSoundGroup.STONE));
+    public static Block YELLOW_ROUGH_CONCRETE = new RoughConcreteBlock("yellow_rough_concrete", false, DyeColor.YELLOW, FabricBlockSettings.create().strength(1.8f).sounds(BlockSoundGroup.STONE));
+    public static Block RED_ROUGH_CONCRETE = new RoughConcreteBlock("red_rough_concrete", false, DyeColor.RED, FabricBlockSettings.create().strength(1.8f).sounds(BlockSoundGroup.STONE));
+    public static Block BLUE_ROUGH_CONCRETE = new RoughConcreteBlock("blue_rough_concrete", false, DyeColor.BLUE, FabricBlockSettings.create().strength(1.8f).sounds(BlockSoundGroup.STONE));
     public static Block YELLOW_TILES = new BaseBuildingBlock("yellow_tiles", false, FabricBlockSettings.create().strength(1.8f).sounds(BlockSoundGroup.STONE));
     public static Block CAUTION_BLOCK = new BaseBuildingBlock("caution_block", false, FabricBlockSettings.create().strength(1.8f).sounds(BlockSoundGroup.STONE));
     public static Block DIRTY_RED_TILES = new BaseBuildingBlock("dirty_red_tiles", false, FabricBlockSettings.create().strength(1.8f).sounds(BlockSoundGroup.STONE));

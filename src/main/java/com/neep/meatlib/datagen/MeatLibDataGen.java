@@ -2,7 +2,6 @@ package com.neep.meatlib.datagen;
 
 import com.google.common.collect.Sets;
 import com.neep.meatlib.datagen.loot.BlockLootTableProvider;
-import com.neep.meatlib.datagen.loot.MeatlibAdvancementProvider;
 import com.neep.neepmeat.world.NMFeatures;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
@@ -22,6 +21,7 @@ public class MeatLibDataGen implements DataGeneratorEntrypoint
         pack.addProvider(BlockLootTableProvider::new);
         pack.addProvider(BlockTagProvider::new);
         pack.addProvider(MeatRecipeProvider::new);
+        pack.addProvider(ItemTagProvider::new);
 //        pack.addProvider(MeatlibAdvancementProvider::new);
 
         pack.addProvider(NMFeatures::new);
