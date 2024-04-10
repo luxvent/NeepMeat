@@ -1,5 +1,6 @@
 package com.neep.neepmeat.fluid;
 
+import com.neep.meatlib.block.MeatlibBlockSettings;
 import com.neep.meatlib.item.MeatlibItemSettings;
 import com.neep.neepmeat.NMItemGroups;
 import com.neep.neepmeat.item.BaseBucketItem;
@@ -79,7 +80,7 @@ public class FluidFactory
 
     public Block registerBlock()
     {
-        block = Registry.register(Registries.BLOCK, new Identifier(namespace, baseName), new FluidBlock(still, FabricBlockSettings.copy(Blocks.WATER)){});
+        block = Registry.register(Registries.BLOCK, new Identifier(namespace, baseName), new FluidBlock(still, MeatlibBlockSettings.copy(Blocks.WATER)){});
         return block;
     }
 
