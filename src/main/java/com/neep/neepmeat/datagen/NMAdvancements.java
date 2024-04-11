@@ -34,7 +34,7 @@ public class NMAdvancements extends FabricAdvancementProvider
                 .display(
                         NMItems.RAW_MEAT_BRICK,
                         Text.translatable("advancements.neepmeat.main.root.title"),
-                        Text.translatable("advancements.neepmeat.main.root.description"),
+                        Text.translatable("advancements.neepmeat.main.root.desc"),
                         new Identifier("neepmeat:textures/gui/advancements/backgrounds/main.png"),
                         AdvancementFrame.TASK,
                         false,
