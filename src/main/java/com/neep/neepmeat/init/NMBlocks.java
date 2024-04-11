@@ -93,14 +93,14 @@ import static net.minecraft.registry.tag.BlockTags.*;
 public class NMBlocks
 {
     // --- Building Blocks ---
-    public static final AbstractBlock.Settings METAL = MeatlibBlockSettings.create(BlockTags.PICKAXE_MINEABLE).hardness(3.0f).sounds(BlockSoundGroup.NETHERITE);
-    public static final AbstractBlock.Settings BRASS_BLOCKS = MeatlibBlockSettings.create(BlockTags.PICKAXE_MINEABLE).strength(1.8f).sounds(BlockSoundGroup.NETHERITE);
-    public static final AbstractBlock.Settings FLUID_PIPE_SETTINGS = MeatlibBlockSettings.create(BlockTags.PICKAXE_MINEABLE).strength(1.1f).sounds(NMSoundGroups.METAL);
-    public static final AbstractBlock.Settings VASCULAR_CONDUIT_SETTINGS = MeatlibBlockSettings.create(BlockTags.PICKAXE_MINEABLE).strength(1.1f).sounds(NMSoundGroups.METAL);
-    public static final AbstractBlock.Settings MACHINE_SETTINGS = MeatlibBlockSettings.create(BlockTags.PICKAXE_MINEABLE).strength(3.0f).sounds(NMSoundGroups.MECHANICAL_MACHINE).nonOpaque().solidBlock(InventoryDetectorBlock::never);
+    public static final AbstractBlock.Settings METAL = MeatlibBlockSettings.create(BlockTags.PICKAXE_MINEABLE).solid().hardness(3.0f).sounds(BlockSoundGroup.NETHERITE);
+    public static final AbstractBlock.Settings BRASS_BLOCKS = MeatlibBlockSettings.create(BlockTags.PICKAXE_MINEABLE).solid().strength(1.8f).sounds(BlockSoundGroup.NETHERITE);
+    public static final AbstractBlock.Settings FLUID_PIPE_SETTINGS = MeatlibBlockSettings.create(BlockTags.PICKAXE_MINEABLE).solid().strength(1.1f).sounds(NMSoundGroups.METAL);
+    public static final AbstractBlock.Settings VASCULAR_CONDUIT_SETTINGS = MeatlibBlockSettings.create(BlockTags.PICKAXE_MINEABLE).solid().strength(1.1f).sounds(NMSoundGroups.METAL);
+    public static final AbstractBlock.Settings MACHINE_SETTINGS = MeatlibBlockSettings.create(BlockTags.PICKAXE_MINEABLE).solid().strength(3.0f).sounds(NMSoundGroups.MECHANICAL_MACHINE).nonOpaque().solidBlock(InventoryDetectorBlock::never);
 //    public static final AbstractBlock.Settings VAT_SETTINGS = MeatlibBlockSettings.of(Material.METAL).strength(2.5f).sounds(NMSoundGroups.MECHANICAL_MACHINE);
-    public static final AbstractBlock.Settings FLUID_MACHINE_SETTINGS = MeatlibBlockSettings.create(BlockTags.PICKAXE_MINEABLE).strength(2.5f).sounds(NMSoundGroups.MECHANICAL_MACHINE);
-    public static final AbstractBlock.Settings ITEM_PIPE_SETTINGS = MeatlibBlockSettings.create(BlockTags.PICKAXE_MINEABLE).strength(1.1f).sounds(BlockSoundGroup.METAL);
+    public static final AbstractBlock.Settings FLUID_MACHINE_SETTINGS = MeatlibBlockSettings.create(BlockTags.PICKAXE_MINEABLE).solid().strength(2.5f).sounds(NMSoundGroups.MECHANICAL_MACHINE);
+    public static final AbstractBlock.Settings ITEM_PIPE_SETTINGS = MeatlibBlockSettings.create(BlockTags.PICKAXE_MINEABLE).solid().strength(1.1f).sounds(BlockSoundGroup.METAL);
 
 //    public static Block DUAT_STONE = new BaseBuildingBlock("duat_stone", true, MeatlibBlockSettings.of(Material.STONE).strength(2.5f).sounds(BlockSoundGroup.STONE));
 //    public static Block DUAT_COBBLESTONE = new BaseBuildingBlock("duat_cobblestone", true, MeatlibBlockSettings.of(Material.STONE).strength(2.5f).sounds(BlockSoundGroup.STONE));
@@ -179,7 +179,7 @@ public class NMBlocks
     public static Block RUSTY_GRATE = BlockRegistry.queue(new BaseBlock("rusty_vent", MeatlibBlockSettings.copyOf(RUSTY_METAL_BLOCK)));
 
     // Decorations
-    public static Block DIRTY_SINK = BlockRegistry.queue(new BaseBlock("dirty_sink", block(), MeatlibBlockSettings.copyOf(RUSTY_METAL_BLOCK).nonOpaque()));
+    public static Block DIRTY_SINK = BlockRegistry.queue(new BaseBlock("dirty_sink", block(), MeatlibBlockSettings.copyOf(RUSTY_METAL_BLOCK).solid().nonOpaque()));
     public static Block SMALL_SINK = BlockRegistry.queue(new SinkBlock("small_sink", block(), MeatlibBlockSettings.copyOf(Blocks.STONE).nonOpaque()));
     public static Block TELEVISION_OFF = BlockRegistry.queue(new TelevisionBlock("television_off", block(), MeatlibBlockSettings.copyOf(Blocks.STONE).nonOpaque()));
     public static Block TELEVISION_STATIC = BlockRegistry.queue(new TelevisionBlock("television_static", block(), MeatlibBlockSettings.copyOf(Blocks.STONE).nonOpaque()));
@@ -311,7 +311,7 @@ public class NMBlocks
     public static Block BLOOD_BUBBLE_DOOR = BlockRegistry.queueWithItem(new DoorBlock(MeatlibBlockSettings.create(AXE_MINEABLE).simpleDrop(ItemRegistry::getMatchingItem).strength(2.0f).sounds(BlockSoundGroup.WOOD).nonOpaque(), BlockSetType.WARPED), "blood_bubble_planks_door");
     public static Block BLOOD_BUBBLE_BUTTON = BlockRegistry.queueWithItem(new ButtonBlock(MeatlibBlockSettings.create(AXE_MINEABLE).simpleDrop(ItemRegistry::getMatchingItem).strength(1.0f).sounds(BlockSoundGroup.WOOD), BlockSetType.WARPED, 20, true), "blood_bubble_planks_button");
     public static Block BLOOD_BUBBLE_FENCE_GATE = BlockRegistry.queueWithItem(new FenceGateBlock(MeatlibBlockSettings.create(AXE_MINEABLE).simpleDrop(ItemRegistry::getMatchingItem).strength(2.0f).sounds(BlockSoundGroup.WOOD), WoodType.WARPED), "blood_bubble_planks_fence_gate");
-    public static Block BLOOD_BUBBLE_PRESSURE_PLATE = BlockRegistry.queueWithItem(new BloodBubblePressurePlate(PressurePlateBlock.ActivationRule.EVERYTHING, MeatlibBlockSettings.create(AXE_MINEABLE).simpleDrop(ItemRegistry::getMatchingItem).strength(1.0f).sounds(BlockSoundGroup.WOOD)), "blood_bubble_planks_pressure_plate", block().tooltip(TooltipSupplier.simple(1)));
+    public static Block BLOOD_BUBBLE_PRESSURE_PLATE = BlockRegistry.queueWithItem(new BloodBubblePressurePlate(PressurePlateBlock.ActivationRule.EVERYTHING, MeatlibBlockSettings.create(AXE_MINEABLE).simpleDrop(ItemRegistry::getMatchingItem).solid().strength(1.0f).sounds(BlockSoundGroup.WOOD)), "blood_bubble_planks_pressure_plate", block().tooltip(TooltipSupplier.simple(1)));
 
     // --- Assembly ---
 //    public static Block LINEAR_RAIL = BlockRegistry.queue(new LinearRailBlock("linear_rail", 64, false, MeatlibBlockSettings.of(Material.METAL).strength(4.0f)));
