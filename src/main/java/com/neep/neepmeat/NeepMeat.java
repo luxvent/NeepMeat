@@ -31,7 +31,7 @@ import com.neep.neepmeat.potion.NMPotions;
 import com.neep.neepmeat.transport.FluidTransport;
 import com.neep.neepmeat.transport.ItemTransport;
 import com.neep.neepmeat.transport.blood_network.BloodNetworkManager;
-import com.neep.neepmeat.transport.fluid_network.FluidNodeManager;
+import com.neep.neepmeat.transport.fluid_network.FluidNodeManagerImpl;
 import com.neep.neepmeat.util.Bezier;
 import com.neep.neepmeat.world.NMFeatures;
 import net.fabricmc.api.ModInitializer;
@@ -124,7 +124,7 @@ public class NeepMeat implements ModInitializer
 			ScreenHandlerInit.registerScreenHandlers();
 
 			// Fluid transfer things
-			FluidNodeManager.registerEvents();
+			FluidNodeManagerImpl.registerEvents();
 
 			// Meat additives
 			MeatAdditives.init();
