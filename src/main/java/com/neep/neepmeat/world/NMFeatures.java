@@ -17,6 +17,7 @@ import net.minecraft.structure.rule.TagMatchRuleTest;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DataPool;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
+import net.minecraft.util.math.intprovider.IntProvider;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.YOffset;
@@ -27,6 +28,8 @@ import net.minecraft.world.gen.placementmodifier.*;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider;
 import net.minecraft.world.gen.trunk.BendingTrunkPlacer;
+import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
+import net.minecraft.world.gen.trunk.TrunkPlacer;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -73,6 +76,7 @@ public class NMFeatures extends FabricDynamicRegistryProvider
 
         var thing = new TreeFeatureConfig.Builder(
                 BlockStateProvider.of(NMBlocks.BLOOD_BUBBLE_LOG),
+//                new StraightTrunkPlacer(5, 2, 0),
                 new BendingTrunkPlacer(5, 2, 0, 3, UniformIntProvider.create(1, 2)),
                 new WeightedBlockStateProvider(DataPool.<BlockState>builder()
                         .add(NMBlocks.BLOOD_BUBBLE_LEAVES.getDefaultState(), 3)
