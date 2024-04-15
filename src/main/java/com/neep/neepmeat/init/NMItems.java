@@ -13,6 +13,9 @@ import com.neep.neepmeat.implant.player.ExtraMouthImplant;
 import com.neep.neepmeat.implant.player.LungExtensionsImplant;
 import com.neep.neepmeat.implant.player.PinealEyeImplant;
 import com.neep.neepmeat.item.*;
+import com.neep.neepmeat.transport.FluidTransport;
+import com.neep.neepmeat.transport.block.fluid_transport.TankBlock;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.item.ArmorMaterials;
 import net.minecraft.item.Item;
 
@@ -104,4 +107,8 @@ public class NMItems
     public static Item DOSIMETER = new DosimeterItem("dosimeter", TooltipSupplier.hidden(1), new MeatlibItemSettings().group(NMItemGroups.GENERAL));
 
     public static Item DEBUG_ITEM = ItemRegistry.queue(new DebugItem("debug", new MeatlibItemSettings().group(NMItemGroups.GENERAL)));
+
+    public static void init()
+    {
+    }
 }
