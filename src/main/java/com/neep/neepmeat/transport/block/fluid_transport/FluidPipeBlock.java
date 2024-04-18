@@ -5,8 +5,10 @@ import com.neep.neepmeat.init.NMBlockEntities;
 import com.neep.neepmeat.transport.FluidTransport;
 import com.neep.neepmeat.transport.api.pipe.AbstractPipeBlock;
 import com.neep.neepmeat.transport.api.pipe.FluidPipe;
+import com.neep.neepmeat.transport.fluid_network.FluidNodeManager;
 import com.neep.neepmeat.transport.fluid_network.PipeConnectionType;
 import com.neep.neepmeat.transport.fluid_network.node.BlockPipeVertex;
+import com.neep.neepmeat.transport.fluid_network.node.FluidNode;
 import com.neep.neepmeat.transport.machine.fluid.FluidPipeBlockEntity;
 import com.neep.neepmeat.util.MiscUtil;
 import net.fabricmc.api.EnvType;
@@ -42,6 +44,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.object.Color;
+
+import java.util.Collection;
 
 @SuppressWarnings("UnstableApiUsage")
 public class FluidPipeBlock extends AbstractPipeBlock implements BlockEntityProvider, FluidPipe
@@ -165,13 +169,17 @@ public class FluidPipeBlock extends AbstractPipeBlock implements BlockEntityProv
         {
             if (!world.isClient() && world.getBlockEntity(pos) instanceof FluidPipeBlockEntity<?> be)
             {
-                if (be.getPipeVertex() instanceof BlockPipeVertex vertex && !vertex.canSimplify())
-                {
-                    System.out.println(vertex.getAmount());
-                    System.out.println(vertex.getVariant());
-                    System.out.println(vertex.getPumpHeight());
-                    System.out.println(vertex.getTotalHeight());
-                }
+//                if (be.getPipeVertex() instanceof BlockPipeVertex vertex && !vertex.canSimplify())
+//                {
+//                    System.out.println(vertex.getAmount());
+//                    System.out.println(vertex.getVariant());
+//                    System.out.println(vertex.getPumpHeight());
+//                    System.out.println(vertex.getTotalHeight());
+//                }
+
+//                Collection<FluidNode> nodes = FluidNodeManager.getInstance(world).getNodes(pos);
+//                FluidNode node = nodes.iterator().next();
+//                node.hasPump = true;
             }
             return ActionResult.SUCCESS;
         }
