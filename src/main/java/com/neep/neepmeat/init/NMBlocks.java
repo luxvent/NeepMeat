@@ -113,7 +113,8 @@ public class NMBlocks
 
 //    public static Block TEST_MULTIBLOCK = BlockRegistry.queue(new TestMultiblock("test_multiblock", MeatlibBlockSettings.create()));
 
-    public static SmoothTileBlock SMOOTH_TILE = new SmoothTileBlock("smooth_tile", MeatlibBlockSettings.create().hardness(3.0f));
+    public static PaintedBlockManager<?> SMOOTH_TILE = new PaintedBlockManager<>("smooth_tile", SmoothTileBlock::new, MeatlibBlockSettings.create().hardness(3.0f));
+    public static PaintedBlockManager<?> PAINTED_CORRUGAED_ASBESTOS = new PaintedBlockManager<>("painted_corrugated_asbestos", PaintedCorrugatedAsbestosBlock::new, MeatlibBlockSettings.create().hardness(3.0f));
 
     public static Block MACHINE_BLOCK = BlockRegistry.queue(new BaseBlock("machine_block", MeatlibBlockSettings.copyOf(MACHINE_SETTINGS)));
 
@@ -148,8 +149,7 @@ public class NMBlocks
         @Override
         public boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction)
 {
-            if (stateFrom.isOf(this) || stateFrom.isOf((Block) stairs) && stateFrom.get(StairsBlock.FACING).equals(direction.getOpposite()))
-            {
+            if (stateFrom.isOf(this) || stateFrom.isOf((Block) stairs) && stateFrom.get(StairsBlock.FACING).equals(direction.getOpposite())) {
                 return true;
             }
             return super.isSideInvisible(state, stateFrom, direction);
