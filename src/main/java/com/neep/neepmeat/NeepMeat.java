@@ -78,7 +78,7 @@ public class NeepMeat implements ModInitializer
 			NMAdvancements.init();
 
 			new NMBlocks();
-			new NMItems();
+			NMItems.init();
 			NMLootTables.init();
 			NMTags.init();
 			NMParticles.init();
