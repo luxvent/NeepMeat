@@ -130,6 +130,7 @@ public class NMBlocks
     public static Block BLUE_ROUGH_CONCRETE = new RoughConcreteBlock("blue_rough_concrete", false, DyeColor.BLUE, MeatlibBlockSettings.create().strength(1.8f).sounds(BlockSoundGroup.STONE));
     public static Block YELLOW_TILES = new BaseBuildingBlock("yellow_tiles", false, MeatlibBlockSettings.create().strength(1.8f).sounds(BlockSoundGroup.STONE));
     public static Block CAUTION_BLOCK = new BaseBuildingBlock("caution_block", false, MeatlibBlockSettings.create().strength(1.8f).sounds(BlockSoundGroup.STONE));
+    public static Block CAUTION_BLOCK_DOOR = new BaseDoorBlock("caution_block_door", MeatlibBlockSettings.copyOf(CAUTION_BLOCK).nonOpaque(), block(), NMBlockSets.RUSTY_METAL);
     public static Block DIRTY_RED_TILES = new BaseBuildingBlock("dirty_red_tiles", false, MeatlibBlockSettings.create().strength(1.8f).sounds(BlockSoundGroup.STONE));
     public static Block DIRTY_WHITE_TILES = new BaseBuildingBlock("dirty_white_tiles", true, MeatlibBlockSettings.create().strength(1.8f).sounds(BlockSoundGroup.STONE));
     public static Block SAND_BRICKS = new BaseBuildingBlock("sandy_bricks", true, MeatlibBlockSettings.copyOf(Blocks.BRICKS));
