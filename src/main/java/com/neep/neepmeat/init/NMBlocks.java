@@ -10,6 +10,7 @@ import com.neep.neepmeat.api.NMSoundGroups;
 import com.neep.neepmeat.api.big_block.BigBlock;
 import com.neep.neepmeat.api.multiblock2.Multiblock2ControllerBlock;
 import com.neep.neepmeat.block.*;
+import com.neep.neepmeat.block.entity.BaseDoorBlock;
 import com.neep.neepmeat.block.entity.CandleCronenCakeBlock;
 import com.neep.neepmeat.block.entity.CronenCakeBlock;
 import com.neep.neepmeat.block.redstone.BigLeverBlock;
@@ -121,6 +122,7 @@ public class NMBlocks
     public static BaseBuildingBlock POLISHED_METAL = new BaseBuildingBlock("polished_metal", true, MeatlibBlockSettings.create().strength(3.0f).sounds(NMSoundGroups.METAL));
     public static Block BLUE_IRON_BLOCK = new BaseBuildingBlock("blue_polished_metal", true, MeatlibBlockSettings.create().strength(3.0f).sounds(NMSoundGroups.METAL));
     public static Block RUSTY_METAL_BLOCK = new BaseBuildingBlock("rusty_metal", false, MeatlibBlockSettings.create().strength(3.0f).sounds(NMSoundGroups.METAL));
+    public static Block RUSTY_METAL_DOOR = new BaseDoorBlock("rusty_metal_door", MeatlibBlockSettings.copyOf(RUSTY_METAL_BLOCK).nonOpaque(), block(), NMBlockSets.RUSTY_METAL);
     public static Block WHITE_ROUGH_CONCRETE = new RoughConcreteBlock("white_rough_concrete", false, DyeColor.WHITE, MeatlibBlockSettings.create().strength(1.8f).sounds(BlockSoundGroup.STONE));
     public static Block GREY_ROUGH_CONCRETE = new RoughConcreteBlock("grey_rough_concrete", false, DyeColor.GRAY, MeatlibBlockSettings.create().strength(1.8f).sounds(BlockSoundGroup.STONE));
     public static Block YELLOW_ROUGH_CONCRETE = new RoughConcreteBlock("yellow_rough_concrete", false, DyeColor.YELLOW, MeatlibBlockSettings.create().strength(1.8f).sounds(BlockSoundGroup.STONE));
