@@ -1,9 +1,18 @@
 package com.neep.neepmeat.datagen;
 
-import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
-
 public class NMDataGen
 {
+    static
+    {
+        // Hopefully this class will be loaded before MeatLibDataGeb::onInitializeDataGenerator runs.
+    }
+
+//    @Override
+//    public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator)
+//    {
+//        NeepMeat.LOGGER.info("Initialising NEEPMeat datagen!");
+//    }
+
 //    @Override
 //    public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator)
 //    {

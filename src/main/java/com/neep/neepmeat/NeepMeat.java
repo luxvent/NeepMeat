@@ -9,6 +9,7 @@ import com.neep.neepmeat.api.enlightenment.EnlightenmentUtil;
 import com.neep.neepmeat.api.machine.MotorisedBlock;
 import com.neep.neepmeat.api.processing.OreFatRegistry;
 import com.neep.neepmeat.block.entity.FurnaceBurnerImpl;
+import com.neep.neepmeat.client.datagen.NMModelProvider;
 import com.neep.neepmeat.datagen.NMAdvancements;
 import com.neep.neepmeat.datagen.NMItemTagProvider;
 import com.neep.neepmeat.datagen.NMRecipeGenerator;
@@ -73,12 +74,6 @@ public class NeepMeat implements ModInitializer
 
 			GeckoLib.initialize();
 
-			// Datagen (not relevant in normal client or server). It probably shouldn't be here but I don't think
-			// it supports multiple entrypoints.
-			NMrecipeTypes.init();
-			NMRecipeGenerator.init();
-			NMItemTagProvider.init();
-			NMAdvancements.init();
 
 			new NMBlocks();
 			NMItems.init();
@@ -86,6 +81,16 @@ public class NeepMeat implements ModInitializer
 			NMTags.init();
 			NMParticles.init();
 			new NMSounds();
+
+			NMrecipeTypes.init();
+
+			// Datagen things
+			// They shouldn't be here, but I can only have one datagen entry point
+			NMRecipeGenerator.init();
+			NMItemTagProvider.init();
+			NMAdvancements.init();
+			NMModelProvider.init();
+
 
 			PLCBlocks.init();
 
