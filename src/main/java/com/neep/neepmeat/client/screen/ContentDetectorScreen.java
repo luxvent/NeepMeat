@@ -68,7 +68,7 @@ public class ContentDetectorScreen extends HandledScreen<ContentDetectorScreenHa
                 super.renderButton(matrices, mouseX, mouseY, delta);
                 if (isMouseOver(mouseX, mouseY))
                 {
-                    matrices.drawTooltip(textRenderer, Text.of("Stack Condition"), mouseX, mouseY);
+                    matrices.drawTooltip(textRenderer, Text.translatable("screen.neepmeat.content_detector.stack_condition"), mouseX, mouseY);
                 }
             }
         };
@@ -86,9 +86,11 @@ public class ContentDetectorScreen extends HandledScreen<ContentDetectorScreenHa
                     switch (index)
                     {
                         case 0 ->
-                                matrices.drawTooltip(textRenderer, List.of(Text.of("Regulate"), Text.of("Stays powered until all filter items have left")), mouseX, mouseY);
+                                matrices.drawTooltip(textRenderer, List.of(Text.translatable("screen.neepmeat.content_detector.regulate"),
+                                        Text.translatable("screen.neepmeat.content_detector.regulate.desc")), mouseX, mouseY);
                         case 1 ->
-                                matrices.drawTooltip(textRenderer, List.of(Text.of("Absolute"), Text.of("Stays powered only while conditions are met")), mouseX, mouseY);
+                                matrices.drawTooltip(textRenderer, List.of(Text.translatable("screen.neepmeat.content_detector.regulate"),
+                                        Text.of("screen.neepmeat.content_detector.regulate")), mouseX, mouseY);
                     }
                 }
             }
