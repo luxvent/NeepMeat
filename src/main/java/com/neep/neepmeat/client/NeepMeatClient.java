@@ -1,6 +1,7 @@
 package com.neep.neepmeat.client;
 
 import com.neep.meatlib.block.BaseBuildingBlock;
+import com.neep.meatlib.block.PaintedBlockManager;
 import com.neep.meatlib.block.SmoothTileBlock;
 import com.neep.meatlib.graphics.client.GraphicsEffectClient;
 import com.neep.meatweapons.particle.PhageRayGraphicsEffect;
@@ -217,7 +218,7 @@ public class NeepMeatClient implements ClientModInitializer
 
 
         // Coloured blocks
-        for (SmoothTileBlock.PaintedBlock block : SmoothTileBlock.COLOURED_BLOCKS)
+        for (PaintedBlockManager.PaintedBlock block : NMBlocks.SMOOTH_TILE.entries)
         {
             ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> block.getRawCol(), block);
             ColorProviderRegistry.ITEM.register((stack, tintIndex) -> block.getRawCol(), block.asItem());
@@ -285,6 +286,8 @@ public class NeepMeatClient implements ClientModInitializer
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.BLOOD_BUBBLE_TRAPDOOR);
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.BLOOD_BUBBLE_DOOR);
 
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.CAUTION_BLOCK_DOOR);
+
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.WHISPER_WHEAT);
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.FLESH_POTATO);
 
@@ -323,5 +326,7 @@ public class NeepMeatClient implements ClientModInitializer
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), FluidTransport.WINDOW_PIPE);
 
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.HOLDING_TRACK);
+
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.LARGE_FAN);
     }
 }

@@ -23,7 +23,7 @@ public abstract class BigBlockStructure<T extends BigBlockStructureEntity> exten
 
     public BigBlockStructure(BigBlock<?> parent, Settings settings, BlockEntityRegisterererer<T> registerBlockEntity)
     {
-        super(settings.nonOpaque().pistonBehavior(PistonBehavior.IGNORE));
+        super(settings.nonOpaque().solid().pistonBehavior(PistonBehavior.IGNORE));
         this.parent = parent;
         this.blockEntityType = registerBlockEntity.get(this);
     }

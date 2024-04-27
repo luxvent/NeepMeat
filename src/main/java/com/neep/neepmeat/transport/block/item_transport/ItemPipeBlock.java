@@ -13,17 +13,17 @@ import com.neep.neepmeat.util.MiscUtil;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
-import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Waterloggable;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
@@ -37,17 +37,16 @@ import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
-import java.util.Set;
 
 public class ItemPipeBlock extends AbstractPipeBlock implements BlockEntityProvider, ItemPipe
 {
-
     public ItemPipeBlock(String itemName, ItemSettings itemSettings, Settings settings)
     {
         super(itemName, itemSettings, settings);
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved)
     {
         if (!state.isOf(newState.getBlock()))
@@ -64,14 +63,9 @@ public class ItemPipeBlock extends AbstractPipeBlock implements BlockEntityProvi
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify)
     {
-
-        if (!(world.getBlockState(fromPos).getBlock() instanceof ItemPipeBlock))
-        {
-//            createStorageNodes(world, pos, state2);
-        }
-
         if (world instanceof ServerWorld serverWorld)
         {
             onAdded(pos, state, serverWorld);
@@ -88,7 +82,6 @@ public class ItemPipeBlock extends AbstractPipeBlock implements BlockEntityProvi
     {
         BlockState updatedState = enforceApiConnections(world, pos, state);
         world.setBlockState(pos, updatedState,  Block.NOTIFY_ALL);
-//        createStorageNodes(world, pos, updatedState);
 
         if (world instanceof ServerWorld serverWorld)
             onAdded(pos, state, serverWorld);
@@ -97,6 +90,11 @@ public class ItemPipeBlock extends AbstractPipeBlock implements BlockEntityProvi
     @Override
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos)
     {
+        if (state.get(WATERLOGGED))
+        {
+            world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+        }
+
         PipeConnectionType type = state.get(DIR_TO_CONNECTION.get(direction));
         boolean forced = type == PipeConnectionType.FORCED;
         boolean otherConnected = false;
@@ -123,7 +121,6 @@ public class ItemPipeBlock extends AbstractPipeBlock implements BlockEntityProvi
 
         return state.with(DIR_TO_CONNECTION.get(direction), finalConnection);
     }
-
 
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit)
     {
@@ -195,8 +192,7 @@ public class ItemPipeBlock extends AbstractPipeBlock implements BlockEntityProvi
     {
         if (world.getBlockEntity(pos) instanceof ItemPipeBlockEntity be)
         {
-            long transferred = be.insert(item, world, state, pos, direction, transaction);
-            return transferred;
+            return be.insert(item, world, state, pos, direction, transaction);
         }
         return 0;
     }

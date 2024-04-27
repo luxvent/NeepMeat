@@ -1,6 +1,7 @@
 package com.neep.meatlib.datagen.loot;
 
 import com.neep.meatlib.block.MeatlibBlock;
+import com.neep.meatlib.block.MeatlibBlockExtension;
 import com.neep.meatlib.registry.BlockRegistry;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
@@ -21,6 +22,7 @@ public class BlockLootTableProvider extends FabricBlockLootTableProvider
         {
             if (entry instanceof MeatlibBlock meatBlock)
             {
+                // True by default for MeatlibBlock
                 if (meatBlock.autoGenDrop())
                 {
                     var builder = meatBlock.genLoot(this);
@@ -30,12 +32,22 @@ public class BlockLootTableProvider extends FabricBlockLootTableProvider
                     }
                     else
                     {
+                        // Legacy behaviour
                         ItemConvertible like = meatBlock.dropsLike();
                         if (like != null)
                         {
                             this.addDrop(entry, like);
                         }
                     }
+                }
+            }
+            else
+            {
+                // The default behaviour injected into Item delegates to MeatlibItemSettings if applicable.
+                ItemConvertible drop = entry.neepmeat$simpleDrop();
+                if (drop != null)
+                {
+                    this.addDrop(entry, drop);
                 }
             }
         }
