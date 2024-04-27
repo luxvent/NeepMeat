@@ -6,6 +6,9 @@ import com.neep.meatlib.registry.BlockRegistry;
 import com.neep.meatlib.registry.ItemRegistry;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.block.DoorBlock;
+import net.minecraft.data.server.loottable.BlockLootTableGenerator;
+import net.minecraft.loot.LootTable;
+import org.jetbrains.annotations.Nullable;
 
 public class BaseDoorBlock extends DoorBlock implements MeatlibBlock
 {
@@ -18,6 +21,12 @@ public class BaseDoorBlock extends DoorBlock implements MeatlibBlock
 
         BlockRegistry.queue(this);
         ItemRegistry.queue(name, itemSettings.create(this, name, itemSettings));
+    }
+
+    @Override
+    public @Nullable LootTable.Builder genLoot(BlockLootTableGenerator generator)
+    {
+        return generator.doorDrops(this);
     }
 
     @Override
