@@ -866,8 +866,8 @@
   "subtitles.neepmeat.combine_instruction_apply": "Combine completed",
   "subtitles.neepmeat.inject_instruction_apply": "Inject completed",
 
-  "subtitles.neepmeat.phage_ray_charge": "Phage Ray charges",
-  "subtitles.neepmeat.phage_ray_running": "Phage Ray active",
+  "subtitles.neepmeat.phage_ray.charge": "Phage Ray charges",
+  "subtitles.neepmeat.phage_ray.running": "Phage Ray active",
 
   "subtitles.neepmeat.vivisection_complete": "Vivisection completes",
   "subtitles.neepmeat.scalpel_hit": "Scalpel attack",

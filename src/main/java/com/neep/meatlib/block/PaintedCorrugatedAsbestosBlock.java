@@ -7,16 +7,12 @@ import com.neep.meatlib.item.MeatlibItemSettings;
 import com.neep.neepmeat.NMItemGroups;
 import com.neep.neepmeat.datagen.tag.NMTags;
 import com.neep.neepmeat.init.NMBlocks;
-import com.neep.neepmeat.init.NMItems;
-import net.minecraft.block.Block;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.DyeItem;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.DyeColor;
 import software.bernie.geckolib.core.object.Color;
 
-import java.awt.*;
 import java.util.function.Consumer;
 
 public class PaintedCorrugatedAsbestosBlock extends PaintedBlockManager.PaintedBlock implements MeatlibBlock

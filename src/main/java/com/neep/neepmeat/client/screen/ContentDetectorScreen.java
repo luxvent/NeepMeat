@@ -89,8 +89,8 @@ public class ContentDetectorScreen extends HandledScreen<ContentDetectorScreenHa
                                 matrices.drawTooltip(textRenderer, List.of(Text.translatable("screen.neepmeat.content_detector.regulate"),
                                         Text.translatable("screen.neepmeat.content_detector.regulate.desc")), mouseX, mouseY);
                         case 1 ->
-                                matrices.drawTooltip(textRenderer, List.of(Text.translatable("screen.neepmeat.content_detector.regulate"),
-                                        Text.of("screen.neepmeat.content_detector.regulate")), mouseX, mouseY);
+                                matrices.drawTooltip(textRenderer, List.of(Text.translatable("screen.neepmeat.content_detector.absolute"),
+                                        Text.translatable("screen.neepmeat.content_detector.absolute.desc")), mouseX, mouseY);
                     }
                 }
             }
