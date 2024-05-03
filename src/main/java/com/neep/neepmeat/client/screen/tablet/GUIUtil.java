@@ -1,12 +1,16 @@
 package com.neep.neepmeat.client.screen.tablet;
 
+import com.neep.neepmeat.NeepMeat;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 public interface GUIUtil
 {
+    Identifier INVENTORY_BACKGROUND = new Identifier(NeepMeat.NAMESPACE, "textures/gui/inventory_background.png");
+
     static void renderBorder(DrawContext context, int x, int y, int dx, int dy, int col, int offset)
     {
         drawHorizontalLine1(context, x - offset, x + dx + offset, y - offset, col);
@@ -66,5 +70,10 @@ public interface GUIUtil
             y2 = i;
         }
         context.fill(x, y1 + 1, x + 1, y2, color);
+    }
+
+    static void drawInventoryBackground(DrawContext context, int x, int y)
+    {
+        context.drawTexture(INVENTORY_BACKGROUND, x, y, 0, 0, 176, 90);
     }
 }
