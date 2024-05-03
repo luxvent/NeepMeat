@@ -251,14 +251,14 @@
   "block.neepmeat.encased_vascular_conduit": "Encased Vascular Conduit",
   "block.neepmeat.encased_vascular_conduit.lore_0": "Takes on the model shape of the block it is right-clicked with.",
   "block.neepmeat.vsc": "Vascular Source Converter",
-  "block.neepmeat.vsc.lore_0": "Consumes a configurable amount of power from a vascular network and emits it from the front. Useful for controlling the speed of motors.\nDisabled by redstone by default. Right-click while sneaking to toggle.",
+  "block.neepmeat.vsc.lore_0": "Consumes a configurable amount of power from a vascular network and emits it from the front. Useful for controlling the speed of motors.\n§eDisabled by redstone by default. Right-click while sneaking to toggle.",
   "screen.neepmeat.vsc.text.power": "Target output power",
 
   "block.neepmeat.power_emitter": "Creative Power Emitter",
   "block.neepmeat.power_emitter.lore_0": "Emits 100eJ/t into a vascular network.",
 
   "block.neepmeat.pump": "Redstone Pump",
-  "block.neepmeat.pump.lore_0": "Pumps fluid quickly through pipes.",
+  "block.neepmeat.pump.lore_0": "Pumps fluid quickly through pipes.\n§eEnabled by redstone by default. Right-click while sneaking to toggle.",
 
   "block.neepmeat.item_pump": "Item Pump",
   "block.neepmeat.item_pump.lore_0": "Requests and ejects stacks of sixteen into connected pipes.",
@@ -499,9 +499,7 @@
 
   "item.neepmeat.pipette": "Pipette",
   "item.neepmeat.pipette.full": "Pipette: %s (%s mb)",
-  "item.neepmeat.pipette.lore_0": "Holds up to one bucket of fluid.",
-  "item.neepmeat.pipette.lore_1": "Use on a block to extract or deposit fluid.",
-  "item.neepmeat.pipette.lore_2": "Shift-click to dump contents.",
+  "item.neepmeat.pipette.lore_0": "Holds up to one bucket of fluid.\nUse on a block to extract or deposit fluid.\n§eSneak-click on a block that cannot contain fluid to dump contents.",
 
   "item.neepmeat.refractory_brick": "Refractory Brick",
 
@@ -882,6 +880,8 @@
 
   "subtitles.neepmeat.vivisection_complete": "Vivisection completes",
   "subtitles.neepmeat.scalpel_hit": "Scalpel attack",
+
+  "subtitles.neepmeat.wrench.click": "Wrench clicks",
 
   "subtitles.neepmeat.big_lever_on": "Big lever clicks on",
   "subtitles.neepmeat.big_lever_off": "Big lever clicks off"
