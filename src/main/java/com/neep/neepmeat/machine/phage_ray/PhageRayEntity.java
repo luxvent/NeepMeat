@@ -249,7 +249,7 @@ public class PhageRayEntity extends Entity
             while (it.hasNext())
             {
                 var target = it.next();
-                if (target.getValue() >= 1)
+                if (target.getValue() >= 1 && !getWorld().getBlockState(target.getKey()).isOf(NMBlocks.PHAGE_RAY.getStructure()))
                 {
                     getWorld().breakBlock(target.getKey(), false);
                     it.remove();
