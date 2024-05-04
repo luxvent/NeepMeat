@@ -1,10 +1,10 @@
 package com.neep.neepmeat.machine.separator;
 
 import com.neep.neepmeat.NeepMeat;
-import com.neep.neepmeat.client.screen.NumberFieldWidget;
+import com.neep.neepmeat.client.screen.button.NMButtonWidget;
+import com.neep.neepmeat.client.screen.NumberField;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -26,7 +26,7 @@ public class SeparatorScreen extends HandledScreen<SeparatorScreenHandler>
     {
         super.init();
 
-        NumberFieldWidget textField = new NumberFieldWidget(this.textRenderer, x + 6, y + 7, 50, 17, Text.of(""))
+        NumberField textField = new NumberField(this.textRenderer, x + 6, y + 7, 50, 17, Text.of(""))
         {
             @Override
             public void renderButton(DrawContext matrices, int mouseX, int mouseY, float delta)
@@ -48,7 +48,7 @@ public class SeparatorScreen extends HandledScreen<SeparatorScreenHandler>
         });
         textField.setDrawsBackground(false);
 
-        this.addDrawableChild(new ButtonWidget(x + 5, y + 30, 73, 20, Text.empty(), button ->
+        this.addDrawableChild(new NMButtonWidget(x + 5, y + 30, 73, 20, Text.empty(), button ->
                 handler.setTakeBabies(!handler.takeBabies()),
                 t -> Text.empty())
         {
@@ -58,7 +58,7 @@ public class SeparatorScreen extends HandledScreen<SeparatorScreenHandler>
                 return handler.takeBabies() ?
                         Text.of("Take babies") : Text.of("Take adults");
             }
-        });
+        }).showBackground(false);
 
         this.addDrawableChild(textField);
     }
