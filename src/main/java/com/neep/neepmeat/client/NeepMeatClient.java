@@ -2,7 +2,6 @@ package com.neep.neepmeat.client;
 
 import com.neep.meatlib.block.BaseBuildingBlock;
 import com.neep.meatlib.block.PaintedBlockManager;
-import com.neep.meatlib.block.SmoothTileBlock;
 import com.neep.meatlib.graphics.client.GraphicsEffectClient;
 import com.neep.meatweapons.particle.PhageRayGraphicsEffect;
 import com.neep.neepmeat.NeepMeat;
@@ -23,6 +22,7 @@ import com.neep.neepmeat.client.renderer.entity.KeeperEntityRenderer;
 import com.neep.neepmeat.client.renderer.entity.WormEntityRenderer;
 import com.neep.neepmeat.client.screen.*;
 import com.neep.neepmeat.client.screen.living_machine.ItemOutputScreen;
+import com.neep.neepmeat.client.screen.living_machine.LivingMachineScreen;
 import com.neep.neepmeat.client.screen.plc.PLCProgramScreen;
 import com.neep.neepmeat.client.world.NMDimensionEffects;
 import com.neep.neepmeat.init.*;
