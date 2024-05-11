@@ -146,6 +146,8 @@ public class NeepMeatClient implements ClientModInitializer
         EntityRendererRegistry.register(NMEntities.ACID_SPRAY, DummyEntityRenderer::new);
         EntityRendererRegistry.register(NMEntities.PHAGE_RAY, DummyEntityRenderer::new);
 
+        EntityRendererRegistry.register(NMEntities.FARMING_SCUTTER, DummyEntityRenderer::new);
+
         EntityModelLayerRegistry.registerModelLayer(TANK_MINECART, MinecartEntityModel::getTexturedModelData);
 
 //        GeoArmorRenderer.regi(new GogglesArmourRenderer(new GenericModel<>(

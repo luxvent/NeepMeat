@@ -4,6 +4,7 @@ import com.jozufozu.flywheel.backend.instancing.InstancedRenderRegistry;
 import com.neep.neepmeat.client.instance.LargeTrommelInstance;
 import com.neep.neepmeat.client.instance.LargeFanInstance;
 import com.neep.neepmeat.client.instance.RoboticArmInstance;
+import com.neep.neepmeat.client.instance.FarmingScutterInstance;
 import com.neep.neepmeat.client.renderer.LinearOscillatorInstance;
 import com.neep.neepmeat.client.renderer.block.LargeTrommelRenderer;
 import com.neep.neepmeat.client.renderer.block.LargestHopperRenderer;
@@ -66,5 +67,7 @@ public class NMInstances
         InstancedRenderRegistry.configure(NMEntities.PHAGE_RAY).alwaysSkipRender().factory(PhageRayInstance::new).apply();
 
         InstancedRenderRegistry.configure(NMEntities.LIMB).factory(LimbEntityInstance::new).apply();
+
+        InstancedRenderRegistry.configure(NMEntities.FARMING_SCUTTER).factory(FarmingScutterInstance::new).apply();
     }
 }

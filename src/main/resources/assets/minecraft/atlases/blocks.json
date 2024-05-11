@@ -11,6 +11,7 @@
     { "type": "single", "resource": "neepmeat:entity/limbs/flesh_2" },
     { "type": "single", "resource": "neepmeat:entity/limbs/limbs" },
     { "type": "single", "resource": "neepmeat:entity/limbs/pig_head" },
+    { "type": "single", "resource": "neepmeat:entity/scutter" },
 
     {"type": "single", "resource": "neepmeat:entity/armour/goggles"}
   ]
