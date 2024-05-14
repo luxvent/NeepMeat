@@ -61,6 +61,11 @@ public class NMAdvancements extends FabricAdvancementProvider
                 NMBlocks.PEDESTAL
         );
 
+        Advancement obtain_asbestos = getItem(
+                consumer, "main", "obtain_asbestos", obtain_integrator,
+                NMBlocks.ASBESTOS
+        );
+
         Advancement obtain_enlightened_brain = getItem(
                 consumer, "main", "obtain_enlightened_brain", enlightenment,
                 NMItems.ENLIGHTENED_BRAIN
