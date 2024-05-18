@@ -338,7 +338,8 @@ public class AssaultDrillItem extends Item implements MeatlibItem, GeoItem, Powe
 
     public void onAttackBlock(ItemStack stack, PlayerEntity player)
     {
-        sendAttack(true);
+        if (stack.getDamage() < getMaxDamage())
+            sendAttack(true);
     }
 
     public void onFinishAttackBlock(ItemStack stack, PlayerEntity player)
