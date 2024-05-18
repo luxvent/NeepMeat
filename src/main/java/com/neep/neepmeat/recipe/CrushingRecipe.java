@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 @SuppressWarnings("UnstableApiUsage")
-public class GrindingRecipe implements MeatlibRecipe<IGrinderStorage>
+public class CrushingRecipe implements MeatlibRecipe<IGrinderStorage>
 {
     protected Identifier id;
     protected RecipeInput<Item> itemInput;
@@ -33,7 +33,7 @@ public class GrindingRecipe implements MeatlibRecipe<IGrinderStorage>
     protected float experience;
     protected int processTime;
 
-    public GrindingRecipe(Identifier id, RecipeInput<Item> itemInput, RecipeOutput<Item> itemOutput, RecipeOutput<Item> extraOutput, float experience, int processTime)
+    public CrushingRecipe(Identifier id, RecipeInput<Item> itemInput, RecipeOutput<Item> itemOutput, RecipeOutput<Item> extraOutput, float experience, int processTime)
     {
         this.itemInput = itemInput;
         this.itemOutput = itemOutput;
@@ -138,7 +138,7 @@ public class GrindingRecipe implements MeatlibRecipe<IGrinderStorage>
         return false;
     }
 
-    public static class Serializer<T extends GrindingRecipe> implements MeatRecipeSerialiser<T>
+    public static class Serializer<T extends CrushingRecipe> implements MeatRecipeSerialiser<T>
     {
         private RecipeFactory<T> factory;
         private DestroyRecipeFactory<T> destroyFactory;
@@ -202,7 +202,7 @@ public class GrindingRecipe implements MeatlibRecipe<IGrinderStorage>
         }
 
         @Override
-        public void write(PacketByteBuf buf, GrindingRecipe recipe)
+        public void write(PacketByteBuf buf, CrushingRecipe recipe)
         {
             if (recipe.destroy())
             {
@@ -230,19 +230,19 @@ public class GrindingRecipe implements MeatlibRecipe<IGrinderStorage>
         }
 
         @FunctionalInterface
-        public interface RecipeFactory<T extends GrindingRecipe>
+        public interface RecipeFactory<T extends CrushingRecipe>
         {
             T create(Identifier var1, RecipeInput<Item> in, RecipeOutputImpl<Item> out, @Nullable RecipeOutputImpl<Item> eOut, float xp, int time);
         }
 
-        public interface DestroyRecipeFactory<T extends GrindingRecipe>
+        public interface DestroyRecipeFactory<T extends CrushingRecipe>
         {
             T create(Identifier id);
         }
     }
 
     // A recipe that destroys any input item, for use in the Large Crusher.
-    public static class DestroyRecipe extends GrindingRecipe
+    public static class DestroyRecipe extends CrushingRecipe
     {
         public DestroyRecipe(Identifier id)
         {
