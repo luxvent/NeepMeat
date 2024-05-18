@@ -4,11 +4,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.neep.meatlib.recipe.MeatRecipeSerialiser;
 import com.neep.meatlib.recipe.MeatlibRecipe;
-import com.neep.meatlib.recipe.ingredient.GenericIngredient;
 import com.neep.meatlib.recipe.ingredient.RecipeOutput;
 import com.neep.meatlib.recipe.ingredient.RecipeOutputImpl;
 import com.neep.neepmeat.init.NMrecipeTypes;
-import net.fabricmc.fabric.api.transfer.v1.storage.TransferVariant;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
@@ -53,9 +51,8 @@ public class VivisectionRecipe implements MeatlibRecipe<VivisectionRecipe.Vivise
     @Override
     public boolean ejectOutputs(VivisectionContext context, TransactionContext transaction)
     {
-        output.update();
         Item resource = output.resource();
-        int amount = (int) output.amount();
+        int amount = (int) output.randomAmount(1);
         ItemEntity item = new ItemEntity(context.world, context.pos.x, context.pos.y, context.pos.z, new ItemStack(resource, amount));
         context.world.spawnEntity(item);
         context.entity.kill();
