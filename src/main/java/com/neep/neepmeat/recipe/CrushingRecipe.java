@@ -9,7 +9,7 @@ import com.neep.meatlib.recipe.ingredient.RecipeInputs;
 import com.neep.meatlib.recipe.ingredient.RecipeOutput;
 import com.neep.meatlib.recipe.ingredient.RecipeOutputImpl;
 import com.neep.neepmeat.init.NMrecipeTypes;
-import com.neep.neepmeat.machine.grinder.IGrinderStorage;
+import com.neep.neepmeat.machine.grinder.CrusherRecipeContext;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 @SuppressWarnings("UnstableApiUsage")
-public class CrushingRecipe implements MeatlibRecipe<IGrinderStorage>
+public class CrushingRecipe implements MeatlibRecipe<CrusherRecipeContext>
 {
     protected Identifier id;
     protected RecipeInput<Item> itemInput;
@@ -49,7 +49,7 @@ public class CrushingRecipe implements MeatlibRecipe<IGrinderStorage>
     }
 
     @Override
-    public boolean matches(IGrinderStorage inventory)
+    public boolean matches(CrusherRecipeContext inventory)
     {
         return itemInput.testStorage(inventory.getInputStorage());
     }
@@ -93,7 +93,7 @@ public class CrushingRecipe implements MeatlibRecipe<IGrinderStorage>
     }
 
     @Override
-    public boolean takeInputs(IGrinderStorage storage, TransactionContext transaction)
+    public boolean takeInputs(CrusherRecipeContext storage, TransactionContext transaction)
     {
         try (Transaction inner = transaction.openNested())
         {
@@ -102,7 +102,6 @@ public class CrushingRecipe implements MeatlibRecipe<IGrinderStorage>
             {
                 inner.abort();
                 return false;
-//                throw new IllegalStateException("Storage contents must conform to recipe");
             }
 
             long extracted = storage.getInputStorage().extract(ItemVariant.of(item.get()), itemInput.amount(), transaction);
@@ -117,12 +116,13 @@ public class CrushingRecipe implements MeatlibRecipe<IGrinderStorage>
     }
 
     @Override
-    public boolean ejectOutputs(IGrinderStorage context, TransactionContext transaction)
+    public boolean ejectOutputs(CrusherRecipeContext context, TransactionContext transaction)
     {
         try (Transaction inner = transaction.openNested())
         {
+            // Only apply the chance modifier to the extra output
             boolean bl1 = itemOutput.insertInto(context.getOutputStorage(), ItemVariant::of, inner);
-            boolean bl2 = extraOutput == null || extraOutput.insertInto(context.getExtraStorage(), ItemVariant::of, inner);
+            boolean bl2 = extraOutput == null || extraOutput.insertInto(context.getExtraStorage(), ItemVariant::of, context.getChanceMod(), inner);
             boolean bl3 = context.getXpStorage().insert(experience, transaction) == experience;
 
             if (bl1 && bl2 && bl3)
@@ -137,9 +137,9 @@ public class CrushingRecipe implements MeatlibRecipe<IGrinderStorage>
 
     public static class Serializer<T extends CrushingRecipe> implements MeatRecipeSerialiser<T>
     {
-        private RecipeFactory<T> factory;
-        private DestroyRecipeFactory<T> destroyFactory;
-        private int processTIme;
+        private final RecipeFactory<T> factory;
+        private final DestroyRecipeFactory<T> destroyFactory;
+        private final int processTIme;
 
         public Serializer(RecipeFactory<T> recipeFactory, DestroyRecipeFactory<T> destroyFactory, int processTime)
         {
@@ -253,13 +253,13 @@ public class CrushingRecipe implements MeatlibRecipe<IGrinderStorage>
         }
 
         @Override
-        public boolean matches(IGrinderStorage inventory)
+        public boolean matches(CrusherRecipeContext inventory)
         {
             return false;
         }
 
         @Override
-        public boolean takeInputs(IGrinderStorage storage, TransactionContext transaction)
+        public boolean takeInputs(CrusherRecipeContext storage, TransactionContext transaction)
         {
             var it = storage.getInputStorage().nonEmptyIterator();
             if (it.hasNext())
@@ -272,7 +272,7 @@ public class CrushingRecipe implements MeatlibRecipe<IGrinderStorage>
         }
 
         @Override
-        public boolean ejectOutputs(IGrinderStorage context, TransactionContext transaction)
+        public boolean ejectOutputs(CrusherRecipeContext context, TransactionContext transaction)
         {
             return true;
         }
