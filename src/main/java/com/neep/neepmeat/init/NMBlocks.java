@@ -49,7 +49,6 @@ import com.neep.neepmeat.machine.item_mincer.ItemMincerBlock;
 import com.neep.neepmeat.machine.large_crusher.LargeCrusherBlock;
 import com.neep.neepmeat.machine.large_crusher.LargeCrusherStructureBlock;
 import com.neep.neepmeat.machine.large_motor.LargeMotorBlock;
-import com.neep.neepmeat.machine.live_machine.block.TestLivingMachineBlock;
 import com.neep.neepmeat.machine.mincer.MincerBlock;
 import com.neep.neepmeat.machine.mixer.MixerBlock;
 import com.neep.neepmeat.machine.motor.MotorBlock;
@@ -116,8 +115,6 @@ public class NMBlocks
 //    public static Block TEST_MULTIBLOCK = BlockRegistry.queue(new TestMultiblock("test_multiblock", MeatlibBlockSettings.create()));
 
     public static PaintedBlockManager<?> SMOOTH_TILE = new PaintedBlockManager<>("smooth_tile", SmoothTileBlock::new, MeatlibBlockSettings.create().hardness(3.0f));
-
-    public static Block TEST_LIVING_MACHINE = BlockRegistry.queueWithItem(new TestLivingMachineBlock("test_living_machine", MeatlibBlockSettings.copyOf(MACHINE_SETTINGS)), ItemSettings.block());
 
     public static Block POLISHED_IRON_BRICKS = new BaseBuildingBlock("polished_metal_bricks", true, MeatlibBlockSettings.create().strength(3.0f).sounds(NMSoundGroups.METAL));
     public static Block POLISHED_MERAL_SMALL_BRICKS = new BaseBuildingBlock("polished_metal_small_bricks", true, MeatlibBlockSettings.create().strength(3.0f).sounds(NMSoundGroups.METAL));
