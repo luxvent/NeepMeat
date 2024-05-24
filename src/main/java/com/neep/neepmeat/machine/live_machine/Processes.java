@@ -17,9 +17,12 @@ public class Processes
         return INSTANCE;
     }
 
-//    private final Map<BitSet, Process> entries = new HashMap<>();
-
     private final List<Pair<BitSet, Process>> entries = new ObjectArrayList<>();
+
+    public List<Pair<BitSet, Process>> getEntries()
+    {
+        return entries;
+    }
 
     public void register(Process process)
     {

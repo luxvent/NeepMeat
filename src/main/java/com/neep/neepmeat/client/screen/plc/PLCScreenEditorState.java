@@ -65,6 +65,7 @@ public class PLCScreenEditorState extends ScreenSubElement implements Drawable, 
         addDrawableChild(editorField);
         addDrawableChild(browser);
         addDrawable(viewer);
+
     }
 
     @Override
@@ -197,4 +198,5 @@ public class PLCScreenEditorState extends ScreenSubElement implements Drawable, 
     {
         return editorField.isFocused();
     }
+
 }

@@ -16,17 +16,13 @@ import com.neep.neepmeat.plc.instruction.Argument;
 import com.neep.neepmeat.plc.screen.PLCScreenHandler;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.ScreenHandlerProvider;
-import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.render.*;
 import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.client.sound.SoundManager;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
@@ -135,17 +131,17 @@ public class PLCProgramScreen extends Screen implements ScreenHandlerProvider<PL
             addDrawableChild(editor);
             editor.setDimensions(width, height);
 
-            addDrawableChild(new ModeSwitchButton(width - 17, 1, 16, 16));
-            addDrawableChild(new StopButton(width - 2 * 17, 1, 16, 16, Text.of("Stop")));
-            addDrawableChild(new RunButton(width - 3 * 17, 1, 16, 16, Text.of("Run")));
-            addDrawableChild(new CompileButton(width - 4 * 17, 1, 16, 16, Text.of("Compile")));
+            addDrawableChild(new ModeSwitchButton(width - 17, 1));
+            addDrawableChild(new StopButton(width - 2 * 17, 1, Text.of("Stop")));
+            addDrawableChild(new RunButton(width - 3 * 17, 1, Text.of("Run")));
+            addDrawableChild(new CompileButton(width - 4 * 17, 1, Text.of("Compile")));
             state = editor;
         }
         else
         {
             addDrawableChild(shell);
-            addDrawableChild(new ModeSwitchButton(width - 17, 1, 16, 16));
-            addDrawableChild(new StopButton(width - 2 * 17, 1, 16, 16, Text.of("Stop")));
+            addDrawableChild(new ModeSwitchButton(width - 17, 1));
+            addDrawableChild(new StopButton(width - 2 * 17, 1, Text.of("Stop")));
             state = shell;
         }
 
@@ -498,75 +494,25 @@ public class PLCProgramScreen extends Screen implements ScreenHandlerProvider<PL
         return !editor.isEditFieldFocused();
     }
 
-    abstract class SaveButton extends ClickableWidget
+    public abstract class BaseButton extends PLCScreenButton
     {
-        public SaveButton(int x, int y, int width, int height, Text message)
+        public BaseButton(int x, int y, Text message)
         {
-            super(x, y, width, height, message);
-        }
-
-        @Override
-        public void renderButton(DrawContext matrices, int mouseX, int mouseY, float delta)
-        {
-            MinecraftClient minecraftClient = MinecraftClient.getInstance();
-            RenderSystem.setShader(GameRenderer::getPositionTexProgram);
-            RenderSystem.setShaderTexture(0, WIDGETS);
-            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, this.alpha);
-            int i = this.getYImage(this.isHovered());
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
-            RenderSystem.enableDepthTest();
-            int thingHeight = 16;
-            matrices.drawTexture(WIDGETS, getX(), getY(), 0, getU(), getV() + i * thingHeight, this.width, this.height, 256, 256);
-//            this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
-
-            if (isMouseOver(mouseX, mouseY))
-            {
-                renderTooltip(matrices, mouseX, mouseY);
-            }
-        }
-
-        protected int getYImage(boolean hovered)
-        {
-            return hovered ? 2 : 1;
-        }
-
-        @Override
-        public void playDownSound(SoundManager soundManager)
-        {
-            soundManager.play(PositionedSoundInstance.master(NMSounds.PLC_SELECT, 1.0F));
-            soundManager.play(PositionedSoundInstance.master(NMSounds.UI_BEEP, 1.0F));
-        }
-
-        protected int getU()
-        {
-            return 0;
-        }
-
-        protected int getV()
-        {
-            return 0;
+            super(x, y, message);
         }
 
         public void renderTooltip(DrawContext matrices, int mouseX, int mouseY)
         {
             renderTooltipText(matrices, List.of(getMessage()), true, mouseX, mouseY, PLCCols.BORDER.col);
         }
-
-        @Override
-        protected void appendClickableNarrations(NarrationMessageBuilder builder)
-        {
-
-        }
     }
 
-    class RunButton extends SaveButton
+    class RunButton extends BaseButton
     {
-        public RunButton(int x, int y, int width, int height, Text message)
+        public RunButton(int x, int y, Text message)
         {
-            super(x, y, width, height, message);
+            super(x, y, message);
         }
-
 
         @Override
         protected int getU()
@@ -584,11 +530,11 @@ public class PLCProgramScreen extends Screen implements ScreenHandlerProvider<PL
         }
     }
 
-    class CompileButton extends SaveButton
+    class CompileButton extends BaseButton
     {
-        public CompileButton(int x, int y, int width, int height, Text message)
+        public CompileButton(int x, int y, Text message)
         {
-            super(x, y, width, height, message);
+            super(x, y, message);
         }
 
         @Override
@@ -604,11 +550,11 @@ public class PLCProgramScreen extends Screen implements ScreenHandlerProvider<PL
         }
     }
 
-    class StopButton extends SaveButton
+    class StopButton extends BaseButton
     {
-        public StopButton(int x, int y, int width, int height, Text message)
+        public StopButton(int x, int y, Text message)
         {
-            super(x, y, width, height, message);
+            super(x, y, message);
         }
 
         @Override
@@ -637,11 +583,11 @@ public class PLCProgramScreen extends Screen implements ScreenHandlerProvider<PL
         }
     }
 
-    class ModeSwitchButton extends SaveButton
+    class ModeSwitchButton extends BaseButton
     {
-        public ModeSwitchButton(int x, int y, int width, int height)
+        public ModeSwitchButton(int x, int y)
         {
-            super(x, y, width, height, Text.empty());
+            super(x, y, Text.empty());
         }
 
         @Override
