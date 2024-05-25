@@ -1,6 +1,7 @@
 package com.neep.neepmeat.client.screen.living_machine;
 
 import com.neep.neepmeat.api.plc.PLCCols;
+import com.neep.neepmeat.client.screen.BaseHandledScreen;
 import com.neep.neepmeat.client.screen.ScreenSubElement;
 import com.neep.neepmeat.client.screen.util.Border;
 import com.neep.neepmeat.client.screen.util.Rectangle;
@@ -21,7 +22,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 
 @Environment(EnvType.CLIENT)
-public class LivingMachineScreen extends HandledScreen<LivingMachineScreenHandler>
+public class LivingMachineScreen extends BaseHandledScreen<LivingMachineScreenHandler>
 {
     private final GraphPane graphPane;
 
