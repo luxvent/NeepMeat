@@ -10,6 +10,7 @@ import com.neep.neepmeat.api.big_block.BigBlock;
 import com.neep.neepmeat.api.live_machine.LivingMachineComponent;
 import com.neep.neepmeat.api.live_machine.StructureProperty;
 import com.neep.neepmeat.block.MachineBlock;
+import com.neep.neepmeat.init.NMBlockEntities;
 import com.neep.neepmeat.machine.live_machine.block.*;
 import com.neep.neepmeat.machine.live_machine.block.entity.*;
 import com.neep.neepmeat.transport.api.pipe.BloodAcceptor;
@@ -74,6 +75,10 @@ public class LivingMachines
             ItemSettings.block().tooltip(tooltip(LivingMachineComponents.LUCKY_ONE).append(TooltipSupplier.simple(1))),
             MeatlibBlockSettings.copyOf(MACHINE_SETTINGS)));
 
+    public static final Block EXTRACTOR = BlockRegistry.queue(new ExtractorBlock("extractor",
+            ItemSettings.block().tooltip(LivingMachineComponents.tooltip(LivingMachineComponents.EXTRACTOR).append(TooltipSupplier.simple(1))),
+            MeatlibBlockSettings.copyOf(MACHINE_SETTINGS)));
+
     public static BlockEntityType<MotorPortBlockEntity> MOTOR_PORT_BE;
     public static BlockEntityType<IntegrationPortBlockEntity> INTEGRATION_PORT_BE;
     public static BlockEntityType<ServicePortBlockEntity> SERVICE_PORT_BE;
@@ -87,6 +92,7 @@ public class LivingMachines
     public static BlockEntityType<FluidOutputPortBlockEntity> FLUID_OUTPUT_PORT_BE;
 
     public static BlockEntityType<LuckyOneBlockEntity> LUCKY_ONE_BE;
+    public static BlockEntityType<ExtractorBlockEntity> EXTRACTOR_BE;
 
 
     public static void init()
@@ -123,6 +129,10 @@ public class LivingMachines
         LUCKY_ONE_BE = register("lucky_one", (p, s) -> new LuckyOneBlockEntity(LivingMachines.LUCKY_ONE_BE, p, s), LUCKY_ONE);
         LivingMachineComponent.LOOKUP.registerSelf(LUCKY_ONE_BE);
         BloodAcceptor.SIDED.registerForBlockEntity(LuckyOneBlockEntity::getAcceptor, LUCKY_ONE_BE);
+
+        EXTRACTOR_BE = register("extractor", (p, s) -> new ExtractorBlockEntity(LivingMachines.EXTRACTOR_BE, p, s), EXTRACTOR);
+        LivingMachineComponent.LOOKUP.registerSelf(EXTRACTOR_BE);
+
 
         Processes.init();
     }

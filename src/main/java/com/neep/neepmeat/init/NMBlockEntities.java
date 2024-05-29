@@ -3,6 +3,7 @@ package com.neep.neepmeat.init;
 import com.neep.neepmeat.NeepMeat;
 import com.neep.neepmeat.api.DataPort;
 import com.neep.neepmeat.api.FluidPump;
+import com.neep.neepmeat.api.live_machine.LivingMachineComponent;
 import com.neep.neepmeat.api.machine.MotorisedBlock;
 import com.neep.neepmeat.api.storage.FluidBuffer;
 import com.neep.neepmeat.block.ChuteBlock;
@@ -43,6 +44,7 @@ import com.neep.neepmeat.machine.large_crusher.LargeCrusherBlockEntity;
 import com.neep.neepmeat.machine.large_crusher.LargeCrusherStructureBlockEntity;
 import com.neep.neepmeat.machine.large_motor.LargeMotorBlockEntity;
 import com.neep.neepmeat.machine.large_motor.LargeMotorStructureEntity;
+import com.neep.neepmeat.machine.live_machine.LivingMachineComponents;
 import com.neep.neepmeat.machine.mincer.MincerBlockEnity;
 import com.neep.neepmeat.machine.mixer.MixerBlockEntity;
 import com.neep.neepmeat.machine.motor.LiquidFuelMachine;
@@ -402,6 +404,7 @@ public class NMBlockEntities
         WRITHING_EARTH_SPOUT = register("writhing_earth_spout", (p, s) -> new WrithingEarthSpoutBlockEntity(WRITHING_EARTH_SPOUT, p, s), NMBlocks.WRITHING_EARTH_SPOUT);
 
         PHAGE_RAY = register("phage_ray", (p, s) -> new PhageRayBlockEntity(PHAGE_RAY, p, s), NMBlocks.PHAGE_RAY);
+        LivingMachineComponent.LOOKUP.registerSelf(NMBlockEntities.PHAGE_RAY);
         BloodAcceptor.SIDED.registerForBlockEntity(PhageRayBlock.PhageRayStructureBlockEntity::getAcceptor, NMBlocks.PHAGE_RAY.getStructure().getBlockEntityType());
 
 //        VAT_WINDOW = register("vat_window", (pos, state) -> new MultiBlock.Entity(VAT_WINDOW, pos, state), NMBlocks.VAT_WINDOW);

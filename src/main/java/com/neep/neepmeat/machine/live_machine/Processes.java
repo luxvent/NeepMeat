@@ -63,6 +63,7 @@ public class Processes
     public static void init()
     {
         getInstance().register(new CrusherProcess());
+        getInstance().register(new PhageRayProcess());
         getInstance().register(new LargeTrommelProcess());
     }
 }
