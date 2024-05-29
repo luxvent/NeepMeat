@@ -39,7 +39,7 @@ public class ManufactureEmiRecipe implements EmiRecipe
 
     public ManufactureEmiRecipe(ItemManufactureRecipe recipe)
     {
-        this.base = (Item) recipe.getBase();
+        this.base = recipe.getBase();
         this.steps = recipe.getSteps();
 
         List<EmiIngredient> inputs = Lists.newArrayList();
