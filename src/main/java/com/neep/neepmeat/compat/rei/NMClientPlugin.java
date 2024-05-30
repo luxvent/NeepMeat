@@ -12,6 +12,7 @@ import com.neep.neepmeat.init.NMItems;
 import com.neep.neepmeat.init.NMrecipeTypes;
 import com.neep.neepmeat.machine.mixer.MixingRecipe;
 import com.neep.neepmeat.plc.PLCBlocks;
+import com.neep.neepmeat.plc.recipe.EntityToItemRecipe;
 import com.neep.neepmeat.plc.recipe.ItemManufactureRecipe;
 import com.neep.neepmeat.plc.recipe.PLCRecipes;
 import com.neep.neepmeat.plc.recipe.TransformingToolRecipe;
@@ -46,7 +47,8 @@ public class NMClientPlugin implements REIClientPlugin, NMREIPlugin
     @Override
     public void registerDisplays(DisplayRegistry registry)
     {
-        registerRecipeFiller(registry, ItemManufactureRecipe.class, PLCRecipes.MANUFACTURE, ManufactureDisplay::new);
+        registerRecipeFiller(registry, ItemManufactureRecipe.class, PLCRecipes.MANUFACTURE, ItemManufactureDisplay::new);
+        registerRecipeFiller(registry, EntityToItemRecipe.class, PLCRecipes.ENTITY_TO_ITEM, EntityToItemDisplay::new);
         registry.add(new TransformingToolDisplay(TransformingToolRecipe.getInstance()));
         registerRecipeFiller(registry, CrushingRecipe.class, NMrecipeTypes.GRINDING, r -> !r.destroy(), GrindingDisplay.filler(GRINDING));
         registerRecipeFiller(registry, AdvancedCrushingRecipe.class, NMrecipeTypes.ADVANCED_CRUSHING, r -> !r.destroy(), GrindingDisplay.filler(ADVANCED_CRUSHING));
@@ -77,6 +79,7 @@ public class NMClientPlugin implements REIClientPlugin, NMREIPlugin
     {
         registry.add(
                 new ItemManufactureCategory(),
+                new EntityToItemManufactureCategory(),
 //                new SurgeryCategory(),
                 new TransformingToolCategory(),
                 new GrindingCategory(),
@@ -92,6 +95,7 @@ public class NMClientPlugin implements REIClientPlugin, NMREIPlugin
         );
 
         registry.addWorkstations(MANUFACTURE, EntryStacks.of(PLCBlocks.PLC.asItem()));
+        registry.addWorkstations(ENTITY_TO_ITEM, EntryStacks.of(PLCBlocks.PLC.asItem()));
         registry.addWorkstations(TRANSFORMING_TOOL, EntryStacks.of(PLCBlocks.PLC.asItem()));
         registry.addWorkstations(GRINDING, EntryStacks.of(NMBlocks.CRUSHER.asItem()));
         registry.addWorkstations(GRINDING, EntryStacks.of(NMBlocks.LARGE_CRUSHER.asItem()));
@@ -104,12 +108,6 @@ public class NMClientPlugin implements REIClientPlugin, NMREIPlugin
         registry.addWorkstations(VIVISECTION, EntryStacks.of(NMItems.SACRIFICIAL_SCALPEL.asItem()));
         registry.addWorkstations(ENLIGHTENING, EntryStacks.of(NMBlocks.PEDESTAL.asItem()));
         registry.addWorkstations(PRESSING, EntryStacks.of(NMBlocks.HYDRAULIC_PRESS.asItem()));
-    }
-
-    @Override
-    public void preStage(PluginManager<REIClientPlugin> manager, ReloadStage stage)
-    {
-//        System.out.println("NeepMeat Client reload at stage " + stage);
     }
 
     private ReloadStage lastStage;

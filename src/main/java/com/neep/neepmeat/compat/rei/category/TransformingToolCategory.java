@@ -55,7 +55,7 @@ public class TransformingToolCategory implements DisplayCategory<TransformingToo
     {
         Point startPoint = new Point(bounds.x + 5, bounds.y + 5);
         List<Widget> widgets = Lists.newArrayList();
-        widgets.add(new ItemManufactureCategory.OutlineWidget(bounds));
+        widgets.add(new ManufactureCategory.OutlineWidget(bounds));
 
         var base = new ItemManufactureCategory.LabelledSlot(startPoint, Text.of("Base: "), EntryStacks.of(display.getBase()));
         widgets.add(base);
@@ -73,7 +73,7 @@ public class TransformingToolCategory implements DisplayCategory<TransformingToo
         toolWidget = new ToolWidget(new Point(entryX, entryY), 160 - 20, GHOST_SWORD);
         widgets.add(toolWidget);
         entryY += toolWidget.height() + 2;
-        ItemManufactureCategory.EntryWidget entryWidget = new ItemManufactureCategory.EntryWidget(new Point(entryX, entryY),
+        ManufactureCategory.EntryWidget entryWidget = new ManufactureCategory.EntryWidget(new Point(entryX, entryY),
                 display.getStep(), 120 - 20);
         widgets.add(entryWidget);
 
