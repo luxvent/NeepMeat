@@ -22,7 +22,7 @@ import com.neep.neepmeat.client.renderer.entity.HoundEntityRenderer;
 import com.neep.neepmeat.client.renderer.entity.KeeperEntityRenderer;
 import com.neep.neepmeat.client.renderer.entity.WormEntityRenderer;
 import com.neep.neepmeat.client.screen.*;
-import com.neep.neepmeat.client.screen.living_machine.ItemOutputScreen;
+import com.neep.neepmeat.client.screen.living_machine.ItemOutputPortScreen;
 import com.neep.neepmeat.client.screen.living_machine.LivingMachineScreen;
 import com.neep.neepmeat.client.screen.plc.PLCProgramScreen;
 import com.neep.neepmeat.client.world.NMDimensionEffects;
@@ -254,7 +254,7 @@ public class NeepMeatClient implements ClientModInitializer
         HandledScreens.register(ScreenHandlerInit.UPGRADE_MANAGER, UpgradeManagerScreen::new);
 
         HandledScreens.register(ScreenHandlerInit.LIVING_MACHINE, LivingMachineScreen::new);
-        HandledScreens.register(ScreenHandlerInit.ITEM_OUTPUT, ItemOutputScreen::new);
+        HandledScreens.register(ScreenHandlerInit.ITEM_OUTPUT, ItemOutputPortScreen::new);
 
         HandledScreens.register(ScreenHandlerInit.PLC, PLCProgramScreen::new);
     }
