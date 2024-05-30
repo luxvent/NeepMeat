@@ -91,7 +91,6 @@ public class MWAttackC2SPacket
 
             player.meatweapons$getWeaponManager().updateStatus(handType, triggerId, actionType);
         });
-
     }
 
     public enum HandType

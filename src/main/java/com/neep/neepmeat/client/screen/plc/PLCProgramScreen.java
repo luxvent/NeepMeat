@@ -7,6 +7,7 @@ import com.neep.neepmeat.api.plc.PLCCols;
 import com.neep.neepmeat.api.plc.recipe.Workpiece;
 import com.neep.neepmeat.client.plc.PLCHudRenderer;
 import com.neep.neepmeat.client.plc.PLCMotionController;
+import com.neep.neepmeat.client.screen.StyledTooltipUser;
 import com.neep.neepmeat.init.NMComponents;
 import com.neep.neepmeat.init.NMSounds;
 import com.neep.neepmeat.network.plc.PLCSyncThings;
@@ -16,22 +17,17 @@ import com.neep.neepmeat.plc.instruction.Argument;
 import com.neep.neepmeat.plc.screen.PLCScreenHandler;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.ScreenHandlerProvider;
-import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
-import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.render.*;
 import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.client.sound.SoundManager;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
@@ -48,12 +44,8 @@ import org.joml.Vector3d;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static com.neep.neepmeat.client.screen.util.GUIUtil.drawHorizontalLine1;
-import static com.neep.neepmeat.client.screen.util.GUIUtil.drawVerticalLine1;
-
-public class PLCProgramScreen extends Screen implements ScreenHandlerProvider<PLCScreenHandler>
+public class PLCProgramScreen extends Screen implements ScreenHandlerProvider<PLCScreenHandler>, StyledTooltipUser
 {
     public static final Identifier WIDGETS = new Identifier(NeepMeat.NAMESPACE, "textures/gui/widget/plc_widgets.png");
     protected static final Identifier VIGNETTE = new Identifier(NeepMeat.NAMESPACE, "textures/gui/plc_robot_vignette.png");
@@ -61,6 +53,7 @@ public class PLCProgramScreen extends Screen implements ScreenHandlerProvider<PL
     protected final PLCScreenShellState shell;
     private final PLCScreenHandler handler;
     private final PLCBlockEntity plc;
+
     // Text relating to the block that the mouse is currently over
     private final List<Text> tooltipText = Lists.newArrayList();
     protected PLCScreenState state;
@@ -135,17 +128,17 @@ public class PLCProgramScreen extends Screen implements ScreenHandlerProvider<PL
             addDrawableChild(editor);
             editor.setDimensions(width, height);
 
-            addDrawableChild(new ModeSwitchButton(width - 17, 1, 16, 16));
-            addDrawableChild(new StopButton(width - 2 * 17, 1, 16, 16, Text.of("Stop")));
-            addDrawableChild(new RunButton(width - 3 * 17, 1, 16, 16, Text.of("Run")));
-            addDrawableChild(new CompileButton(width - 4 * 17, 1, 16, 16, Text.of("Compile")));
+            addDrawableChild(new ModeSwitchButton(width - 17, 1));
+            addDrawableChild(new StopButton(width - 2 * 17, 1, Text.of("Stop")));
+            addDrawableChild(new RunButton(width - 3 * 17, 1, Text.of("Run")));
+            addDrawableChild(new CompileButton(width - 4 * 17, 1, Text.of("Compile")));
             state = editor;
         }
         else
         {
             addDrawableChild(shell);
-            addDrawableChild(new ModeSwitchButton(width - 17, 1, 16, 16));
-            addDrawableChild(new StopButton(width - 2 * 17, 1, 16, 16, Text.of("Stop")));
+            addDrawableChild(new ModeSwitchButton(width - 17, 1));
+            addDrawableChild(new StopButton(width - 2 * 17, 1, Text.of("Stop")));
             state = shell;
         }
 
@@ -397,85 +390,85 @@ public class PLCProgramScreen extends Screen implements ScreenHandlerProvider<PL
         PLCHudRenderer.leave();
     }
 
-    public void renderTooltipText(DrawContext matrices, List<Text> texts, boolean offset, int x, int y, int col)
-    {
-        renderTooltipComponents(matrices, texts.stream().map(t -> TooltipComponent.of(t.asOrderedText())).collect(Collectors.toList()), offset, x, y, 0, col);
-    }
-
-    public void renderTooltipOrderedText(DrawContext matrices, List<OrderedText> texts, boolean offset, int x, int y, int width, int col)
-    {
-        renderTooltipComponents(matrices, texts.stream().map(TooltipComponent::of).collect(Collectors.toList()), offset, x, y, width, col);
-    }
-
-    private void renderTooltipComponents(DrawContext context, List<TooltipComponent> components, boolean offset, int x, int y, int maxWidth, int col)
-    {
-        MatrixStack matrices = context.getMatrices();
-        if (offset)
-        {
-            x += 12;
-            y -= 12;
-        }
-        if (components.isEmpty())
-        {
-            return;
-        }
-
-        int maxHeight = components.size() == 1 ? -2 : 0;
-        for (TooltipComponent tooltipComponent : components)
-        {
-            int componentWidth = tooltipComponent.getWidth(this.textRenderer);
-            if (componentWidth > maxWidth)
-            {
-                maxWidth = componentWidth;
-            }
-            maxHeight += tooltipComponent.getHeight();
-        }
-
-        if (x + maxWidth > this.width)
-        {
-            x -= 28 + maxWidth;
-        }
-
-        if (y + maxHeight + 6 > this.height)
-        {
-            y = this.height - maxHeight - 6;
-        }
-
-        matrices.push();
-//        this.itemRenderer.zOffset = 400.0f;
-//        this.setZOffset(400);
-        matrices.translate(0, 0, 400);
-        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-
-        context.fill(x, y, x + maxWidth + 2, y + maxHeight + 2, 0x90000000);
-        drawHorizontalLine1(context, x, x + maxWidth + 2, y, col);
-        drawHorizontalLine1(context, x, x + maxWidth + 2, y + maxHeight + 2, col);
-        drawVerticalLine1(context, x + maxWidth + 2, y, y + maxHeight + 2, col);
-        drawVerticalLine1(context, x, y, y + maxHeight + 2, col);
-
-        RenderSystem.disableBlend();
-        VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
-        matrices.translate(0.0, 0.0, 400.0);
-
-        Matrix4f matrix4f = matrices.peek().getPositionMatrix();
-        int yAdvance = y + 2;
-
-        for (TooltipComponent tooltipComponent2 : components)
-        {
-            tooltipComponent2.drawText(this.textRenderer, x + 2, yAdvance, matrix4f, immediate);
-            yAdvance += tooltipComponent2.getHeight();
-        }
-
-        immediate.draw();
-        matrices.pop();
-        yAdvance = y;
-        for (int index = 0; index < components.size(); ++index)
-        {
-            TooltipComponent tooltipComponent2 = components.get(index);
-            tooltipComponent2.drawItems(this.textRenderer, x, yAdvance, context);
-            yAdvance += tooltipComponent2.getHeight() + (index == 0 ? 2 : 0);
-        }
-    }
+//    public void renderTooltipText(DrawContext matrices, List<Text> texts, boolean offset, int x, int y, int col)
+//    {
+//        renderTooltipComponents(matrices, texts.stream().map(t -> TooltipComponent.of(t.asOrderedText())).collect(Collectors.toList()), offset, x, y, 0, col);
+//    }
+//
+//    public void renderTooltipOrderedText(DrawContext matrices, List<OrderedText> texts, boolean offset, int x, int y, int width, int col)
+//    {
+//        renderTooltipComponents(matrices, texts.stream().map(TooltipComponent::of).collect(Collectors.toList()), offset, x, y, width, col);
+//    }
+//
+//    private void renderTooltipComponents(DrawContext context, List<TooltipComponent> components, boolean offset, int x, int y, int maxWidth, int col)
+//    {
+//        MatrixStack matrices = context.getMatrices();
+//        if (offset)
+//        {
+//            x += 12;
+//            y -= 12;
+//        }
+//        if (components.isEmpty())
+//        {
+//            return;
+//        }
+//
+//        int maxHeight = components.size() == 1 ? -2 : 0;
+//        for (TooltipComponent tooltipComponent : components)
+//        {
+//            int componentWidth = tooltipComponent.getWidth(this.textRenderer);
+//            if (componentWidth > maxWidth)
+//            {
+//                maxWidth = componentWidth;
+//            }
+//            maxHeight += tooltipComponent.getHeight();
+//        }
+//
+//        if (x + maxWidth > this.width)
+//        {
+//            x -= 28 + maxWidth;
+//        }
+//
+//        if (y + maxHeight + 6 > this.height)
+//        {
+//            y = this.height - maxHeight - 6;
+//        }
+//
+//        matrices.push();
+////        this.itemRenderer.zOffset = 400.0f;
+////        this.setZOffset(400);
+//        matrices.translate(0, 0, 400);
+//        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
+//
+//        context.fill(x, y, x + maxWidth + 2, y + maxHeight + 2, 0x90000000);
+//        drawHorizontalLine1(context, x, x + maxWidth + 2, y, col);
+//        drawHorizontalLine1(context, x, x + maxWidth + 2, y + maxHeight + 2, col);
+//        drawVerticalLine1(context, x + maxWidth + 2, y, y + maxHeight + 2, col);
+//        drawVerticalLine1(context, x, y, y + maxHeight + 2, col);
+//
+//        RenderSystem.disableBlend();
+//        VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
+//        matrices.translate(0.0, 0.0, 400.0);
+//
+//        Matrix4f matrix4f = matrices.peek().getPositionMatrix();
+//        int yAdvance = y + 2;
+//
+//        for (TooltipComponent tooltipComponent2 : components)
+//        {
+//            tooltipComponent2.drawText(this.textRenderer, x + 2, yAdvance, matrix4f, immediate);
+//            yAdvance += tooltipComponent2.getHeight();
+//        }
+//
+//        immediate.draw();
+//        matrices.pop();
+//        yAdvance = y;
+//        for (int index = 0; index < components.size(); ++index)
+//        {
+//            TooltipComponent tooltipComponent2 = components.get(index);
+//            tooltipComponent2.drawItems(this.textRenderer, x, yAdvance, context);
+//            yAdvance += tooltipComponent2.getHeight() + (index == 0 ? 2 : 0);
+//        }
+//    }
 
     @Override
     public PLCScreenHandler getScreenHandler()
@@ -498,75 +491,43 @@ public class PLCProgramScreen extends Screen implements ScreenHandlerProvider<PL
         return !editor.isEditFieldFocused();
     }
 
-    abstract class SaveButton extends ClickableWidget
+    @Override
+    public TextRenderer textRenderer()
     {
-        public SaveButton(int x, int y, int width, int height, Text message)
-        {
-            super(x, y, width, height, message);
-        }
+        return textRenderer;
+    }
 
-        @Override
-        public void renderButton(DrawContext matrices, int mouseX, int mouseY, float delta)
-        {
-            MinecraftClient minecraftClient = MinecraftClient.getInstance();
-            RenderSystem.setShader(GameRenderer::getPositionTexProgram);
-            RenderSystem.setShaderTexture(0, WIDGETS);
-            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, this.alpha);
-            int i = this.getYImage(this.isHovered());
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
-            RenderSystem.enableDepthTest();
-            int thingHeight = 16;
-            matrices.drawTexture(WIDGETS, getX(), getY(), 0, getU(), getV() + i * thingHeight, this.width, this.height, 256, 256);
-//            this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
+    @Override
+    public int width()
+    {
+        return width;
+    }
 
-            if (isMouseOver(mouseX, mouseY))
-            {
-                renderTooltip(matrices, mouseX, mouseY);
-            }
-        }
+    @Override
+    public int height()
+    {
+        return height;
+    }
 
-        protected int getYImage(boolean hovered)
+    public abstract class BaseButton extends PLCScreenButton
+    {
+        public BaseButton(int x, int y, Text message)
         {
-            return hovered ? 2 : 1;
-        }
-
-        @Override
-        public void playDownSound(SoundManager soundManager)
-        {
-            soundManager.play(PositionedSoundInstance.master(NMSounds.PLC_SELECT, 1.0F));
-            soundManager.play(PositionedSoundInstance.master(NMSounds.UI_BEEP, 1.0F));
-        }
-
-        protected int getU()
-        {
-            return 0;
-        }
-
-        protected int getV()
-        {
-            return 0;
+            super(x, y, message);
         }
 
         public void renderTooltip(DrawContext matrices, int mouseX, int mouseY)
         {
             renderTooltipText(matrices, List.of(getMessage()), true, mouseX, mouseY, PLCCols.BORDER.col);
         }
-
-        @Override
-        protected void appendClickableNarrations(NarrationMessageBuilder builder)
-        {
-
-        }
     }
 
-    class RunButton extends SaveButton
+    class RunButton extends BaseButton
     {
-        public RunButton(int x, int y, int width, int height, Text message)
+        public RunButton(int x, int y, Text message)
         {
-            super(x, y, width, height, message);
+            super(x, y, message);
         }
-
 
         @Override
         protected int getU()
@@ -584,11 +545,11 @@ public class PLCProgramScreen extends Screen implements ScreenHandlerProvider<PL
         }
     }
 
-    class CompileButton extends SaveButton
+    class CompileButton extends BaseButton
     {
-        public CompileButton(int x, int y, int width, int height, Text message)
+        public CompileButton(int x, int y, Text message)
         {
-            super(x, y, width, height, message);
+            super(x, y, message);
         }
 
         @Override
@@ -604,11 +565,11 @@ public class PLCProgramScreen extends Screen implements ScreenHandlerProvider<PL
         }
     }
 
-    class StopButton extends SaveButton
+    class StopButton extends BaseButton
     {
-        public StopButton(int x, int y, int width, int height, Text message)
+        public StopButton(int x, int y, Text message)
         {
-            super(x, y, width, height, message);
+            super(x, y, message);
         }
 
         @Override
@@ -637,11 +598,11 @@ public class PLCProgramScreen extends Screen implements ScreenHandlerProvider<PL
         }
     }
 
-    class ModeSwitchButton extends SaveButton
+    class ModeSwitchButton extends BaseButton
     {
-        public ModeSwitchButton(int x, int y, int width, int height)
+        public ModeSwitchButton(int x, int y)
         {
-            super(x, y, width, height, Text.empty());
+            super(x, y, Text.empty());
         }
 
         @Override

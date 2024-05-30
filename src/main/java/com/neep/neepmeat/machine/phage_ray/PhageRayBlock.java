@@ -2,6 +2,7 @@ package com.neep.neepmeat.machine.phage_ray;
 
 import com.neep.meatlib.MeatLib;
 import com.neep.meatlib.block.MeatlibBlock;
+import com.neep.meatlib.block.MeatlibBlockSettings;
 import com.neep.meatlib.item.BaseBlockItem;
 import com.neep.meatlib.item.ItemSettings;
 import com.neep.meatlib.item.MeatlibItem;
@@ -13,12 +14,14 @@ import com.neep.neepmeat.api.big_block.BigBlock;
 import com.neep.neepmeat.api.big_block.BigBlockPattern;
 import com.neep.neepmeat.api.big_block.BigBlockStructure;
 import com.neep.neepmeat.api.big_block.BigBlockStructureEntity;
+import com.neep.neepmeat.api.live_machine.LivingMachineStructure;
+import com.neep.neepmeat.api.live_machine.StructureProperty;
 import com.neep.neepmeat.init.NMBlockEntities;
+import com.neep.neepmeat.machine.live_machine.LivingMachineComponents;
 import com.neep.neepmeat.transport.api.pipe.AbstractBloodAcceptor;
 import com.neep.neepmeat.transport.api.pipe.BloodAcceptor;
 import com.neep.neepmeat.util.MiscUtil;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiCache;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockRenderType;
@@ -39,6 +42,8 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.EnumMap;
+
 public class PhageRayBlock extends BigBlock<PhageRayBlock.PhageRayStructureBlock> implements MeatlibBlock, BlockEntityProvider
 {
     private final String name;
@@ -49,14 +54,16 @@ public class PhageRayBlock extends BigBlock<PhageRayBlock.PhageRayStructureBlock
     {
         super(settings);
         this.name = name;
-        ItemRegistry.queue(NeepMeat.NAMESPACE, (MeatlibItem) new BaseBlockItem(this, name, ItemSettings.block().requiresVascular().tooltip(TooltipSupplier.hidden(1))));
-        volume = BigBlockPattern.oddCylinder(1, 0, 0, getStructure().getDefaultState());
+        ItemRegistry.queue(NeepMeat.NAMESPACE, (MeatlibItem) new BaseBlockItem(this, name,
+                ItemSettings.block().requiresVascular()
+                        .tooltip(LivingMachineComponents.tooltip(LivingMachineComponents.PHAGE_RAY).append(TooltipSupplier.hidden(1)))));
+        volume = BigBlockPattern.makeOddCylinder(1, 0, 0, getStructure().getDefaultState());
     }
 
     @Override
     protected PhageRayStructureBlock registerStructureBlock()
     {
-        return BlockRegistry.queue(new PhageRayStructureBlock(this, FabricBlockSettings.copyOf(this)), "phage_ray_structure");
+        return BlockRegistry.queue(new PhageRayStructureBlock(this, MeatlibBlockSettings.copyOf(this)), "phage_ray_structure");
     }
 
     @Override
@@ -91,7 +98,7 @@ public class PhageRayBlock extends BigBlock<PhageRayBlock.PhageRayStructureBlock
         return name;
     }
 
-    public static class PhageRayStructureBlock extends BigBlockStructure<PhageRayStructureBlockEntity>
+    public static class PhageRayStructureBlock extends BigBlockStructure<PhageRayStructureBlockEntity> implements LivingMachineStructure
     {
         public PhageRayStructureBlock(BigBlock<?> parent, Settings settings)
         {
@@ -112,6 +119,12 @@ public class PhageRayBlock extends BigBlock<PhageRayBlock.PhageRayStructureBlock
                     FabricBlockEntityTypeBuilder.create(
                             (p, s) -> new PhageRayStructureBlockEntity(getBlockEntityType(), p, s),
                             this).build());
+        }
+
+        @Override
+        public EnumMap<StructureProperty, StructureProperty.Entry> getProperties()
+        {
+            return StructureProperty.EMPTY;
         }
     }
 

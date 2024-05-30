@@ -7,6 +7,7 @@ import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 public interface NMREIPlugin
 {
     CategoryIdentifier<GrindingDisplay> GRINDING = CategoryIdentifier.of(NeepMeat.NAMESPACE, "plugins/grinding");
+    CategoryIdentifier<GrindingDisplay> ADVANCED_CRUSHING = CategoryIdentifier.of(NeepMeat.NAMESPACE, "plugins/advanced_crushing");
     CategoryIdentifier<CompactingDisplay> COMPACTING = CategoryIdentifier.of(NeepMeat.NAMESPACE, "plugins/compacting");
     CategoryIdentifier<MixingDisplay> MIXING = CategoryIdentifier.of(NeepMeat.NAMESPACE, "plugins/mixing");
     CategoryIdentifier<AlloySmeltingDisplay> ALLOY_SMELTING = CategoryIdentifier.of(NeepMeat.NAMESPACE, "plugins/alloy_smelting");
@@ -15,7 +16,8 @@ public interface NMREIPlugin
     CategoryIdentifier<PressingDisplay> PRESSING = CategoryIdentifier.of(NeepMeat.NAMESPACE, "plugins/pressing");
     CategoryIdentifier<SurgeryDisplay> SURGERY = CategoryIdentifier.of(NeepMeat.NAMESPACE, "plugins/surgery");
 
-    CategoryIdentifier<ManufactureDisplay> MANUFACTURE = CategoryIdentifier.of(NeepMeat.NAMESPACE, "plugins/manufacture");
+    CategoryIdentifier<ItemManufactureDisplay> ITEM_MANUFACTURE = CategoryIdentifier.of(NeepMeat.NAMESPACE, "plugins/item_manufacture");
+    CategoryIdentifier<EntityToItemDisplay> ENTITY_TO_ITEM = CategoryIdentifier.of(NeepMeat.NAMESPACE, "plugins/entity_to_item_manufacture");
 
     CategoryIdentifier<TrommelDisplay> TROMMEL = CategoryIdentifier.of(NeepMeat.NAMESPACE, "plugins/trommel");
     CategoryIdentifier<HeatingDisplay> HEATING = CategoryIdentifier.of(NeepMeat.NAMESPACE, "plugins/heating");

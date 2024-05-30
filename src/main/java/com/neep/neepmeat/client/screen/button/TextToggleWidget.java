@@ -11,6 +11,8 @@ import net.minecraft.client.render.GameRenderer;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 
+import static com.neep.neepmeat.client.screen.button.NMButtonWidget.NM_WIDGETS_TEXTURE;
+
 public class TextToggleWidget extends ClickableWidget implements GUIUtil
 {
     protected boolean toggled;
@@ -64,11 +66,16 @@ public class TextToggleWidget extends ClickableWidget implements GUIUtil
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
-        matrices.drawTexture(WIDGETS_TEXTURE, getX(), getY(), 0, 46 + i * 20, this.width / 2, this.height);
-        matrices.drawTexture(WIDGETS_TEXTURE, getX() + this.width / 2, getY(), 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
-//        this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
-        int j = this.active ? 0xFFFFFF : 0xA0A0A0;
-        GUIUtil.drawCenteredText(matrices, textRenderer, this.getMessage(), getX() + this.width / 2f, getY() + (this.height - 8) / 2f, j | MathHelper.ceil(this.alpha * 255.0f) << 24, true);
+
+        int borderCol = isHovered() || toggled ? PLCCols.SELECTED.col : PLCCols.BORDER.col;
+        int textCol = isHovered() ? PLCCols.SELECTED.col : PLCCols.BORDER.col;
+
+        matrices.drawTexture(NM_WIDGETS_TEXTURE, getX(), getY(), 0, 90, this.width / 2, this.height);
+        matrices.drawTexture(NM_WIDGETS_TEXTURE, getX() + this.width / 2, getY(), 200 - this.width / 2, 90, this.width / 2, this.height);
+
+        GUIUtil.renderBorder(matrices, getX() + 3, getY() + 3, width - 4 * 2 + 1, height - 4 * 2 + 1, borderCol, 0);
+
+        GUIUtil.drawCenteredText(matrices, textRenderer, this.getMessage(), getX() + this.width / 2f, getY() + (this.height - 8) / 2f, textCol, false);
     }
 
     int getYImage(boolean toggled)

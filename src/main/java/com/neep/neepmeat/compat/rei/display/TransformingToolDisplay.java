@@ -53,7 +53,7 @@ public class TransformingToolDisplay implements Display
 
     public Item getBase()
     {
-        return (Item) recipe.getBase();
+        return recipe.getBase();
     }
 
     public ManufactureStep<?> getStep()

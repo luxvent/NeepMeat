@@ -3,7 +3,7 @@ package com.neep.neepmeat.machine.phage_ray;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.neep.meatlib.api.event.KeyboardEvents;
-import com.neep.meatlib.api.event.UseAttackCallback;
+import com.neep.meatlib.client.api.event.UseAttackCallback;
 import com.neep.meatlib.graphics.GraphicsEffects;
 import com.neep.meatlib.network.PacketBufUtil;
 import com.neep.neepmeat.NeepMeat;
@@ -16,6 +16,10 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.EntityTrackingSoundInstance;
@@ -35,6 +39,7 @@ import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.ActionResult;
@@ -140,27 +145,9 @@ public class PhageRayEntity extends Entity
         {
             clientTick();
         }
-        else
-        {
-            // Update running state
-            boolean canRun = parent != null && parent.canRun();
-
-            if (dataTracker.get(RUNNING) != canRun)
-            {
-                dataTracker.set(RUNNING, canRun);
-            }
-        }
 
         if (isRunning() && trigger)
         {
-            if (triggerTicks >= 20)
-            {
-                if (!getWorld().isClient())
-                {
-                    spawnBeams();
-                    breakBlocks();
-                }
-            }
             ++triggerTicks;
 
             if (!hasPlayerRider())
@@ -170,7 +157,30 @@ public class PhageRayEntity extends Entity
         {
             triggerTicks = 0;
         }
+    }
 
+    // Called by PhageRayProcess
+    public void tickProcess(boolean canHarvest, Storage<ItemVariant> combinedItemOutput, TransactionContext transaction)
+    {
+        // Update running state
+        boolean canRun = parent != null && parent.canRun();
+
+        if (dataTracker.get(RUNNING) != canRun)
+        {
+            dataTracker.set(RUNNING, canRun);
+        }
+
+        if (isRunning() && trigger)
+        {
+            if (triggerTicks >= 20)
+            {
+                if (!getWorld().isClient())
+                {
+                    spawnBeams();
+                    breakBlocks(canHarvest, combinedItemOutput, transaction);
+                }
+            }
+        }
     }
 
     private void spawnBeams()
@@ -234,8 +244,9 @@ public class PhageRayEntity extends Entity
         return newTargets;
     }
 
-    private void breakBlocks()
+    private void breakBlocks(boolean canHarvest, Storage<ItemVariant> output, TransactionContext transaction)
     {
+        World world = getWorld();
         if (hasPassengers() && getFirstPassenger() != null)
         {
             if (getWorld().getTime() % 2 == 0)
@@ -249,9 +260,19 @@ public class PhageRayEntity extends Entity
             while (it.hasNext())
             {
                 var target = it.next();
-                if (target.getValue() >= 1)
+                BlockPos pos = target.getKey();
+                if (target.getValue() >= 1 && !getWorld().getBlockState(target.getKey()).isOf(NMBlocks.PHAGE_RAY.getStructure()))
                 {
-                    getWorld().breakBlock(target.getKey(), false);
+                    if (canHarvest)
+                    {
+                        BlockState state = world.getBlockState(target.getKey());
+                        List<ItemStack> dropped = Block.getDroppedStacks(state, (ServerWorld) world, pos, world.getBlockEntity(pos));
+                        for (var stack : dropped)
+                        {
+                            output.insert(ItemVariant.of(stack), stack.getCount(), transaction);
+                        }
+                    }
+                    world.breakBlock(target.getKey(), false);
                     it.remove();
                 }
                 else

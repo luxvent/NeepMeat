@@ -1,12 +1,17 @@
 package com.neep.meatlib.storage;
 
+import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.ResourceAmount;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.apache.commons.lang3.function.TriFunction;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,6 +49,7 @@ public class MeatlibStorageUtil
 
     public static <T> long simulateInsert(Storage<T> storage, T resource, long amount, TransactionContext transaction)
     {
+//        StorageUtil.simulateInsert()
         return storage.simulateInsert(resource, amount, transaction);
     }
 
@@ -92,6 +98,14 @@ public class MeatlibStorageUtil
         return null;
     }
 
+    public static void scatterAmount(World world, BlockPos pos, @Nullable ResourceAmount<ItemVariant> resourceAmount)
+    {
+        if (resourceAmount != null)
+        {
+            ItemScatterer.spawn(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ()+ 0.5, resourceAmount.resource().toStack((int) resourceAmount.amount()));
+        }
+    }
+
     public static NbtCompound amountToNbt(ResourceAmount<ItemVariant> resourceAmount)
     {
         NbtCompound nbt = resourceAmount.resource().toNbt();
@@ -105,4 +119,16 @@ public class MeatlibStorageUtil
         return new ResourceAmount<>(variant, nbt.getLong("amount"));
     }
 
+    public static void scatter(World world, BlockPos pos, Storage<ItemVariant> storage)
+    {
+        try (Transaction transaction = Transaction.openOuter())
+        {
+            for (var view : storage.nonEmptyViews())
+            {
+                ItemVariant variant = view.getResource();
+                long extracted = view.extract(view.getResource(), Long.MAX_VALUE, transaction);
+                ItemScatterer.spawn(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ()+ 0.5, variant.toStack((int) extracted));
+            }
+        }
+    }
 }

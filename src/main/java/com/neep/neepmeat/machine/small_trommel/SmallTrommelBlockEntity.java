@@ -10,7 +10,7 @@ import com.neep.neepmeat.init.NMBlockEntities;
 import com.neep.neepmeat.init.NMFluids;
 import com.neep.neepmeat.init.NMrecipeTypes;
 import com.neep.neepmeat.machine.motor.MotorEntity;
-import com.neep.neepmeat.recipe.TrommelRecipe;
+import com.neep.neepmeat.recipe.NormalTrommelRecipe;
 import com.neep.neepmeat.transport.util.ItemPipeUtil;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
@@ -35,7 +35,7 @@ public class SmallTrommelBlockEntity extends SyncableBlockEntity implements Moto
     public static long CONVERT_MIN = 100;
     public static long BASE_AMOUNT = 9000;
 
-    public TrommelStorage storage;
+    public SmallTrommelStorage storage;
     public FluidVariant currentFluid;
 
     protected int totalProgress;
@@ -49,7 +49,7 @@ public class SmallTrommelBlockEntity extends SyncableBlockEntity implements Moto
     public SmallTrommelBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state)
     {
         super(type, pos, state);
-        storage = new TrommelStorage(this);
+        storage = new SmallTrommelStorage(this);
         this.random = new Random(pos.asLong());
     }
 
@@ -100,7 +100,7 @@ public class SmallTrommelBlockEntity extends SyncableBlockEntity implements Moto
     {
         FluidVariant inputVariant = storage.input().getResource();
 
-        TrommelRecipe recipe = MeatlibRecipes.getInstance().getFirstMatch(NMrecipeTypes.TROMMEL, storage).orElse(null);
+        NormalTrommelRecipe recipe = MeatlibRecipes.getInstance().getFirstMatch(NMrecipeTypes.TROMMEL, storage).orElse(null);
         if (recipe != null)
         {
             try (Transaction transaction = Transaction.openOuter())

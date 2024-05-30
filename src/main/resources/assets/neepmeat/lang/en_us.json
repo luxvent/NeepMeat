@@ -46,6 +46,9 @@
   "block.neepmeat.rusty_metal": "Rusty Metal",
   "block.neepmeat.rusty_metal_slab": "Rusty Metal Slab",
   "block.neepmeat.rusty_metal_stairs": "Rusty Metal Stairs",
+  "block.neepmeat.rusty_metal_door": "Rusty Metal Door",
+  "block.neepmeat.rusty_metal_ladder": "Rusty Metal Ladder",
+  "block.neepmeat.rusty_metal_rungs": "Rusty Metal Rungs",
 
   "block.neepmeat.grey_rough_concrete": "Gray Rough Concrete",
   "block.neepmeat.grey_rough_concrete_stairs": "Gray Rough Concrete Stairs",
@@ -69,7 +72,7 @@
 
   "block.neepmeat.smooth_tile_grey": "Gray Smooth Tile",
 
-  "block.neepmeat.yellow_tiles": "Yellow Tiles",
+  "block.neepmeat.yellow_tiles": "Yellowed Tiles",
   "block.neepmeat.yellow_tiles_stairs": "Yellow Tiles Stairs",
   "block.neepmeat.yellow_tiles_slab": "Yellow Tiles Slab",
 
@@ -117,18 +120,78 @@
   "block.neepmeat.rusty_vent": "Rusty Vent",
   "block.neepmeat.rusty_column": "Rusty Column",
 
-  "block.neepmeat.mesh_panel": "Mesh Pane",
+  "block.neepmeat.mesh_pane": "Mesh Pane",
 
   "block.neepmeat.rusted_bars": "Rusted Metal Bars",
 
   "block.neepmeat.caution_block": "Caution Stripes",
   "block.neepmeat.caution_block_slab": "Caution Stripes Slab",
   "block.neepmeat.caution_block_stairs": "Caution Stripes Stairs",
+  "block.neepmeat.caution_block_door": "Caution Stripes Door",
+
+  "block.neepmeat.living_machine_controller": "Machine Controller",
+  "block.neepmeat.machine_block": "Machine Block",
+  "block.neepmeat.base_machine_block": "Base Machine Block",
+  "block.neepmeat.base_machine_block.lore_0": "Cosmetic variant",
+  "block.neepmeat.blood_bubble_machine_block": "Blood Bubble Machine Block",
+  "block.neepmeat.meat_steel_machine_block": "Meat Steel Machine Block",
+  "block.neepmeat.meat_steel_machine_block_2": "Meat Steel Machine Column",
+  "block.neepmeat.meat_steel_machine_block_2.lore_0": "Cosmetic variant",
+  "block.neepmeat.skin_machine_block": "Skin Machine Block",
+  "block.neepmeat.motor_port": "Motor Port",
+  "block.neepmeat.integration_port": "Integration Port",
+  "block.neepmeat.service_port": "Service Port",
+  "block.neepmeat.item_output_port": "Item Output Port",
+  "block.neepmeat.fluid_input_port": "Fluid Input Port",
+  "block.neepmeat.fluid_output_port": "Fluid Output Port",
+  "block.neepmeat.crusher_segment": "Crusher Segment",
+  "block.neepmeat.crusher_segment.lore_0": "Enables advanced crushing recipes. Up to four are allowed per machine.",
+  "block.neepmeat.large_trommel": "Large Trommel",
+  "block.neepmeat.largest_hopper": "Largest Hopper",
+  "block.neepmeat.largest_hopper.lore_0": "It's a very large hopper. Perhaps the largest.",
+  "block.neepmeat.lucky_one": "Lucky One",
+  "block.neepmeat.lucky_one.lore_0": "+100% chance of extra outputs (max +200%). Must be receiving ≥100eJ/t of vascular power.",
+  "block.neepmeat.extractor": "Harvest Extractor",
+  "block.neepmeat.extractor.lore_0": "Allows a Phage Ray to harvest blocks. Drops are deposited in a connected item output.",
 
   "block.neepmeat.meat_steel_block": "Meat Steel Block",
   "block.neepmeat.meat_steel_block_slab": "Meat Steel Slab",
   "block.neepmeat.meat_steel_block_stairs": "Meat Steel Stairs",
   "block.neepmeat.meat_steel_block_wall": "Meat Steel Stairs",
+
+  "block.neepmeat.asbestos": "Raw Asbestos",
+  "block.neepmeat.asbestos_slab": "Raw Asbestos Slab",
+  "block.neepmeat.asbestos_stairs": "Raw Asbestos Stairs",
+
+  "block.neepmeat.asbestos_tile": "Raw Asbestos Tile",
+  "block.neepmeat.asbestos_tile_slab": "Raw Asbestos Tile Slab",
+  "block.neepmeat.asbestos_tile_stairs": "Raw Asbestos Tile Stairs",
+
+  "block.neepmeat.corrugated_asbestos": "Corrugated Asbestos",
+  "block.neepmeat.corrugated_asbestos_slab": "Corrugated Asbestos Slab",
+  "block.neepmeat.corrugated_asbestos_stairs": "Corrugated Asbestos Stairs",
+  "block.neepmeat.corrugated_asbestos_wall": "Corrugated Asbestos Wall",
+
+  "block.neepmeat.painted_corrugated_asbestos_black": "Black Corrugated Asbestos",
+  "block.neepmeat.painted_corrugated_asbestos_red": "Red Corrugated Asbestos",
+  "block.neepmeat.painted_corrugated_asbestos_green": "Green Corrugated Asbestos",
+  "block.neepmeat.painted_corrugated_asbestos_brown": "Brown Corrugated Asbestos",
+  "block.neepmeat.painted_corrugated_asbestos_blue": "Blue Corrugated Asbestos",
+  "block.neepmeat.painted_corrugated_asbestos_purple": "Purple Corrugated Asbestos",
+  "block.neepmeat.painted_corrugated_asbestos_cyan": "Cyan Corrugated Asbestos",
+  "block.neepmeat.painted_corrugated_asbestos_light_gray": "Light Gray Corrugated Asbestos",
+  "block.neepmeat.painted_corrugated_asbestos_gray": "Gray Corrugated Asbestos",
+  "block.neepmeat.painted_corrugated_asbestos_pink": "Pink Corrugated Asbestos",
+  "block.neepmeat.painted_corrugated_asbestos_lime": "Lime Corrugated Asbestos",
+  "block.neepmeat.painted_corrugated_asbestos_yellow": "Yellow Corrugated Asbestos",
+  "block.neepmeat.painted_corrugated_asbestos_light_blue": "Light Blue Corrugated Asbestos",
+  "block.neepmeat.painted_corrugated_asbestos_magenta": "Magenta Corrugated Asbestos",
+  "block.neepmeat.painted_corrugated_asbestos_orange": "Orange Corrugated Asbestos",
+  "block.neepmeat.painted_corrugated_asbestos_white": "White Corrugated Asbestos",
+
+  "block.neepmeat.asbestos_shingle": "Asbestos Shingle",
+  "block.neepmeat.asbestos_shingle_slab": "Asbestos Shingle Slab",
+  "block.neepmeat.asbestos_shingle_stairs": "Asbestos Shingle Stairs",
 
   "block.neepmeat.smooth_tile_black": "Black Smooth Tile",
   "block.neepmeat.smooth_tile_red": "Red Smooth Tile",
@@ -181,9 +244,9 @@
   "block.neepmeat.limiter_valve.lore_1": "Set the maximum flow rate in the GUI.",
   "block.neepmeat.window_fluid_pipe": "Window Fluid pipe",
 
-  "block.neepmeat.item_pipe": "Pneumatic Pipe",
+  "block.neepmeat.item_pipe": "Item Pipe",
   "block.neepmeat.item_pipe.lore_0": "Items must be inserted with an Ejector or Item Pump.",
-  "block.neepmeat.merge_item_pipe": "Merge Pneumatic Pipe",
+  "block.neepmeat.merge_item_pipe": "Merge Item Pipe",
   "block.neepmeat.pipe_driver": "Pipe Driver",
   "block.neepmeat.pipe_driver.lore_0": "Permits advanced item routing in connected item pipes. One Driver is allowed per network.",
   "block.neepmeat.item_requester": "Manual Requester",
@@ -200,14 +263,14 @@
   "block.neepmeat.encased_vascular_conduit": "Encased Vascular Conduit",
   "block.neepmeat.encased_vascular_conduit.lore_0": "Takes on the model shape of the block it is right-clicked with.",
   "block.neepmeat.vsc": "Vascular Source Converter",
-  "block.neepmeat.vsc.lore_0": "Consumes a configurable amount of power from a vascular network and emits it from the front. Useful for controlling the speed of motors.",
+  "block.neepmeat.vsc.lore_0": "Consumes a configurable amount of power from a vascular network and emits it from the front. Useful for controlling the speed of motors.\n§eDisabled by redstone by default. Right-click while sneaking to toggle.",
   "screen.neepmeat.vsc.text.power": "Target output power",
 
   "block.neepmeat.power_emitter": "Creative Power Emitter",
   "block.neepmeat.power_emitter.lore_0": "Emits 100eJ/t into a vascular network.",
 
   "block.neepmeat.pump": "Redstone Pump",
-  "block.neepmeat.pump.lore_0": "Pumps fluid quickly through pipes.",
+  "block.neepmeat.pump.lore_0": "Pumps fluid quickly through pipes.\n§eEnabled by redstone by default. Right-click while sneaking to toggle.",
 
   "block.neepmeat.item_pump": "Item Pump",
   "block.neepmeat.item_pump.lore_0": "Requests and ejects stacks of sixteen into connected pipes.",
@@ -268,7 +331,7 @@
   "block.neepmeat.power_flower_fluid_port": "Power Flower Fluid Port",
   "block.neepmeat.power_flower_fluid_port.lore_0": "Sucks water or liquid food into a Power Flower.",
   "block.neepmeat.power_flower_controller": "Power Flower Controller",
-  "block.neepmeat.power_flower_controller.lore_0": "Emits Ethereal Fuel generated by a Power Flower from photosynthesis or digestion. \nRequires water inserted through a Power Flower Fluid Port. \nCan be harvested normally.",
+  "block.neepmeat.power_flower_controller.lore_0": "Emits Ethereal Fuel generated by a Power Flower. \nRequires water inserted through a Power Flower Fluid Port. \nCan be harvested normally.",
   "block.neepmeat.fluid_exciter": "Heart Machine",
   "block.neepmeat.fluid_exciter.lore_0": "Injects power into a vascular network connected to the upper dome when Ethereal Fuel is inserted into the bottom. Provides a 150% efficiency gain over standard motors.",
 
@@ -283,19 +346,23 @@
   "block.neepmeat.dirty_toilet": "Dirty Toilet",
   "block.neepmeat.television_off": "Television",
   "block.neepmeat.television_static": "Static Television",
+  "block.neepmeat.large_fan": "Large Fan",
+  "block.neepmeat.large_fan.lore_0": "3x3 Decoration block.",
 
   "block.neepmeat.big_lever": "Big Lever",
 
   "block.neepmeat.router": "Item Router",
   "block.neepmeat.router.lore_0": "Distributes items based on filters.",
   "block.neepmeat.grinder": "Crusher",
+  "block.neepmeat.grinder.lore_0": "Shift-right click with an empty hand to eject XP.",
+  "block.neepmeat.large_crusher": "Large Crusher",
   "block.neepmeat.alloy_kiln": "Alloy Kiln",
   "block.neepmeat.collector": "Fat Collector",
   "block.neepmeat.crucible": "Rendering Basin",
   "block.neepmeat.casting_basin": "Pressing Basin",
   "block.neepmeat.hydraulic_press": "Hydraulic Press",
   "block.neepmeat.heater": "Heater",
-  "block.neepmeat.heater.lore_0": "Heats the furnace or furnace-like block it faces. Cooking speed is proportional to the power supplied. Can also oxidise copper that is exposed to Patina Treatment.",
+  "block.neepmeat.heater.lore_0": "Heats the furnace or furnace-like block it faces. Cooking speed increases by 1x base with every 60eJ/t supplied. Can also oxidise copper that is exposed to Patina Treatment.",
   "block.neepmeat.trommel": "Blasphemous Trommel",
   "block.neepmeat.integrator_egg": "Integrator Egg",
   "block.neepmeat.integrator_egg.lore_0": "It pulsates, inexplicably communicating a desire for blood.",
@@ -322,8 +389,7 @@
   "block.neepmeat.small_trommel": "Small Trommel",
 
   "block.neepmeat.assembler": "Assembler",
-  "block.neepmeat.assembler.lore_0": "Enforces a pattern of items in the inventory below.",
-  "block.neepmeat.assembler.lore_1": "Place above Persistent Crafting Table for auto-crafting.",
+  "block.neepmeat.assembler.lore_0": "Replicates a pattern of items in the inventory below. Place above Persistent Crafting Table for auto-crafting.",
 
   "block.neepmeat.workstation": "Persistent Crafting Table",
   "block.neepmeat.workstation.lore_0": "Keeps items in the grid.",
@@ -331,7 +397,7 @@
 
   "block.neepmeat.pedestal": "Pedestal",
   "block.neepmeat.death_blades": "Death Blades",
-  "block.neepmeat.death_blades.lore_0": "Macerates mobs, producing meat in drains below.",
+  "block.neepmeat.death_blades.lore_0": "Macerates mobs, producing Tissue Slurry in drains below.",
 
   "block.neepmeat.mincer": "Mincer",
   "block.neepmeat.item_mincer": "Item Mincer",
@@ -349,8 +415,7 @@
   "block.neepmeat.synthesiser": "Oviparous Synthesiser",
 
   "block.neepmeat.fluid_rationer": "Fluid Rationer",
-  "block.neepmeat.fluid_rationer.lore_0": "Ejects discrete fluid amounts from the facing",
-  "block.neepmeat.fluid_rationer.lore_1": "storage into a pipe network.",
+  "block.neepmeat.fluid_rationer.lore_0": "Ejects discrete fluid amounts from the facing storage into a pipe network.\nCan also extract buckets of fluid from full cauldrons.",
 
   "block.neepmeat.plc": "PLC",
   "block.neepmeat.surgery_platform": "Surgery Platform",
@@ -400,7 +465,7 @@
   "item.neepmeat.enlightened_brain.lore_1": "some profound structural changes.",
   "item.neepmeat.divine_organ": "Divine Organ",
 
-  "item.neepmeat.integration_charge_crude": "Body Compound Cartridge",
+  "item.neepmeat.integration_charge_crude": "Integration Fluid Cartridge",
   "item.neepmeat.integration_charge_crude.lore_0": "The flesh is still alive.",
   "item.neepmeat.integration_charge_adv": "Advanced Integration Charge",
   "item.neepmeat.integration_charge_adv.lore_0": "The fluid writhes inside its shell, as if alive.",
@@ -439,15 +504,19 @@
 
   "block.neepmeat.holding_track": "Holding Rail",
   "block.neepmeat.holding_track.lore_0": "Holds carts in place when unpowered.",
+  "block.neepmeat.control_track": "Rider Control Rail",
+  "block.neepmeat.control_track.lore_0": "Boosts a cart in the direction a riding player wishes to move.\nWhen unpowered, it will hold the cart in place until the player uses the motion keys.",
+  "block.neepmeat.dumping_track": "Dumping Rail",
+  "block.neepmeat.dumping_track.lore_0": "Drops the riding entity directly below the track.",
 
   "item.neepmeat.projector": "Guide Projector",
   "item.neepmeat.projector.lore_0": "A guide to all NEEPMeat content.",
+  "item.neepmeat.projector.lore_1": "Press §fCTRL + L§7 to look up a hovered item while this guide is in your inventory.",
+  "screen.neepmeat.guide.search": "Type '/' to search",
 
   "item.neepmeat.pipette": "Pipette",
   "item.neepmeat.pipette.full": "Pipette: %s (%s mb)",
-  "item.neepmeat.pipette.lore_0": "Holds up to one bucket of fluid.",
-  "item.neepmeat.pipette.lore_1": "Use on a block to extract or deposit fluid.",
-  "item.neepmeat.pipette.lore_2": "Shift-click to dump contents.",
+  "item.neepmeat.pipette.lore_0": "Holds up to one bucket of fluid.\nUse on a block to extract or deposit fluid.\n§eSneak-click on a block that cannot contain fluid to dump contents.",
 
   "item.neepmeat.refractory_brick": "Refractory Brick",
 
@@ -468,6 +537,12 @@
   "item.neepmeat.meat_steel_ingot": "Meat Steel Ingot",
   "item.neepmeat.meat_steel_ingot.lore_0": "Forged from iron and flesh.",
   "item.neepmeat.meat_steel_component": "Meat Steel Component",
+
+  "item.neepmeat.meat_steel_pickaxe": "Meat Steel Pickaxe",
+  "item.neepmeat.meat_steel_axe": "Meat Steel Axe",
+  "item.neepmeat.meat_steel_shovel": "Meat Steel Shovel",
+  "item.neepmeat.meat_steel_hoe": "Meat Steel Hoe",
+
   "item.neepmeat.transforming_tool_base": "Transforming Tool Base",
   "item.neepmeat.transforming_tool_base.lore_0": "Can combine two items into one.",
 
@@ -483,7 +558,7 @@
 
   "item.neepmeat.can": "Can",
   "item.neepmeat.carton": "Carton",
-  "item.neepmeat.milk_carton": "Milk Carton",
+  "item.neepmeat.milk_carton": "Pasteurised Milk Carton",
   "item.neepmeat.milk_carton.lore_0": "Clears effects and is stackable.",
   "item.neepmeat.meat_carton": "Meat Carton",
   "item.neepmeat.meat_carton.hunger": "Hunger: %s",
@@ -499,7 +574,7 @@
   "item.neepmeat.meat_steel_boots": "Meat Steel Boots",
 
   "block.neepmeat.charnel_compactor": "Charnel Compactor",
-  "block.neepmeat.charnel_compactor.lore_0": "Converts flesh into Body Compound when connected to an Integrator.",
+  "block.neepmeat.charnel_compactor.lore_0": "Converts flesh into Integration Fluid when connected to an Integrator.",
 
   "message.neepmeat.compactor.not_found": "No Integrator organism is connected.",
   "message.neepmeat.compactor.immature": "The connected Integrator organism is not fully grown.",
@@ -567,7 +642,7 @@
 
   "item.neepmeat.compound_injector": "Compound Injector",
   "item.neepmeat.compound_injector_lore_0": "Heals 4 hearts when used.",
-  "item.neepmeat.compound_injector_lore_1": "Click with a %s in inventory to reload.",
+  "item.neepmeat.compound_injector_lore_1": "Click this item with a %s in an inventory slot to reload.",
 
   "effect.neepmeat.ash_preparation": "Ash Preparation",
   "item.minecraft.potion.effect.ash_preparation": "Ash Preparation",
@@ -576,6 +651,10 @@
 
   "item.neepmeat.goggles": "AR Goggles",
   "item.neepmeat.lore_0": "Reveals the unseen",
+
+  "item.neepmeat.farming_scutter": "Farming Scutter",
+  "item.neepmeat.farming_scutter.lore_0": "Harvests and replants crops. Must be placed on farmland. Harvested items will be inserted into block that is highlighted when placing.\nSneak-click to pick up.",
+  "entity.neepmeat.farming_scutter": "Farming Scutter",
 
   "entity.neepmeat.glome": "Glome",
   "entity.neepmeat.hound": "Hound",
@@ -641,7 +720,7 @@
   "instruction.neepmeat.shl.desc": "Bit-shifts the last stack entry §6left§f by the give number of bits.",
   "instruction.neepmeat.jump.desc": "Jumps to the given label or by the given number of instructions. \nIf the label is followed by §6f§f or §6b§f, it will jump to the next or previous instance of the label.",
   "instruction.neepmeat.bit.desc": "Branches to the given label or number of instructions if the last stack entry is §6greater than zero§f.\nIf the label is followed by §6f§f or §6b§f, it will jump to the next or previous instance of the label.",
-  "instruction.neepmeat.bif.desc": "Branches to the given label or number of instructions if the last stack entry is §6less than zero or negative§f.\nIf the label is followed by §6f§f or §6b§f, it will jump to the next or previous instance of the label.",
+  "instruction.neepmeat.bif.desc": "Branches to the given label or number of instructions if the last stack entry is §6zero or negative§f.\nIf the label is followed by §6f§f or §6b§f, it will jump to the next or previous instance of the label.",
   "instruction.neepmeat.say.desc": "Sends the given string to all players within 20 blocks.\nIf no string is provided, it will pop and print the last stack entry.\nAdding §6d§f §6h§' or §6b§f to the end will format the stack entry as decimal, hexadecimal or binary respectively.",
   "instruction.neepmeat.remove.desc": "Removes the last manufacture step from the item in workbench ARG1.",
   "instruction.neepmeat.robot.desc": "Selects the actuator at ARG1. All further instructions will use the actuator until a new one is selected.",
@@ -651,8 +730,8 @@
   "instruction.neepmeat.implant.desc": "Removes an item from storage ARG1 and surgically implants it into entity ARG2.",
   "instruction.neepmeat.inject.desc": "Draws fluid from storage ARG1 and injects it into the item in workbench ARG2.",
   "instruction.neepmeat.wait_redstone.desc": "Waits for a signal strength above zero at the redstone interface ARG1.",
-  "instruction.neepmeat.emit_redstone.desc": "Emits a redstone signal at ARG1 of strength ARG2.",
-  "instruction.neepmeat.read_redstone.desc": "Reads the redstone signal strength at ARG1 and pushes it to the stack.",
+  "instruction.neepmeat.emit_redstone.desc": "Emits a redstone signal at ARG1 of strength ARG2. If no strength is specified, it will be read from the stack.\n §6ARG1§f: redstone interface (world target)\n §6ARG2§f: signal strength (integer, optional)",
+  "instruction.neepmeat.read_redstone.desc": "Reads the redstone signal strength at ARG1 and pushes it to the stack.\n §6ARG1§f: redstone interface (world target)",
   "instruction.neepmeat.request.desc": "Uses a Pipe Driver (currently selected as the actuator) to request the item with the given name. \nThe item is routed through a pipe network to the specified §6pipe§f and §6output direction§f. The count is read from the stack and the success of the request is pushed to the stack.\n §6ARG1§f: output pipe (world target)\n §6ARG2§f item ID (string)",
   "instruction.neepmeat.count.desc": "Counts the items at the given world target and pushes the result to the stack. If an item ID is provided, only items of that type will be counted.\n §6ARG1§f: inventory (world target)\n §6ARG2§f: item ID (string, optional)",
 
@@ -692,8 +771,55 @@
   "screen.neepmeat.upgrade_manager": "Upgrade Manager",
   "screen.neepmeat.upgrade_manager.remove": "Remove",
 
+  "screen.neepmeat.content_detector.stack_condition": "Stack Condition",
+  "screen.neepmeat.content_detector.regulate": "Regulate",
+  "screen.neepmeat.content_detector.absolute": "Absolute",
+  "screen.neepmeat.content_detector.regulate.desc": "Stays powered until all filter items have left",
+  "screen.neepmeat.content_detector.absolute.desc": "Stays powered only while conditions are met",
+
+  "screen.neepmeat.living_machine.block_hold_shift": "Machine Structure §7(hold §fSHIFT§7)",
+  "screen.neepmeat.living_machine.block": "Machine Structure",
+  "screen.neepmeat.living_machine.component_hold_shift": "Machine Functional Component §7(hold §fSHIFT§7)",
+  "screen.neepmeat.living_machine.component": "Machine Functional Component: %s",
+
+  "screen.neepmeat.living_machine.fault_tolerance": "Fault tolerance",
+  "screen.neepmeat.living_machine.speed": "Speed",
+  "screen.neepmeat.living_machine.max_power": "Rated power",
+  "screen.neepmeat.living_machine.mass": "Mass",
+
+  "screen.neepmeat.living_machine.rated_power": "Rated power",
+  "screen.neepmeat.living_machine.power": "Supplied power",
+  "screen.neepmeat.living_machine.efficiency": "Efficiency",
+  "screen.neepmeat.living_machine.degradation_rate": "Ageing (post-repair)",
+  "screen.neepmeat.living_machine.self_repair": "Self-repair",
+  "screen.neepmeat.living_machine.self_repair_unit": "",
+  "screen.neepmeat.living_machine.health": "Health",
+  "screen.neepmeat.living_machine.rul": "Remaining useful life",
+  "screen.neepmeat.living_machine.size": "Structures",
+  "screen.neepmeat.living_machine.components": "Functional components",
+  "screen.neepmeat.living_machine.process": "Current process",
+  "screen.neepmeat.living_machine.no_process": "None",
+
+  "screen.neepmeat.living_machine.requirements": "Requirements:",
+  "process.neepmeat.crushing.requirements": "   ",
+
+  "component.neepmeat.crusher_segment": "Crusher Segment",
+  "component.neepmeat.large_trommel": "Large Trommel",
+  "component.neepmeat.motor_port": "Motor Port",
+  "component.neepmeat.integration_port": "Integration Port",
+  "component.neepmeat.service_port": "Service Port",
+  "component.neepmeat.phage_ray": "Phage Ray",
+  "component.neepmeat.extractor": "Harvest Extractor",
+  "component.neepmeat.hopper": "Hopper",
+  "component.neepmeat.item_input": "Item Input",
+  "component.neepmeat.item_output": "Item Output",
+  "component.neepmeat.fluid_input": "Fluid Input",
+  "component.neepmeat.fluid_output": "Fluid Output",
+  "component.neepmeat.lucky_one": "Lucky One",
+
   "category.neepmeat.pressing": "Pressing",
   "category.neepmeat.grinding": "Crushing",
+  "category.neepmeat.advanced_crushing": "Advanced Crushing",
   "category.neepmeat.compacting": "Charnel Compacting",
   "category.neepmeat.mixing": "Mixing",
   "category.neepmeat.mixing.time": "Time: %ds",
@@ -703,30 +829,39 @@
   "category.neepmeat.enlightening": "Enlightening",
   "category.neepmeat.enlightening.data": "Data: %d",
   "category.neepmeat.manufacture": "Manufacture",
+  "category.neepmeat.entity_to_item_manufacture": "Entity-to-Item Manufacture",
   "category.neepmeat.surgery": "Machine Surgery",
   "category.neepmeat.transforming_tool": "Transforming Tool Manufacture",
   "category.neepmeat.trommel": "Trommel",
   "category.neepmeat.heating": "Heating",
 
+  "tag.c.raw_fish": "Raw Fish",
   "tag.c.concrete": "Concrete",
   "tag.c.grains": "Grains",
   "tag.c.metal_scaffolding": "Metal Scaffolding",
   "tag.c.milks": "Milk",
   "tag.c.raw_meat": "Raw Meat",
+  "tag.neepmeat.painted_corrugated_asbestos": "Painted Corrugated Asbestos",
+  "tag.neepmeat.rough_concrete": "Rough Concrete",
+  "tag.neepmeat.smooth_tile": "Smooth Tile",
   "tag.neepmeat.blood_bubble_logs": "Blood Bubble Logs",
   "tag.neepmeat.charnel_substrate": "Charnel Substrate",
   "tag.neepmeat.fluid_pipes": "Fluid Pipes",
+  "tag.neepmeat.guide_lookup": "Guide Lookup",
 
   "stat.neepmeat.enlightenment": "Enlightenment",
 
   "advancements.neepmeat.main.root.title": "NEEPMeat",
-  "advancements.neepmeat.main.root.desc": "Rusty machinery, cosmic horror and meat.",
+  "advancements.neepmeat.main.root.desc": "Conquer nature, usurp the Divine.",
 
   "advancements.neepmeat.main.obtain_guide.title": "RTFM",
   "advancements.neepmeat.main.obtain_guide.desc": "Craft your Owner's Manual with Rotten Flesh and a book.",
 
   "advancements.neepmeat.main.obtain_integrator.title": "Angel's Egg",
   "advancements.neepmeat.main.obtain_integrator.desc": "Obtain an Integrator Egg from a dungeon chest.",
+
+  "advancements.neepmeat.main.obtain_asbestos.title": "Your Fibrous, Fireproof Friend",
+  "advancements.neepmeat.main.obtain_asbestos.desc": "Find some asbestos.",
 
   "advancements.neepmeat.main.place_grinder.title": "Scrunch Scrunch",
   "advancements.neepmeat.main.place_grinder.desc": "Place a Crusher.",
@@ -762,5 +897,63 @@
   "advancements.neepmeat.main.obtain_power_flower_seeds.desc": "Obtain Power Flower Seeds.",
 
   "key.neepmeat.category.neepmeat": "NEEPMeat",
-  "key.neepmeat.transform": "Tool Transform"
+  "key.neepmeat.transform": "Tool Transform",
+
+  "subtitles.neepmeat.click": "UI Clicks",
+  "subtitles.neepmeat.error": "UI Errors",
+
+  "subtitles.neepmeat.fusion_fire": "Fusion Cannon fires",
+
+  "subtitles.neepmeat.cosmic_beam": "Integrator beam",
+
+  "subtitles.neepmeat.compound_injector": "Compound Injector",
+
+  "subtitles.neepmeat.beep": "UI Beep",
+
+  "subtitles.neepmeat.pylon_start": "Pylon starts",
+
+  "subtitles.neepmeat.pylon_active": "Pylon activates",
+
+  "subtitles.neepmeat.cake_scream": "Cake screams",
+  "subtitles.neepmeat.cake_fire": "Cake burns",
+
+  "subtitles.neepmeat.mechanical_machine_place": "Mechanical machine placed",
+  "subtitles.neepmeat.mechanical_machine_break": "Mechanical machine broken",
+  "subtitles.neepmeat.flesh_machine_place": "Flesh machine placed",
+  "subtitles.neepmeat.multiblock_assemble": "Multiblock assembles",
+  "subtitles.neepmeat.multiblock_disassemble": "Multiblock disassembles",
+
+  "subtitles.neepmeat.glome_hit": "Glome hurts",
+  "subtitles.neepmeat.hound_hit": "Hound hurts",
+  "subtitles.neepmeat.hound_death": "Hound dies",
+  "subtitles.neepmeat.bovine_horror_hit": "Bovine Horror dies",
+  "subtitles.neepmeat.bovine_horror_charge": "Bovine Horror charges",
+  "subtitles.neepmeat.bovine_horror_spit": "Bovine Horror spits",
+  "subtitles.neepmeat.bovine_horror_phase_2": "Bovine Horror phase 2",
+  "subtitles.neepmeat.bovine_horror_death": "Bovine Horror dies",
+
+  "subtitles.neepmeat.advanced_integrator_charge": "Advanced Integrator beam",
+  "subtitles.neepmeat.advanced_integrator_ambient": "Advanced Integrator breathes",
+
+  "subtitles.neepmeat.metal_barrel_open": "Metal barrel opened",
+  "subtitles.neepmeat.metal_barrel_close": "Metal barrel closed",
+
+  "subtitles.neepmeat.plc_select_block": "PLC selects",
+  "subtitles.neepmeat.plc_select": "PLC selects block",
+  "subtitles.neepmeat.implant_instruction_apply": "Implant completed",
+  "subtitles.neepmeat.combine_instruction_apply": "Combine completed",
+  "subtitles.neepmeat.inject_instruction_apply": "Inject completed",
+
+  "subtitles.neepmeat.deposit_items": "Deposit items",
+
+  "subtitles.neepmeat.phage_ray.charge": "Phage Ray charges",
+  "subtitles.neepmeat.phage_ray.running": "Phage Ray active",
+
+  "subtitles.neepmeat.vivisection_complete": "Vivisection completes",
+  "subtitles.neepmeat.scalpel_hit": "Scalpel attack",
+
+  "subtitles.neepmeat.wrench.click": "Wrench clicks",
+
+  "subtitles.neepmeat.big_lever_on": "Big lever clicks on",
+  "subtitles.neepmeat.big_lever_off": "Big lever clicks off"
 }

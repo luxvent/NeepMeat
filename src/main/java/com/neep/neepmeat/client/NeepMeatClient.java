@@ -1,13 +1,15 @@
 package com.neep.neepmeat.client;
 
 import com.neep.meatlib.block.BaseBuildingBlock;
-import com.neep.meatlib.block.BasePaintedBlock;
+import com.neep.meatlib.block.PaintedBlockManager;
 import com.neep.meatlib.graphics.client.GraphicsEffectClient;
 import com.neep.meatweapons.particle.PhageRayGraphicsEffect;
 import com.neep.neepmeat.NeepMeat;
 import com.neep.neepmeat.client.effect.ReminaGraphicsEvent;
 import com.neep.neepmeat.client.fluid.NMFluidsClient;
+import com.neep.neepmeat.client.hud.GuideLookupThings;
 import com.neep.neepmeat.client.hud.HUDOverlays;
+import com.neep.neepmeat.client.item.FarmingScutterHudRenderer;
 import com.neep.neepmeat.client.model.GlassTankModel;
 import com.neep.neepmeat.client.model.GlomeEntityModel;
 import com.neep.neepmeat.client.model.entity.HoundEntityModel;
@@ -20,6 +22,8 @@ import com.neep.neepmeat.client.renderer.entity.HoundEntityRenderer;
 import com.neep.neepmeat.client.renderer.entity.KeeperEntityRenderer;
 import com.neep.neepmeat.client.renderer.entity.WormEntityRenderer;
 import com.neep.neepmeat.client.screen.*;
+import com.neep.neepmeat.client.screen.living_machine.ItemOutputPortScreen;
+import com.neep.neepmeat.client.screen.living_machine.LivingMachineScreen;
 import com.neep.neepmeat.client.screen.plc.PLCProgramScreen;
 import com.neep.neepmeat.client.world.NMDimensionEffects;
 import com.neep.neepmeat.init.*;
@@ -32,6 +36,7 @@ import com.neep.neepmeat.machine.crucible.AlembicRenderer;
 import com.neep.neepmeat.machine.crucible.CrucibleRenderer;
 import com.neep.neepmeat.machine.death_blades.DeathBladesRenderer;
 import com.neep.neepmeat.machine.item_mincer.ItemMincerRenderer;
+import com.neep.neepmeat.machine.live_machine.LivingMachines;
 import com.neep.neepmeat.machine.mixer.MixerRenderer;
 import com.neep.neepmeat.machine.multitank.MultiTankRenderer;
 import com.neep.neepmeat.machine.phage_ray.PhageRayEntity;
@@ -87,6 +92,7 @@ public class NeepMeatClient implements ClientModInitializer
         NMFluidsClient.registerFluidRenderers();
         HUDOverlays.init();
         MachineHudOverlay.init();
+        FarmingScutterHudRenderer.init();
 
         TransportClient.init();
 
@@ -112,6 +118,8 @@ public class NeepMeatClient implements ClientModInitializer
         DosimeterItem.Client.init();
 
         PhageRayEntity.Client.init();
+
+        GuideLookupThings.init();
 
 //        ImplantAttributes.register(Impla);
     }
@@ -139,6 +147,8 @@ public class NeepMeatClient implements ClientModInitializer
         EntityRendererRegistry.register(NMEntities.BOVINE_HORROR, BovineHorrorRenderer::new);
         EntityRendererRegistry.register(NMEntities.ACID_SPRAY, DummyEntityRenderer::new);
         EntityRendererRegistry.register(NMEntities.PHAGE_RAY, DummyEntityRenderer::new);
+
+        EntityRendererRegistry.register(NMEntities.FARMING_SCUTTER, DummyEntityRenderer::new);
 
         EntityModelLayerRegistry.registerModelLayer(TANK_MINECART, MinecartEntityModel::getTexturedModelData);
 
@@ -213,7 +223,7 @@ public class NeepMeatClient implements ClientModInitializer
 
 
         // Coloured blocks
-        for (BasePaintedBlock.PaintedBlock block : BasePaintedBlock.COLOURED_BLOCKS)
+        for (PaintedBlockManager.PaintedBlock block : NMBlocks.SMOOTH_TILE.entries)
         {
             ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> block.getRawCol(), block);
             ColorProviderRegistry.ITEM.register((stack, tintIndex) -> block.getRawCol(), block.asItem());
@@ -242,6 +252,10 @@ public class NeepMeatClient implements ClientModInitializer
         HandledScreens.register(ScreenHandlerInit.FLUID_RATIONER, FluidRationerScreen::new);
         HandledScreens.register(ScreenHandlerInit.SEPARATOR, SeparatorScreen::new);
         HandledScreens.register(ScreenHandlerInit.UPGRADE_MANAGER, UpgradeManagerScreen::new);
+
+        HandledScreens.register(ScreenHandlerInit.LIVING_MACHINE, LivingMachineScreen::new);
+        HandledScreens.register(ScreenHandlerInit.ITEM_OUTPUT, ItemOutputPortScreen::new);
+
         HandledScreens.register(ScreenHandlerInit.PLC, PLCProgramScreen::new);
     }
 
@@ -271,6 +285,7 @@ public class NeepMeatClient implements ClientModInitializer
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.COLLECTOR);
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.TRANSDUCER);
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.SMALL_TROMMEL);
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), LivingMachines.LARGE_TROMMEL);
 //        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.CAUTION_TAPE);
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getTranslucent(), NMBlocks.ASSEMBLER);
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.BOTTLER);
@@ -279,6 +294,8 @@ public class NeepMeatClient implements ClientModInitializer
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.BLOOD_BUBBLE_LEAVES_FLOWERING);
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.BLOOD_BUBBLE_TRAPDOOR);
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.BLOOD_BUBBLE_DOOR);
+
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.CAUTION_BLOCK_DOOR);
 
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.WHISPER_WHEAT);
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.FLESH_POTATO);
@@ -318,5 +335,9 @@ public class NeepMeatClient implements ClientModInitializer
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), FluidTransport.WINDOW_PIPE);
 
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.HOLDING_TRACK);
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.CONTROL_TRACK);
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.DUMPING_TRACK);
+
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.LARGE_FAN);
     }
 }

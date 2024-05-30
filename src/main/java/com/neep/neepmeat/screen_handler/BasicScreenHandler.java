@@ -40,6 +40,21 @@ public abstract class BasicScreenHandler extends ScreenHandler
         if (propertyDelegate != null) propertyDelegate.set(i, value);
     }
 
+    public static int playerInvH()
+    {
+        return 58 + 18 + 2;
+    }
+
+//    public static int playerHotbarH()
+//    {
+//        return 18 + 2;
+//    }
+
+    public static int playerSlotsW()
+    {
+        return 9 * 18 + 2;
+    }
+
     protected void createPlayerSlots(int startX, int startY, PlayerInventory playerInventory)
     {
         createInventory(startX, startY, playerInventory);

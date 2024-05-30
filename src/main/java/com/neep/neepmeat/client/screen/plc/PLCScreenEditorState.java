@@ -42,7 +42,7 @@ public class PLCScreenEditorState extends ScreenSubElement implements Drawable, 
     {
         if (editorField == null)
         {
-            editorField = new EditBoxWidget(client.textRenderer, x, y, 300, screenHeight, 0.8f, Text.of("Write your program here.\n\nClick a block in the world to insert its coordinates as a target.\n\nTo run the program, press the 'compile' button and then the 'run' button."), Text.of("gle"))
+            editorField = new EditBoxWidget(x, y, 300, screenHeight, 0.8f, Text.of("Write your program here.\n\nClick a block in the world to insert its coordinates as a target.\n\nTo run the program, press the 'compile' button and then the 'run' button."), Text.of("gle"))
             {
                 @Override
                 public void setFocused(boolean focused)
@@ -65,6 +65,7 @@ public class PLCScreenEditorState extends ScreenSubElement implements Drawable, 
         addDrawableChild(editorField);
         addDrawableChild(browser);
         addDrawable(viewer);
+
     }
 
     @Override
@@ -95,23 +96,26 @@ public class PLCScreenEditorState extends ScreenSubElement implements Drawable, 
     {
         super.tick();
 
-        if (client.world.getTime() % 10 == 0 && changed)
+        if (editorField != null)
         {
-            try
+            if (client.world.getTime() % 10 == 0 && changed)
             {
-                ParsedSource parsedSource = parser.parse(editorField.getText());
-                setCompileMessage("Parsed Successfully", true, -1);
-            }
-            catch (NeepASM.ProgramBuildException e)
-            {
-                setCompileMessage(e.getMessage(), false, e.line());
+                try
+                {
+                    ParsedSource parsedSource = parser.parse(editorField.getText());
+                    setCompileMessage("Parsed Successfully", true, -1);
+                }
+                catch (NeepASM.ProgramBuildException e)
+                {
+                    setCompileMessage(e.getMessage(), false, e.line());
+                }
+
+                PLCSyncThings.Client.sendText(parent.getScreenHandler().getPlc(), editorField.getText());
+                changed = false;
             }
 
-            PLCSyncThings.Client.sendText(parent.getScreenHandler().getPlc(), editorField.getText());
-            changed = false;
+            editorField.setDebugLine(parent.getScreenHandler().debugLine());
         }
-
-        editorField.setDebugLine(parent.getScreenHandler().debugLine());
     }
 
     public void setCompileMessage(String message, boolean success, int line)
@@ -194,4 +198,5 @@ public class PLCScreenEditorState extends ScreenSubElement implements Drawable, 
     {
         return editorField.isFocused();
     }
+
 }

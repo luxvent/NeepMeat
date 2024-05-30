@@ -1,5 +1,6 @@
 package com.neep.neepmeat.fluid.ore_fat;
 
+import com.neep.meatlib.block.MeatlibBlockSettings;
 import com.neep.neepmeat.fluid.BaseFluid;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
@@ -63,7 +64,7 @@ public class OreFatFluidFactory
 
     public Block registerBlock()
     {
-        block = Registry.register(Registries.BLOCK, new Identifier(namespace, baseName), new FluidBlock(still, FabricBlockSettings.copy(Blocks.WATER)){});
+        block = Registry.register(Registries.BLOCK, new Identifier(namespace, baseName), new FluidBlock(still, MeatlibBlockSettings.copyOf(Blocks.WATER)){});
         return block;
     }
 

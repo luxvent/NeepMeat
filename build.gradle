@@ -31,10 +31,12 @@ repositories {
 
 	maven { url "https://maven.architectury.dev/" } // Architectury (REI)
 	maven { url "https://maven.shedaniel.me/" } // REI
-	maven { url 'https://www.jitpack.io' }
+	maven { url 'https://www.jitpack.io' } // ???
 	maven { url 'https://maven.ladysnake.org/releases' } // Cardinal Components
 	maven { url "https://maven.terraformersmc.com/" } // EMI
 	maven { url "https://maven.tterrag.com/" } // Flywheel
+	maven { url "https://mvn.devos.one/snapshots/" } // Milk lib
+	maven { url "https://api.modrinth.com/maven" } // Milk lib's internal dependencies
 //	maven { url "https://maven.saps.dev/minecraft" } // KubeJS
 }
 
@@ -72,6 +74,9 @@ dependencies {
 	// Flywheel
 	// Couldn't find Fabric releases that were accessible to the average user, so I assume that JiJ is the only way.
 	modApi include("com.jozufozu.flywheel:flywheel-fabric-${project.flywheel_mc_version}:${project.flywheel_version}")
+
+	// Milk lib
+	modImplementation include("io.github.tropheusj:milk-lib:${project.milk_version}")
 
 	// REI
 	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}"

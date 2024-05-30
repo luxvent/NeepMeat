@@ -4,28 +4,25 @@ import com.neep.meatlib.MeatLib;
 import com.neep.meatlib.block.BaseColumnBlock;
 import com.neep.meatlib.block.BaseLeavesBlock;
 import com.neep.meatlib.block.MeatlibBlock;
+import com.neep.meatlib.block.MeatlibBlockSettings;
 import com.neep.meatlib.item.BaseBlockItem;
 import com.neep.meatlib.item.ItemSettings;
 import com.neep.meatlib.item.TooltipSupplier;
 import net.fabricmc.fabric.api.mininglevel.v1.FabricMineableTags;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class BlockRegistry
 {
-    public static final Map<Identifier, Block> BLOCKS = new LinkedHashMap<>();
-    public static final Map<Identifier, Block> REGISTERED_BLOCKS = new LinkedHashMap<>();
+    public static final Map<Identifier, Block> BLOCKS = new LinkedHashMap<>(); // Preserve order
+    public static final List<Block> REGISTERED_BLOCKS = new ArrayList<>();
 
     public static <T extends Block & MeatlibBlock> T queue(T block)
     {
@@ -66,6 +63,14 @@ public class BlockRegistry
         return block;
     }
 
+    public static <T extends Block & MeatlibBlock> T queueWithItem(T block, ItemSettings itemSettings)
+    {
+        MeatLib.assertActive(block);
+        BLOCKS.put(new Identifier(MeatLib.CURRENT_NAMESPACE, block.getRegistryName()), block);
+        itemSettings.getFactory().create(block, block.getRegistryName(), itemSettings);
+        return block;
+    }
+
     public static <T extends Block> T queueWithItem(T block, String registryName)
     {
         MeatLib.assertActive(block);
@@ -80,26 +85,20 @@ public class BlockRegistry
         {
             Registry.register(Registries.BLOCK, entry.getKey(), entry.getValue());
 
-            REGISTERED_BLOCKS.put(entry.getKey(), entry.getValue());
+            REGISTERED_BLOCKS.add(entry.getValue());
         }
         BLOCKS.clear();
     }
 
     public static BaseColumnBlock createLogBlock(String name, TooltipSupplier tooltipSupplier)
     {
-        return new BaseColumnBlock(name, ItemSettings.block(), FabricBlockSettings.create().strength(2.0f).sounds(BlockSoundGroup.WOOD))
-        {
-            @Override
-            public TagKey<Block> getPreferredTool()
-            {
-                return BlockTags.AXE_MINEABLE;
-            }
-        };
+        return new BaseColumnBlock(name, ItemSettings.block(), MeatlibBlockSettings.create().tags(Set.of(BlockTags.AXE_MINEABLE, BlockTags.LOGS)).strength(2.0f).sounds(BlockSoundGroup.WOOD));
     }
 
     public static BaseLeavesBlock createLeavesBlock(String name, BlockSoundGroup soundGroup)
     {
-        return new BaseLeavesBlock(name, AbstractBlock.Settings.create()
+        return new BaseLeavesBlock(name, MeatlibBlockSettings.create()
+                .tags(Set.of(FabricMineableTags.SHEARS_MINEABLE, BlockTags.LEAVES))
                 .strength(0.2f)
                 .ticksRandomly()
                 .sounds(soundGroup)
@@ -107,12 +106,6 @@ public class BlockRegistry
                 .allowsSpawning((p1, p2, p3, p4) -> false)
                 .suffocates((p1, p2, p3) -> false).blockVision(((state, world, pos) -> false)))
         {
-            @Override
-            public TagKey<Block> getPreferredTool()
-            {
-                return FabricMineableTags.SHEARS_MINEABLE;
-            }
-
             @Override
             public ItemConvertible dropsLike()
             {

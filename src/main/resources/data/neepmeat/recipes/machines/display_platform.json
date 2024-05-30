@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "iii"
+    "ii "
   ],
   "key": {
     "i": {
@@ -10,6 +10,6 @@
   },
   "result": {
     "item": "neepmeat:item_buffer",
-    "count": 1
+    "count": 2
   }
 }

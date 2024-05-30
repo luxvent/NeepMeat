@@ -2,11 +2,11 @@ package com.neep.meatlib.datagen;
 
 import com.google.common.collect.Sets;
 import com.neep.meatlib.datagen.loot.BlockLootTableProvider;
-import com.neep.meatlib.datagen.loot.MeatlibAdvancementProvider;
 import com.neep.neepmeat.world.NMFeatures;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.data.DataProvider;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
@@ -16,12 +16,19 @@ public class MeatLibDataGen implements DataGeneratorEntrypoint
     private static final Set<FabricDataGenerator.Pack.RegistryDependentFactory<?>> REGISTRY_DEPENDENT = Sets.newHashSet();
 
     @Override
+    public @Nullable String getEffectiveModId()
+    {
+        return null;
+    }
+
+    @Override
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator)
     {
         var pack = fabricDataGenerator.createPack();
         pack.addProvider(BlockLootTableProvider::new);
         pack.addProvider(BlockTagProvider::new);
         pack.addProvider(MeatRecipeProvider::new);
+        pack.addProvider(MeatlibItemTagProvider::new);
 //        pack.addProvider(MeatlibAdvancementProvider::new);
 
         pack.addProvider(NMFeatures::new);

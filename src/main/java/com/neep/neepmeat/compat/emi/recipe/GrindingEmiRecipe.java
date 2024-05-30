@@ -1,7 +1,6 @@
 package com.neep.neepmeat.compat.emi.recipe;
 
-import com.neep.neepmeat.compat.emi.NMEmiPlugin;
-import com.neep.neepmeat.recipe.GrindingRecipe;
+import com.neep.neepmeat.recipe.CrushingRecipe;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.render.EmiTexture;
@@ -21,9 +20,11 @@ public class GrindingEmiRecipe implements EmiRecipe {
     private final List<EmiIngredient> input;
     private final List<EmiStack> output;
 
-    private final GrindingRecipe recipe;
+    private final EmiRecipeCategory category;
+    private final CrushingRecipe recipe;
 
-    public GrindingEmiRecipe(GrindingRecipe recipe) {
+    public GrindingEmiRecipe(EmiRecipeCategory category, CrushingRecipe recipe) {
+        this.category = category;
         this.recipe = recipe;
 
         this.id = recipe.getId();
@@ -31,9 +32,12 @@ public class GrindingEmiRecipe implements EmiRecipe {
 
         List<EmiStack> output = new ArrayList<>();
 
-        output.add(EmiStack.of(recipe.getItemOutput().resource(), recipe.getItemOutput().minAmount()));
-        if (recipe.getAuxOutput() != null) {
-            output.add(EmiStack.of(recipe.getAuxOutput().resource(), recipe.getAuxOutput().amount()));
+        if (!recipe.destroy())
+        {
+            output.add(EmiStack.of(recipe.getItemOutput().resource(), recipe.getItemOutput().minAmount()));
+            if (recipe.getAuxOutput() != null) {
+                output.add(EmiStack.of(recipe.getAuxOutput().resource(), recipe.getAuxOutput().minAmount()));
+            }
         }
 
         this.output = output;
@@ -41,7 +45,7 @@ public class GrindingEmiRecipe implements EmiRecipe {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return NMEmiPlugin.GRINDING;
+        return category;
     }
 
     @Override
@@ -71,6 +75,11 @@ public class GrindingEmiRecipe implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
+        if (recipe.destroy())
+        {
+            return;
+        }
+
         int startX = getDisplayWidth() / 2 - 41;
         int startY = 10;
 
@@ -78,10 +87,11 @@ public class GrindingEmiRecipe implements EmiRecipe {
 
         widgets.addSlot(input.get(0), startX + 1, startY + 9);
 
-        widgets.addSlot(output.get(0), startX + 61, startY + 9).appendTooltip(Text.of("Min: " + recipe.getItemOutput().minAmount() + ", Max: " + recipe.getItemOutput().maxAmount())).recipeContext(this);
+        widgets.addSlot(output.get(0), startX + 61, startY + 9).appendTooltip(Text.of("Min: " + recipe.getItemOutput().minAmount() + ", Max: " + recipe.getItemOutput().minAmount())).recipeContext(this);
 
         if (output.size() > 1) {
-            widgets.addSlot(output.get(1), startX + 81, startY + 9).appendTooltip(Text.of("Chance: " + recipe.getItemOutput().chance())).recipeContext(this);
+            float chance = recipe.getItemOutput().chance();
+            widgets.addSlot(output.get(1), startX + 81, startY + 9).appendTooltip(Text.of("Chance: " + recipe.getAuxOutput().chance())).recipeContext(this);
         }
     }
 }

@@ -1,7 +1,9 @@
 package com.neep.neepmeat.transport.machine.item;
 
 import com.neep.meatlib.block.BaseFacingBlock;
+import com.neep.meatlib.block.MeatlibBlock;
 import com.neep.meatlib.item.ItemSettings;
+import com.neep.meatlib.storage.MeatlibStorageUtil;
 import com.neep.neepmeat.init.NMBlockEntities;
 import com.neep.neepmeat.machine.content_detector.InventoryDetectorBlock;
 import com.neep.neepmeat.transport.api.pipe.ItemPipe;
@@ -19,6 +21,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -26,6 +29,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.EnumSet;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -64,8 +68,12 @@ public class ItemPumpBlock extends BaseFacingBlock implements BlockEntityProvide
     @Override
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved)
     {
+        if (!newState.isOf(this) && world.getBlockEntity(pos) instanceof ItemPumpBlockEntity be)
+            MeatlibStorageUtil.scatterAmount(world, pos, be.stored);
+
         if (world instanceof ServerWorld serverWorld)
             onChanged(pos, serverWorld);
+
         super.onStateReplaced(state, world, pos, newState, moved);
     }
 
@@ -104,9 +112,16 @@ public class ItemPumpBlock extends BaseFacingBlock implements BlockEntityProvide
     }
 
     @Override
-    public Set<Direction> getConnections(BlockState state, Predicate<Direction> forbidden)
+    public EnumSet<Direction> getConnections(BlockState state, Predicate<Direction> forbidden)
     {
+//        Direction facing = state.get(FACING);
+//        return Stream.of(facing, facing.getOpposite()).filter(forbidden).collect(Collectors.toSet());
         Direction facing = state.get(FACING);
-        return Stream.of(facing, facing.getOpposite()).filter(forbidden).collect(Collectors.toSet());
+        if (forbidden.test(facing) && forbidden.test(facing.getOpposite()))
+            return EnumSet.noneOf(Direction.class);
+        else if (!forbidden.test(facing))
+            return EnumSet.of(facing.getOpposite());
+        else
+            return EnumSet.of(facing);
     }
 }

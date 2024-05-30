@@ -22,6 +22,7 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
@@ -29,6 +30,7 @@ import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -64,13 +66,8 @@ public class FluidPipeBlock extends AbstractPipeBlock implements BlockEntityProv
         if (!state.isOf(newState.getBlock()))
         {
             removePipe((ServerWorld) world, state, pos);
+//            updateNeighbourPipes(world, pos, state);
         }
-    }
-
-    @Override
-    public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify)
-    {
-        super.onBlockAdded(state, world, pos, oldState, notify);
     }
 
     @Override
@@ -84,19 +81,28 @@ public class FluidPipeBlock extends AbstractPipeBlock implements BlockEntityProv
         world.setBlockState(pos, nextState, Block.NOTIFY_LISTENERS);
 
         BlockState fromState = world.getBlockState(fromPos);
+
+        // Update comnnections: junction change, update is from another pipe
+
+        // Neighbour state changes have already been applied, so there is no way of knowing if the update came from a
+        // destroyed pipe.
         boolean foundPipe = FluidPipe.findFluidPipe(world, fromPos, fromState) != null;
+        boolean nodeChange = false;
         if (!foundPipe)
         {
             // If the nodes have changed, we need to update the pipe.
-            if (createStorageNodes(world, pos, nextState))
-            {
-                FluidPipeBlockEntity.find(world, pos).ifPresent(be -> be.updateAdjacent(nextState));
-            }
+            nodeChange = createStorageNodes(world, pos, nextState);
+//            {
+//                FluidPipeBlockEntity.find(world, pos).ifPresent(be -> be.updateConnectionChange(state, nextState));
+//            }
         }
-        else if (!state.equals(nextState))
+//        else if (!state.equals(nextState))
+//        {
+//            // The addition of a pipe can change this one's junction status
+//        }
+        if (foundPipe || nodeChange || !state.equals(nextState))
         {
-            // The addition of a pipe can change this one's junction status
-            FluidPipeBlockEntity.find(world, pos).ifPresent(be -> be.updateAdjacent(nextState));
+            FluidPipeBlockEntity.find(world, pos).ifPresent(be -> be.updateConnectionChange(state, nextState));
         }
     }
 
@@ -109,7 +115,8 @@ public class FluidPipeBlock extends AbstractPipeBlock implements BlockEntityProv
         {
             createStorageNodes(world, pos, updatedState);
 
-            FluidPipeBlockEntity.find(world, pos).ifPresent(be -> be.updateAdjacent(updatedState));
+            FluidPipeBlockEntity.find(world, pos).ifPresent(be -> be.updateHiddenConnections(updatedState));
+//            updateNeighbourPipes(world, pos, state);
         }
     }
 
@@ -120,12 +127,19 @@ public class FluidPipeBlock extends AbstractPipeBlock implements BlockEntityProv
             return;
 
         createStorageNodes(world, pos, newState);
-        FluidPipeBlockEntity.find(world, pos).ifPresent(be -> be.updateAdjacent(newState));
+        FluidPipeBlockEntity.find(world, pos).ifPresent(be -> be.updateConnectionChange(state, newState));
+//        FluidPipeBlockEntity.find(world, pos).ifPresent(be -> be.updateHiddenConnections(newState));
+//        updateNeighbourPipes(world, pos, state);
     }
 
     @Override
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos)
     {
+        if (state.get(WATERLOGGED))
+        {
+            world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+        }
+
         PipeConnectionType type = state.get(DIR_TO_CONNECTION.get(direction));
         boolean forced = type == PipeConnectionType.FORCED;
         boolean otherConnected = false;
@@ -165,11 +179,16 @@ public class FluidPipeBlock extends AbstractPipeBlock implements BlockEntityProv
             {
                 if (be.getPipeVertex() instanceof BlockPipeVertex vertex && !vertex.canSimplify())
                 {
-                    System.out.println(vertex.getAmount());
-                    System.out.println(vertex.getVariant());
-                    System.out.println(vertex.getPumpHeight());
-                    System.out.println(vertex.getTotalHeight());
+                    player.sendMessage(Text.of("Amount: " + vertex.getAmount() + ", Pump height: " + vertex.getPumpHeight() + ", Total height: " + vertex.getTotalHeight()));
+//                    System.out.println(vertex.getAmount());
+//                    System.out.println(vertex.getVariant());
+//                    System.out.println(vertex.getPumpHeight());
+//                    System.out.println(vertex.getTotalHeight());
                 }
+
+//                Collection<FluidNode> nodes = FluidNodeManager.getInstance(world).getNodes(pos);
+//                FluidNode node = nodes.iterator().next();
+//                node.hasPump = true;
             }
             return ActionResult.SUCCESS;
         }

@@ -8,7 +8,6 @@ import com.neep.neepmeat.client.screen.util.GUIUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.SharedConstants;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
@@ -41,14 +40,22 @@ public class EditBoxWidget extends ScrollableWidget
     private int debugLine = -1;
     private final Text placeholder;
 
-    public EditBoxWidget(TextRenderer textRenderer, int x, int y, int width, int height, float scale, Text placeholder, Text message)
+    private float lineNumberWidth;
+
+    public EditBoxWidget(int x, int y, int width, int height, float scale, Text placeholder, Text message)
     {
         super(x, y, width, height, message);
         this.scale = scale;
         this.placeholder = placeholder;
         this.textRenderer = new MonoTextRenderer();
-        this.editBox = new EditBox(this.textRenderer, width - this.getPaddingDoubled(), scale);
+        updateLineNumber();
+        this.editBox = new EditBox(this.textRenderer, (int) (width - this.getPaddingDoubled() - lineNumberWidth), scale);
         this.editBox.setCursorChangeListener(this::onCursorChange);
+    }
+
+    private void updateLineNumber()
+    {
+        this.lineNumberWidth = textRenderer.getWidth("11") + 4;
     }
 
     public void setMaxLength(int maxLength)
@@ -88,20 +95,22 @@ public class EditBoxWidget extends ScrollableWidget
 
     public boolean mouseClicked(double mouseX, double mouseY, int button)
     {
-        if (super.mouseClicked(mouseX, mouseY, button))
-        {
-            return true;
-        }
-        else if (this.isWithinBounds(mouseX, mouseY) && button == 0)
+        // Scroll bar
+        boolean bl2 = this.overflows() && mouseX >= (this.getX() + this.width) && mouseX <= (this.getX() + this.width + 8) && mouseY >= this.getY() && mouseY < (this.getY() + this.height);
+
+        // The super implementation of this method returns true both when scrolling and clicking the main widget,
+        // so there is no way of telling whether to move the cursor or not.
+        if (isWithinBounds(mouseX, mouseY) && bl2)
+            return super.mouseClicked(mouseX, mouseY, button);
+
+        if (this.isWithinBounds(mouseX, mouseY) && button == 0)
         {
             this.editBox.setSelecting(Screen.hasShiftDown());
             this.moveCursor(mouseX, mouseY);
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     @Override
@@ -210,7 +219,7 @@ public class EditBoxWidget extends ScrollableWidget
     {
         if (line >= 0)
         {
-            double lineStart = getY() + getPadding() + line * lineHeight();
+            double lineStart = getY() + getPadding() + editBox.absLineToWrapped(line) * lineHeight();
             matrices.fill(getX() + getPadding(), (int) lineStart, getX() + width - getPadding(), (int) (lineStart + lineHeight()), col);
         }
     }
@@ -222,6 +231,7 @@ public class EditBoxWidget extends ScrollableWidget
 
         String string = this.editBox.getText();
 
+        // Render placeholder
         if (string.isEmpty() && !this.isFocused())
         {
             int i = 0;
@@ -236,6 +246,7 @@ public class EditBoxWidget extends ScrollableWidget
             }
         }
 
+
         int i = this.editBox.getCursor();
         boolean bl = this.isFocused() && this.tick / 6 % 2 == 0;
         boolean bl2 = i < string.length();
@@ -243,14 +254,25 @@ public class EditBoxWidget extends ScrollableWidget
         float k = 0;
         float l = getY() + this.getPadding();
 
-        int var10002;
-        for (Iterator<EditBox.Substring> it = this.editBox.getLines().iterator(); it.hasNext(); l += lineHeight())
+        int numLines = 0;
+        for (Iterator<EditBox.LineEntry> it = this.editBox.getLines().iterator(); it.hasNext(); l += lineHeight())
         {
             matrices.push();
-            EditBox.Substring substring = it.next();
+            EditBox.LineEntry substring = it.next();
+
             boolean bl3 = this.isVisible((int) (l), (int) (l + lineHeight()));
 
             matrices.translate(getX() + getPadding(), l, 0);
+
+            // Render line number
+            if (!editBox.getText().isEmpty() && !substring.wrapped())
+            {
+                matrices.push();
+                matrices.scale(scale, scale, 1);
+                textRenderer.draw(matrices, Text.of(String.valueOf(numLines)).asOrderedText(), 0, 0, PLCCols.LINE_NUMBER.col);
+                numLines++;
+                matrices.pop();
+            }
 
             if (bl && bl2 && i >= substring.beginIndex() && i <= substring.endIndex())
             {
@@ -259,6 +281,7 @@ public class EditBoxWidget extends ScrollableWidget
                 {
                     matrices.push();
                     matrices.scale(scale, scale, 1);
+                    matrices.translate((lineNumberWidth), 0, 0);
                     j = this.textRenderer.drawWithShadow(matrices, string.substring(substring.beginIndex(), i), 0, 0, textCol());
 
                     context.fill((int) (j - 1), 0, (int) j, textRenderer.fontHeight(), cursorCol());
@@ -273,6 +296,7 @@ public class EditBoxWidget extends ScrollableWidget
                 {
                     matrices.push();
                     matrices.scale(scale, scale, 1);
+                    matrices.translate((lineNumberWidth), 0, 0);
                     j = this.textRenderer.drawWithShadow(matrices, string.substring(substring.beginIndex(), substring.endIndex()), 0, 0, textCol()) - 1;
                     matrices.pop();
                 }
@@ -290,6 +314,7 @@ public class EditBoxWidget extends ScrollableWidget
                 matrices.push();
                 matrices.translate(0, k, 0);
                 matrices.scale(scale, scale, 1);
+                matrices.translate((lineNumberWidth), 0, 0);
                 context.fill((int) (j + 5), 0, (int) j + 10, textRenderer.fontHeight(), cursorCol());
                 matrices.pop();
             }
@@ -301,7 +326,7 @@ public class EditBoxWidget extends ScrollableWidget
             int m = getX() + this.getPadding();
             l = getY() + this.getPadding();
 
-            for (EditBox.Substring substring3 : this.editBox.getLines())
+            for (EditBox.LineEntry substring3 : this.editBox.getLines())
             {
                 if (substring2.beginIndex() <= substring3.endIndex())
                 {
@@ -323,10 +348,11 @@ public class EditBoxWidget extends ScrollableWidget
                             o = this.textRenderer.getWidth(string.substring(substring3.beginIndex(), substring2.endIndex()));
                         }
 
-                        var10002 = m + selWidth;
+                        int selLeft = (int) (m + selWidth + lineNumberWidth);
+                        int selRight = (int) (m + o + lineNumberWidth);
                         matrices.push();
                         matrices.translate(0, l, 0);
-                        this.drawSelection(matrices, var10002, 0, (int) (m + o), 9);
+                        this.drawSelection(matrices, selLeft, 0, selRight, 9);
                         matrices.pop();
                     }
 
@@ -395,7 +421,7 @@ public class EditBoxWidget extends ScrollableWidget
     {
         double d = this.getScrollY();
         EditBox var10000 = this.editBox;
-        EditBox.Substring substring = var10000.getLine((int) (d / lineHeight()));
+        EditBox.Substring substring = var10000.getLine((int) (d / lineHeight())).substring();
         int var5;
         if (this.editBox.getCursor() <= substring.beginIndex())
         {
@@ -405,7 +431,7 @@ public class EditBoxWidget extends ScrollableWidget
         else
         {
             double var10001 = d + (double) this.height;
-            EditBox.Substring substring2 = var10000.getLine((int) (var10001 / lineHeight()) - 1);
+            EditBox.Substring substring2 = var10000.getLine((int) (var10001 / lineHeight()) - 1).substring();
             if (this.editBox.getCursor() > substring2.endIndex())
             {
                 var5 = this.editBox.getCurrentLineIndex();
@@ -425,7 +451,7 @@ public class EditBoxWidget extends ScrollableWidget
 
     private void moveCursor(double mouseX, double mouseY)
     {
-        double d = mouseX - (double) getX() - (double) this.getPadding();
+        double d = mouseX - (double) getX() - ((double) this.getPadding() + lineNumberWidth * scale);
         double e = mouseY - (double) getY() - (double) this.getPadding() + this.getScrollY();
         this.editBox.moveCursor(d / scale, e / scale);
     }

@@ -34,7 +34,7 @@ public class NMAdvancements extends FabricAdvancementProvider
                 .display(
                         NMItems.RAW_MEAT_BRICK,
                         Text.translatable("advancements.neepmeat.main.root.title"),
-                        Text.translatable("advancements.neepmeat.main.root.description"),
+                        Text.translatable("advancements.neepmeat.main.root.desc"),
                         new Identifier("neepmeat:textures/gui/advancements/backgrounds/main.png"),
                         AdvancementFrame.TASK,
                         false,
@@ -48,7 +48,7 @@ public class NMAdvancements extends FabricAdvancementProvider
 
         Advancement obtain_guide = getItem(
                 consumer, "main", "obtain_guide", root,
-                NMItems.TABLET
+                NMItems.PROJECTOR
         );
 
         Advancement obtain_integrator = getItem(
@@ -61,6 +61,11 @@ public class NMAdvancements extends FabricAdvancementProvider
                 NMBlocks.PEDESTAL
         );
 
+        Advancement obtain_asbestos = getItem(
+                consumer, "main", "obtain_asbestos", obtain_integrator,
+                NMBlocks.ASBESTOS
+        );
+
         Advancement obtain_enlightened_brain = getItem(
                 consumer, "main", "obtain_enlightened_brain", enlightenment,
                 NMItems.ENLIGHTENED_BRAIN
@@ -68,7 +73,7 @@ public class NMAdvancements extends FabricAdvancementProvider
 
         Advancement place_grinder = placeBlock(
                 consumer, "main", "place_grinder", obtain_integrator,
-                NMBlocks.GRINDER
+                NMBlocks.CRUSHER
         );
 
         Advancement place_hydraulic_press = getItem(

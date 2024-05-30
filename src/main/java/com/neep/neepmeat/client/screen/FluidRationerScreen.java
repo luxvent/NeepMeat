@@ -1,6 +1,7 @@
 package com.neep.neepmeat.client.screen;
 
 import com.neep.neepmeat.NeepMeat;
+import com.neep.neepmeat.client.screen.button.NMButtonWidget;
 import com.neep.neepmeat.network.ScreenPropertyC2SPacket;
 import com.neep.neepmeat.screen_handler.FluidRationerScreenHandler;
 import net.fabricmc.api.EnvType;
@@ -9,7 +10,6 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -18,7 +18,7 @@ import net.minecraft.util.Identifier;
 public class FluidRationerScreen extends HandledScreen<FluidRationerScreenHandler>
 {
     private static final Identifier TEXTURE = new Identifier(NeepMeat.NAMESPACE, "textures/gui/fluid_rationer.png");
-    protected NumberFieldWidget textField;
+    protected NumberField textField;
 
     protected static final Text BUCKET = Text.translatable("screen." + NeepMeat.NAMESPACE + ".fluid_rationer.text.bucket");
     protected static final Text INGOT = Text.translatable("screen." + NeepMeat.NAMESPACE + ".fluid_rationer.text.ingot");
@@ -45,7 +45,7 @@ public class FluidRationerScreen extends HandledScreen<FluidRationerScreenHandle
         this.amountX = slotX + 18 + 3;
         this.amountY = y + 33;
 
-        textField = new NumberFieldWidget(this.textRenderer, amountX, amountY, 3 * 18, 17, Text.of(""));
+        textField = new NumberField(this.textRenderer, amountX, amountY, 3 * 18, 17, Text.of(""));
         textField.setText(Integer.toString(handler.getProperty(FluidRationerScreenHandler.PROP_TARGET_AMOUNT)));
 
         textField.setChangedListener(s ->
@@ -58,19 +58,18 @@ public class FluidRationerScreen extends HandledScreen<FluidRationerScreenHandle
         this.addDrawableChild(textField);
 
         int startY = 20;
-        int w = 40;
+        int w = 50;
         int h = 20;
-        this.addDrawableChild(ButtonWidget.builder(BOTTLE,
-                button -> textField.setText(String.valueOf(FluidConstants.BOTTLE)))
-                .dimensions(x + 5, y + startY, w, h).build());
+        this.addDrawableChild(new NMButtonWidget(x + 5, y + startY, w, h, BOTTLE,
+                button -> textField.setText(String.valueOf(FluidConstants.BOTTLE)), b -> Text.empty()));
 
-        this.addDrawableChild(ButtonWidget.builder(BUCKET,
-                button -> textField.setText(String.valueOf(FluidConstants.BUCKET)))
-                .dimensions(x + 5, y + startY + (h + 1) , w, h).build());
+        this.addDrawableChild(new NMButtonWidget(
+                x + 5, y + startY + (h + 1) , w, h, BUCKET,
+                button -> textField.setText(String.valueOf(FluidConstants.BUCKET)), b -> Text.empty()));
 
-        this.addDrawableChild(ButtonWidget.builder(INGOT,
-                button -> textField.setText(String.valueOf(FluidConstants.INGOT)))
-                .dimensions(x + 5, y + startY + 2 * (h + 1), w, h).build());
+        this.addDrawableChild(new NMButtonWidget(
+                x + 5, y + startY + 2 * (h + 1), w, h, INGOT,
+                button -> textField.setText(String.valueOf(FluidConstants.INGOT)), b -> Text.empty()));
 
         this.titleX = 29;
     }

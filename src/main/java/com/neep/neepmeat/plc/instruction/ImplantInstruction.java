@@ -12,19 +12,16 @@ import com.neep.neepmeat.init.NMComponents;
 import com.neep.neepmeat.init.NMSounds;
 import com.neep.neepmeat.plc.Instructions;
 import com.neep.neepmeat.plc.component.MutateInPlace;
-import com.neep.neepmeat.plc.recipe.EntityImplantRecipe;
+import com.neep.neepmeat.plc.recipe.EntityMutateRecipe;
 import com.neep.neepmeat.plc.recipe.ImplantStep;
 import com.neep.neepmeat.plc.recipe.PLCRecipes;
 import com.neep.neepmeat.plc.robot.RobotMoveToAction;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
-import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.ResourceAmount;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,7 +31,6 @@ import java.util.function.Supplier;
 public class ImplantInstruction implements Instruction
 {
     private final Supplier<World> world;
-    private final LazyBlockApiCache<Storage<ItemVariant>, Direction> fromCache;
     private final LazyBlockApiCache<MutateInPlace<Entity>, Void> toCache;
     private final Argument from;
     private final Argument to;
@@ -47,8 +43,8 @@ public class ImplantInstruction implements Instruction
         this.world = world;
         this.from = arguments.get(0);
         this.to = arguments.get(1);
-        this.fromCache = LazyBlockApiCache.itemSided(from, () -> (ServerWorld) world.get());
-        this.toCache = LazyBlockApiCache.of(MutateInPlace.ENTITY, to.pos(), () -> (ServerWorld) world.get(), () -> null);
+//        LazyBlockApiCache<Storage<ItemVariant>, Direction> fromCache = LazyBlockApiCache.itemSided(from, () -> (ServerWorld) world.get());
+        this.toCache = LazyBlockApiCache.of(MutateInPlace.ENTITY, to.pos(), world, () -> null);
 
         group = GroupedRobotAction.of(
                 new RobotMoveToAction(from.pos()),
@@ -68,7 +64,7 @@ public class ImplantInstruction implements Instruction
 
     public ImplantInstruction(Supplier<World> world, NbtCompound compound)
     {
-        this(() -> (ServerWorld) world.get(), List.of(
+        this(world, List.of(
                 Argument.fromNbt(compound.getCompound("from")),
                 Argument.fromNbt(compound.getCompound("to"))
         ));
@@ -95,7 +91,6 @@ public class ImplantInstruction implements Instruction
     {
         return true;
     }
-
 
     @Override
     public void start(PLC plc)
@@ -133,7 +128,11 @@ public class ImplantInstruction implements Instruction
             {
                 step.mutate(entity);
 
-                EntityImplantRecipe recipe = MeatlibRecipes.getInstance().getFirstMatch(PLCRecipes.ENTITY_MANUFACTURE, mip).orElse(null);
+                // I really need an elegant way to check multiple recipe types simultaneously
+                EntityMutateRecipe recipe = MeatlibRecipes.getInstance().getFirstMatch(PLCRecipes.ENTITY_MANUFACTURE, mip).orElse(null);
+                if (recipe == null)
+                    recipe = MeatlibRecipes.getInstance().getFirstMatch(PLCRecipes.ENTITY_TO_ITEM, mip).orElse(null);
+
                 if (recipe != null)
                 {
                     recipe.ejectOutputs(mip, null);

@@ -2,6 +2,7 @@ package com.neep.neepmeat.machine.large_motor;
 
 import com.google.common.collect.ImmutableMap;
 import com.neep.meatlib.block.MeatlibBlock;
+import com.neep.meatlib.block.MeatlibBlockSettings;
 import com.neep.meatlib.item.BaseBlockItem;
 import com.neep.meatlib.item.ItemSettings;
 import com.neep.meatlib.registry.BlockRegistry;
@@ -62,14 +63,14 @@ public class LargeMotorBlock extends BigBlock<LargeMotorStructureBlock> implemen
         ItemRegistry.queue(new BaseBlockItem(this, registryName, itemSettings));
         this.setDefaultState(getStateManager().getDefaultState().with(FACING, Direction.NORTH));
 
-        volume = BigBlockPattern.range( -1, 0, 0, 1, 2, -1, getStructure().getDefaultState());
+        volume = BigBlockPattern.makeRange( -1, 0, 0, 1, 2, -1, getStructure().getDefaultState());
         normalShape = volume.toVoxelShape();
     }
 
     @Override
     protected LargeMotorStructureBlock registerStructureBlock()
     {
-        return BlockRegistry.queue(new LargeMotorStructureBlock(this, FabricBlockSettings.copyOf(this)), "large_motor_structure");
+        return BlockRegistry.queue(new LargeMotorStructureBlock(this, MeatlibBlockSettings.copyOf(this)), "large_motor_structure");
     }
 
     @Override

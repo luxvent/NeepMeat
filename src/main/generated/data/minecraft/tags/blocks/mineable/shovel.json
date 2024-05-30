@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "neepmeat:contaminated_dirt"
+    "neepmeat:contaminated_dirt",
+    "neepmeat:writhing_earth_spout"
   ]
 }

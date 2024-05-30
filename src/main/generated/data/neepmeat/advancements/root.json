@@ -9,7 +9,7 @@
     "announce_to_chat": false,
     "background": "neepmeat:textures/gui/advancements/backgrounds/main.png",
     "description": {
-      "translate": "advancements.neepmeat.main.root.description"
+      "translate": "advancements.neepmeat.main.root.desc"
     },
     "frame": "task",
     "hidden": false,

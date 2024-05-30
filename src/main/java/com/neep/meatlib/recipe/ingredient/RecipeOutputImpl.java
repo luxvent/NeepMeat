@@ -10,6 +10,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.util.math.random.Random;
 import org.apache.commons.lang3.NotImplementedException;
@@ -25,8 +26,6 @@ public class RecipeOutputImpl<T> implements RecipeOutput<T>
     protected final UniformIntProvider lootFunction;
     protected final Random random;
     protected final float chance;
-    protected int amount;
-    protected boolean willOutput;
     protected @Nullable NbtCompound nbt;
 
     public RecipeOutputImpl(@NotNull T resource, int min, int max, float probability)
@@ -35,7 +34,6 @@ public class RecipeOutputImpl<T> implements RecipeOutput<T>
         this.lootFunction = UniformIntProvider.create(min, max);
         this.random = Random.create();
         this.chance = probability;
-        update();
     }
 
     public RecipeOutputImpl(@NotNull T resource, int min, int max)
@@ -43,58 +41,65 @@ public class RecipeOutputImpl<T> implements RecipeOutput<T>
         this(resource, min, max, 1);
     }
 
+    @Override
     public T resource()
     {
         return resource;
     }
 
-    public long amount()
+    @Override
+    public long randomAmount(float chanceMod)
     {
+        float newChance = chance + chanceMod;
+
+        // The expected amount should be (chance + chanceMod) * Ex(lootFunction)
+
+        int rolls = MathHelper.floor(newChance);
+        float bonus = newChance % 1;
+
+        long amount = 0;
+        for (int roll = 0; roll < rolls; ++roll)
+        {
+            amount += lootFunction.get(random);
+        }
+
+        if (bonus > 0 && random.nextFloat() < bonus)
+        {
+            amount += lootFunction.get(random);
+        }
+
         return amount;
     }
 
+    @Override
     public long maxAmount()
     {
         return lootFunction.getMax();
     }
 
+    @Override
     public long minAmount()
     {
         return lootFunction.getMin();
     }
 
+    @Override
     public float chance()
     {
         return chance;
     }
-
-    public void update()
-    {
-        amount = lootFunction.get(random);
-        float next = random.nextFloat();
-        willOutput = next < chance;
-    }
-
-//    public <V extends TransferVariant<T>> boolean insertInto(Storage<V> storage, Function<T, V> of, TransactionContext transaction)
-//    {
-//        update();
-//        if (!willOutput)
-//            return true;
-//
-//        V variant = of.apply(resource).
-//        long inserted = storage.insert(of.apply(resource()), amount, transaction);
-//        return inserted == amount;
-//    }
 
     public void setNbt(NbtCompound nbt)
     {
         this.nbt = nbt;
     }
 
-    public <V extends TransferVariant<T>> boolean insertInto(Storage<V> storage, BiFunction<T, NbtCompound, V> of, TransactionContext transaction)
+    @Override
+    public <V extends TransferVariant<T>> boolean insertInto(Storage<V> storage, BiFunction<T, NbtCompound, V> of, float chanceModifier, TransactionContext transaction)
     {
-        update();
-        if (!willOutput)
+        long amount = randomAmount(chanceModifier);
+
+        if (amount == 0)
             return true;
 
         V variant = of.apply(resource, nbt);

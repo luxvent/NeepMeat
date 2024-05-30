@@ -3,10 +3,12 @@ package com.neep.neepmeat.init;
 import com.neep.neepmeat.NeepMeat;
 import com.neep.neepmeat.api.DataPort;
 import com.neep.neepmeat.api.FluidPump;
+import com.neep.neepmeat.api.live_machine.LivingMachineComponent;
 import com.neep.neepmeat.api.machine.MotorisedBlock;
 import com.neep.neepmeat.api.storage.FluidBuffer;
 import com.neep.neepmeat.block.ChuteBlock;
 import com.neep.neepmeat.block.HoldingTrackBlock;
+import com.neep.neepmeat.block.PlayerControlTrack;
 import com.neep.neepmeat.block.entity.*;
 import com.neep.neepmeat.machine.Heatable;
 import com.neep.neepmeat.machine.HeatableFurnace;
@@ -38,8 +40,11 @@ import com.neep.neepmeat.machine.homogeniser.HomogeniserBlockEntity;
 import com.neep.neepmeat.machine.hydraulic_press.HydraulicPressBlockEntity;
 import com.neep.neepmeat.machine.integrator.IntegratorBlockEntity;
 import com.neep.neepmeat.machine.item_mincer.ItemMincerBlockEntity;
+import com.neep.neepmeat.machine.large_crusher.LargeCrusherBlockEntity;
+import com.neep.neepmeat.machine.large_crusher.LargeCrusherStructureBlockEntity;
 import com.neep.neepmeat.machine.large_motor.LargeMotorBlockEntity;
 import com.neep.neepmeat.machine.large_motor.LargeMotorStructureEntity;
+import com.neep.neepmeat.machine.live_machine.LivingMachineComponents;
 import com.neep.neepmeat.machine.mincer.MincerBlockEnity;
 import com.neep.neepmeat.machine.mixer.MixerBlockEntity;
 import com.neep.neepmeat.machine.motor.LiquidFuelMachine;
@@ -117,6 +122,7 @@ public class NMBlockEntities
     public static BlockEntityType<FluidGaugeBlockEntity<ItemVariant>> ITEM_GAUGE;
 
     public static BlockEntityType<MetalBarrelBlockEntity> METAL_BARREL;
+    public static BlockEntityType<LargeFanBlockEntity> LARGE_FAN;
 
     public static BlockEntityType<DisplayPlatformBlockEntity> ITEM_BUFFER_BLOCK_ENTITY;
     public static BlockEntityType<InventoryDetectorBlockEntity> INVENTORY_DETECTOR;
@@ -163,7 +169,8 @@ public class NMBlockEntities
 
 
     public static BlockEntityType<MixerBlockEntity> MIXER;
-    public static BlockEntityType<GrinderBlockEntity> GRINDER;
+    public static BlockEntityType<GrinderBlockEntity> CRUSHER;
+    public static BlockEntityType<LargeCrusherBlockEntity> LARGE_CRUSHER;
     public static BlockEntityType<StirlingEngineBlockEntity> STIRLING_ENGINE;
     public static BlockEntityType<AlloyKilnBlockEntity> ALLOY_KILN;
 
@@ -198,6 +205,7 @@ public class NMBlockEntities
     public static BlockEntityType<UpgradeManagerBlockEntity> UPGRADE_MANAGER;
 
     public static BlockEntityType<? extends HoldingTrackBlock.HoldingTrackBlockEntity> HOLDING_TRACK;
+    public static BlockEntityType<? extends PlayerControlTrack.TrackBlockEntity> CONTROL_TRACK;
     public static BlockEntityType<?> VASCULAR_CONDUIT;
     public static BlockEntityType<?> ENCASED_VASCULAR_CONDUIT;
     public static BlockEntityType<VSCBlockEntity> VSC;
@@ -210,6 +218,13 @@ public class NMBlockEntities
         return Registry.register(
                 Registries.BLOCK_ENTITY_TYPE, new Identifier(NeepMeat.NAMESPACE, id),
                                  FabricBlockEntityTypeBuilder.create(factory, block).build());
+    }
+
+    public static <T extends net.minecraft.block.entity.BlockEntity> BlockEntityType<T> register(String id, BlockEntityType<T> type)
+    {
+        return Registry.register(
+                Registries.BLOCK_ENTITY_TYPE, new Identifier(NeepMeat.NAMESPACE, id),
+                type);
     }
 
     @SuppressWarnings("UnstableApiUsage")
@@ -283,6 +298,7 @@ public class NMBlockEntities
         BloodAcceptor.SIDED.registerForBlockEntity(VSCBlockEntity::getBloodAcceptor, VSC);
 
         METAL_BARREL = register("metal_barrel", (pos, state) -> new MetalBarrelBlockEntity(METAL_BARREL, pos, state), NMBlocks.METAL_BARREL);
+        LARGE_FAN = register("large_fan", (pos, state) -> new LargeFanBlockEntity(LARGE_FAN, pos, state), NMBlocks.LARGE_FAN);
 
         // --- Surgery Machine ---
 //        MOB_PLATFORM = registerBlockEntity("mob_platform", MobPlatformBlockEntity::new, NMBlocks.MOB_PLATFORM);
@@ -348,7 +364,11 @@ public class NMBlockEntities
         ItemStorage.SIDED.registerSelf(DEPLOYER);
 //        AGITATOR = register("agitator", AgitatorBlockEntity::new, NMBlocks.AGITATOR);
 
-        GRINDER = register("grinder", GrinderBlockEntity::new, NMBlocks.GRINDER);
+        CRUSHER = register("grinder", GrinderBlockEntity::new, NMBlocks.CRUSHER);
+        LARGE_CRUSHER = register("large_crusher", (p, s) -> new LargeCrusherBlockEntity(LARGE_CRUSHER, p, s), NMBlocks.LARGE_CRUSHER);
+        MotorisedBlock.LOOKUP.registerForBlockEntity(LargeCrusherStructureBlockEntity::getMotorised, NMBlocks.LARGE_CRUSHER.getStructure().getBlockEntityType());
+        ItemStorage.SIDED.registerForBlockEntity(LargeCrusherStructureBlockEntity::getInputStorage, NMBlocks.LARGE_CRUSHER.getStructure().getBlockEntityType());
+
         ALLOY_KILN = register("alloy_kiln", AlloyKilnBlockEntity::new, NMBlocks.ALLOY_KILN);
         Heatable.LOOKUP.registerSelf(ALLOY_KILN);
         CRUCIBLE = register("crucible", CrucibleBlockEntity::new, NMBlocks.CRUCIBLE);
@@ -384,6 +404,7 @@ public class NMBlockEntities
         WRITHING_EARTH_SPOUT = register("writhing_earth_spout", (p, s) -> new WrithingEarthSpoutBlockEntity(WRITHING_EARTH_SPOUT, p, s), NMBlocks.WRITHING_EARTH_SPOUT);
 
         PHAGE_RAY = register("phage_ray", (p, s) -> new PhageRayBlockEntity(PHAGE_RAY, p, s), NMBlocks.PHAGE_RAY);
+        LivingMachineComponent.LOOKUP.registerSelf(NMBlockEntities.PHAGE_RAY);
         BloodAcceptor.SIDED.registerForBlockEntity(PhageRayBlock.PhageRayStructureBlockEntity::getAcceptor, NMBlocks.PHAGE_RAY.getStructure().getBlockEntityType());
 
 //        VAT_WINDOW = register("vat_window", (pos, state) -> new MultiBlock.Entity(VAT_WINDOW, pos, state), NMBlocks.VAT_WINDOW);
@@ -460,6 +481,7 @@ public class NMBlockEntities
 
 
         HOLDING_TRACK = register("holding_track", (p, s) -> new HoldingTrackBlock.HoldingTrackBlockEntity(HOLDING_TRACK, p, s), NMBlocks.HOLDING_TRACK);
+        CONTROL_TRACK = register("control_track", (p, s) -> new PlayerControlTrack.TrackBlockEntity(CONTROL_TRACK, p, s), NMBlocks.CONTROL_TRACK);
 
         ItemStorage.SIDED.registerSelf(BUFFER);
         FluidStorage.SIDED.registerSelf(FLUID_INTERFACE);
@@ -470,7 +492,7 @@ public class NMBlockEntities
         FluidStorage.SIDED.registerForBlockEntity(PumpBlockEntity::getBuffer, PUMP);
 
 
-        ItemStorage.SIDED.registerForBlockEntity((be, direction) -> be.getStorage().getItemStorage(direction), GRINDER);
+        ItemStorage.SIDED.registerForBlockEntity((be, direction) -> be.getStorage().getItemStorage(direction), CRUSHER);
 
         ItemStorage.SIDED.registerForBlockEntity((be, direction) -> be.getStorage().getStorage(direction), ALLOY_KILN);
         ItemStorage.SIDED.registerForBlockEntity(DisplayPlatformBlockEntity::getStorage, ITEM_BUFFER_BLOCK_ENTITY);

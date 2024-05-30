@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "mcm",
+    "cbc",
+    "mcm"
+  ],
+  "key": {
+    "m": {
+      "item": "neepmeat:meat_steel_ingot"
+    },
+    "b": {
+      "item": "minecraft:iron_block"
+    },
+    "c": {
+      "item": "neepmeat:internal_components"
+    }
+  },
+  "result": {
+    "item": "neepmeat:meat_steel_machine_block",
+    "count": 4
+  }
+}

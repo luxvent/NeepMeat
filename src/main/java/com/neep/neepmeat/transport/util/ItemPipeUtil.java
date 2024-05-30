@@ -7,6 +7,8 @@ import com.neep.neepmeat.transport.block.item_transport.entity.ItemPipeBlockEnti
 import com.neep.neepmeat.transport.item_network.ItemInPipe;
 import com.neep.neepmeat.transport.item_network.RetrievalTarget;
 import com.neep.neepmeat.transport.machine.item.ItemPumpBlock;
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+import it.unimi.dsi.fastutil.longs.LongSet;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiCache;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
@@ -47,7 +49,7 @@ public class ItemPipeUtil
         {
             amountInserted = itemToPipe(item, pipe, world, toPos, toState, out, simpleCheck, transaction);
         }
-        else if (toState.isAir())
+        else if (canDumpInto(toState))
         {
             amountInserted = itemToWorld(item.getItemStack(), 0.2, item.speed, world, toPos, out, transaction);
         }
@@ -189,7 +191,7 @@ public class ItemPipeUtil
         long transferred = 0;
         try (Transaction nested = transaction.openNested())
         {
-            if (facingState.isAir())
+            if (canDumpInto(facingState))
             {
                 transferred = itemToWorld(variant.toStack((int) amount), 0.2, 0.05f, world, offset, facing, nested);
                 nested.commit();
@@ -199,7 +201,7 @@ public class ItemPipeUtil
                 transferred = itemToPipe(new ItemInPipe(new ResourceAmount<>(variant, amount), world.getTime()), itemPipe, world, offset, facingState, facing, true, nested);
                 nested.commit();
             }
-            else if ((storage = ItemStorage.SIDED.find(world, offset, facing)) != null)
+            else if ((storage = ItemStorage.SIDED.find(world, offset, facing.getOpposite())) != null)
             {
                 transferred = storage.insert(variant, amount, nested);
                 nested.commit();
@@ -217,8 +219,8 @@ public class ItemPipeUtil
         Queue<BlockPos> queue = new LinkedList<>();
         Queue<ItemPipe> pipeQueue = new LinkedList<>();
         Queue<Direction> dirQueue = new LinkedList<>();
-        // TODO: Use a HashSet
-        Set<Long> visited = new HashSet<>(); // Hopefully using longs will speed up comparison
+
+        LongSet visited = new LongOpenHashSet();
         queue.add(startPipe);
         pipeQueue.add((ItemPipe) world.getBlockState(startPipe).getBlock());
         dirQueue.add(exit.getOpposite());
@@ -236,7 +238,7 @@ public class ItemPipeUtil
             visited.add(current.asLong());
 
             var connections = currentPipe.getConnections(currentState, v -> v != currentDir);
-            if (!currentPipe.singleOutput() && connections.size() > 1)
+            if (!currentPipe.singleOutput() || connections.size() > 1)
             {
                 return item.amount();
             }
@@ -261,7 +263,7 @@ public class ItemPipeUtil
 
             if (currentPipe.canItemLeave(item, world, current, currentState, direction))
             {
-                if (offsetState.isAir())
+                if (canDumpInto(offsetState))
                     return item.amount();
 
                 Storage<ItemVariant> storage;
@@ -332,5 +334,10 @@ public class ItemPipeUtil
             pipeQueue.addAll(nextSet);
         }
         return output;
+    }
+
+    public static boolean canDumpInto(BlockState state)
+    {
+        return !state.blocksMovement();
     }
 }

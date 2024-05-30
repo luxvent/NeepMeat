@@ -1,0 +1,28 @@
+{
+  "type": "neepmeat:entity_to_item",
+  "base": {
+    "id": "minecraft:zombie"
+  },
+  "steps":[
+    {
+      "id": "neepmeat:implant",
+      "resource": "neepmeat:internal_components"
+    },
+    {
+      "id": "neepmeat:implant",
+      "resource": "minecraft:rabbit_foot"
+    },
+    {
+      "id": "neepmeat:implant",
+      "resource": "minecraft:lapis_block"
+    },
+    {
+      "id": "neepmeat:implant",
+      "resource": "neepmeat:meat_steel_machine_block"
+    }
+  ],
+  "result": {
+    "resource": "neepmeat:lucky_one",
+    "amount": 1
+  }
+}

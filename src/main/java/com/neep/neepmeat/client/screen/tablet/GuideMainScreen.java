@@ -53,7 +53,7 @@ public class GuideMainScreen extends Screen implements GuideScreen
         {
             push(root);
         }
-        else throw new IllegalStateException("Error loading the guide contents.");
+//        else throw new IllegalStateException("Error loading the guide contents.");
     }
 
     @Override

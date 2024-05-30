@@ -18,17 +18,25 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class BigBlockStructure<T extends BigBlockStructureEntity> extends Block implements MeatlibBlock, BlockEntityProvider
 {
-    private final BigBlock<?> parent;
+    protected final BigBlock<?> parent;
     private final BlockEntityType<T> blockEntityType;
+
+    public BigBlockStructure(BigBlock<?> parent, Settings settings, BlockEntityRegisterererer<T> registerBlockEntity)
+    {
+        super(settings.nonOpaque().solid().pistonBehavior(PistonBehavior.IGNORE));
+        this.parent = parent;
+        this.blockEntityType = registerBlockEntity.get(this);
+    }
 
     public BigBlockStructure(BigBlock<?> parent, Settings settings)
     {
-        super(settings.nonOpaque().pistonBehavior(PistonBehavior.IGNORE));
-        this.parent = parent;
-        this.blockEntityType = registerBlockEntity();
+        this(parent, settings, BigBlockStructure::registerBlockEntity);
     }
 
-    protected abstract BlockEntityType<T> registerBlockEntity();
+    protected BlockEntityType<T> registerBlockEntity()
+    {
+        throw new NotImplementedException("You fool! Implement this or supply a BlockEntityRegistererererer in the super constructor.");
+    }
 
     public BlockEntityType<T> getBlockEntityType()
     {
@@ -53,9 +61,6 @@ public abstract class BigBlockStructure<T extends BigBlockStructureEntity> exten
             BlockState parentState = world.getBlockState(controllerPos);
             if (parentState.isOf(parent)) // Sometimes air replaces the parent (not sure why)
                return be.translateShape(parent.getOutlineShape(parentState, world, pos, context));
-//            else
-//                return VoxelShapes.empty();
-//            return VoxelShapes.cuboid(0.25, 0.25, 0.25, 0.75, 0.75, 0.75);
         }
 
         return VoxelShapes.empty();
@@ -110,5 +115,29 @@ public abstract class BigBlockStructure<T extends BigBlockStructureEntity> exten
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state)
     {
         return blockEntityType.instantiate(pos, state);
+    }
+
+    public static class Simple<T extends BigBlockStructureEntity> extends BigBlockStructure<T>
+    {
+//        private final BlockEntityRegisterererer<T> registerBlockEntity;
+
+        public Simple(BigBlock<?> parent, Settings settings, BlockEntityRegisterererer<T> registerBlockEntity)
+        {
+            super(parent, settings, registerBlockEntity);
+//            this.registerBlockEntity = registerBlockEntity;
+        }
+
+        @Override
+        protected BlockEntityType<T> registerBlockEntity()
+        {
+//            return registerBlockEntity.get(this);
+            return null;
+        }
+    }
+
+    @FunctionalInterface
+    public interface BlockEntityRegisterererer<T extends BigBlockStructureEntity>
+    {
+        BlockEntityType<T> get(BigBlockStructure<T> structure);
     }
 }

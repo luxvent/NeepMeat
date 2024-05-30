@@ -2,8 +2,8 @@ package com.neep.meatlib.block.multi;
 
 import com.neep.meatlib.block.BaseBlock;
 import com.neep.meatlib.block.BaseDummyBlock;
+import com.neep.meatlib.block.MeatlibBlockExtension;
 import com.neep.meatlib.item.ItemSettings;
-import com.neep.neepmeat.machine.mixer.MixerBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -75,10 +75,6 @@ public abstract class TallBlock extends BaseBlock
     {
         if (!newState.isOf(this) && world.getBlockState(pos.up()).isOf(structureBlock))
         {
-            if (world.getBlockEntity(pos) instanceof MixerBlockEntity be)
-            {
-                be.dropItems();
-            }
             world.setBlockState(pos.up(), Blocks.AIR.getDefaultState());
         }
         super.onStateReplaced(state, world, pos, newState, moved);
@@ -90,7 +86,7 @@ public abstract class TallBlock extends BaseBlock
         return 1;
     }
     
-    public class Structure extends BaseDummyBlock
+    public class Structure extends BaseDummyBlock implements MeatlibBlockExtension
     {
         public Structure(String registryName, Settings settings)
         {
@@ -108,10 +104,6 @@ public abstract class TallBlock extends BaseBlock
         {
             if (!newState.isOf(this) && world.getBlockState(pos.down()).isOf(TallBlock.this))
             {
-                if (world.getBlockEntity(pos.down()) instanceof MixerBlockEntity be)
-                {
-                    be.dropItems();
-                }
                 world.setBlockState(pos.down(), Blocks.AIR.getDefaultState());
             }
             super.onStateReplaced(state, world, pos, newState, moved);
@@ -140,5 +132,11 @@ public abstract class TallBlock extends BaseBlock
         {
             world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, pos, Block.getRawIdFromState(TallBlock.this.getDefaultState()));
         }
+
+//        @Override
+//        public void neepmeat$appendTags(TagConsumer<Block> consumer)
+//        {
+//            MeatlibBlockExtension.super.neepmeat$appendTags(consumer);
+//        }
     }
 }

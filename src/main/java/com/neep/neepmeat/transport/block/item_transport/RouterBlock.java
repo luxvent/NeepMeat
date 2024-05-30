@@ -6,6 +6,8 @@ import com.neep.neepmeat.transport.api.pipe.ItemPipe;
 import com.neep.neepmeat.transport.block.item_transport.entity.RouterBlockEntity;
 import com.neep.neepmeat.transport.item_network.ItemInPipe;
 import com.neep.neepmeat.transport.util.ItemPipeUtil;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.ResourceAmount;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
@@ -21,10 +23,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.Set;
+import java.util.EnumSet;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class RouterBlock extends BaseBlock implements BlockEntityProvider, ItemPipe
 {
@@ -63,11 +63,22 @@ public class RouterBlock extends BaseBlock implements BlockEntityProvider, ItemP
     }
 
     @Override
+    public boolean canItemEnter(ResourceAmount<ItemVariant> item, World world, BlockPos pos, BlockState state, Direction inFace)
+    {
+        if (world.getBlockEntity(pos) instanceof RouterBlockEntity be)
+        {
+            Direction output = be.getOutputDirection(item.resource());
+            return inFace != output && output != null;
+        }
+        return false;
+    }
+
+    @Override
     public long insert(World world, BlockPos pos, BlockState state, Direction direction, ItemInPipe item, TransactionContext transaction)
     {
         if (world.getBlockEntity(pos) instanceof RouterBlockEntity be)
         {
-            Direction output = be.getOutputDirection(item);
+            Direction output = be.getOutputDirection(item.resource());
             if (direction != output && output != null)
             {
                 long transferred = ItemPipeUtil.pipeToAny(item, pos, output, world, transaction, false);
@@ -78,9 +89,23 @@ public class RouterBlock extends BaseBlock implements BlockEntityProvider, ItemP
     }
 
     @Override
-    public Set<Direction> getConnections(BlockState state, Predicate<Direction> forbidden)
+    public boolean singleOutput()
     {
-        return Arrays.stream(Direction.values()).collect(Collectors.toSet());
+        return false;
+    }
+
+    @Override
+    public EnumSet<Direction> getConnections(BlockState state, Predicate<Direction> forbidden)
+    {
+        var set = EnumSet.allOf(Direction.class);
+        set.removeIf(Predicate.not(forbidden));
+        return set;
+    }
+
+    @Override
+    public boolean prioritise()
+    {
+        return true;
     }
 
     @Nullable

@@ -1,6 +1,5 @@
 package com.neep.neepmeat.block;
 
-import com.neep.meatlib.block.MeatlibBlock;
 import com.neep.meatlib.item.BaseBlockItem;
 import com.neep.meatlib.item.ItemSettings;
 import com.neep.meatlib.registry.ItemRegistry;
@@ -31,18 +30,18 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
+import java.util.List;
 
-public class HoldingTrackBlock extends AbstractRailBlock implements BlockEntityProvider, MeatlibBlock
+
+public class HoldingTrackBlock extends BaseRailBlock implements BlockEntityProvider
 {
     public static final EnumProperty<AxialDirection> FACING = EnumProperty.of("direction", AxialDirection.class);
     public static final EnumProperty<RailShape> SHAPE = Properties.STRAIGHT_RAIL_SHAPE;
     public static final BooleanProperty POWERED = Properties.POWERED;
 
-    private final String registryName;
     public HoldingTrackBlock(String registryName, ItemSettings itemSettings, Settings settings)
     {
-        super(true, settings);
-        this.registryName = registryName;
+        super(true, settings, registryName);
         this.setDefaultState(this.stateManager.getDefaultState().with(SHAPE, RailShape.NORTH_SOUTH).with(POWERED, false).with(WATERLOGGED, false).with(FACING, AxialDirection.POSITIVE));
         ItemRegistry.queue(new BaseBlockItem(this, registryName, itemSettings));
     }
@@ -76,133 +75,6 @@ public class HoldingTrackBlock extends AbstractRailBlock implements BlockEntityP
 
     }
 
-    //    @Override
-//    public BlockState rotate(BlockState state, BlockRotation rotation)
-//    {
-//        switch (rotation)
-//        {
-//            case CLOCKWISE_180:
-//            {
-//                switch (state.get(SHAPE))
-//                {
-//                    case ASCENDING_EAST:
-//                    {
-//                        return state.with(SHAPE, RailShape.ASCENDING_WEST);
-//                    }
-//                    case ASCENDING_WEST:
-//                    {
-//                        return state.with(SHAPE, RailShape.ASCENDING_EAST);
-//                    }
-//                    case ASCENDING_NORTH:
-//                    {
-//                        return state.with(SHAPE, RailShape.ASCENDING_SOUTH);
-//                    }
-//                    case ASCENDING_SOUTH:
-//                    {
-//                        return state.with(SHAPE, RailShape.ASCENDING_NORTH);
-//                    }
-//                    case SOUTH_EAST:
-//                    {
-//                        return state.with(SHAPE, RailShape.NORTH_WEST);
-//                    }
-//                    case SOUTH_WEST:
-//                    {
-//                        return state.with(SHAPE, RailShape.NORTH_EAST);
-//                    }
-//                    case NORTH_WEST:
-//                    {
-//                        return state.with(SHAPE, SOUTH_EAST);
-//                    }
-//                    case NORTH_EAST:
-//                    {
-//                        return state.with(SHAPE, RailShape.SOUTH_WEST);
-//                    }
-//                }
-//            }
-//            case COUNTERCLOCKWISE_90:
-//            {
-//                switch (state.get(SHAPE))
-//                {
-//                    case NORTH_SOUTH:
-//                    {
-//                        return state.with(SHAPE, RailShape.EAST_WEST);
-//                    }
-//                    case EAST_WEST:
-//                    {
-//                        return state.with(SHAPE, RailShape.NORTH_SOUTH);
-//                    }
-//                    case ASCENDING_EAST:
-//                    {
-//                        return state.with(SHAPE, RailShape.ASCENDING_NORTH);
-//                    }
-//                    case ASCENDING_WEST:
-//                    {
-//                        return state.with(SHAPE, RailShape.ASCENDING_SOUTH);
-//                    }
-//                    case ASCENDING_NORTH:
-//                    {
-//                        return state.with(SHAPE, RailShape.ASCENDING_WEST);
-//                    }
-//                    case ASCENDING_SOUTH:
-//                    {
-//                        return state.with(SHAPE, RailShape.ASCENDING_EAST);
-//                    }
-//                    case SOUTH_EAST:
-//                    {
-//                        return state.with(SHAPE, RailShape.NORTH_EAST);
-//                    }
-//                    case SOUTH_WEST:
-//                    {
-//                        return state.with(SHAPE, SOUTH_EAST);
-//                    }
-//                    case NORTH_WEST:
-//                    {
-//                        return state.with(SHAPE, RailShape.SOUTH_WEST);
-//                    }
-//                    case NORTH_EAST:
-//                    {
-//                        return state.with(SHAPE, RailShape.NORTH_WEST);
-//                    }
-//                }
-//            }
-//            case CLOCKWISE_90: {
-//                switch (state.get(SHAPE)) {
-//                    case NORTH_SOUTH: {
-//                        return (BlockState)state.with(SHAPE, RailShape.EAST_WEST);
-//                    }
-//                    case EAST_WEST: {
-//                        return (BlockState)state.with(SHAPE, RailShape.NORTH_SOUTH);
-//                    }
-//                    case ASCENDING_EAST: {
-//                        return (BlockState)state.with(SHAPE, RailShape.ASCENDING_SOUTH);
-//                    }
-//                    case ASCENDING_WEST: {
-//                        return (BlockState)state.with(SHAPE, RailShape.ASCENDING_NORTH);
-//                    }
-//                    case ASCENDING_NORTH: {
-//                        return (BlockState)state.with(SHAPE, RailShape.ASCENDING_EAST);
-//                    }
-//                    case ASCENDING_SOUTH: {
-//                        return (BlockState)state.with(SHAPE, RailShape.ASCENDING_WEST);
-//                    }
-//                    case SOUTH_EAST: {
-//                        return (BlockState)state.with(SHAPE, RailShape.SOUTH_WEST);
-//                    }
-//                    case SOUTH_WEST: {
-//                        return (BlockState)state.with(SHAPE, RailShape.NORTH_WEST);
-//                    }
-//                    case NORTH_WEST: {
-//                        return (BlockState)state.with(SHAPE, RailShape.NORTH_EAST);
-//                    }
-//                    case NORTH_EAST: {
-//                        return (BlockState)state.with(SHAPE, SOUTH_EAST);
-//                    }
-//                }
-//            }
-//        }
-//        return state;
-//    }
-
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx)
     {
@@ -215,12 +87,6 @@ public class HoldingTrackBlock extends AbstractRailBlock implements BlockEntityP
                 .with(this.getShapeProperty(), eastWest ? RailShape.EAST_WEST : RailShape.NORTH_SOUTH)
                 .with(FACING, AxialDirection.from(direction))
                 .with(WATERLOGGED, waterlogged);
-    }
-
-    @Override
-    public String getRegistryName()
-    {
-        return registryName;
     }
 
     @Nullable
@@ -256,8 +122,11 @@ public class HoldingTrackBlock extends AbstractRailBlock implements BlockEntityP
             double y = pos.getY();
             double z = pos.getZ() + 0.5;
 
-            world.getNonSpectatingEntities(AbstractMinecartEntity.class, box).forEach(e ->
+            List<AbstractMinecartEntity> result = world.getNonSpectatingEntities(AbstractMinecartEntity.class, box);
+            if (!result.isEmpty())
             {
+                AbstractMinecartEntity e = result.get(0);
+
                 if (!powered)
                 {
                     e.setPosition(x, y, z);
@@ -268,7 +137,7 @@ public class HoldingTrackBlock extends AbstractRailBlock implements BlockEntityP
                     Vector3f vel = direction.with(axis(railShape));
                     e.setVelocity(vel.x, vel.y, vel.z);
                 }
-            });
+            }
         }
 
         protected static Direction.Axis axis(RailShape railShape)

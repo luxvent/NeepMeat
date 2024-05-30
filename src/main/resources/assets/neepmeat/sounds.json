@@ -82,6 +82,18 @@
       "neepmeat:mechanical_machine_break"
     ]
   },
+  "multiblock_assemble": {
+    "subtitle": "subtitles.neepmeat.multiblock_assemble",
+    "sounds": [
+      "neepmeat:multiblock_assemble"
+    ]
+  },
+  "multiblock_disassemble": {
+    "subtitle": "subtitles.neepmeat.multiblock_disassemble",
+    "sounds": [
+      "neepmeat:multiblock_disassemble"
+    ]
+  },
   "flesh_machine_place": {
     "subtitle": "subtitles.neepmeat.flesh_machine_place",
     "sounds": [
@@ -180,6 +192,11 @@
     ]
   },
 
+  "deposit_items": { "subtitle": "subtitles.neepmeat.deposit_items",
+    "sounds": [
+      "neepmeat:deposit_items"
+    ]},
+
   "phage_ray_charge": { "subtitle": "subtitles.neepmeat.phage_ray.charge",
     "sounds": [
       "neepmeat:phage_ray_charge"
@@ -192,5 +209,14 @@
   "vivisection_complete": { "subtitle": "subtitles.neepmeat.vivisection.complete",
     "sounds": [
       "neepmeat:vivisection_complete"
+    ]},
+  "scalpel_hit": { "subtitle": "subtitles.neepmeat.scalpel.hit",
+    "sounds": [
+      "neepmeat:scalpel_hit"
+    ]},
+
+  "wrench_click": { "subtitle": "subtitles.neepmeat.wrench.click",
+    "sounds": [
+      "neepmeat:wrench_click"
     ]}
 }

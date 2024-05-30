@@ -9,7 +9,8 @@ public class NMCommonPlugin implements REIServerPlugin, NMREIPlugin
     @Override
     public void registerDisplaySerializer(DisplaySerializerRegistry registry)
     {
-        registry.register(GRINDING, GrindingDisplay.serializer());
+        registry.register(GRINDING, GrindingDisplay.serializer(GRINDING));
+        registry.register(ADVANCED_CRUSHING, GrindingDisplay.serializer(ADVANCED_CRUSHING));
         registry.register(COMPACTING, CompactingDisplay.serializer());
         registry.register(MIXING, MixingDisplay.serializer());
         registry.register(ALLOY_SMELTING, AlloySmeltingDisplay.serializer());
@@ -17,7 +18,8 @@ public class NMCommonPlugin implements REIServerPlugin, NMREIPlugin
         registry.register(ENLIGHTENING, EnlighteningDisplay.serializer());
         registry.register(PRESSING, PressingDisplay.serializer());
         registry.register(SURGERY, SurgeryDisplay.getSerializer());
-        registry.register(MANUFACTURE, ManufactureDisplay.getSerializer());
+        registry.registerNotSerializable(ITEM_MANUFACTURE);
+        registry.registerNotSerializable(ENTITY_TO_ITEM);
         registry.register(TRANSFORMING_TOOL, TransformingToolDisplay.serializer());
         registry.register(TROMMEL, TrommelDisplay.serializer());
     }

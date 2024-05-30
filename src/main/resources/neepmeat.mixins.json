@@ -5,12 +5,16 @@
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "AbstractFurnaceBlockEntityMixin",
+    "AbstractMinecartEntityMixin",
     "BrewingRecipeRegistryAccessor",
     "CowEntityMixin",
+    "EnchantmentTargetMixins$Digger",
+    "EnchantmentTargetMixins$Weapon",
     "FurnaceAccessor",
     "LivingEntityMixin",
-    "ServerWorldMixin",
+    "RailPlacementHelperMixin",
     "ServerPlayNetworkHandlerMixin",
+    "ServerWorldMixin",
     "WorldChunkMixin"
   ],
   "client": [
@@ -23,7 +27,8 @@
     "GameRendererMixin",
     "HeldItemRendererMixin",
     "InGameHudMixin",
-    "ParticleManagerMixin"
+    "ParticleManagerMixin",
+    "TextFieldWidgetAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

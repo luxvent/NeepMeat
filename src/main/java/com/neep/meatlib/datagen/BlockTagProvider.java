@@ -1,15 +1,13 @@
 package com.neep.meatlib.datagen;
 
 import com.neep.meatlib.block.BaseWallBlock;
-import com.neep.meatlib.block.MeatlibBlock;
+import com.neep.meatlib.block.MeatlibBlockExtension;
 import com.neep.meatlib.registry.BlockRegistry;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.block.Block;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.Identifier;
 
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class BlockTagProvider extends FabricTagProvider.BlockTagProvider
@@ -22,16 +20,15 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider
     @Override
     protected void configure(RegistryWrapper.WrapperLookup arg)
     {
-        for (Map.Entry<Identifier, Block> entry : BlockRegistry.REGISTERED_BLOCKS.entrySet())
+        for (Block entry : BlockRegistry.REGISTERED_BLOCKS)
         {
-            if (entry.getValue() instanceof MeatlibBlock meatBlock)
-            {
-                this.getOrCreateTagBuilder(meatBlock.getPreferredTool()).add(entry.getValue());
-            }
+            MeatlibBlockExtension.TagConsumer<Block> consumer = t -> getOrCreateTagBuilder(t).add(entry);
+            entry.neepmeat$appendTags(consumer);
 
-            if (entry.getValue() instanceof BaseWallBlock wall)
+            // JAAAAAAAAAAANK
+            if (entry instanceof BaseWallBlock wall)
             {
-                this.getOrCreateTagBuilder(wall.getWallTag()).add(entry.getValue());
+                this.getOrCreateTagBuilder(wall.getWallTag()).add(entry);
             }
         }
     }

@@ -11,6 +11,10 @@ import java.util.function.Consumer;
 public class NMExtraModels implements ExtraModelProvider
 {
     public static final PartialModel P_CRUSHER_JAW = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "block/grinder/jaw"));
+    public static final PartialModel LARGE_CRUSHER_JAW = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "block/large_crusher/large_crusher_jaw"));
+    public static final PartialModel LARGE_CRUSHER_SHEATH = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "block/large_crusher/large_crusher_sheath"));
+    public static final PartialModel CRUSHER_SEGMENT_SHEATH = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "block/crusher_segment/sheath"));
+    public static final PartialModel LARGE_TROMMEL_MESH = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "block/living_machine/large_trommel_mesh"));
     public static final PartialModel P_PYLON_ROTOR = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "block/pylon/rotor"));
     public static final PartialModel P_PYLON_ACTIVE_ROTOR = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "block/pylon/rotor_active"));
     public static final PartialModel P_MOTOR_ROTOR = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "block/motor_rotor"));
@@ -24,10 +28,13 @@ public class NMExtraModels implements ExtraModelProvider
     public static final PartialModel PHAGE_RAY_BASE = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "block/phage_ray/phage_ray.obj"));
     public static final PartialModel PHAGE_RAY_BARREL = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "block/phage_ray/phage_ray_barrel.obj"));
 
+
     // I hindsight I should have called this a turntable, but words elude me when I am forced to quickly name a file.
     public static PartialModel ROBOTIC_ARM_SPINNY_BIT = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "block/robotic_arm/spinny_bit"));
     public static PartialModel ROBOTIC_ARM_SEGMENT_1 = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "block/robotic_arm/segment_1"));
     public static PartialModel ROBOTIC_ARM_SEGMENT_2 = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "block/robotic_arm/segment_2"));
+
+    public static PartialModel LARGE_FAN_VANES = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "block/large_fan/vanes"));
 
     public static final PartialModel COW_LIMB = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "entity/parts/cow_limb"));
     public static final PartialModel COW_HEAD = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "entity/parts/cow_head"));
@@ -36,6 +43,12 @@ public class NMExtraModels implements ExtraModelProvider
     public static final PartialModel UNKNOWN_LIMB_1 = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "entity/parts/unknown_limb_1"));
     public static final PartialModel UNKNOWN_LIMB_2 = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "entity/parts/unknown_limb_2"));
     public static final PartialModel UNKNOWN_BODY_1 = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "entity/parts/unknown_body_1"));
+    public static final PartialModel FARMING_SCUTTER = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "entity/scutter"));
+
+    public static final PartialModel LUCKY_ONE_HEAD = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "block/living_machine/lucky_one/head"));
+    public static final PartialModel LUCKY_ONE_ARM_L = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "block/living_machine/lucky_one/arm_l"));
+    public static final PartialModel LUCKY_ONE_ARM_R = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "block/living_machine/lucky_one/arm_r"));
+    public static final PartialModel LUCKY_ONE_BODY = new PartialModel(new Identifier(NeepMeat.NAMESPACE, "block/living_machine/lucky_one/body"));
 
     public static NMExtraModels EXTRA_MODELS = new NMExtraModels();
 

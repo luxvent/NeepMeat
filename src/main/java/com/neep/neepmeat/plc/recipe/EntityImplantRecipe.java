@@ -18,18 +18,13 @@ import net.minecraft.util.JsonHelper;
 
 import java.util.List;
 
-public class EntityImplantRecipe implements ManufactureRecipe<MutateInPlace<Entity>>
+public class EntityImplantRecipe extends EntityMutateRecipe
 {
-    protected final EntityType<?> base;
-    private final List<ManufactureStep<?>> steps;
     private final EntityImplantInstaller implant;
-    private final Identifier id;
 
     public EntityImplantRecipe(Identifier id, EntityType<?> base, List<ManufactureStep<?>> steps, EntityImplantInstaller implant)
     {
-        this.id = id;
-        this.base = base;
-        this.steps = steps;
+        super(id, base, steps);
         this.implant = implant;
     }
 
@@ -70,7 +65,7 @@ public class EntityImplantRecipe implements ManufactureRecipe<MutateInPlace<Enti
     }
 
     @Override
-    public Object getBase()
+    public EntityType<?> getBase()
     {
         return base;
     }
@@ -103,12 +98,6 @@ public class EntityImplantRecipe implements ManufactureRecipe<MutateInPlace<Enti
     public MeatRecipeSerialiser<?> getSerializer()
     {
         return PLCRecipes.ENTITY_MANUFACTURE_SERIALISER;
-    }
-
-    @Override
-    public Identifier getId()
-    {
-        return id;
     }
 
     public static class Serialiser implements MeatRecipeSerialiser<EntityImplantRecipe>

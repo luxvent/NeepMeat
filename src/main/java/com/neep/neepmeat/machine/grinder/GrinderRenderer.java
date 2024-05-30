@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-@Environment(value= EnvType.CLIENT)
+@Environment(EnvType.CLIENT)
 public class GrinderRenderer implements BlockEntityRenderer<GrinderBlockEntity>
 {
     private final Random random = new Random();
@@ -60,10 +60,12 @@ public class GrinderRenderer implements BlockEntityRenderer<GrinderBlockEntity>
         matrices.translate(0.5, 0.5, 0.5);
         renderItems(stack, matrices, vertexConsumers, itemRenderer, be.getWorld(), random, light);
         matrices.pop();
+        matrices.pop();
     }
 
     public static void renderItems(ItemStack stack, MatrixStack matrices, VertexConsumerProvider vertices, ItemRenderer itemRenderer, World world, Random random, int light)
     {
+        matrices.push();
         int k = getRenderedAmount(stack);
         BakedModel bakedModel = itemRenderer.getModel(stack, world, null, 0);
         boolean depth = bakedModel.hasDepth();

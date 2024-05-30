@@ -39,7 +39,7 @@ public class ToolManufactureEmiRecipe implements EmiRecipe
 
     public ToolManufactureEmiRecipe(TransformingToolRecipe recipe)
     {
-        this.base = (Item) recipe.getBase();
+        this.base = recipe.getBase();
         this.finalStep = recipe.getSteps().get(0);
 
         this.id = recipe.getId();
@@ -131,7 +131,7 @@ public class ToolManufactureEmiRecipe implements EmiRecipe
 
         widgets.add(new OutlineWidget(new Bounds(0, 0, getDisplayWidth(), getDisplayHeight())));
 
-        var widgetBase = new ManufactureEmiRecipe.LabelledSlot(startX, startY, Text.of("Base: "), EmiStack.of(base), widgets);
+        var widgetBase = new ItemManufactureEmiRecipe.LabelledSlot(startX, startY, Text.of("Base: "), EmiStack.of(base), widgets);
         widgets.add(widgetBase);
 
         int entryX = startX + 1;
@@ -147,8 +147,8 @@ public class ToolManufactureEmiRecipe implements EmiRecipe
         widgets.add(toolWidget);
         entryY += toolWidget.height() + 2;
 
-        ManufactureEmiRecipe.EntryWidget widget;
-        widget = new ManufactureEmiRecipe.EntryWidget(entryX, entryY, finalStep, getDisplayWidth() - 20, widgets);
+        ItemManufactureEmiRecipe.EntryWidget widget;
+        widget = new ItemManufactureEmiRecipe.EntryWidget(entryX, entryY, finalStep, getDisplayWidth() - 20, widgets);
         widgets.add(widget);
     }
 

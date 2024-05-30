@@ -6,8 +6,8 @@
   },
   "output": {
     "resource": "minecraft:glowstone_dust",
-    "min": 4,
-    "max": 6
+    "min": 3,
+    "max": 4
   },
   "experience": 0,
   "processtime": 40

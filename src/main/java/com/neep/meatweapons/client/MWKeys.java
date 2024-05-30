@@ -1,9 +1,7 @@
 package com.neep.meatweapons.client;
 
-import com.jozufozu.flywheel.event.RenderLayerEvent;
-import com.neep.meatlib.api.event.EntityLookEvents;
 import com.neep.meatlib.api.event.KeyboardEvents;
-import com.neep.meatlib.api.event.UseAttackCallback;
+import com.neep.meatlib.client.api.event.UseAttackCallback;
 import com.neep.meatweapons.MeatWeapons;
 import com.neep.meatweapons.item.GunItem;
 import com.neep.meatweapons.network.MWAttackC2SPacket;
@@ -99,11 +97,6 @@ public class MWKeys
 
             if (client.options.useKey.isPressed())
             {
-//                System.out.println(
-//                        "cam yaw: " + Math.toRadians(camera.getYaw()) +
-//                        " player yaw: " + Math.toRadians(client.player.getYaw()) +
-//                        " captured yaw: " + Math.toRadians(playerYaw));
-
                 if (!primaryHeld)
                     sendTrigger(world, client.player, mainHand, offHand,
                             MWAttackC2SPacket.TRIGGER_PRIMARY, pitch, yaw, handType, MWAttackC2SPacket.ActionType.PRESS);

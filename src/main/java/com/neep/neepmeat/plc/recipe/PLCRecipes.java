@@ -18,12 +18,14 @@ public class PLCRecipes
     public static final MeatRecipeType<ItemManufactureRecipe> MANUFACTURE = RecipeRegistry.registerMeatlibType(NeepMeat.NAMESPACE, "manufacture");
     public static final MeatRecipeSerialiser<EntityImplantRecipe> ENTITY_MANUFACTURE_SERIALISER = RecipeRegistry.registerMeatlibSerializer(NeepMeat.NAMESPACE, "entity_manufacture", new EntityImplantRecipe.Serialiser());
     public static final MeatRecipeType<EntityImplantRecipe> ENTITY_MANUFACTURE = RecipeRegistry.registerMeatlibType(NeepMeat.NAMESPACE, "entity_manufacture");
+    public static final MeatRecipeSerialiser<EntityToItemRecipe> ENTITY_TO_ITEM_SERIALISER = RecipeRegistry.registerMeatlibSerializer(NeepMeat.NAMESPACE, "entity_to_item", new EntityToItemRecipe.Serialiser());
+    public static final MeatRecipeType<EntityToItemRecipe> ENTITY_TO_ITEM = RecipeRegistry.registerMeatlibType(NeepMeat.NAMESPACE, "entity_to_item");
 
     public static final ManufactureStep.Provider<?> COMBINE = ManufactureStep.register(CombineStep.ID, ManufactureStep.Provider.of(CombineStep::get, CombineStep::get));
     public static final ManufactureStep.Provider<?> INJECT = ManufactureStep.register(InjectStep.ID, ManufactureStep.Provider.of(InjectStep::new, InjectStep::new));
     public static final ManufactureStep.Provider<?> IMPLANT = ManufactureStep.register(ImplantStep.ID, ManufactureStep.Provider.of(ImplantStep::new, ImplantStep::new));
 
-    public static <B, C, T extends ManufactureRecipe<C>> boolean isValidStep(MeatRecipeType<T> type, Workpiece workpiece, ManufactureStep<?> nextStep, B base)
+    public static <B, C, T extends ManufactureRecipe<C, B>> boolean isValidStep(MeatRecipeType<T> type, Workpiece workpiece, ManufactureStep<?> nextStep, B base)
     {
         // TODO: Somehow remove jank
         if (base == NMItems.TRANSFORMING_TOOL_BASE)

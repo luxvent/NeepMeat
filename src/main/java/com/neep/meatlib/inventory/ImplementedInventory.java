@@ -6,21 +6,68 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.util.collection.DefaultedList;
 
 public interface ImplementedInventory extends Inventory, NbtSerialisable
 {
-    DefaultedList<ItemStack> getItems();
-
     static ImplementedInventory of(DefaultedList<ItemStack> items)
     {
         return () -> items;
+    }
+
+    static ImplementedInventory of(DefaultedList<ItemStack> items, Runnable callback)
+    {
+        return new ImplementedInventory()
+        {
+            @Override
+            public DefaultedList<ItemStack> getItems()
+            {
+                return items;
+            }
+
+            @Override
+            public void markDirty()
+            {
+                callback.run();
+            }
+        };
     }
 
     static ImplementedInventory ofSize(int size)
     {
         return of(DefaultedList.ofSize(size, ItemStack.EMPTY));
     }
+
+    static ImplementedInventory ofSize(int size, Runnable callback)
+    {
+        return of(DefaultedList.ofSize(size, ItemStack.EMPTY), callback);
+    }
+
+    static void readNbt(NbtCompound nbt, DefaultedList<ItemStack> stacks)
+    {
+        NbtList nbtList = nbt.getList("Items", NbtElement.COMPOUND_TYPE);
+
+        // Inventories::readNbt does nothing if the received list is empty.
+        if (nbtList.isEmpty())
+        {
+            stacks.clear();
+            return;
+        }
+
+        for (int i = 0; i < nbtList.size(); ++i)
+        {
+            NbtCompound nbtCompound = nbtList.getCompound(i);
+            int j = nbtCompound.getByte("Slot") & 255;
+            if (j >= 0 && j < stacks.size())
+            {
+                stacks.set(j, ItemStack.fromNbt(nbtCompound));
+            }
+        }
+    }
+
+    DefaultedList<ItemStack> getItems();
 
     @Override
     default int size()
@@ -42,6 +89,20 @@ public interface ImplementedInventory extends Inventory, NbtSerialisable
         return true;
     }
 
+    default float emptyStacks()
+    {
+        int filled = 0;
+        for (int i = 0; i < size(); i++)
+        {
+            ItemStack stack = getStack(i);
+            if (!stack.isEmpty())
+            {
+                filled++;
+            }
+        }
+        return size() - filled;
+    }
+
     @Override
     default ItemStack getStack(int slot)
     {
@@ -52,7 +113,8 @@ public interface ImplementedInventory extends Inventory, NbtSerialisable
     default ItemStack removeStack(int slot, int count)
     {
         ItemStack result = Inventories.splitStack(getItems(), slot, count);
-        if (!result.isEmpty()) {
+        if (!result.isEmpty())
+        {
             markDirty();
         }
         return result;
@@ -95,6 +157,6 @@ public interface ImplementedInventory extends Inventory, NbtSerialisable
 
     default void readNbt(NbtCompound tag)
     {
-        Inventories.readNbt(tag, getItems());
+        readNbt(tag, getItems());
     }
 }

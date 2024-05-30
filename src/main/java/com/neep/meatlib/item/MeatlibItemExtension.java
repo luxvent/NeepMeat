@@ -1,7 +1,12 @@
 package com.neep.meatlib.item;
 
+import com.neep.meatlib.block.MeatlibBlockExtension;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.registry.tag.TagKey;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Set;
 
 public interface MeatlibItemExtension
 {
@@ -12,4 +17,11 @@ public interface MeatlibItemExtension
     {
         return null;
     }
+
+    default boolean meatlib$supportsGuideLookup()
+    {
+        return false;
+    }
+
+    default void meatlib$appendTags(MeatlibBlockExtension.TagConsumer<Item> consumer) {}
 }

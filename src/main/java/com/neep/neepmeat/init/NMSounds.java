@@ -34,11 +34,16 @@ public class NMSounds
     public static SoundEvent MECHANICAL_MACHINE_BREAK = SoundRegistry.registerSound(NeepMeat.NAMESPACE, "mechanical_machine_break");
     public static SoundEvent FLESH_MACHINE_PLACE = SoundRegistry.registerSound(NeepMeat.NAMESPACE, "flesh_machine_place");
 
+    public static SoundEvent MULTIBLOCK_ASSEMBLE = SoundRegistry.registerSound(NeepMeat.NAMESPACE, "multiblock_assemble");
+    public static SoundEvent MULTIBLOCK_DISASSEMBLE = SoundRegistry.registerSound(NeepMeat.NAMESPACE, "multiblock_disassemble");
+
     public static SoundEvent PLC_SELECT = SoundRegistry.registerSound(NeepMeat.NAMESPACE, "plc_select");
     public static SoundEvent UI_BEEP = SoundRegistry.registerSound(NeepMeat.NAMESPACE, "plc_select_block");
     public static SoundEvent COMBINE_INSTRUCTION_APPLY = SoundRegistry.registerSound(NeepMeat.NAMESPACE, "combine_instruction_apply");
     public static SoundEvent IMPLANT_INSTRUCTION_APPLY = SoundRegistry.registerSound(NeepMeat.NAMESPACE, "implant_instruction_apply");
     public static SoundEvent INJECT_INSTRUCTION_APPLY = SoundRegistry.registerSound(NeepMeat.NAMESPACE, "inject");
+
+    public static SoundEvent DEPOSIT_ITEMS = SoundRegistry.registerSound(NeepMeat.NAMESPACE, "deposit_items");
 
     public static SoundEvent FUSION_FIRE = SoundRegistry.registerSound(MeatWeapons.NAMESPACE, "fusion_fire");
     public static SoundEvent FUSION_BLAST_FIRE = SoundRegistry.registerSound(MeatWeapons.NAMESPACE, "fusion_blast_fire");
@@ -74,7 +79,10 @@ public class NMSounds
     public static SoundEvent PYLON_ACTIVE = SoundRegistry.registerSound(NeepMeat.NAMESPACE, "pylon_active");
     public static SoundEvent MARATHON_BEEP = SoundRegistry.registerSound(NeepMeat.NAMESPACE, "beep");
 
+    public static SoundEvent WRENCH_CLICK = SoundRegistry.registerSound(NeepMeat.NAMESPACE, "wrench_click");
+
     public static SoundEvent VIVISECTION_COMPLETE = SoundRegistry.registerSound(NeepMeat.NAMESPACE, "vivisection_complete");
+    public static SoundEvent SCALPEL_HIT = SoundRegistry.registerSound(NeepMeat.NAMESPACE, "scalpel_hit");
 
     public static SoundEvent LMG_FIRE = SoundRegistry.registerSound(MeatWeapons.NAMESPACE, "light_machine_gun_fire");
     public static SoundEvent AR_FIRE = SoundRegistry.registerSound(MeatWeapons.NAMESPACE, "ar_fire");

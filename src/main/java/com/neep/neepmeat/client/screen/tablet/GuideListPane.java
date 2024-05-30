@@ -3,6 +3,7 @@ package com.neep.neepmeat.client.screen.tablet;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.neep.neepmeat.client.screen.util.GUIUtil;
+import com.neep.neepmeat.NeepMeat;
 import com.neep.neepmeat.guide.GuideNode;
 import com.neep.neepmeat.guide.GuideReloadListener;
 import com.neep.neepmeat.init.NMSounds;
@@ -175,7 +176,7 @@ public class GuideListPane extends ContentPane implements Drawable, Element, Sel
 
         // Create a de-duplicated set of matching entries.
         // GuideNode.GuideNodeImpl::equals() only checks the ID string since there is no reason for multiple entries to share an ID but have different contents.
-        Iterator<GuideNode> filtered = GuideReloadListener.getInstance().getArticleNodes().stream().distinct().filter(
+        Iterator<GuideNode.ArticleNode> filtered = GuideReloadListener.getInstance().getArticleNodes().stream().distinct().filter(
                 a -> a.getText().toString().toLowerCase().contains(searchString)).iterator();
 
         for (int i = 0; filtered.hasNext() && (i + 1) * entryHeight < contentHeight; ++i)
@@ -257,7 +258,7 @@ public class GuideListPane extends ContentPane implements Drawable, Element, Sel
 
     public class SearchWidget extends ClickableWidget
     {
-        private Text searchMessage = Text.of("Type '/' to search");
+        private final Text searchMessage = NeepMeat.translationKey("screen", "guide.search");
 
         public SearchWidget(int x, int y, int width, int height, Text message)
         {

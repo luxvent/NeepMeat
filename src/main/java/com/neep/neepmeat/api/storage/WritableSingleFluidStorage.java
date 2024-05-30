@@ -21,10 +21,11 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 @SuppressWarnings("UnstableApiUsage")
-public class WritableSingleFluidStorage extends SingleVariantStorage<FluidVariant>
+public class WritableSingleFluidStorage extends SingleVariantStorage<FluidVariant> implements StorageView<FluidVariant>
 {
     public static final String KEY_RESOURCE = "resource";
     public static final String KEY_AMOUNT = "amount";
+    public static final String KEY_CAPACITY = "capacity";
 
     protected long capacity;
 
@@ -158,6 +159,21 @@ public class WritableSingleFluidStorage extends SingleVariantStorage<FluidVarian
             finalCallback.run();
     }
 
+    public static FluidVariant readFluidVariant(NbtCompound nbt)
+    {
+        return FluidVariant.fromNbt(nbt.getCompound(WritableSingleFluidStorage.KEY_RESOURCE));
+    }
+
+    public static long readAmount(NbtCompound nbt)
+    {
+        return nbt.getLong(KEY_AMOUNT);
+    }
+
+    public static long readCapacity(NbtCompound nbt)
+    {
+        return nbt.getLong(KEY_CAPACITY);
+    }
+
     public NbtCompound toNbt(NbtCompound nbt)
     {
         writeNbt(nbt);
@@ -169,12 +185,14 @@ public class WritableSingleFluidStorage extends SingleVariantStorage<FluidVarian
     {
         nbt.put(KEY_RESOURCE, getResource().toNbt());
         nbt.putLong(KEY_AMOUNT, amount);
+        nbt.putLong(KEY_CAPACITY, capacity);
     }
 
-    public NbtCompound readNbt(NbtCompound nbt)
+    public NbtCompound readNbt(NbtCompound nbt) // TODO: make this return void
     {
-        this.variant = FluidVariant.fromNbt((NbtCompound) nbt.get(KEY_RESOURCE));
-        this.amount = nbt.getLong(KEY_AMOUNT);
+        this.variant = readFluidVariant(nbt);
+        this.amount = readAmount(nbt);
+//        this.capacity = readCapacity(nbt); // No changing capacity through NBT
         return nbt;
     }
 }
