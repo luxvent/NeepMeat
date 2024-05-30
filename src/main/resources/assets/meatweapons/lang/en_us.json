@@ -13,7 +13,8 @@
   "item.meatweapons.heavy_cannon": "Pocket Howitzer",
   "item.meatweapons.engine": "Engine",
 
-  "item.meatweapons.meatgun": "Meatgun",
+  "item.meatweapons.meatgun": "Meatgun - WIP",
+  "item.meatweapons.meatgun.lore_0": "HERE FOR TRIAL PURPOSES ONLY\nFUTURE UPDATES MAY DELETE THIS ITEM OR MAKE IT CORRUPT\nUSE AT YOUR OWN RISK",
 
   "item.meatweapons.assault_drill": "Assault Drill",
   "item.meatweapons.assault_drill.lore": "Shred your enemies! Impress your friends! Tons of fun at parties!",
@@ -41,6 +42,7 @@
   "meatgun_module.meatweapons.underbarrel": "Underbarrel",
   "meatgun_module.meatweapons.battery": "Battery",
   "meatgun_module.meatweapons.base": "Base",
+  "meatgun_module.meatweapons.bloodthrower": "Bloodthrower",
 
   "text.meatweapons.tinker_table.item_here": "Place Meatgun here",
   "tooltip.meatweapons.meatgun_module_1": "Meatgun Module - install in a Tinker Table"

@@ -1,6 +1,7 @@
 package com.neep.neepmeat.client.screen.util;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.neep.neepmeat.NeepMeat;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.*;
@@ -12,6 +13,8 @@ import software.bernie.geckolib.core.object.Color;
 
 public interface GUIUtil
 {
+    Identifier INVENTORY_BACKGROUND = new Identifier(NeepMeat.NAMESPACE, "textures/gui/inventory_background.png");
+
     static void drawTexture(Identifier texture, DrawContext context, int x, int y, int u, int v, int width, int height)
     {
         drawTexture(texture, context, x, y, 0, (float) u, (float) v, width, height, 256, 256, 1, 1, 1, 1);
@@ -125,4 +128,8 @@ public interface GUIUtil
         context.fill(x, y1 + 1, x + 1, y2, color);
     }
 
+    static void drawInventoryBackground(DrawContext context, int x, int y)
+    {
+        context.drawTexture(INVENTORY_BACKGROUND, x, y, 0, 0, 176, 90);
+    }
 }

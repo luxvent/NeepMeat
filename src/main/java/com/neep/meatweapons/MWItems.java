@@ -19,7 +19,7 @@ public class MWItems
 
     public static Item MA75 = new MA75Item();
 
-    public static Item MEATGUN = ItemRegistry.queue(new MeatgunItem("meatgun", TooltipSupplier.blank(), new MeatlibItemSettings().group(MeatWeapons.WEAPONS)));
+    public static Item MEATGUN = ItemRegistry.queue(new MeatgunItem("meatgun", TooltipSupplier.simple(1), new MeatlibItemSettings().group(MeatWeapons.WEAPONS)));
 
 //    public static Item BLASTER = new BlasterItem();
     public static Item HEAVY_CANNON = new HeavyCannonItem();

@@ -2,8 +2,7 @@ package com.neep.neepmeat.client.screen.living_machine;
 
 import com.neep.neepmeat.NeepMeat;
 import com.neep.neepmeat.client.screen.button.NMToggleButtonWidget;
-import com.neep.neepmeat.client.screen.plc.PLCScreenButton;
-import com.neep.neepmeat.client.screen.tablet.GUIUtil;
+import com.neep.neepmeat.client.screen.util.GUIUtil;
 import com.neep.neepmeat.screen_handler.ItemOutputScreenHandler;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;

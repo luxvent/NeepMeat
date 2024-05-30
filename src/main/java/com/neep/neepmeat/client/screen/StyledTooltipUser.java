@@ -1,7 +1,7 @@
 package com.neep.neepmeat.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.neep.neepmeat.client.screen.tablet.GUIUtil;
+import com.neep.neepmeat.client.screen.util.GUIUtil;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
