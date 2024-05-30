@@ -219,6 +219,8 @@
     "neepmeat:plc",
     "neepmeat:living_machine_controller",
     "neepmeat:lucky_one_structure",
+    "neepmeat:lucky_one",
+    "neepmeat:extractor",
     "neepmeat:fluid_pipe",
     "neepmeat:encased_fluid_pipe",
     "neepmeat:fluid_pipe_white",
