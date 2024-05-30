@@ -21,7 +21,6 @@ import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -132,7 +131,7 @@ public class ToolManufactureEmiRecipe implements EmiRecipe
 
         widgets.add(new OutlineWidget(new Bounds(0, 0, getDisplayWidth(), getDisplayHeight())));
 
-        var widgetBase = new ManufactureEmiRecipe.LabelledSlot(startX, startY, Text.of("Base: "), EmiStack.of(base), widgets);
+        var widgetBase = new ItemManufactureEmiRecipe.LabelledSlot(startX, startY, Text.of("Base: "), EmiStack.of(base), widgets);
         widgets.add(widgetBase);
 
         int entryX = startX + 1;
@@ -148,8 +147,8 @@ public class ToolManufactureEmiRecipe implements EmiRecipe
         widgets.add(toolWidget);
         entryY += toolWidget.height() + 2;
 
-        ManufactureEmiRecipe.EntryWidget widget;
-        widget = new ManufactureEmiRecipe.EntryWidget(entryX, entryY, finalStep, getDisplayWidth() - 20, widgets);
+        ItemManufactureEmiRecipe.EntryWidget widget;
+        widget = new ItemManufactureEmiRecipe.EntryWidget(entryX, entryY, finalStep, getDisplayWidth() - 20, widgets);
         widgets.add(widget);
     }
 
