@@ -2,10 +2,7 @@ package com.neep.neepmeat.compat.rei;
 
 import com.neep.neepmeat.NeepMeat;
 import com.neep.neepmeat.compat.rei.display.*;
-import com.neep.neepmeat.plc.recipe.EntityToItemRecipe;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.Item;
 
 public interface NMREIPlugin
 {
@@ -19,7 +16,7 @@ public interface NMREIPlugin
     CategoryIdentifier<PressingDisplay> PRESSING = CategoryIdentifier.of(NeepMeat.NAMESPACE, "plugins/pressing");
     CategoryIdentifier<SurgeryDisplay> SURGERY = CategoryIdentifier.of(NeepMeat.NAMESPACE, "plugins/surgery");
 
-    CategoryIdentifier<ItemManufactureDisplay> MANUFACTURE = CategoryIdentifier.of(NeepMeat.NAMESPACE, "plugins/item_manufacture");
+    CategoryIdentifier<ItemManufactureDisplay> ITEM_MANUFACTURE = CategoryIdentifier.of(NeepMeat.NAMESPACE, "plugins/item_manufacture");
     CategoryIdentifier<EntityToItemDisplay> ENTITY_TO_ITEM = CategoryIdentifier.of(NeepMeat.NAMESPACE, "plugins/entity_to_item_manufacture");
 
     CategoryIdentifier<TrommelDisplay> TROMMEL = CategoryIdentifier.of(NeepMeat.NAMESPACE, "plugins/trommel");

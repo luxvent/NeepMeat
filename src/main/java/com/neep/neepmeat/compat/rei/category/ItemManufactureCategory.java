@@ -2,27 +2,15 @@ package com.neep.neepmeat.compat.rei.category;
 
 import com.google.common.collect.Lists;
 import com.neep.neepmeat.api.plc.PLCCols;
-import com.neep.neepmeat.client.screen.tablet.GUIUtil;
 import com.neep.neepmeat.compat.rei.NMREIPlugin;
 import com.neep.neepmeat.compat.rei.display.ItemManufactureDisplay;
-import com.neep.neepmeat.plc.PLCBlocks;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
-import me.shedaniel.rei.api.client.gui.Renderer;
-import me.shedaniel.rei.api.client.gui.widgets.Slot;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
-import me.shedaniel.rei.api.client.gui.widgets.Widgets;
-import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
-import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.util.EntryStacks;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Element;
 import net.minecraft.text.Text;
 
-import java.util.Collections;
 import java.util.List;
 
 public class ItemManufactureCategory extends ManufactureCategory<ItemManufactureDisplay>
@@ -30,7 +18,7 @@ public class ItemManufactureCategory extends ManufactureCategory<ItemManufacture
     @Override
     public CategoryIdentifier<? extends ItemManufactureDisplay> getCategoryIdentifier()
     {
-        return NMREIPlugin.MANUFACTURE;
+        return NMREIPlugin.ITEM_MANUFACTURE;
     }
 
     @Override
