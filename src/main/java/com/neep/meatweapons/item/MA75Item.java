@@ -84,7 +84,7 @@ public class MA75Item extends BaseGunItem implements WeakTwoHanded
         )
         {
             player.getItemCooldownManager().set(this, 3);
-            fireShell(world, player, stack, 3, ((world1, x, y, z, vx, vy, vz) -> new ExplodingShellEntity(world, 1, false, x, y, z, vx, vy, vz)));
+            fireShell(world, player, stack, 1, ((world1, x, y, z, vx, vy, vz) -> new ExplodingShellEntity(world, 1, false, x, y, z, vx, vy, vz)));
             manager.set(stack, 1, 15);
             if (!player.isCreative()) stack.setDamage(stack.getDamage() + 1);
         }

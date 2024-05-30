@@ -5,6 +5,7 @@ import com.neep.meatlib.network.Sender;
 import com.neep.meatweapons.MeatWeapons;
 import com.neep.meatweapons.screen.TinkerTableScreenHandler;
 import com.neep.neepmeat.api.plc.PLCCols;
+import com.neep.neepmeat.client.screen.BaseHandledScreen;
 import com.neep.neepmeat.client.screen.util.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -23,7 +24,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 @Environment(EnvType.CLIENT)
-public class TinkerTableScreen extends HandledScreen<TinkerTableScreenHandler>
+public class TinkerTableScreen extends BaseHandledScreen<TinkerTableScreenHandler>
 {
     public static final Identifier WIDGETS_TEXTURE = new Identifier(MeatWeapons.NAMESPACE, "textures/gui/tinker_table/widgets.png");
     private final DisplayPane displayPane;
@@ -184,7 +185,8 @@ public class TinkerTableScreen extends HandledScreen<TinkerTableScreenHandler>
                 GUIUtil.drawTexture(WIDGETS_TEXTURE, context, x + 2, y + 2, 19, 1, 16, 16);
                 if (isWithin(mouseX, mouseY))
                 {
-                    context.drawTooltip(textRenderer, List.of(tooltip), mouseX, mouseY);
+                    renderTooltipText(context, List.of(tooltip), false, mouseX, mouseY, PLCCols.BORDER.col);
+//                    context.drawTooltip(textRenderer, List.of(tooltip), mouseX, mouseY);
                 }
             }
         }
