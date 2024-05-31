@@ -46,7 +46,7 @@ public class NMButtonWidget extends ButtonWidget
             matrices.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
             RenderSystem.enableBlend();
             RenderSystem.enableDepthTest();
-            com.neep.neepmeat.client.screen.util.GUIUtil.drawNineSlicedTexture(matrices, NM_WIDGETS_TEXTURE, getX(), getTextureY(), this.getWidth(), this.getHeight(), 4, 200, 20, 0, this.getTextureY());
+            GUIUtil.drawNineSlicedTexture(matrices, NM_WIDGETS_TEXTURE, getX(), getY(), this.getWidth(), this.getHeight(), 4, 200, 20, 0, this.getTextureY());
 //            matrices.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         }
 
