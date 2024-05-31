@@ -1,9 +1,7 @@
 package com.neep.meatlib.storage;
 
-import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
-import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.ResourceAmount;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
@@ -129,6 +127,14 @@ public class MeatlibStorageUtil
                 long extracted = view.extract(view.getResource(), Long.MAX_VALUE, transaction);
                 ItemScatterer.spawn(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ()+ 0.5, variant.toStack((int) extracted));
             }
+        }
+    }
+
+    public static void scatterNoTransaction(World world, BlockPos pos, Storage<ItemVariant> storage)
+    {
+        for (StorageView<ItemVariant> view : storage)
+        {
+            ItemScatterer.spawn(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, view.getResource().toStack((int) view.getAmount()));
         }
     }
 }
