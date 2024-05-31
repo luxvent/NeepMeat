@@ -7,6 +7,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
@@ -35,11 +36,15 @@ public class FarmingScutterItem extends ScutterItem<FarmingScutter>
     @Override
     protected void processEntity(FarmingScutter entity, ItemUsageContext context)
     {
+        entity.setHomePos(BlockPos.ofFloored(entity.getPos()));
+        if (context.getStack().hasCustomName())
+        {
+            entity.setCustomName(context.getStack().getName());
+        }
 
         if (ItemStorage.SIDED.find(context.getWorld(), context.getBlockPos(), context.getSide()) != null)
         {
             entity.setStoragePos(context.getBlockPos());
-            entity.setHomePos(BlockPos.ofFloored(entity.getPos()));
         }
     }
 }
