@@ -146,6 +146,16 @@ public class BosherModule extends ShooterModule
     public static List<Entity> hitScan(@NotNull LivingEntity caster, Vec3d start, double pitch, double yaw, int numRays,
                                            double perturb, double distance, Random random, BeamEffectProvider gunItem)
     {
+        // Modify the main ray to account for block collision
+        Vec3d end = start.add(GunItem.getRotationVector(pitch, yaw).multiply(distance));
+        RaycastContext ctx = new RaycastContext(start, end, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, caster);
+        BlockHitResult blockResult = caster.getWorld().raycast(ctx);
+        if (blockResult.getType() == HitResult.Type.BLOCK)
+        {
+            end = blockResult.getPos();
+            distance = end.distanceTo(start);
+        }
+
         // Form list of vectors from perturbed pitch and yaw
         List<Vec3d> rays = new ArrayList<>(numRays);
         for (int i = 0; i < numRays; ++i)
@@ -158,7 +168,6 @@ public class BosherModule extends ShooterModule
         }
 
         // Use the original ray to find the distance before block collision
-        Vec3d end = start.add(GunItem.getRotationVector(pitch, yaw).multiply(distance));
         Predicate<Entity> entityFilter = entity -> !entity.isSpectator() && entity.canHit();
 
         List<Entity> targets = new ArrayList<>();

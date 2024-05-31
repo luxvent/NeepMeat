@@ -8,6 +8,7 @@ import com.neep.meatweapons.particle.MWParticles;
 import com.neep.meatweapons.particle.MuzzleFlashParticleType;
 import com.neep.neepmeat.init.NMSounds;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.mixin.gamerule.client.EditGameRulesScreenAccessor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,10 +17,12 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector4d;
@@ -116,6 +119,16 @@ public class BloodthrowerModule extends ShooterModule
     {
         perturb = Math.toRadians(perturb);
 
+        // Modify the main ray to account for block collision
+        Vec3d end = start.add(GunItem.getRotationVector(pitch, yaw).multiply(distance));
+        RaycastContext ctx = new RaycastContext(start, end, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, caster);
+        BlockHitResult blockResult = caster.getWorld().raycast(ctx);
+        if (blockResult.getType() == HitResult.Type.BLOCK)
+        {
+            end = blockResult.getPos();
+            distance = end.distanceTo(start);
+        }
+
         // Form list of vectors from perturbed pitch and yaw
         List<Vec3d> rays = new ArrayList<>(numRays);
         for (int i = 0; i < numRays; ++i)
@@ -129,8 +142,7 @@ public class BloodthrowerModule extends ShooterModule
             spawnParticle((ServerWorld) caster.getWorld(), start, ray.normalize());
         }
 
-        // Use the original ray to find the distance before block collision
-        Vec3d end = start.add(GunItem.getRotationVector(pitch, yaw).multiply(distance));
+
         Predicate<Entity> entityFilter = entity -> !entity.isSpectator() && entity.canHit();
 
         List<Entity> targets = new ArrayList<>();
