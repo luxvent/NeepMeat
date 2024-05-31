@@ -49,8 +49,7 @@ public class SeparatorScreen extends HandledScreen<SeparatorScreenHandler>
         textField.setDrawsBackground(false);
 
         this.addDrawableChild(new NMButtonWidget(x + 5, y + 30, 73, 20, Text.empty(), button ->
-                handler.setTakeBabies(!handler.takeBabies()),
-                t -> Text.empty())
+                handler.setTakeBabies(!handler.takeBabies()))
         {
             @Override
             public Text getMessage()

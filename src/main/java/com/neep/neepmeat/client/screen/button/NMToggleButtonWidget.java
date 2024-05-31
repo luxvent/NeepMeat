@@ -10,15 +10,15 @@ public class NMToggleButtonWidget extends NMButtonWidget
     private final BooleanSupplier toggled;
     private final ToggleAction onToggle;
 
-    public NMToggleButtonWidget(int x, int y, int width, int height, BooleanSupplier toggled, Text message, ToggleAction onToggle, NarrationSupplier narrationSupplier)
+    public NMToggleButtonWidget(int x, int y, int width, int height, BooleanSupplier toggled, Text message, ToggleAction onToggle)
     {
-        super(x, y, width, height, message, b -> {}, narrationSupplier);
+        super(x, y, width, height, message, b -> {});
         this.toggled = toggled;
         this.onToggle = onToggle;
     }
 
     @Override
-    protected void renderButton(DrawContext matrices, int mouseX, int mouseY, float delta)
+    public void renderButton(DrawContext matrices, int mouseX, int mouseY, float delta)
     {
         super.renderButton(matrices, mouseX, mouseY, delta);
     }

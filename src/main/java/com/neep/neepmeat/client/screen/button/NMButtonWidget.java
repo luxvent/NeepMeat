@@ -16,9 +16,9 @@ public class NMButtonWidget extends ButtonWidget
     public static final Identifier NM_WIDGETS_TEXTURE = new Identifier(NeepMeat.NAMESPACE, "textures/gui/inventory_background.png");
     private boolean showBackground = true;
 
-    public NMButtonWidget(int x, int y, int width, int height, Text message, PressAction onPress, NarrationSupplier narrationSupplier)
+    public NMButtonWidget(int x, int y, int width, int height, Text message, PressAction onPress)
     {
-        super(x, y, width, height, message, onPress, narrationSupplier);
+        super(x, y, width, height, message, onPress, textSupplier -> Text.empty());
     }
 
     public NMButtonWidget showBackground(boolean background)
@@ -38,7 +38,7 @@ public class NMButtonWidget extends ButtonWidget
     }
 
     @Override
-    protected void renderButton(DrawContext matrices, int mouseX, int mouseY, float delta)
+    public void renderButton(DrawContext matrices, int mouseX, int mouseY, float delta)
     {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
         if (showBackground)
@@ -46,7 +46,8 @@ public class NMButtonWidget extends ButtonWidget
             matrices.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
             RenderSystem.enableBlend();
             RenderSystem.enableDepthTest();
-            GUIUtil.drawFiveSlicedTexture(matrices, NM_WIDGETS_TEXTURE, x, y, this.getWidth(), this.getHeight(), 4, 200, 20, 0, this.getTextureY());
+            com.neep.neepmeat.client.screen.util.GUIUtil.drawNineSlicedTexture(matrices, NM_WIDGETS_TEXTURE, getX(), getTextureY(), this.getWidth(), this.getHeight(), 4, 200, 20, 0, this.getTextureY());
+//            matrices.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         }
 
         int borderCol = borderActive() ? PLCCols.SELECTED.col : PLCCols.BORDER.col;

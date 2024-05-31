@@ -32,7 +32,7 @@ public class ItemOutputPortScreen extends HandledScreen<ItemOutputScreenHandler>
         addDrawableChild(new NMToggleButtonWidget(buttonX, buttonY, 70, 20, () -> handler.getProperty(0) > 0, Text.of("Auto eject"), (b, t) ->
         {
             handler.setEject(t);
-        }, b -> Text.empty()));
+        }));
     }
 
     @Override

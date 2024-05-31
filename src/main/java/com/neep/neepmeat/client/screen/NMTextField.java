@@ -2,6 +2,7 @@ package com.neep.neepmeat.client.screen;
 
 import com.neep.neepmeat.api.plc.PLCCols;
 import com.neep.neepmeat.client.screen.button.NMButtonWidget;
+import com.neep.neepmeat.client.screen.util.GUIUtil;
 import com.neep.neepmeat.mixin.TextFieldWidgetAccessor;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -40,12 +41,12 @@ public class NMTextField extends TextFieldWidget
     {
         if (drawFancyBackground)
         {
-            GUIUtil.drawFiveSlicedTexture(context, NMButtonWidget.NM_WIDGETS_TEXTURE, x, y, this.getWidth(), this.getHeight(), 4, 200, 20, 0, 90);
+            GUIUtil.drawNineSlicedTexture(context, NMButtonWidget.NM_WIDGETS_TEXTURE, getX(), getY(), this.getWidth(), this.getHeight(), 4, 200, 20, 0, 90);
         }
 
         TextFieldWidgetAccessor accessor = (TextFieldWidgetAccessor) this;
 
-        int i = accessor.getEditable() ? PLCCols.TEXT.col : PLCCols.INVALID.col;
+        int col = accessor.getEditable() ? PLCCols.TEXT.col : PLCCols.INVALID.col;
         int j = accessor.getSelectionStart() - accessor.getFirstCharacterIndex();
         int k = accessor.getSelectionEnd() - accessor.getFirstCharacterIndex();
         String string = this.textRenderer.trimToWidth(accessor.getText().substring(accessor.getFirstCharacterIndex()), this.getInnerWidth());

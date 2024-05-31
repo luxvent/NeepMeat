@@ -338,6 +338,7 @@ public class ItemPipeUtil
 
     public static boolean canDumpInto(World world, BlockPos pos, BlockState state)
     {
-        return !state.isSolidBlock(world, pos);
+        return !state.blocksMovement();
+//        return !state.isSolidBlock(world, pos);
     }
 }
