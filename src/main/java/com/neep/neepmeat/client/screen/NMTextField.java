@@ -40,7 +40,7 @@ public class NMTextField extends TextFieldWidget
     {
         if (drawFancyBackground)
         {
-            context.drawNineSlicedTexture(NMButtonWidget.NM_WIDGETS_TEXTURE, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 20, 4, 200, 20, 0, 90);
+            GUIUtil.drawFiveSlicedTexture(context, NMButtonWidget.NM_WIDGETS_TEXTURE, x, y, this.getWidth(), this.getHeight(), 4, 200, 20, 0, 90);
         }
 
         TextFieldWidgetAccessor accessor = (TextFieldWidgetAccessor) this;
@@ -62,7 +62,7 @@ public class NMTextField extends TextFieldWidget
         if (!string.isEmpty())
         {
             String string2 = bl ? string.substring(0, j) : string;
-            n = context.drawTextWithShadow(this.textRenderer, this.renderTextProvider.apply(string2, accessor.getFirstCharacterIndex()), l, m, i);
+            n = GUIUtil.drawText(context, this.textRenderer, this.renderTextProvider.apply(string2, accessor.getFirstCharacterIndex()), l, m, col, true);
         }
 
         boolean bl3 = accessor.getSelectionStart() < accessor.getText().length() || accessor.getText().length() >= accessor.callGetMaxLength();
@@ -79,7 +79,7 @@ public class NMTextField extends TextFieldWidget
 
         if (!string.isEmpty() && bl && j < string.length())
         {
-            context.drawTextWithShadow(this.textRenderer, this.renderTextProvider.apply(string.substring(j), accessor.getSelectionStart()), n, m, i);
+            GUIUtil.drawText(context, this.textRenderer, this.renderTextProvider.apply(string.substring(j), accessor.getSelectionStart()), n, m, col, true);
         }
 
         if (bl2)
@@ -90,7 +90,7 @@ public class NMTextField extends TextFieldWidget
             }
             else
             {
-                context.drawTextWithShadow(this.textRenderer, "_", o, m, i);
+                GUIUtil.drawText(context, this.textRenderer, "_", o, m, col, true);
             }
         }
 

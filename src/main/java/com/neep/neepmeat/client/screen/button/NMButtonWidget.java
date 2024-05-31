@@ -46,8 +46,7 @@ public class NMButtonWidget extends ButtonWidget
             matrices.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
             RenderSystem.enableBlend();
             RenderSystem.enableDepthTest();
-            matrices.drawNineSlicedTexture(NM_WIDGETS_TEXTURE, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 20, 4, 200, 20, 0, this.getTextureY());
-            matrices.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+            GUIUtil.drawFiveSlicedTexture(matrices, NM_WIDGETS_TEXTURE, x, y, this.getWidth(), this.getHeight(), 4, 200, 20, 0, this.getTextureY());
         }
 
         int borderCol = borderActive() ? PLCCols.SELECTED.col : PLCCols.BORDER.col;

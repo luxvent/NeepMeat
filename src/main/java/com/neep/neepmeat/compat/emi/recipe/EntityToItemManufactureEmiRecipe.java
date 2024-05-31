@@ -130,8 +130,8 @@ public class EntityToItemManufactureEmiRecipe extends ManufactureEmiRecipe<Entit
         @Override
         public void render(DrawContext matrices, int mouseX, int mouseY, float delta)
         {
-            matrices.drawText(textRenderer, name, originX, originY, ItemManufactureEmiRecipe.borderCol(), true);
-            matrices.drawText(textRenderer, entityType.getName(), slotOriginX, slotOriginY, ItemManufactureEmiRecipe.borderCol(), true);
+            matrices.drawText(textRenderer, name, originX, originY, ManufactureEmiRecipe.borderCol(), true);
+            matrices.drawText(textRenderer, entityType.getName(), slotOriginX, slotOriginY, ManufactureEmiRecipe.borderCol(), true);
 //            GUIUtil.renderBorder(matrices, slotOriginX, slotOriginY, 17, 17, ItemManufactureEmiRecipe.borderCol(), 0);
 //            GUIUtil.renderBorder(matrices, slotOriginX + 1, slotOriginY + 1, 15, 15, PLCCols.TRANSPARENT.col, 0);
         }
