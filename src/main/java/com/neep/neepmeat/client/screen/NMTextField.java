@@ -13,6 +13,7 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 public class NMTextField extends TextFieldWidget
 {
@@ -100,5 +101,11 @@ public class NMTextField extends TextFieldWidget
             int p = l + this.textRenderer.getWidth(string.substring(0, k));
             accessor.callDrawSelectionHighlight(context, o, m - 1, p - 1, m + 1 + 9);
         }
+    }
+
+    @Override
+    public void setChangedListener(Consumer<String> changedListener)
+    {
+        super.setChangedListener(changedListener);
     }
 }
