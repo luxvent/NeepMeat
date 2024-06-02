@@ -4,7 +4,6 @@ import com.neep.neepmeat.NeepMeat;
 import com.neep.neepmeat.init.ScreenHandlerInit;
 import com.neep.neepmeat.screen_handler.BasicScreenHandler;
 import com.neep.neepmeat.screen_handler.slot.PatternSlot;
-import com.sun.jna.platform.win32.Variant;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -23,10 +22,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
-import org.apache.logging.log4j.core.jmx.Server;
 
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class FabricatorScreenHandler extends BasicScreenHandler
