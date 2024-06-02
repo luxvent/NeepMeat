@@ -1,6 +1,7 @@
 package com.neep.neepmeat.init;
 
 import com.neep.neepmeat.NeepMeat;
+import com.neep.neepmeat.machine.fabricator.FabricatorScreenHandler;
 import com.neep.neepmeat.screen_handler.DisplayPlateScreenHandler;
 import com.neep.neepmeat.machine.separator.SeparatorScreenHandler;
 import com.neep.neepmeat.plc.screen.PLCScreenHandler;
@@ -29,6 +30,7 @@ public class ScreenHandlerInit
     public static ExtendedScreenHandlerType<FluidRationerScreenHandler> FLUID_RATIONER = new ExtendedScreenHandlerType<>(FluidRationerScreenHandler::new);
     public static ExtendedScreenHandlerType<SeparatorScreenHandler> SEPARATOR = new ExtendedScreenHandlerType<>(SeparatorScreenHandler::new);
     public static ExtendedScreenHandlerType<DisplayPlateScreenHandler> DISPLAY_PLATE;
+    public static ScreenHandlerType<FabricatorScreenHandler> FABRICATOR;
 
     public static ScreenHandlerType<ItemOutputScreenHandler> ITEM_OUTPUT;
 
@@ -49,6 +51,7 @@ public class ScreenHandlerInit
         FLUID_RATIONER = Registry.register(Registries.SCREEN_HANDLER, new Identifier(NeepMeat.NAMESPACE, "fluid_rationer"), FLUID_RATIONER);
         SEPARATOR = Registry.register(Registries.SCREEN_HANDLER, new Identifier(NeepMeat.NAMESPACE, "separator"), SEPARATOR);
         DISPLAY_PLATE = registerExtended(NeepMeat.NAMESPACE, "display_plate", DisplayPlateScreenHandler::new);
+        FABRICATOR = registerExtended(NeepMeat.NAMESPACE, "fabricator", FabricatorScreenHandler::new);
 
         LIVING_MACHINE = registerExtended(NeepMeat.NAMESPACE, "living_machine", LivingMachineScreenHandler::new);
         ITEM_OUTPUT = register(NeepMeat.NAMESPACE, "item_output", ItemOutputScreenHandler::new);
