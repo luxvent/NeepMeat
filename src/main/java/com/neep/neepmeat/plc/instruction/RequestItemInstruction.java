@@ -116,6 +116,8 @@ public class RequestItemInstruction implements Instruction
 
         view.fastForward();
 
+        parser.assureLineEnd(view);
+
         return (world, parsedSource1, program) ->
         {
             program.addBack(new RequestItemInstruction(() -> world, to, itemVariant));
