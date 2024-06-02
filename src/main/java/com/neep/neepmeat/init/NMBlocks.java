@@ -228,7 +228,7 @@ public class NMBlocks
     public static Block CRUCIBLE = BlockRegistry.queue(new CrucibleBlock("crucible", block(), FLUID_PIPE_SETTINGS));
     public static Block COLLECTOR = BlockRegistry.queue(new FatCollectorBlock("collector", block(), FLUID_PIPE_SETTINGS));
     public static AssemblerBlock ASSEMBLER = BlockRegistry.queue(new AssemblerBlock("assembler", block().tooltip(TooltipSupplier.hidden(1)).requiresVascular(), MACHINE_SETTINGS));
-    public static Block FABRICATOR = BlockRegistry.queue(new FabricatorBlock("fabricator", block().tooltip(TooltipSupplier.hidden(1)).requiresMotor(), MACHINE_SETTINGS));
+    public static Block FABRICATOR = BlockRegistry.queue(new FabricatorBlock("fabricator", block().tooltip(TooltipSupplier.hidden(1)), MACHINE_SETTINGS));
 
     public static TallBlock FLUID_EXCITER = BlockRegistry.queue(new FluidExciterBlock("fluid_exciter", block().tooltip(TooltipSupplier.hidden(1)), MeatlibBlockSettings.create().sounds(NMSoundGroups.MECHANICAL_MACHINE).hardness(4.0f)));
 
