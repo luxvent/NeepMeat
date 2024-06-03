@@ -22,31 +22,31 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
-public class RequestItemInstruction implements Instruction
+public class RouteItemInstruction implements Instruction
 {
-//    private final LazyBlockApiCache<Void, Void> routerCache;
+    private final Argument from;
     private final Argument to;
     private final ItemVariant item;
 
-    public RequestItemInstruction(Supplier<World> worldSupplier, Argument to, ItemVariant item)
+    public RouteItemInstruction(Supplier<World> worldSupplier, Argument from, Argument to, ItemVariant item)
     {
-//        routerCache = LazyBlockApiCache.of(MeatLib.VOID_LOOKUP, router.pos(), worldSupplier, () -> null);
         this.item = item;
+        this.from = from;
         this.to = to;
     }
 
-    public RequestItemInstruction(Supplier<World> world, NbtCompound nbt)
+    public RouteItemInstruction(Supplier<World> world, NbtCompound nbt)
     {
-//        routerCache = LazyBlockApiCache.of(MeatLib.VOID_LOOKUP, NbtHelper.toBlockPos(nbt.getCompound("router")), world, () -> null);
         this.item = ItemVariant.fromNbt(nbt.getCompound("item"));
+        this.from = Argument.fromNbt(nbt.getCompound("from"));
         this.to = Argument.fromNbt(nbt.getCompound("to"));
     }
 
     @Override
     public NbtCompound writeNbt(NbtCompound nbt)
     {
-//        nbt.put("router", NbtHelper.fromBlockPos(routerCache.pos()));
         nbt.put("item", item.toNbt());
+        nbt.put("from", from.toNbt());
         nbt.put("to", to.toNbt());
         return nbt;
     }
@@ -54,9 +54,6 @@ public class RequestItemInstruction implements Instruction
     @Override
     public void start(PLC plc)
     {
-//        if (!plc.getActuator().capabilities().contains(PLCActuator.Capability.ROUTE_ITEM))
-//            plc.raiseError(new PLC.Error("Acutator does not have routing capability"));
-
         plc.addRobotAction(AtomicAction.of(p ->
         {
             var stack = p.variableStack();
@@ -72,7 +69,7 @@ public class RequestItemInstruction implements Instruction
                 try (Transaction transaction = Transaction.openOuter())
                 {
                     ResourceAmount<ItemVariant> ra = new ResourceAmount<>(item, amount);
-                    boolean satisfied = be.getNetwork(null).request(ra, to.pos(), to.face(), RoutingNetwork.RequestType.EXACT_AMOUNT, transaction);
+                    boolean satisfied = be.getNetwork(null).route(ra, from.pos(), from.face(), to.pos(), to.face(), RoutingNetwork.RequestType.EXACT_AMOUNT, transaction);
 
                     if (satisfied)
                         transaction.commit();
@@ -90,15 +87,15 @@ public class RequestItemInstruction implements Instruction
     @Override
     public @NotNull InstructionProvider getProvider()
     {
-        return Instructions.REQUEST;
+        return Instructions.ROUTE;
     }
 
     public static ParsedInstruction parser(TokenView view, ParsedSource parsedSource, Parser parser) throws NeepASM.ParseException
     {
-//        view.fastForward();
-//        Argument router = parser.parseArgument(view);
-//        if (router == null)
-//            throw new NeepASM.ParseException("expected router world target");
+        view.fastForward();
+        Argument from = parser.parseArgument(view);
+        if (from == null)
+            throw new NeepASM.ParseException("expected input pipe world target");
 
         view.fastForward();
         Argument to = parser.parseArgument(view);
@@ -122,7 +119,7 @@ public class RequestItemInstruction implements Instruction
 
         return (world, parsedSource1, program) ->
         {
-            program.addBack(new RequestItemInstruction(() -> world, to, itemVariant));
+            program.addBack(new RouteItemInstruction(() -> world, from, to, itemVariant));
         };
     }
 }
