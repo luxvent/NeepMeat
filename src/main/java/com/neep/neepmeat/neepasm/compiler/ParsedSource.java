@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ParsedSource
+public class ParsedSource implements InstructionAcceptor
 {
     private final List<ObjectIntPair<ParsedInstruction>> instructions = Lists.newArrayList();
     private final List<Label> labels = Lists.newArrayList();
@@ -23,6 +23,7 @@ public class ParsedSource
         instructions.add(ObjectIntPair.of(preInstruction, line));
     }
 
+    @Override
     public void label(Label label)
     {
         labels.add(label);
@@ -33,6 +34,12 @@ public class ParsedSource
         functions.add(function);
     }
 
+    @Override
+    public int size()
+    {
+        return instructions.size();
+    }
+
     public void alias(ParsedAlias alias)
     {
         aliases.add(alias);
@@ -41,11 +48,6 @@ public class ParsedSource
     public void macro(ParsedMacro macro)
     {
         macros.add(macro);
-    }
-
-    public int size()
-    {
-        return instructions.size();
     }
 
     public Iterable<ObjectIntPair<ParsedInstruction>> instructions()
