@@ -10,7 +10,6 @@ import com.neep.neepmeat.init.NMBlockEntities;
 import com.neep.neepmeat.init.NMEntities;
 import com.neep.neepmeat.machine.advanced_motor.AdvancedMotorInstance;
 import com.neep.neepmeat.machine.charnel_pump.CharnelPumpInstance;
-import com.neep.neepmeat.machine.fabricator.FabricatorBlockEntity;
 import com.neep.neepmeat.machine.fabricator.FabricatorInstance;
 import com.neep.neepmeat.machine.flywheel.FlywheelInstance;
 import com.neep.neepmeat.machine.grinder.GrinderInstance;
@@ -20,7 +19,6 @@ import com.neep.neepmeat.machine.large_crusher.CrusherSegmentInstance;
 import com.neep.neepmeat.machine.large_crusher.LargeCrusherInstance;
 import com.neep.neepmeat.machine.large_crusher.LargeCrusherRenderer;
 import com.neep.neepmeat.machine.large_motor.LargeMotorInstance;
-import com.neep.neepmeat.machine.live_machine.LivingMachineComponents;
 import com.neep.neepmeat.machine.live_machine.LivingMachines;
 import com.neep.neepmeat.machine.motor.MotorInstance;
 import com.neep.neepmeat.machine.phage_ray.PhageRayInstance;
@@ -56,7 +54,7 @@ public class NMInstances
         InstancedRenderRegistry.configure(NMBlockEntities.STIRLING_ENGINE).alwaysSkipRender().factory(StirlingEngineInstance::new).apply();
         InstancedRenderRegistry.configure(NMBlockEntities.FLYWHEEL).alwaysSkipRender().factory(FlywheelInstance::new).apply();
         InstancedRenderRegistry.configure(NMBlockEntities.HYDRAULIC_PRESS).alwaysSkipRender().factory(HydraulicPressInstance::new).apply();
-        InstancedRenderRegistry.configure(NMBlockEntities.CHARNEL_PUMP).alwaysSkipRender().factory(CharnelPumpInstance::new).apply();
+        InstancedRenderRegistry.configure(LivingMachines.CHARNEL_PUMP_BE).alwaysSkipRender().factory(CharnelPumpInstance::new).apply();
 
         InstancedRenderRegistry.configure(NMBlockEntities.FABRICATOR).alwaysSkipRender().factory(FabricatorInstance::new).apply();
 
