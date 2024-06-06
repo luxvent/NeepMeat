@@ -204,6 +204,6 @@ public class MergePipeBlock extends ItemPipeBlock
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type)
     {
-        return MiscUtil.checkType(type, NMBlockEntities.MERGE_ITEM_PIPE, ItemPipeBlockEntity::serverTick, null, world);
+        return MiscUtil.checkType(type, NMBlockEntities.MERGE_ITEM_PIPE, (world1, pos, state1, blockEntity) -> blockEntity.serverTick(world1, pos, state1), null, world);
     }
 }

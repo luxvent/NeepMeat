@@ -59,7 +59,7 @@ public class ItemRequesterBlock extends MergePipeBlock implements BlockEntityPro
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type)
     {
-        return MiscUtil.checkType(type, ItemTransport.ITEM_REQUESTER_BE, ItemRequesterBlockEntity::serverTick, null, world);
+        return MiscUtil.checkType(type, ItemTransport.ITEM_REQUESTER_BE, (world1, pos, state1, blockEntity) -> blockEntity.serverTick(world1, pos, state1), null, world);
     }
 
     @Nullable

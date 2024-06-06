@@ -13,6 +13,7 @@ import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3d;
 
 @Environment(value = EnvType.CLIENT)
 public class ItemPipeRenderer<T extends ItemPipeBlockEntity> implements BlockEntityRenderer<T>
@@ -30,18 +31,25 @@ public class ItemPipeRenderer<T extends ItemPipeBlockEntity> implements BlockEnt
         matrices.push();
         matrices.translate(0.5, 0.5, 0.5);
 
+        int count = 0;
         for (ItemInPipe item : be.getItems())
         {
+            // Proctection against item rendering insanity
+            if (count > 20)
+                break;
+
+            count++;
+
             ItemStack stack = item.getItemStack();
             matrices.push();
 
             long diff = be.getWorld().getTime() - item.tickStart;
             float progress = (diff + tickDelta) * item.speed;
-            item.set(item.getPosition(progress));
+            Vec3d pos = item.getPosition(progress);
 
-            matrices.translate(item.x, item.y, item.z);
+            matrices.translate(pos.x, pos.y, pos.z);
             matrices.scale(0.4f, 0.4f, 0.4f);
-//            matrices.multiply(RotationAxis.POSITIVE_Y.rotation(0.1f));
+
             matrices.multiply(RotationAxis.POSITIVE_Y.rotation((float) (Math.PI / 2)));
             renderer.renderItem(stack, ModelTransformationMode.FIXED, light, overlay, matrices, vertexConsumers, null, 0);
 

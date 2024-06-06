@@ -56,7 +56,7 @@ public class StorageBusBlock extends ItemPipeBlock implements ItemPipe
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type)
     {
-        return MiscUtil.checkType(type, ItemTransport.STORAGE_BUS_BE, StorageBusBlockEntity::serverTick, null, world);
+        return MiscUtil.checkType(type, ItemTransport.STORAGE_BUS_BE, (world1, pos, state1, blockEntity) -> blockEntity.serverTick(world1, pos, state), null, world);
     }
 
     @Override
