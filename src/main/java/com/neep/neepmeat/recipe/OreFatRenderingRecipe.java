@@ -112,7 +112,7 @@ public class OreFatRenderingRecipe extends ImplementedRecipe<CrucibleStorage>
         try (Transaction eject = transaction.openNested())
         {
             boolean bl1 = true;
-            fluidOutput.setNbt(entry.toNbt());
+            fluidOutput.setNbt(entry.nbt());
             for (int i = 0; i < itemAmount; ++i)
             {
                 bl1 = bl1 && fluidOutput.insertInto(storage.getFluidOutput(), FluidVariant::of, eject);
