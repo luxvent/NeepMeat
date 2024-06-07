@@ -28,6 +28,7 @@
     "HeldItemRendererMixin",
     "InGameHudMixin",
     "ParticleManagerMixin",
+    "SpriteContentsAccessor",
     "TextFieldWidgetAccessor"
   ],
   "injectors": {
