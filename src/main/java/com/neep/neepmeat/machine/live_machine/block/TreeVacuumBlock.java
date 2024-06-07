@@ -11,7 +11,6 @@ import com.neep.neepmeat.api.big_block.BigBlock;
 import com.neep.neepmeat.api.big_block.BigBlockPattern;
 import com.neep.neepmeat.api.big_block.BigBlockStructure;
 import com.neep.neepmeat.api.big_block.BigBlockStructureEntity;
-import com.neep.neepmeat.machine.live_machine.LivingMachineComponents;
 import com.neep.neepmeat.machine.live_machine.LivingMachines;
 import com.neep.neepmeat.machine.live_machine.block.entity.TreeVacuumBlockEntity;
 import com.neep.neepmeat.util.MiscUtil;
@@ -102,7 +101,7 @@ public class TreeVacuumBlock extends BigBlock<TreeVacuumBlock.Structure> impleme
     }
 
     @Override
-    protected BigBlockPattern getVolume(BlockState blockState)
+    public BigBlockPattern getVolume(BlockState blockState)
     {
         return patternMap.get(blockState.get(FACING));
     }

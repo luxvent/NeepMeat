@@ -5,13 +5,13 @@ import com.neep.meatlib.block.PaintedBlockManager;
 import com.neep.meatlib.graphics.client.GraphicsEffectClient;
 import com.neep.meatweapons.particle.PhageRayGraphicsEffect;
 import com.neep.neepmeat.NeepMeat;
-import com.neep.neepmeat.api.live_machine.LivingMachineComponent;
 import com.neep.neepmeat.client.effect.ReminaGraphicsEvent;
 import com.neep.neepmeat.client.fluid.NMFluidsClient;
+import com.neep.neepmeat.client.hud.BigBlockPlacementHelper;
 import com.neep.neepmeat.client.hud.GuideLookupThings;
 import com.neep.neepmeat.client.hud.HUDOverlays;
 import com.neep.neepmeat.client.instance.TreeVacuumInstance;
-import com.neep.neepmeat.client.item.FarmingScutterHudRenderer;
+import com.neep.neepmeat.client.hud.FarmingScutterHudRenderer;
 import com.neep.neepmeat.client.model.GlassTankModel;
 import com.neep.neepmeat.client.model.GlomeEntityModel;
 import com.neep.neepmeat.client.model.entity.HoundEntityModel;
@@ -98,6 +98,7 @@ public class NeepMeatClient implements ClientModInitializer
         HUDOverlays.init();
         MachineHudOverlay.init();
         FarmingScutterHudRenderer.init();
+        BigBlockPlacementHelper.init();
 
         TransportClient.init();
 

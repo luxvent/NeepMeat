@@ -38,7 +38,7 @@ public class CentrifugeBlock extends BigBlock
     }
 
     @Override
-    protected BigBlockPattern getVolume(BlockState blockState)
+    public BigBlockPattern getVolume(BlockState blockState)
     {
         return VOLUME;
     }

@@ -1,4 +1,4 @@
-package com.neep.neepmeat.client.item;
+package com.neep.neepmeat.client.hud;
 
 import com.neep.neepmeat.item.ScutterItem;
 import com.sun.source.tree.WhileLoopTree;
