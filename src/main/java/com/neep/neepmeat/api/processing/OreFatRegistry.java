@@ -106,7 +106,7 @@ public class OreFatRegistry implements SimpleSynchronousResourceReloadListener
     public void registerRoute(ItemVariant input, ItemVariant output)
     {
         NbtCompound nbt = createNbt(output.getItem());
-        Entry entry = new Entry(output.getItem().getName(), 0, output, nbt);
+        Entry entry = new Entry(output.getItem().getName(), output, nbt);
 
         inputToEntry.putIfAbsent(input.getItem(), entry);
         nbtToEntry.put(nbt, entry);
@@ -223,7 +223,7 @@ public class OreFatRegistry implements SimpleSynchronousResourceReloadListener
 
     }
 
-    public record Entry(Text name, int col, ItemVariant result, NbtCompound nbt)
+    public record Entry(Text name, ItemVariant result, NbtCompound nbt)
     {
     }
 }
