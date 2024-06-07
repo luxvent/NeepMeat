@@ -5,6 +5,8 @@ import com.neep.neepmeat.NeepMeat;
 import com.neep.neepmeat.datagen.tag.NMTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.TagKey;
@@ -38,5 +40,10 @@ public class NMItemTagProvider extends FabricTagProvider.ItemTagProvider
         getOrCreateTagBuilder(NMTags.CHARNEL_COMPACTOR).addOptionalTag(TagKey.of(Registries.ITEM.getKey(), new Identifier("chestcavity", "salvageable_human_organ_meat")));
         getOrCreateTagBuilder(NMTags.CHARNEL_COMPACTOR).addOptionalTag(TagKey.of(Registries.ITEM.getKey(), new Identifier("chestcavity", "salvageable_animal_organ_meat")));
         getOrCreateTagBuilder(NMTags.CHARNEL_COMPACTOR).addOptionalTag(TagKey.of(Registries.ITEM.getKey(), new Identifier("chestcavity", "salvageable_rotten_flesh")));
+
+        getOrCreateTagBuilder(NMTags.BLOCK_CRUSHING_OUTPUTS)
+                .addOptionalTag(ConventionalItemTags.RAW_ORES)
+                .addOptionalTag(TagKey.of(Registries.ITEM.getKey(), new Identifier("mythicmetals", "raw_ores")))
+                ;
     }
 }

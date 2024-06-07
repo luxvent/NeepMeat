@@ -37,6 +37,7 @@ repositories {
 	maven { url "https://maven.tterrag.com/" } // Flywheel
 	maven { url "https://mvn.devos.one/snapshots/" } // Milk lib
 	maven { url "https://api.modrinth.com/maven" } // Milk lib's internal dependencies
+	maven { url "https://ueaj.dev/maven" }// ARRP
 //	maven { url "https://maven.saps.dev/minecraft" } // KubeJS
 }
 
@@ -78,13 +79,16 @@ dependencies {
 	// Milk lib
 	modImplementation include("io.github.tropheusj:milk-lib:${project.milk_version}")
 
-	// REI
-	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}"
-	modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${project.rei_version}"
-
 	// Myron
 //	modImplementation include("dev.monarkhes:myron-neepmeat:${project.myron_version}")
 	modImplementation include("com.github.MeatWheeze:myron-neepmeat:${project.myron_version}")
+
+	// ARRP
+	modImplementation("net.devtech:arrp:${project.arrp_version}")
+
+	// REI
+	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}"
+	modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${project.rei_version}"
 
 	// EMI
 	modCompileOnly "dev.emi:emi-fabric:${project.emi_version}:api"
