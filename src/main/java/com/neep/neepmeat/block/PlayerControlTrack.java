@@ -3,10 +3,9 @@ package com.neep.neepmeat.block;
 import com.neep.meatlib.item.BaseBlockItem;
 import com.neep.meatlib.item.ItemSettings;
 import com.neep.meatlib.registry.ItemRegistry;
-import com.neep.neepmeat.interfaces.AbstractMinecartEntityAccess;
 import com.neep.neepmeat.init.NMBlockEntities;
+import com.neep.neepmeat.interfaces.AbstractMinecartEntityAccess;
 import com.neep.neepmeat.util.MiscUtil;
-import net.minecraft.block.AbstractRailBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
@@ -31,8 +30,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
-
-import java.util.Vector;
 
 
 public class PlayerControlTrack extends BaseRailBlock implements BlockEntityProvider
@@ -139,7 +136,7 @@ public class PlayerControlTrack extends BaseRailBlock implements BlockEntityProv
                 }
             }
 
-            if (playerPassenger && !powered)
+            if (!powered)
                 return null;
 
             Vec3d minecartVel = minecart.getVelocity();
