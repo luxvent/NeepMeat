@@ -40,9 +40,13 @@ public class NMFluidsClient
     public static final Identifier FEED_FLOWING = new Identifier(NeepMeat.NAMESPACE, "block/animal_feed_flowing");
     public static final Identifier PINKDRINK = new Identifier(NeepMeat.NAMESPACE, "block/pinkdrink_still");
     public static final Identifier PINKDRINK_FLOWING = new Identifier(NeepMeat.NAMESPACE, "block/pinkdrink_flowing");
+    public static final Identifier COMPRESSED_AIR = new Identifier(NeepMeat.NAMESPACE, "block/compressed_air_still");
+    public static final Identifier COMPRESSED_AIR_FLOWING = new Identifier(NeepMeat.NAMESPACE, "block/compressed_air_flowing");
 
     public static void registerFluidRenderers()
     {
+        // 1.19
+        // TODO: move out of here
 //        GeoItemRenderer.registerItemRenderer(NMItems.SLASHER, new SwordRenderer<>(new GenericModel<>(
 //                NeepMeat.NAMESPACE,
 //                "geo/slasher.geo.json",
@@ -113,7 +117,8 @@ public class NMFluidsClient
         FluidRenderHandlerRegistry.INSTANCE.register(NMFluids.STILL_PASTEURISED_MILK, NMFluids.FLOWING_P_MILK, new SimpleFluidRenderHandler(PASTEURISED_MILK, PASTEURISED_MILK_FLOWING, 0xFFFFFF));
 
         FluidRenderHandlerRegistry.INSTANCE.register(NMFluids.STILL_FEED, NMFluids.FLOWING_FEED, new SimpleFluidRenderHandler(FEED, FEED_FLOWING));
-        FluidRenderHandlerRegistry.INSTANCE.register(NMFluids.STILL_PINKDRINK, NMFluids.FLOWING_PINKDRINK, new SimpleFluidRenderHandler(PINKDRINK, PINKDRINK_FLOWING, 0xFFf089a8));
+        FluidRenderHandlerRegistry.INSTANCE.register(NMFluids.PINKDRINK.still(), NMFluids.PINKDRINK.flowing(), new SimpleFluidRenderHandler(PINKDRINK, PINKDRINK_FLOWING, 0xFFf089a8));
+        FluidRenderHandlerRegistry.INSTANCE.register(NMFluids.COMPRESSED_AIR.still(), NMFluids.COMPRESSED_AIR.flowing(), new SimpleFluidRenderHandler(COMPRESSED_AIR, COMPRESSED_AIR_FLOWING));
 
         FluidVariantRendering.register(NMFluids.STILL_DIRTY_ORE_FAT, new OreFatFluidVariantRenderHandler());
         FluidVariantRendering.register(NMFluids.FLOWING_DIRTY_ORE_FAT, new OreFatFluidVariantRenderHandler());
@@ -130,6 +135,7 @@ public class NMFluidsClient
         FluidVariantAttributes.register(NMFluids.STILL_C_MEAT, new MeatAttribtuteHandler());
         FluidVariantAttributes.register(NMFluids.FLOWING_C_MEAT, new MeatAttribtuteHandler());
 
+        // 1.19
 //        ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register((atlasTexture, registry) ->
 //        {
 //            registry.register(WORK_FLUID);
