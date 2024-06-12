@@ -85,7 +85,7 @@ public class TreeVacuumBlock extends BigBlock<TreeVacuumBlock.Structure> impleme
         BigBlockStructure.BlockEntityRegisterererer<BigBlockStructureEntity> register = b -> Registry.register(
                 Registries.BLOCK_ENTITY_TYPE, new Identifier(NeepMeat.NAMESPACE, "tree_vacuum_structure"),
                 FabricBlockEntityTypeBuilder.create(
-                        (p, s) -> new BigBlockStructureEntity(b.getBlockEntityType(), p, s), this).build());
+                        (p, s) -> new BigBlockStructureEntity(b.getBlockEntityType(), p, s), b).build());
 
         return BlockRegistry.queue(new Structure(this, MeatlibBlockSettings.copyOf(settings), register), "tree_vacuum_structure");
     }

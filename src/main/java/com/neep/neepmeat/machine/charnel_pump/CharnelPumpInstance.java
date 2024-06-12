@@ -8,12 +8,9 @@ import com.jozufozu.flywheel.core.materials.model.ModelData;
 import com.jozufozu.flywheel.util.AnimationTickHolder;
 import com.neep.neepmeat.client.NMExtraModels;
 import com.neep.neepmeat.client.renderer.BERenderUtils;
-import com.neep.neepmeat.util.NMMaths;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.Direction;
 
 @Environment(EnvType.CLIENT)
 public class CharnelPumpInstance extends BlockEntityInstance<CharnelPumpBlockEntity> implements DynamicInstance
@@ -41,7 +38,7 @@ public class CharnelPumpInstance extends BlockEntityInstance<CharnelPumpBlockEnt
 
 //        float s = (NMMaths.sin(blockEntity.getWorld().getTime(), AnimationTickHolder.getPartialTicks(), 0.1f) + 1) / 2;
         float t = blockEntity.animationTicks > 0 ? 100 - blockEntity.animationTicks + AnimationTickHolder.getPartialTicks() : 0;
-        float s = CharnelPumpRenderer.plungerAnimation(t);
+        float s = CharnelPumpRenderer.plungerAnimation(blockEntity, t);
 
         BERenderUtils.rotateFacing(blockEntity.getCachedState().get(CharnelPumpBlock.FACING), matrices);
         matrices.translate(0, 3 + 3 * s, 0);
