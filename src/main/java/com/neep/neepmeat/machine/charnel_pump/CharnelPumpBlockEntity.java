@@ -49,7 +49,8 @@ public class CharnelPumpBlockEntity extends SyncableBlockEntity implements Livin
     public int animationTicks;
     private float progressIncrement;
 
-    private boolean hasAir;
+    public boolean hasAir;
+    public boolean hasFluid;
 
     public CharnelPumpBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state)
     {
@@ -88,6 +89,7 @@ public class CharnelPumpBlockEntity extends SyncableBlockEntity implements Livin
             spawnSpouts();
 
             // Consume work fluid and eject ores
+            boolean fluidConsumed = false;
             if (hasAir)
             {
                 for (var wellHead : found)
@@ -98,6 +100,7 @@ public class CharnelPumpBlockEntity extends SyncableBlockEntity implements Livin
                         if (extracted == distributeAmount)
                         {
                             wellHead.receiveFluid(distributeAmount, inner);
+                            fluidConsumed = true;
                             inner.commit();
                         }
                         else
@@ -106,6 +109,12 @@ public class CharnelPumpBlockEntity extends SyncableBlockEntity implements Livin
                         }
                     }
                 }
+            }
+
+            if (this.hasFluid != fluidConsumed)
+            {
+                this.hasFluid = fluidConsumed;
+                sync();
             }
         }
     }
@@ -149,6 +158,7 @@ public class CharnelPumpBlockEntity extends SyncableBlockEntity implements Livin
     {
         nbt.putFloat("power", progressIncrement);
         nbt.putBoolean("has_air", hasAir);
+        nbt.putBoolean("has_fluid", hasFluid);
         return nbt;
     }
 
@@ -164,6 +174,7 @@ public class CharnelPumpBlockEntity extends SyncableBlockEntity implements Livin
         super.readNbt(nbt);
         this.progressIncrement = nbt.getFloat("power");
         this.hasAir = nbt.getBoolean("has_air");
+        this.hasFluid = nbt.getBoolean("has_fluid");
     }
 
     @Override
