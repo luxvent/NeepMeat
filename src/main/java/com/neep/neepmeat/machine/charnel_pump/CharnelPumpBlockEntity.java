@@ -48,7 +48,7 @@ public class CharnelPumpBlockEntity extends SyncableBlockEntity implements Livin
     private final ClientComponents.Holder<?> holder = new ClientComponents.Holder<>(this);
 
 
-    public int animationTicks;
+    public float animationTicks;
     private float progressIncrement;
 
     public boolean hasAir;
@@ -235,12 +235,11 @@ public class CharnelPumpBlockEntity extends SyncableBlockEntity implements Livin
 
     public static void clientTick(World world, BlockPos pos, BlockState state, CharnelPumpBlockEntity be)
     {
-        be.holder.get().clientTick();
         be.clientTickAir();
 
         if (be.progressIncrement > 0 && be.hasAir)
         {
-            be.animationTicks = Math.max(0, be.animationTicks - 1);
+            be.animationTicks = Math.max(0, be.animationTicks - be.progressIncrement());
             if (be.animationTicks == 0)
             {
                 be.animationTicks = 100;
@@ -250,6 +249,8 @@ public class CharnelPumpBlockEntity extends SyncableBlockEntity implements Livin
         {
             be.animationTicks = Math.max(0, be.animationTicks - 1);
         }
+
+        be.holder.get().clientTick();
     }
 
     @Override
@@ -263,7 +264,7 @@ public class CharnelPumpBlockEntity extends SyncableBlockEntity implements Livin
     {
         if (progressIncrement != this.progressIncrement)
         {
-            this.progressIncrement = progressIncrement;
+            this.progressIncrement = Math.min(1.9f, progressIncrement);
             sync();
         }
     }
