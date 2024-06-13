@@ -48,7 +48,7 @@ public class PylonBlockEntity extends SyncableBlockEntity implements MotorisedBl
 
     protected final Random random = new Random(0);
 
-    private final ClientComponents.Holder<PylonBlockEntity> holder = new ClientComponents.Holder<>(this);
+    private final ClientComponents.Holder<PylonBlockEntity> holder = new ClientComponents.BlockEntityHolder<>(this);
 
     public PylonBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state)
     {
