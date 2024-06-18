@@ -7,6 +7,7 @@ import com.neep.neepmeat.BalanceConstants;
 import com.neep.neepmeat.api.live_machine.ComponentType;
 import com.neep.neepmeat.api.live_machine.LivingMachineComponent;
 import com.neep.neepmeat.api.processing.PowerUtils;
+import com.neep.neepmeat.datagen.tag.NMTags;
 import com.neep.neepmeat.init.NMBlockEntities;
 import com.neep.neepmeat.init.NMBlocks;
 import com.neep.neepmeat.init.NMFluids;
@@ -142,12 +143,7 @@ public class CharnelPumpBlockEntity extends SyncableBlockEntity implements Livin
     {
         BlockState surfaceState = world.getBlockState(surfacePos);
         return BlockEntityFinder.chunkRange(pos).contains(world.getChunk(surfacePos).getPos())
-                && (surfaceState.isIn(BlockTags.DIRT)
-                    || surfaceState.isIn(BlockTags.STONE_ORE_REPLACEABLES)
-                    || surfaceState.isIn(BlockTags.LUSH_GROUND_REPLACEABLE)
-                    || surfaceState.isIn(BlockTags.SNOW)
-                    || surfaceState.isIn(BlockTags.SHOVEL_MINEABLE)
-                    || surfaceState.isIn(BlockTags.NETHER_CARVER_REPLACEABLES)
+                && (surfaceState.isIn(NMTags.WRITHING_EARTH_REPLACABLE)
         );
     }
 

@@ -2,6 +2,7 @@ package com.neep.neepmeat.machine.charnel_pump;
 
 import com.neep.meatlib.block.BaseBlock;
 import com.neep.meatlib.item.ItemSettings;
+import com.neep.neepmeat.datagen.tag.NMTags;
 import com.neep.neepmeat.init.NMBlockEntities;
 import com.neep.neepmeat.init.NMBlocks;
 import net.minecraft.block.BlockEntityProvider;
@@ -34,7 +35,7 @@ public class WrithingEarthSpoutBlock extends BaseBlock implements BlockEntityPro
 
     private boolean canSpread(BlockState state, World world, BlockPos pos, int distance, boolean air)
     {
-        if (!state.isIn(BlockTags.DIRT) && !state.isIn(BlockTags.NETHER_CARVER_REPLACEABLES) && !(air && state.isAir()))
+        if (!state.isIn(NMTags.CONTAMINATED_RUBBLE_REPLACABLE) && !(air && state.isAir()))
             return false;
 
         if (distance < 4)
