@@ -8,7 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public class SightUtil
 {
-    public static boolean canPlayerSee(PlayerEntity player, Entity entity)
+    public static boolean canPlayerSee(PlayerEntity player)
     {
         boolean goggles = player.getInventory().getArmorStack(3).isOf(NMItems.GOGGLES);
 

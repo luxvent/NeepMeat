@@ -27,7 +27,7 @@ public class HoundEntityRenderer extends LivingEntityRenderer<HoundEntity, Hound
     public void render(HoundEntity livingEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i)
     {
         PlayerEntity player = MinecraftClient.getInstance().player;
-        if (SightUtil.canPlayerSee(player, livingEntity))
+        if (SightUtil.canPlayerSee(player))
         {
             super.render(livingEntity, f, g, matrixStack, vertexConsumerProvider, i);
         }

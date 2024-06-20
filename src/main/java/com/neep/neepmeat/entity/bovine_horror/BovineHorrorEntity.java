@@ -187,7 +187,7 @@ public class BovineHorrorEntity extends HostileEntity implements AnimationSyncab
     public boolean isInvisibleTo(PlayerEntity player)
     {
         float visibility = getWorld().isClient() ? prevVisibility : getVisibility();
-        return super.isInvisibleTo(player) || (!SightUtil.canPlayerSee(player, this) && visibility == 0);
+        return super.isInvisibleTo(player) || (!SightUtil.canPlayerSee(player) && visibility == 0);
     }
 
     @Nullable
