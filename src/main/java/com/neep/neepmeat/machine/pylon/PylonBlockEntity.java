@@ -3,6 +3,7 @@ package com.neep.neepmeat.machine.pylon;
 import com.neep.meatlib.blockentity.SyncableBlockEntity;
 import com.neep.meatlib.util.ClientComponents;
 import com.neep.meatlib.util.LazySupplier;
+import com.neep.neepmeat.BalanceConstants;
 import com.neep.neepmeat.api.DataPort;
 import com.neep.neepmeat.api.DataVariant;
 import com.neep.neepmeat.api.enlightenment.EnlightenmentUtil;
@@ -19,7 +20,6 @@ import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.*;
@@ -31,9 +31,6 @@ import static com.neep.neepmeat.machine.well_head.BlockEntityFinder.chunkRange;
 
 public class PylonBlockEntity extends SyncableBlockEntity implements MotorisedBlock
 {
-    public static final float RUNNING_SPEED = 16;
-    public static final float MAX_SPEED = 40;
-
     protected final int radius = 7; // Enlightenment and glome radius
     public float angle;
     private float speed;
@@ -66,7 +63,7 @@ public class PylonBlockEntity extends SyncableBlockEntity implements MotorisedBl
 
     public boolean isRunning()
     {
-        return getSpeed() >= RUNNING_SPEED;
+        return getSpeed() >= BalanceConstants.PYLON_RUNNING_SPEED;
     }
 
     @Override
@@ -157,7 +154,13 @@ public class PylonBlockEntity extends SyncableBlockEntity implements MotorisedBl
 
     private float effectMultiplier()
     {
-        return MathHelper.clamp(speed / MAX_SPEED, 0, 1) * Math.max(level, 0.01f);
+        return MathHelper.clamp(speed / BalanceConstants.PYLON_MAX_SPEED, 0, 1) * Math.max(level, 0.01f);
+    }
+
+    public boolean isUnstable()
+    {
+        float m = effectMultiplier();
+        return m >= 0.7;
     }
 
     @Override
@@ -172,9 +175,16 @@ public class PylonBlockEntity extends SyncableBlockEntity implements MotorisedBl
     }
 
     @Override
+    public NbtCompound toInitialChunkDataNbt()
+    {
+        return this.createNbt();
+    }
+
+    @Override
     public void writeNbt(NbtCompound nbt)
     {
         super.writeNbt(nbt);
+        nbt.putFloat("level", level);
         nbt.putFloat("speed", speed);
         port.writeNbt(nbt);
     }
@@ -184,6 +194,7 @@ public class PylonBlockEntity extends SyncableBlockEntity implements MotorisedBl
     {
         super.readNbt(nbt);
         this.speed = nbt.getFloat("speed");
+        this.level = nbt.getFloat("level");
         port.readNbt(nbt);
     }
 
@@ -197,7 +208,6 @@ public class PylonBlockEntity extends SyncableBlockEntity implements MotorisedBl
 
     public void clientTick()
     {
-
         holder.get().clientTick();
     }
 }
