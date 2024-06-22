@@ -109,6 +109,8 @@ public class NMItems
 
     public static Item FARMING_SCUTTER = ItemRegistry.queue(new FarmingScutterItem("farming_scutter", () -> NMEntities.FARMING_SCUTTER, TooltipSupplier.hidden(1), new MeatlibItemSettings().group(NMItemGroups.GENERAL)));
 
+    public static Item ROCK_DRILL = ItemRegistry.queue("rock_drill", new RockDrillItem(new MeatlibItemSettings().group(NMItemGroups.GENERAL)));
+
     public static Item DEBUG_ITEM = ItemRegistry.queue(new DebugItem("debug", new MeatlibItemSettings().group(NMItemGroups.GENERAL)));
 
     public static void init()

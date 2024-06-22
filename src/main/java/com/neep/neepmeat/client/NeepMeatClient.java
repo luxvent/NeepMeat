@@ -68,10 +68,12 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.model.Dilation;
 import net.minecraft.client.model.TexturedModelData;
@@ -80,6 +82,8 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.MinecartEntityModel;
+import net.minecraft.client.render.item.BuiltinModelItemRenderer;
+import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
@@ -240,6 +244,8 @@ public class NeepMeatClient implements ClientModInitializer
         BlockEntityRendererFactories.register(NMBlockEntities.ITEM_MINCER, ItemMincerRenderer::new);
 
 //        BlockEntityRendererFactories.register(PLCBlocks.ROBOTIC_ARM_ENTITY, RoboticArmRenderer::new);
+
+        BuiltinItemRendererRegistry.INSTANCE.register(NMItems.ROCK_DRILL, new RockDrillItemRenderer(MinecraftClient.getInstance()));
 
 
         // Coloured blocks
