@@ -80,6 +80,7 @@ public class NMExtraModels implements ExtraModelProvider
     public static Identifier CRUSHER_JAW = new Identifier(NeepMeat.NAMESPACE, "block/grinder/jaw");
 
     public static Identifier ROCK_DRILL = new Identifier(NeepMeat.NAMESPACE, "item/rock_drill/rock_drill");
+    public static Identifier ROCK_DRILL_ROD = new Identifier(NeepMeat.NAMESPACE, "item/rock_drill/rock_drill_rod");
 
     @Override
     public void provideExtraModels(ResourceManager manager, Consumer<Identifier> out)

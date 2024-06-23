@@ -15,6 +15,7 @@ import com.neep.neepmeat.client.hud.GuideLookupThings;
 import com.neep.neepmeat.client.hud.HUDOverlays;
 import com.neep.neepmeat.client.instance.TreeVacuumInstance;
 import com.neep.neepmeat.client.hud.FarmingScutterHudRenderer;
+import com.neep.neepmeat.client.item.RockDrillItemClient;
 import com.neep.neepmeat.client.model.GlassTankModel;
 import com.neep.neepmeat.client.model.GlomeEntityModel;
 import com.neep.neepmeat.client.model.entity.HoundEntityModel;
@@ -35,6 +36,7 @@ import com.neep.neepmeat.entity.follower.FollowerRenderer;
 import com.neep.neepmeat.init.*;
 import com.neep.neepmeat.item.DosimeterItem;
 import com.neep.neepmeat.item.NetworkingToolItem;
+import com.neep.neepmeat.item.RockDrillItem;
 import com.neep.neepmeat.machine.assembler.AssemblerRenderer;
 import com.neep.neepmeat.machine.bottler.BottlerRenderer;
 import com.neep.neepmeat.machine.casting_basin.CastingBasinRenderer;
@@ -110,6 +112,7 @@ public class NeepMeatClient implements ClientModInitializer
         MachineHudOverlay.init();
         FarmingScutterHudRenderer.init();
         BigBlockPlacementHelper.init();
+        RockDrillItemClient.init();
 
         TransportClient.init();
 
