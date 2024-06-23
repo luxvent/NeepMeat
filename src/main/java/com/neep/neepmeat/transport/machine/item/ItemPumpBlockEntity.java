@@ -283,6 +283,7 @@ public class ItemPumpBlockEntity extends BloodMachineBlockEntity
     @Override
     public void fromClientTag(NbtCompound tag)
     {
+        this.shuttle = tag.getInt("shuttle_ticks");
     }
 
     @Override
