@@ -26,13 +26,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
@@ -188,12 +186,11 @@ public class CharnelPumpBlockEntity extends SyncableBlockEntity implements Livin
     }
 
     @Override
-    public NbtCompound toClientTag(NbtCompound nbt)
+    public void toClientTag(NbtCompound nbt)
     {
         nbt.putFloat("power", progressIncrement);
         nbt.putBoolean("has_air", hasAir);
         nbt.putBoolean("has_fluid", hasFluid);
-        return nbt;
     }
 
     @Override
