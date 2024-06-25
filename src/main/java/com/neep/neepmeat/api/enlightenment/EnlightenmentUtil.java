@@ -1,5 +1,6 @@
 package com.neep.neepmeat.api.enlightenment;
 
+import com.neep.neepmeat.enlightenment.EnlightenmentManager;
 import com.neep.neepmeat.init.NMComponents;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.MathHelper;

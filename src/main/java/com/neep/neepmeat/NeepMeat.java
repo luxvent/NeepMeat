@@ -4,7 +4,7 @@ import com.neep.meatlib.MeatLib;
 import com.neep.neepmeat.api.Burner;
 import com.neep.neepmeat.api.DataType;
 import com.neep.neepmeat.api.enlightenment.EnlightenmentEvent;
-import com.neep.neepmeat.api.enlightenment.EnlightenmentEventManager;
+import com.neep.neepmeat.enlightenment.EnlightenmentEventManager;
 import com.neep.neepmeat.api.enlightenment.EnlightenmentUtil;
 import com.neep.neepmeat.api.machine.MotorisedBlock;
 import com.neep.neepmeat.api.processing.BlockCrushingRegistry;

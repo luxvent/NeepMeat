@@ -3,7 +3,7 @@ package com.neep.neepmeat.item;
 import com.neep.meatlib.item.BaseItem;
 import com.neep.meatlib.item.TooltipSupplier;
 import com.neep.meatlib.registry.ItemRegistry;
-import com.neep.neepmeat.api.enlightenment.EnlightenmentManager;
+import com.neep.neepmeat.enlightenment.EnlightenmentManager;
 import com.neep.neepmeat.client.screen.util.GUIUtil;
 import com.neep.neepmeat.init.NMComponents;
 import com.neep.neepmeat.init.NMItems;
