@@ -12,6 +12,7 @@
     "GameRendererMixin",
     "HeldItemRendererAccessor",
     "HeldItemRendererMixin",
+    "LivingEntityRendererMixin",
     "MixinClientWorld",
     "PlayerEntityRendererMixin"
   ],
