@@ -79,7 +79,8 @@ public class NMExtraModels implements ExtraModelProvider
     public static Identifier EGG = new Identifier(NeepMeat.NAMESPACE, "block/mob_egg");
     public static Identifier CRUSHER_JAW = new Identifier(NeepMeat.NAMESPACE, "block/grinder/jaw");
 
-    public static Identifier ROCK_DRILL = new Identifier(NeepMeat.NAMESPACE, "item/rock_drill/rock_drill");
+    public static Identifier ROCK_DRILL_OFF = new Identifier(NeepMeat.NAMESPACE, "item/rock_drill/rock_drill_off");
+    public static Identifier ROCK_DRILL_ON = new Identifier(NeepMeat.NAMESPACE, "item/rock_drill/rock_drill_on");
     public static Identifier ROCK_DRILL_ROD = new Identifier(NeepMeat.NAMESPACE, "item/rock_drill/rock_drill_rod");
 
     @Override
@@ -106,7 +107,7 @@ public class NMExtraModels implements ExtraModelProvider
         out.accept(SURGERY_ROBOT);
         out.accept(EGG);
         out.accept(CRUSHER_JAW);
-        out.accept(ROCK_DRILL);
+        out.accept(ROCK_DRILL_OFF);
     }
 
     public static void init()
