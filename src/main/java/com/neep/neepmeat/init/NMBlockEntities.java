@@ -19,7 +19,6 @@ import com.neep.neepmeat.machine.assembler.AssemblerBlockEntity;
 import com.neep.neepmeat.machine.bottler.BottlerBlockEntity;
 import com.neep.neepmeat.machine.breaker.LinearOscillatorBlockEntity;
 import com.neep.neepmeat.machine.casting_basin.CastingBasinBlockEntity;
-import com.neep.neepmeat.machine.charnel_pump.CharnelPumpBlockEntity;
 import com.neep.neepmeat.machine.charnel_pump.WrithingEarthSpoutBlockEntity;
 import com.neep.neepmeat.machine.content_detector.InventoryDetectorBlockEntity;
 import com.neep.neepmeat.machine.converter.ConverterBlockEntity;
@@ -44,7 +43,6 @@ import com.neep.neepmeat.machine.large_crusher.LargeCrusherBlockEntity;
 import com.neep.neepmeat.machine.large_crusher.LargeCrusherStructureBlockEntity;
 import com.neep.neepmeat.machine.large_motor.LargeMotorBlockEntity;
 import com.neep.neepmeat.machine.large_motor.LargeMotorStructureEntity;
-import com.neep.neepmeat.machine.live_machine.LivingMachines;
 import com.neep.neepmeat.machine.mincer.MincerBlockEnity;
 import com.neep.neepmeat.machine.mixer.MixerBlockEntity;
 import com.neep.neepmeat.machine.motor.LiquidFuelMachine;
@@ -57,6 +55,7 @@ import com.neep.neepmeat.machine.power_flower.PowerFlowerControllerBlockEntity;
 import com.neep.neepmeat.machine.power_flower.PowerFlowerFluidPortBlock;
 import com.neep.neepmeat.machine.pylon.PylonBlockEntity;
 import com.neep.neepmeat.machine.separator.SeparatorBlockEntity;
+import com.neep.neepmeat.machine.small_compressor.SmallCompressorBlockEntity;
 import com.neep.neepmeat.machine.small_trommel.SmallTrommelBlock;
 import com.neep.neepmeat.machine.small_trommel.SmallTrommelBlockEntity;
 import com.neep.neepmeat.machine.solidity_detector.SolidityDetectorBlockEntity;
@@ -212,6 +211,8 @@ public class NMBlockEntities
     public static BlockEntityType<LargeMotorBlockEntity> LARGE_MOTOR;
     public static BlockEntityType<FlywheelBlockEntity> FLYWHEEL;
     public static BlockEntityType<SeparatorBlockEntity> SEPARATOR;
+
+    public static BlockEntityType<SmallCompressorBlockEntity> SMALL_COMPRESSOR;
 
     public static <T extends net.minecraft.block.entity.BlockEntity> BlockEntityType<T> register(String id, FabricBlockEntityTypeBuilder.Factory<T> factory, Block... block)
     {
@@ -463,6 +464,8 @@ public class NMBlockEntities
 
         SEPARATOR = register("separator", (p, s) -> new SeparatorBlockEntity(SEPARATOR, p, s), NMBlocks.SEPARATOR);
 
+        SMALL_COMPRESSOR = register("small_compressor", (p, s) -> new SmallCompressorBlockEntity(SMALL_COMPRESSOR, p, s), NMBlocks.SMALL_COMPRESSOR);
+
         MINCER = register("mincer", MincerBlockEnity::new, NMBlocks.MINCER);
         FluidStorage.SIDED.registerForBlockEntity(MincerBlockEnity::getFluidStorage, MINCER);
         FluidPump.SIDED.registerForBlockEntity(MincerBlockEnity::getFluidPump, MINCER);
@@ -548,4 +551,9 @@ public class NMBlockEntities
             }
         }), NMBlocks.POWER_EMITTER);
     }
+
+//    public static <T extends BlockEntity> BlockEntityType.BlockEntityFactory<T> curry(BlockEntityType<T> type, TriFunction<BlockEntityType<T>, BlockPos, BlockState, T> constructor)
+//    {
+//        return (p, s) -> constructor.apply(type, p, s);
+//    }
 }
