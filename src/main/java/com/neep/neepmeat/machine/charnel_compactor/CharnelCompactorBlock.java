@@ -8,8 +8,7 @@ import com.neep.neepmeat.machine.integrator.Integrator;
 import com.neep.neepmeat.transport.api.pipe.DataCable;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
+import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -25,15 +24,21 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 public class CharnelCompactorBlock extends BaseBlock implements DataCable
 {
     public static final IntProperty LEVEL = Properties.LEVEL_8;
+    protected static final VoxelShape OUTLINE_SHAPE;
+    private static final VoxelShape RAYCAST_SHAPE = createCuboidShape(2.0, 4.0, 2.0, 14.0, 16.0, 14.0);
 
     public CharnelCompactorBlock(String registryName, ItemSettings itemSettings, Settings settings)
     {
@@ -124,9 +129,11 @@ public class CharnelCompactorBlock extends BaseBlock implements DataCable
     }
 
     @Override
-    public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance)
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
     {
-        if (entity instanceof ItemEntity item)
+
+        super.onEntityCollision(state, world, pos, entity);
+        if (!world.isClient() && entity instanceof ItemEntity item &&  entity.isOnGround())
         {
             try (Transaction transaction = Transaction.openOuter())
             {
@@ -137,4 +144,13 @@ public class CharnelCompactorBlock extends BaseBlock implements DataCable
             }
         }
     }
+
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return OUTLINE_SHAPE;
+    }
+
+    static {
+        OUTLINE_SHAPE = VoxelShapes.combineAndSimplify(VoxelShapes.fullCube(), VoxelShapes.union(createCuboidShape(0.0, 0.0, 4.0, 16.0, 3.0, 12.0), new VoxelShape[]{createCuboidShape(4.0, 0.0, 0.0, 12.0, 3.0, 16.0), createCuboidShape(2.0, 0.0, 2.0, 14.0, 3.0, 14.0), RAYCAST_SHAPE}), BooleanBiFunction.ONLY_FIRST);
+    }
+
 }
