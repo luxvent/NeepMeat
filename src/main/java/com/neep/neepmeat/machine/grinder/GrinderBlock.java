@@ -90,7 +90,6 @@ public class GrinderBlock extends BaseHorFacingBlock implements BlockEntityProvi
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
     {
         super.onEntityCollision(state, world, pos, entity);
-        System.out.println(entity.getName());
         if (world.getBlockEntity(pos) instanceof GrinderBlockEntity be && !world.isClient() && entity instanceof ItemEntity item &&  entity.isOnGround())
         {
             try (Transaction transaction = Transaction.openOuter())
