@@ -1,5 +1,6 @@
 package com.neep.neepmeat.machine.surgical_controller;
 
+import com.neep.meatlib.MeatLib;
 import com.neep.meatlib.util.NbtSerialisable;
 import com.neep.neepmeat.api.plc.PLC;
 import com.neep.neepmeat.network.plc.PLCRobotC2S;
@@ -20,6 +21,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Quaterniond;
+import org.joml.Quaterniondc;
+import org.joml.Vector3d;
 
 import java.util.Objects;
 
@@ -429,6 +433,12 @@ public class SurgicalRobot implements PLCRobot, NbtSerialisable
             {
                 Camera camera = MinecraftClient.getInstance().gameRenderer.getCamera();
 
+                boolean shouldTransformMotion = false;
+
+                if (MeatLib.vsUtil != null) {
+                    shouldTransformMotion = MeatLib.vsUtil.hasShipAtPosition(be.getPos(), MinecraftClient.getInstance().world);
+                }
+
                 double speed = 0.2;
                 float pitch = camera.getPitch();
                 float yaw = camera.getYaw();
@@ -471,6 +481,12 @@ public class SurgicalRobot implements PLCRobot, NbtSerialisable
                     fvy -= speed;
                 }
 
+                Quaterniondc rotation = new Quaterniond();
+
+                if (shouldTransformMotion) {
+                    rotation = MeatLib.vsUtil.getShipToWorldRotation(be.getPos(), MinecraftClient.getInstance().world);
+                }
+
                 double l = Math.sqrt(fvx * fvx + fvz * fvz);
                 if (l != 0)
                 {
@@ -485,6 +501,14 @@ public class SurgicalRobot implements PLCRobot, NbtSerialisable
                 if (fvy != 0)
                 {
                     robot.vy = fvy;
+                }
+
+                if (shouldTransformMotion && rotation != null) {
+                    Vector3d holder = new Vector3d(fvx, fvy, fvz);
+                    holder.rotate(rotation.invert(new Quaterniond()));
+                    robot.vx = holder.x;
+                    robot.vy = holder.y;
+                    robot.vz = holder.z;
                 }
 
                 robot.x += robot.vx;

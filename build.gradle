@@ -31,7 +31,7 @@ repositories {
 
 	maven { url "https://maven.architectury.dev/" } // Architectury (REI)
 	maven { url "https://maven.shedaniel.me/" } // REI
-	maven { url 'https://www.jitpack.io' } // ???
+	maven { url 'https://maven.valkyrienskies.org' } // VS2
 	maven { url 'https://maven.ladysnake.org/releases' } // Cardinal Components
 	maven { url "https://maven.terraformersmc.com/" } // EMI
 	maven { url "https://maven.tterrag.com/" } // Flywheel
@@ -39,6 +39,10 @@ repositories {
 	maven { url "https://api.modrinth.com/maven" } // Milk lib's internal dependencies
 //	maven { url "https://ueaj.dev/maven" }// ARRP
 //	maven { url "https://maven.saps.dev/minecraft" } // KubeJS
+	maven {
+		url = "https://jitpack.io/"
+		content { includeGroupAndSubgroups("com.github") }
+	} // ???
 }
 
 configurations.configureEach {
@@ -102,6 +106,18 @@ dependencies {
 	}
 	if (project.recipe_viewer == "emi") {
 		modLocalRuntime "dev.emi:emi-fabric:${project.emi_version}"
+	}
+
+	// VS2
+	modApi("org.valkyrienskies:valkyrienskies-1201-fabric:${project.vs2_version}") { transitive = false }
+	implementation("org.valkyrienskies.core:api:${project.vscore_version}") {
+		exclude group: 'org.joml', module: ''
+	}
+	implementation("org.valkyrienskies.core:util:${project.vscore_version}") {
+		exclude group: 'org.joml', module: ''
+	}
+	implementation("org.valkyrienskies.core:api-game:${project.vscore_version}") {
+		exclude group: 'org.joml', module: ''
 	}
 }
 

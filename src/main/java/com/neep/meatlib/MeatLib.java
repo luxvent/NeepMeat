@@ -10,11 +10,13 @@ import com.neep.meatlib.registry.ItemRegistry;
 import com.neep.meatlib.registry.SoundRegistry;
 import com.neep.meatlib.storage.StorageEvents;
 import com.neep.meatlib.util.MeatlibItemGroups;
+import com.neep.meatlib.util.ValkyrienSkiesUtil;
 import com.neep.neepmeat.NeepMeat;
 import com.neep.neepmeat.util.MinecraftServerAccess;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,6 +29,11 @@ public class MeatLib implements ModInitializer
     public static final Logger LOGGER = LogManager.getLogger(NAMESPACE);
     public static String CURRENT_NAMESPACE;
     private static boolean active;
+
+    /**
+     * This should remain null unless VS2 is loaded.
+     */
+    public static ValkyrienSkiesUtil vsUtil = null;
 
     public static void assertActive(Object object)
     {
@@ -71,6 +78,10 @@ public class MeatLib implements ModInitializer
         // Synchronise after data packs are loaded/reloaded for every player on the server
         DataPackPostProcess.AFTER_DATA_PACK_LOAD.register(DataPackPostProcess.SECOND, server ->
                 DataPackPostProcess.SYNC.invoker().sync(server, new HashSet<>(server.getPlayerManager().getPlayerList())));
+
+        if (FabricLoader.getInstance().isModLoaded("valkyrienskies")) {
+            vsUtil = new ValkyrienSkiesUtil();
+        }
     }
 
     public static class Context implements AutoCloseable
