@@ -42,7 +42,7 @@ public class CharnelPumpClient implements ClientComponent
 
         if (be.getWorld().getTime() % 4 == 0)
         {
-            if (be.hasAir && !CharnelPumpBlockEntity.canRun(increment))
+            if (be.hasAir && !CharnelPumpBlockEntity.canRun(increment, be))
             {
                 if (!soundManager.isPlaying(idleSound))
                     soundManager.play(idleSound);
