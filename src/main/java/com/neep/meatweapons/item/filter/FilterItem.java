@@ -4,12 +4,7 @@ import com.neep.meatlib.item.BaseItem;
 import com.neep.meatlib.item.TooltipSupplier;
 import dev.onyxstudios.cca.api.v3.component.Component;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
-import net.minecraft.item.Item;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.tag.TagKey;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class FilterItem extends BaseItem
 {
@@ -28,9 +23,9 @@ public class FilterItem extends BaseItem
         }
 
         @Override
-        public boolean matches(ItemVariant variant, long amount)
+        public boolean matches(ItemVariant variant)
         {
-            return filter.matches(variant, amount);
+            return filter.matches(variant);
         }
 
         @Override

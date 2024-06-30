@@ -15,7 +15,7 @@ import com.neep.neepmeat.transport.block.item_transport.PipeDriverBlock;
 import com.neep.neepmeat.transport.block.item_transport.StorageBusBlock;
 import com.neep.neepmeat.transport.block.item_transport.entity.ItemRequesterBlockEntity;
 import com.neep.neepmeat.transport.block.item_transport.entity.StorageBusBlockEntity;
-import com.neep.neepmeat.transport.machine.item.ItemRetrieverBlock;
+import com.neep.neepmeat.transport.machine.item.FilteredEjectorBlock;
 import com.neep.neepmeat.transport.machine.item.FilteredEjectorBlockEntity;
 import com.neep.neepmeat.transport.screen_handler.ItemRequesterScreenHandler;
 import com.neep.neepmeat.transport.screen_handler.TransportScreenHandlers;
@@ -42,7 +42,7 @@ public class ItemTransport
     public static final Block PIPE_DRIVER = BlockRegistry.queue(new PipeDriverBlock("pipe_driver", ItemSettings.block().tooltip(TooltipSupplier.hidden(2)).plcActuator(), FabricBlockSettings.create().hardness(0.3f).sounds(BlockSoundGroup.METAL)));
     public static final Block STORAGE_BUS = BlockRegistry.queue(new StorageBusBlock("storage_bus", ItemSettings.block().tooltip(TooltipSupplier.simple(1)), FabricBlockSettings.create().hardness(0.3f).sounds(BlockSoundGroup.METAL)));
     public static final Block ITEM_REQUESTER = BlockRegistry.queue(new ItemRequesterBlock("item_requester", ItemSettings.block().tooltip(TooltipSupplier.simple(1)), FabricBlockSettings.create().hardness(0.3f).sounds(BlockSoundGroup.METAL)));
-    public static final Block FILTERED_EJECTOR = BlockRegistry.queue(new ItemRetrieverBlock("filtered_ejector", ItemSettings.block().tooltip(TooltipSupplier.simple(1)), MeatlibBlockSettings.create()));
+    public static final Block FILTERED_EJECTOR = BlockRegistry.queue(new FilteredEjectorBlock("filtered_ejector", ItemSettings.block().tooltip(TooltipSupplier.simple(1)), MeatlibBlockSettings.create()));
     public static BlockEntityType<FilteredEjectorBlockEntity> FILTERED_EJECTOR_BE;
 
     public static void init()
