@@ -32,8 +32,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
-
 public class PumpBlock extends BaseFacingBlock implements BlockEntityProvider
 {
     public static final BooleanProperty ACTIVE = BooleanProperty.of("active");
@@ -71,12 +69,6 @@ public class PumpBlock extends BaseFacingBlock implements BlockEntityProvider
             be.updateCache();
             be.updatePowered(world.isReceivingRedstonePower(pos));
         }
-    }
-
-    @Override
-    public void prepare(BlockState state, WorldAccess world, BlockPos pos, int flags, int maxUpdateDepth)
-    {
-        super.prepare(state, world, pos, flags, maxUpdateDepth);
     }
 
     @Nullable
@@ -119,5 +111,4 @@ public class PumpBlock extends BaseFacingBlock implements BlockEntityProvider
     {
         return MiscUtil.checkType(type, NMBlockEntities.PUMP, (world1, pos, state1, blockEntity) -> blockEntity.tick(), null, world);
     }
-
 }
