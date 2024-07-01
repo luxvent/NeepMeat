@@ -93,7 +93,7 @@ public class IntegratorEggRenderer extends GeoBlockRenderer<IntegratorBlockEntit
             matrices.multiply(RotationAxis.POSITIVE_Y.rotation(be.facing));
             matrices.translate(-0.5d, 0d, -0.5d);
 //            matrices.translate(0, 1.8 + Math.sin((be.getWorld().getTime() + tickDelta) / 20) / 15, 0);
-            float s = NMMaths.sin(be.getWorld().getTime(), tickDelta, 1 / 20f);
+            float s = NMMaths.sin(Integer.MAX_VALUE + be.getWorld().getTime(), tickDelta, 1 / 20f);
             matrices.translate(0, 1.8 + s / 15, 0);
 
             GeoModel<IntegratorBlockEntity> modelProvider = getGeoModel();
