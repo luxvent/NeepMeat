@@ -6,6 +6,7 @@ import com.neep.neepmeat.init.NMBlocks;
 import com.neep.neepmeat.init.NMFluids;
 import com.neep.neepmeat.init.NMItems;
 import com.neep.neepmeat.plc.PLCBlocks;
+import com.neep.neepmeat.transport.ItemTransport;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import net.minecraft.advancement.Advancement;
@@ -109,12 +110,12 @@ public class NMAdvancements extends FabricAdvancementProvider
 
         Advancement place_ejector = getItem(
                 consumer, "main", "place_ejector", obtain_whisper_brass,
-                NMBlocks.EJECTOR
+                ItemTransport.EJECTOR
         );
 
         Advancement place_item_pipe = placeBlock(
                 consumer, "main", "place_item_pipe", obtain_whisper_brass,
-                NMBlocks.PNEUMATIC_TUBE
+                ItemTransport.PNEUMATIC_TUBE
         );
     }
 
