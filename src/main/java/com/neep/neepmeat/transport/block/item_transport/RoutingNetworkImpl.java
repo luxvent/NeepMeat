@@ -11,7 +11,6 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiCache;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
-import net.fabricmc.fabric.api.transfer.v1.storage.StoragePreconditions;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.ResourceAmount;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
@@ -205,7 +204,7 @@ public class RoutingNetworkImpl implements RoutingNetwork
         @Override
         protected State processPos(BlockPos pos)
         {
-            ItemPipe fromPipe = ItemTransport.ITEM_PIPE.find(worldSupplier.get(), pos, null);
+            ItemPipe fromPipe = ItemTransport.ITEM_PIPE_LOOKUP.find(worldSupplier.get(), pos, null);
 
             // Fail if there is a second controller in the network.
             if (checkController(worldSupplier.get(), pos)) return State.FAIL;
@@ -220,7 +219,7 @@ public class RoutingNetworkImpl implements RoutingNetwork
                     addResult(mutable, BlockApiCache.create(RoutablePipe.LOOKUP, worldSupplier.get(), mutable));
                 }
 
-                ItemPipe toPipe = ItemTransport.ITEM_PIPE.find(worldSupplier.get(), mutable, null);
+                ItemPipe toPipe = ItemTransport.ITEM_PIPE_LOOKUP.find(worldSupplier.get(), mutable, null);
                 if (toPipe != null)
                 {
                     queueBlock(mutable);

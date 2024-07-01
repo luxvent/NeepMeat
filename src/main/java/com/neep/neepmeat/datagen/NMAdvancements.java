@@ -115,7 +115,7 @@ public class NMAdvancements extends FabricAdvancementProvider
 
         Advancement place_item_pipe = placeBlock(
                 consumer, "main", "place_item_pipe", obtain_whisper_brass,
-                ItemTransport.PNEUMATIC_TUBE
+                ItemTransport.ITEM_PIPE
         );
     }
 
