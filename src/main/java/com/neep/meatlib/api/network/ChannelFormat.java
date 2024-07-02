@@ -4,6 +4,8 @@ import com.neep.meatlib.network.ChannelFormatFormatImpl;
 import com.neep.meatlib.network.Sender;
 import net.minecraft.network.PacketByteBuf;
 
+import java.util.concurrent.Executor;
+
 public interface ChannelFormat<T>
 {
     String APPLY_METHOD_NAME = "apply";
@@ -13,7 +15,7 @@ public interface ChannelFormat<T>
         return new ChannelFormatFormatImpl.Builder<>(clazz);
     }
 
-    void receive(T listener, PacketByteBuf buf);
+    void receive(T listener, PacketByteBuf buf, Executor executor);
 
     T emitter(Sender<T> sender);
 }
