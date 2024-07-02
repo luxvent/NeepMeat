@@ -178,18 +178,18 @@ public class PLCHudRenderer
         double realCameraY = be.getSurgeryRobot().cameraY;
         double realCameraZ = be.getSurgeryRobot().cameraZ;
 
-//        if (MeatLib.vsUtil != null) {
-//            Vector3d pos = new Vector3d(realCameraX, realCameraY, realCameraZ);
-//            if (MeatLib.vsUtil.hasShipAtPosition(be.getSurgeryRobot().getBasePos(), client.world)) {
-//                Matrix4dc shipToWorld = MeatLib.vsUtil.getShipToWorldMatrix(be.getSurgeryRobot().getBasePos(), client.world);
-//                if (shipToWorld != null) {
-//                    shipToWorld.transformPosition(pos);
-//                    realCameraX = pos.x;
-//                    realCameraY = pos.y;
-//                    realCameraZ = pos.z;
-//                }
-//            }
-//        }
+        if (MeatLib.vsUtil != null) {
+            Vector3d pos = new Vector3d(realCameraX, realCameraY, realCameraZ);
+            if (MeatLib.vsUtil.hasShipAtPosition(be.getSurgeryRobot().getBasePos(), client.world)) {
+                Matrix4dc shipToWorld = MeatLib.vsUtil.getShipToWorldMatrix(be.getSurgeryRobot().getBasePos(), client.world);
+                if (shipToWorld != null) {
+                    shipToWorld.transformPosition(pos);
+                    realCameraX = pos.x;
+                    realCameraY = pos.y;
+                    realCameraZ = pos.z;
+                }
+            }
+        }
 
         ((CameraAccessor) camera).callSetPos(realCameraX, realCameraY, realCameraZ);
 
