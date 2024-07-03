@@ -17,6 +17,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,6 +35,8 @@ public class MeatLib implements ModInitializer
      * This should remain null unless VS2 is loaded.
      */
     public static ValkyrienSkiesUtil vsUtil = null;
+
+    public static boolean isClient = false;
 
     public static void assertActive(Object object)
     {
