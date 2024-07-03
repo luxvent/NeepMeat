@@ -1,5 +1,6 @@
 package com.neep.neepmeat.machine.charnel_pump;
 
+import com.neep.meatlib.MeatLib;
 import com.neep.meatlib.blockentity.SyncableBlockEntity;
 import com.neep.meatlib.util.ClientComponents;
 import com.neep.meatlib.util.LazySupplier;
@@ -63,9 +64,13 @@ public class CharnelPumpBlockEntity extends SyncableBlockEntity implements Livin
         super(type, pos, state);
     }
 
-    public static boolean canRun(double puPower)
+    public static boolean canRun(double puPower, CharnelPumpBlockEntity be)
     {
-        return puPower >= (double) BalanceConstants.CHARNEL_PUMP_MIN_POWER / PowerUtils.referencePower();
+        if (MeatLib.vsUtil == null) {
+            return puPower >= (double) BalanceConstants.CHARNEL_PUMP_MIN_POWER / PowerUtils.referencePower();
+        }
+        return puPower >= (double) BalanceConstants.CHARNEL_PUMP_MIN_POWER / PowerUtils.referencePower() && !MeatLib.vsUtil.hasShipAtPosition(be.getPos(),be.getWorld());
+
     }
 
     public void serverTick(double puPower, Storage<FluidVariant> inputStorage, Transaction transaction)
@@ -95,7 +100,7 @@ public class CharnelPumpBlockEntity extends SyncableBlockEntity implements Livin
             sync();
         }
 
-        if (canRun(puPower))
+        if (canRun(puPower, this))
         {
             spawnSpouts();
 
@@ -245,7 +250,7 @@ public class CharnelPumpBlockEntity extends SyncableBlockEntity implements Livin
     {
         if (hasAir)
         {
-            if (!canRun(progressIncrement))
+            if (!canRun(progressIncrement, this))
             {
                 spawnAirParticles();
             }

@@ -1,5 +1,6 @@
 package com.neep.neepmeat.client.plc;
 
+import com.neep.meatlib.MeatLib;
 import com.neep.meatlib.api.event.KeyboardEvents;
 import com.neep.neepmeat.client.screen.plc.PLCProgramScreen;
 import com.neep.neepmeat.machine.surgical_controller.SurgicalRobot;
@@ -27,7 +28,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix4dc;
 import org.joml.Matrix4f;
+import org.joml.Vector3d;
 
 @Environment(value = EnvType.CLIENT)
 public class PLCHudRenderer
@@ -171,7 +174,24 @@ public class PLCHudRenderer
         be.getSurgeryRobot().cameraY = MathHelper.lerp(0.1d, be.getSurgeryRobot().cameraY, be.getSurgeryRobot().getY());
         be.getSurgeryRobot().cameraZ = MathHelper.lerp(0.1d, be.getSurgeryRobot().cameraZ, be.getSurgeryRobot().getZ());
 
-        ((CameraAccessor) camera).callSetPos(robot.cameraX, robot.cameraY, robot.cameraZ);
+        double realCameraX = be.getSurgeryRobot().cameraX;
+        double realCameraY = be.getSurgeryRobot().cameraY;
+        double realCameraZ = be.getSurgeryRobot().cameraZ;
+
+        if (MeatLib.vsUtil != null) {
+            Vector3d pos = new Vector3d(realCameraX, realCameraY, realCameraZ);
+            if (MeatLib.vsUtil.hasShipAtPosition(be.getSurgeryRobot().getBasePos(), client.world)) {
+                Matrix4dc shipToWorld = MeatLib.vsUtil.getShipToWorldMatrix(be.getSurgeryRobot().getBasePos(), client.world);
+                if (shipToWorld != null) {
+                    shipToWorld.transformPosition(pos);
+                    realCameraX = pos.x;
+                    realCameraY = pos.y;
+                    realCameraZ = pos.z;
+                }
+            }
+        }
+
+        ((CameraAccessor) camera).callSetPos(realCameraX, realCameraY, realCameraZ);
 
         ((CameraAccessor) camera).callSetRotation(controller.lerpYaw, controller.lerpPitch);
 
@@ -188,13 +208,27 @@ public class PLCHudRenderer
         BlockState targetState = client.world.getBlockState(pos);
         VoxelShape shape = targetState.getOutlineShape(client.world, pos, ShapeContext.of(client.player));
 
+        Vector3d realPos = new Vector3d(pos.getX(), pos.getY(), pos.getZ());
+
+        if (MeatLib.vsUtil != null) {
+            MeatLib.vsUtil.CLIENT.transformRenderIfOnShip(wrctx.matrixStack(), new Vector3d(pos.getX(), pos.getY(), pos.getZ()));
+            if (MeatLib.vsUtil.hasShipAtPosition(pos, client.world)) {
+                Matrix4dc matrix = MeatLib.vsUtil.getShipToWorldMatrix(pos, client.world);
+                if (matrix != null) {
+                    matrix.transformPosition(realPos);
+                }
+            }
+        } else {
+            wrctx.matrixStack().translate(realPos.x, realPos.y, realPos.z);
+        }
+
         drawCuboidShapeOutline(
                 wrctx.matrixStack(),
                 wrctx.consumers().getBuffer(RenderLayer.getLines()),
                 shape,
-                pos.getX() - camPos.x,
-                pos.getY() - camPos.y,
-                pos.getZ() - camPos.z,
+                -camPos.x,
+                -camPos.y,
+                -camPos.z,
                 1, 0.36f, 0.13f, 0.8f
         );
 

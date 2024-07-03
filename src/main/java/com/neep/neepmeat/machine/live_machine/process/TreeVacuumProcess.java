@@ -1,5 +1,6 @@
 package com.neep.neepmeat.machine.live_machine.process;
 
+import com.neep.meatlib.MeatLib;
 import com.neep.neepmeat.api.live_machine.ComponentType;
 import com.neep.neepmeat.api.live_machine.LivingMachineBlockEntity;
 import com.neep.neepmeat.api.live_machine.Process;
@@ -14,12 +15,19 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.joml.Matrix4dc;
+import org.joml.Quaterniondc;
+import org.joml.Vector3d;
+import org.valkyrienskies.mod.common.VSGameUtilsKt;
 
 import java.util.*;
 
@@ -49,6 +57,19 @@ public class TreeVacuumProcess implements Process
             {
                 Direction facing = vacuum.getCachedState().get(TreeVacuumBlock.FACING);
                 BlockPos trunkPos = vacuum.getPos().offset(facing, 2);
+
+                if (MeatLib.vsUtil != null && MeatLib.vsUtil.hasShipAtPosition(be.getPos(), world))
+                {
+                    Vector3d temp = new Vector3d(0,0,0);
+                    MeatLib.vsUtil.getShipToWorldMatrix(trunkPos, world).transformPosition(trunkPos.getX() + 0.5, trunkPos.getY() + 0.5, trunkPos.getZ() + 0.5, temp);
+                    trunkPos = new BlockPos(MathHelper.floor(temp.x), MathHelper.floor(temp.y), MathHelper.floor(temp.z));
+
+//                    if (world instanceof ServerWorld serverWorld)
+//                    {
+////                        serverWorld.spawnParticles(ParticleTypes.COMPOSTER, temp.x, temp.y, temp.z, 10, 0.2, 0.2, 0.2, 0.1);
+//                        serverWorld.spawnParticles(ParticleTypes.COMPOSTER, trunkPos.getX() + 0.5, trunkPos.getY() + 0.5, trunkPos.getZ() + 0.5, 10, 0.2, 0.2, 0.2, 0.1);
+//                    }
+                }
 
                 try (Transaction transaction = Transaction.openOuter())
                 {

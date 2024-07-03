@@ -3,12 +3,14 @@ package com.neep.neepmeat.machine.item_mincer;
 import com.neep.meatlib.block.BaseHorFacingBlock;
 import com.neep.meatlib.item.ItemSettings;
 import com.neep.neepmeat.init.NMBlockEntities;
+import com.neep.neepmeat.machine.grinder.GrinderBlock;
 import com.neep.neepmeat.util.ItemUtil;
 import com.neep.neepmeat.util.MiscUtil;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -20,6 +22,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -51,10 +55,10 @@ public class ItemMincerBlock extends BaseHorFacingBlock implements BlockEntityPr
     }
 
     @Override
-    public void onLandedUpon(World world, BlockState state, BlockPos pos, Entity entity, float fallDistance)
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
     {
-        super.onLandedUpon(world, state, pos, entity, fallDistance);
-        if (world.getBlockEntity(pos) instanceof ItemMincerBlockEntity be && !world.isClient() && entity instanceof ItemEntity item)
+        super.onEntityCollision(state, world, pos, entity);
+        if (world.getBlockEntity(pos) instanceof ItemMincerBlockEntity be && !world.isClient() && entity instanceof ItemEntity item &&  entity.isOnGround())
         {
             try (Transaction transaction = Transaction.openOuter())
             {
@@ -78,5 +82,12 @@ public class ItemMincerBlock extends BaseHorFacingBlock implements BlockEntityPr
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state)
     {
         return NMBlockEntities.ITEM_MINCER.instantiate(pos, state);
+    }
+
+    @Override
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context)
+    {
+        return GrinderBlock.createCuboidShape(0,0,0,16,15,16);
+
     }
 }
