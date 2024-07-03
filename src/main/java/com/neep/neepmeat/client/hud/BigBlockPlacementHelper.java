@@ -91,6 +91,8 @@ public class BigBlockPlacementHelper
 
             if (MeatLib.vsUtil != null)
                 MeatLib.vsUtil.CLIENT.transformRenderIfOnShip(matrices, new Vector3d(pos.getX(), pos.getY(), pos.getZ()));
+            else
+                matrices.translate(pos.getX(), pos.getY(), pos.getZ());
 
             int col = RESULT.col();
 
