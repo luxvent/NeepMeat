@@ -178,11 +178,14 @@ public class PLCHudRenderer
         double realCameraY = be.getSurgeryRobot().cameraY;
         double realCameraZ = be.getSurgeryRobot().cameraZ;
 
-        if (MeatLib.vsUtil != null) {
+        if (MeatLib.vsUtil != null)
+        {
             Vector3d pos = new Vector3d(realCameraX, realCameraY, realCameraZ);
-            if (MeatLib.vsUtil.hasShipAtPosition(be.getSurgeryRobot().getBasePos(), client.world)) {
+            if (MeatLib.vsUtil.hasShipAtPosition(be.getSurgeryRobot().getBasePos(), client.world))
+            {
                 Matrix4dc shipToWorld = MeatLib.vsUtil.getShipToWorldMatrix(be.getSurgeryRobot().getBasePos(), client.world);
-                if (shipToWorld != null) {
+                if (shipToWorld != null)
+                {
                     shipToWorld.transformPosition(pos);
                     realCameraX = pos.x;
                     realCameraY = pos.y;
@@ -203,6 +206,8 @@ public class PLCHudRenderer
         if (HIT_RESULT == null)
             return;
 
+        wrctx.matrixStack().push();
+
         BlockPos pos = HIT_RESULT.getBlockPos();
         Vec3d camPos = camera.getPos();
         BlockState targetState = client.world.getBlockState(pos);
@@ -210,15 +215,20 @@ public class PLCHudRenderer
 
         Vector3d realPos = new Vector3d(pos.getX(), pos.getY(), pos.getZ());
 
-        if (MeatLib.vsUtil != null) {
+        if (MeatLib.vsUtil != null)
+        {
             MeatLib.vsUtil.CLIENT.transformRenderIfOnShip(wrctx.matrixStack(), new Vector3d(pos.getX(), pos.getY(), pos.getZ()));
-            if (MeatLib.vsUtil.hasShipAtPosition(pos, client.world)) {
+            if (MeatLib.vsUtil.hasShipAtPosition(pos, client.world))
+            {
                 Matrix4dc matrix = MeatLib.vsUtil.getShipToWorldMatrix(pos, client.world);
-                if (matrix != null) {
+                if (matrix != null)
+                {
                     matrix.transformPosition(realPos);
                 }
             }
-        } else {
+        }
+        else
+        {
             wrctx.matrixStack().translate(realPos.x, realPos.y, realPos.z);
         }
 
@@ -232,6 +242,7 @@ public class PLCHudRenderer
                 1, 0.36f, 0.13f, 0.8f
         );
 
+        wrctx.matrixStack().pop();
     }
 
     private void clientTick()
