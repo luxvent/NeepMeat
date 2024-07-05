@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.neep.neepmeat.NeepMeat;
 import com.neep.neepmeat.api.plc.PLCCols;
 import com.neep.neepmeat.client.screen.util.GUIUtil;
+import com.neep.neepmeat.client.screen.util.Point;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -11,7 +12,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class NMButtonWidget extends ButtonWidget
+public class NMButtonWidget extends ButtonWidget implements Point.Mutable
 {
     public static final Identifier NM_WIDGETS_TEXTURE = new Identifier(NeepMeat.NAMESPACE, "textures/gui/inventory_background.png");
     protected boolean showBackground = true;
@@ -77,5 +78,24 @@ public class NMButtonWidget extends ButtonWidget
     public void drawMessage(DrawContext context, TextRenderer textRenderer, int color)
     {
         this.drawScrollableText(context, textRenderer, 4, color);
+    }
+
+    @Override
+    public int x()
+    {
+        return getX();
+    }
+
+    @Override
+    public int y()
+    {
+        return getY();
+    }
+
+    @Override
+    public void setPos(int x, int y)
+    {
+        setX(x);
+        setY(y);
     }
 }
