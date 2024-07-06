@@ -35,8 +35,7 @@ public abstract class ScreenSubElement extends AbstractParentElement implements 
     {
         clearChildren();
 
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
+        setDimensions(screenWidth, screenHeight);
 
         init();
     }

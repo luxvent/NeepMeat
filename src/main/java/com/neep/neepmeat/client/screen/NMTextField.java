@@ -2,7 +2,9 @@ package com.neep.neepmeat.client.screen;
 
 import com.neep.neepmeat.api.plc.PLCCols;
 import com.neep.neepmeat.client.screen.button.NMButtonWidget;
+import com.neep.neepmeat.client.screen.util.ClickableWidget;
 import com.neep.neepmeat.client.screen.util.GUIUtil;
+import com.neep.neepmeat.client.screen.util.Point;
 import com.neep.neepmeat.mixin.TextFieldWidgetAccessor;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -15,14 +17,13 @@ import net.minecraft.text.Text;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
-public class NMTextField extends TextFieldWidget
+public class NMTextField extends TextFieldWidget implements ClickableWidget
 {
     private final TextRenderer textRenderer;
-    protected boolean drawFancyBackground = true;
-
     private final BiFunction<String, Integer, OrderedText> renderTextProvider = (string, firstCharacterIndex) -> OrderedText.styledForwardsVisitedString(
             string, Style.EMPTY
     );
+    protected boolean drawFancyBackground = true;
 
     public NMTextField(TextRenderer textRenderer, int x, int y, int width, int height, Text text)
     {
@@ -37,13 +38,18 @@ public class NMTextField extends TextFieldWidget
         return this;
     }
 
-    @Override
-    public void renderButton(DrawContext context, int mouseX, int mouseY, float delta)
+    protected void renderBackground(DrawContext context, int mouseX, int mouseY, float delta)
     {
         if (drawFancyBackground)
         {
             GUIUtil.drawNineSlicedTexture(context, NMButtonWidget.NM_WIDGETS_TEXTURE, getX(), getY(), this.getWidth(), this.getHeight(), 4, 200, 20, 0, 90);
         }
+    }
+
+    @Override
+    public void renderButton(DrawContext context, int mouseX, int mouseY, float delta)
+    {
+        renderBackground(context, mouseX, mouseY, delta);
 
         TextFieldWidgetAccessor accessor = (TextFieldWidgetAccessor) this;
 
@@ -53,25 +59,34 @@ public class NMTextField extends TextFieldWidget
         String string = this.textRenderer.trimToWidth(accessor.getText().substring(accessor.getFirstCharacterIndex()), this.getInnerWidth());
         boolean bl = j >= 0 && j <= string.length();
         boolean bl2 = this.isFocused() && accessor.getFocusedTicks() / 6 % 2 == 0 && bl;
-        int l = this.getX() + 4;
+
+        String prefix = getPrefix();
+        int prefixStart = this.getX() + 4;
+        int textStart = prefixStart + textRenderer.getWidth(prefix);
         int m = this.getY() + (this.height - 8) / 2;
-        int n = l;
+        int n = textStart;
+
         if (k > string.length())
         {
             k = string.length();
         }
 
+        if (!prefix.isEmpty())
+        {
+            GUIUtil.drawText(context, this.textRenderer, prefix, prefixStart, m, prefixCol(), false);
+        }
+
         if (!string.isEmpty())
         {
             String string2 = bl ? string.substring(0, j) : string;
-            n = GUIUtil.drawText(context, this.textRenderer, this.renderTextProvider.apply(string2, accessor.getFirstCharacterIndex()), l, m, col, true);
+            n = GUIUtil.drawText(context, this.textRenderer, this.renderTextProvider.apply(string2, accessor.getFirstCharacterIndex()), textStart, m, col, true);
         }
 
         boolean bl3 = accessor.getSelectionStart() < accessor.getText().length() || accessor.getText().length() >= accessor.callGetMaxLength();
         int o = n;
         if (!bl)
         {
-            o = j > 0 ? l + this.width : l;
+            o = j > 0 ? textStart + this.width : textStart;
         }
         else if (bl3)
         {
@@ -98,14 +113,55 @@ public class NMTextField extends TextFieldWidget
 
         if (k != j)
         {
-            int p = l + this.textRenderer.getWidth(string.substring(0, k));
+            int p = textStart + this.textRenderer.getWidth(string.substring(0, k));
             accessor.callDrawSelectionHighlight(context, o, m - 1, p - 1, m + 1 + 9);
         }
+    }
+
+    public String getPrefix()
+    {
+        return "";
+    }
+
+    protected int prefixCol()
+    {
+        return PLCCols.INVALID.col;
     }
 
     @Override
     public void setChangedListener(Consumer<String> changedListener)
     {
         super.setChangedListener(changedListener);
+    }
+
+    @Override
+    public int x()
+    {
+        return getX();
+    }
+
+    @Override
+    public int y()
+    {
+        return getY();
+    }
+
+    @Override
+    public int w()
+    {
+        return width;
+    }
+
+    @Override
+    public int h()
+    {
+        return height;
+    }
+
+    @Override
+    public void setPos(int x, int y)
+    {
+        setX(x);
+        setY(y);
     }
 }
