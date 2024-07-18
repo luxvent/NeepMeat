@@ -3,6 +3,8 @@ plugins {
 	id 'maven-publish'
 
 	id "com.modrinth.minotaur" version "2.+"
+
+//	id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 sourceCompatibility = JavaVersion.VERSION_19
@@ -31,7 +33,7 @@ repositories {
 
 	maven { url "https://maven.architectury.dev/" } // Architectury (REI)
 	maven { url "https://maven.shedaniel.me/" } // REI
-	maven { url 'https://www.jitpack.io' } // ???
+	maven { url 'https://maven.valkyrienskies.org' } // VS2
 	maven { url 'https://maven.ladysnake.org/releases' } // Cardinal Components
 	maven { url "https://maven.terraformersmc.com/" } // EMI
 	maven { url "https://maven.tterrag.com/" } // Flywheel
@@ -39,6 +41,10 @@ repositories {
 	maven { url "https://api.modrinth.com/maven" } // Milk lib's internal dependencies
 //	maven { url "https://ueaj.dev/maven" }// ARRP
 //	maven { url "https://maven.saps.dev/minecraft" } // KubeJS
+	maven {
+		url = "https://jitpack.io/"
+		content { includeGroupAndSubgroups("com.github") }
+	} // ???
 }
 
 configurations.configureEach {
@@ -53,6 +59,8 @@ configurations.configureEach {
 
 dependencies {
     implementation 'org.jetbrains:annotations:23.0.0'
+	implementation include("org.apache.commons:commons-collections4:${project.commons_collections4_version}")
+//	shadow "org.apache.commons:commons-collections4:${project.commons_collections4_version}"
 
 	// Base things
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -103,6 +111,18 @@ dependencies {
 	if (project.recipe_viewer == "emi") {
 		modLocalRuntime "dev.emi:emi-fabric:${project.emi_version}"
 	}
+
+	// VS2
+	modCompileOnly("org.valkyrienskies:valkyrienskies-1201-fabric:${project.vs2_version}") { transitive = false }
+	implementation("org.valkyrienskies.core:api:${project.vscore_version}") {
+		exclude group: 'org.joml', module: ''
+	}
+	implementation("org.valkyrienskies.core:util:${project.vscore_version}") {
+		exclude group: 'org.joml', module: ''
+	}
+	implementation("org.valkyrienskies.core:api-game:${project.vscore_version}") {
+		exclude group: 'org.joml', module: ''
+	}
 }
 
 processResources {
@@ -112,6 +132,10 @@ processResources {
 		expand "version": project.version
 	}
 }
+
+//shadowJar {
+//	configurations = [project.configurations
+//}
 
 tasks.withType(JavaCompile).configureEach {
 	it.options.release = 17

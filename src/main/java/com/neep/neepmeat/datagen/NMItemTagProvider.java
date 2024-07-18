@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.TagKey;
@@ -35,11 +36,15 @@ public class NMItemTagProvider extends FabricTagProvider.ItemTagProvider
     @Override
     protected void configure(RegistryWrapper.WrapperLookup arg)
     {
-        getOrCreateTagBuilder(NMTags.CHARNEL_COMPACTOR).addOptionalTag(NMTags.RAW_MEAT);
-        getOrCreateTagBuilder(NMTags.CHARNEL_COMPACTOR).addOptionalTag(NMTags.RAW_FISH);
-        getOrCreateTagBuilder(NMTags.CHARNEL_COMPACTOR).addOptionalTag(TagKey.of(Registries.ITEM.getKey(), new Identifier("chestcavity", "salvageable_human_organ_meat")));
-        getOrCreateTagBuilder(NMTags.CHARNEL_COMPACTOR).addOptionalTag(TagKey.of(Registries.ITEM.getKey(), new Identifier("chestcavity", "salvageable_animal_organ_meat")));
-        getOrCreateTagBuilder(NMTags.CHARNEL_COMPACTOR).addOptionalTag(TagKey.of(Registries.ITEM.getKey(), new Identifier("chestcavity", "salvageable_rotten_flesh")));
+        getOrCreateTagBuilder(NMTags.CHARNEL_COMPACTOR)
+                .addOptionalTag(NMTags.RAW_MEAT)
+                .addOptionalTag(NMTags.RAW_FISH)
+                .addOptionalTag(TagKey.of(Registries.ITEM.getKey(), new Identifier("chestcavity", "salvageable_human_organ_meat")))
+                .addOptionalTag(TagKey.of(Registries.ITEM.getKey(), new Identifier("chestcavity", "salvageable_animal_organ_meat")))
+                .addOptionalTag(TagKey.of(Registries.ITEM.getKey(), new Identifier("chestcavity", "salvageable_rotten_flesh")))
+                .add(Items.BONE, Items.SPIDER_EYE, Items.FERMENTED_SPIDER_EYE, Items.EGG, Items.TURTLE_EGG, Items.FROGSPAWN)
+                .add(Items.SNIFFER_EGG)
+        ;
 
         getOrCreateTagBuilder(NMTags.BLOCK_CRUSHING_OUTPUTS)
                 .addOptionalTag(ConventionalItemTags.RAW_ORES)

@@ -1,5 +1,6 @@
 package com.neep.neepmeat.machine.separator;
 
+import com.neep.meatlib.MeatLib;
 import com.neep.meatlib.blockentity.SyncableBlockEntity;
 import com.neep.neepmeat.api.machine.MotorisedBlock;
 import com.neep.neepmeat.machine.motor.MotorEntity;
@@ -20,6 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3d;
 
 public class SeparatorBlockEntity extends SyncableBlockEntity implements MotorisedBlock, ExtendedScreenHandlerFactory
 {
@@ -61,6 +63,13 @@ public class SeparatorBlockEntity extends SyncableBlockEntity implements Motoris
     private void processEntity(AnimalEntity entity)
     {
         Vec3d outputPos = Vec3d.ofCenter(pos.offset(getCachedState().get(SeparatorBlock.FACING).getOpposite()));
+        if (MeatLib.vsUtil != null) {
+            if (MeatLib.vsUtil.hasShipAtPosition(pos, this.world)) {
+                Vector3d temp = new Vector3d(0,0,0);
+                MeatLib.vsUtil.getShipToWorldMatrix(pos, this.world).transformPosition(outputPos.getX(), outputPos.getY(), outputPos.getZ(), temp);
+                outputPos = new Vec3d(temp.x,temp.y,temp.z);
+            }
+        }
         entity.setPosition(outputPos);
     }
 

@@ -35,7 +35,7 @@ public class HoundEntity extends HostileEntity implements Monster
     @Override
     public boolean isInvisibleTo(PlayerEntity player)
     {
-        return super.isInvisibleTo(player) || !SightUtil.canPlayerSee(player, this);
+        return super.isInvisibleTo(player) || !SightUtil.canPlayerSee(player);
     }
 
     @Override

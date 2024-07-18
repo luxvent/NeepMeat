@@ -1,5 +1,6 @@
 package com.neep.meatlib.blockentity;
 
+import com.neep.meatlib.network.BlockEntitySync;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -7,8 +8,11 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.List;
 
 public abstract class SyncableBlockEntity extends BlockEntity implements BlockEntityClientSerializable
 {
@@ -23,14 +27,22 @@ public abstract class SyncableBlockEntity extends BlockEntity implements BlockEn
     @Override
     public Packet<ClientPlayPacketListener> toUpdatePacket()
     {
-//        return new SyncPacket(this);
-        return BlockEntityUpdateS2CPacket.create(this);
+        // Return null to enable custom behaviour.
+        return null;
+    }
+
+    @Override
+    public void sendUpdatePacket(List<ServerPlayerEntity> players)
+    {
+        BlockEntitySync.send(players, this);
     }
 
     @Override
     public NbtCompound toInitialChunkDataNbt()
     {
-        return toClientTag(new NbtCompound());
+        NbtCompound nbt = new NbtCompound();
+        toClientTag(nbt);
+        return nbt;
     }
 
     @Override
@@ -55,20 +67,26 @@ public abstract class SyncableBlockEntity extends BlockEntity implements BlockEn
     public void softSync()
     {
         world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
+        if (world instanceof ServerWorld serverWorld)
+        {
+//            serverWorld.getChunkManager().markForUpdate(pos);
+        }
     }
 
-    // Currently does nothing
     @Override
     public void fromClientTag(NbtCompound nbt)
     {
         readNbt(nbt);
     }
 
+    /**
+     * Default behaviour is to serialise and send all data to the client.
+     * Override to selectively send properties.
+     */
     @Override
-    public NbtCompound toClientTag(NbtCompound nbt)
+    public void toClientTag(NbtCompound nbt)
     {
         writeNbt(nbt);
-        return nbt;
     }
 
     @Override

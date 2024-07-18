@@ -26,7 +26,11 @@ public class NMTags
     public static final TagKey<Block> BLOCK_CRUSHING_INPUTS = TagKey.of(Registries.BLOCK.getKey(), new Identifier(NeepMeat.NAMESPACE, "block_crushing_inputs"));
     public static final TagKey<Item> BLOCK_CRUSHING_OUTPUTS = TagKey.of(Registries.ITEM.getKey(), new Identifier(NeepMeat.NAMESPACE, "block_crushing_outputs"));
 
-   public static final TagKey<Block> CHARNEL_PUMP_OUTPUT_ORES = TagKey.of(Registries.BLOCK.getKey(), new Identifier(NeepMeat.NAMESPACE, "charnel_pump_output_ores"));
+    public static final TagKey<Block> CHARNEL_PUMP_OUTPUT_ORES = TagKey.of(Registries.BLOCK.getKey(), new Identifier(NeepMeat.NAMESPACE, "charnel_pump_output_ores"));
+    public static final TagKey<Block> WRITHING_EARTH_REPLACABLE = TagKey.of(Registries.BLOCK.getKey(), new Identifier(NeepMeat.NAMESPACE, "writhing_earth_replacable"));
+    public static final TagKey<Block> CONTAMINATED_RUBBLE_REPLACABLE = TagKey.of(Registries.BLOCK.getKey(), new Identifier(NeepMeat.NAMESPACE, "contaminated_rubble_replacable"));
+
+    public static final TagKey<Block> ROCK_DRILL_MINEABLE = TagKey.of(Registries.BLOCK.getKey(), new Identifier(NeepMeat.NAMESPACE, "rock_drill_mineable"));
 
     public static final TagKey<EntityType<?>> CLONEABLE = TagKey.of(Registries.ENTITY_TYPE.getKey(), new Identifier(NeepMeat.NAMESPACE, "cloneable"));
 

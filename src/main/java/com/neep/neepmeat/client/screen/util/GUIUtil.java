@@ -75,6 +75,11 @@ public interface GUIUtil
         drawVerticalLine1(context, x + dx + offset, y - offset, y + dy + offset, col);
     }
 
+    static void renderBorderInner(DrawContext context, int x, int y, int dx, int dy, int col, int offset)
+    {
+        renderBorder(context, x, y, dx - 1, dy - 1, col, offset);
+    }
+
     static void drawCenteredText(DrawContext context, TextRenderer textRenderer, Text text, float centerX, float y, int color, boolean shadow)
     {
 //        OrderedText orderedText = text.asOrderedText();

@@ -2,7 +2,8 @@ package com.neep.neepmeat.init;
 
 import com.neep.meatweapons.MWItems;
 import com.neep.neepmeat.NeepMeat;
-import com.neep.neepmeat.api.enlightenment.EnlightenmentManager;
+import com.neep.neepmeat.component.CompressedAirComponent;
+import com.neep.neepmeat.enlightenment.EnlightenmentManager;
 import com.neep.neepmeat.api.plc.recipe.Workpiece;
 import com.neep.neepmeat.enlightenment.PlayerEnlightenmentManager;
 import com.neep.neepmeat.implant.item.ItemImplantManager;
@@ -18,8 +19,7 @@ import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer;
 import dev.onyxstudios.cca.api.v3.entity.RespawnCopyStrategy;
 import dev.onyxstudios.cca.api.v3.item.ItemComponentFactoryRegistry;
 import dev.onyxstudios.cca.api.v3.item.ItemComponentInitializer;
-import net.minecraft.entity.mob.ZombieEntity;
-import net.minecraft.entity.passive.CowEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 
@@ -40,14 +40,21 @@ public class NMComponents implements EntityComponentInitializer, ItemComponentIn
                     new Identifier(NeepMeat.NAMESPACE, "enlightenment_manager"),
                     EnlightenmentManager.class);
 
+    public static final ComponentKey<CompressedAirComponent> COMPRESSED_AIR =
+            ComponentRegistry.getOrCreate(
+                    new Identifier(NeepMeat.NAMESPACE, "compressed_air"),
+                    CompressedAirComponent.class);
+
     @Override
     public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry)
     {
         registry.beginRegistration(PlayerEntity.class, IMPLANT_MANAGER).impl(PlayerImplantManager.class).respawnStrategy(RespawnCopyStrategy.LOSSLESS_ONLY).end(PlayerImplantManager::new);
         registry.beginRegistration(PlayerEntity.class, ENLIGHTENMENT_MANAGER).impl(PlayerEnlightenmentManager.class).respawnStrategy(RespawnCopyStrategy.ALWAYS_COPY).end(PlayerEnlightenmentManager::new);
-        registry.registerFor(CowEntity.class, WORKPIECE, MobWorkpiece::new);
-        registry.registerFor(ZombieEntity.class, WORKPIECE, MobWorkpiece::new);
+//        registry.registerFor(CowEntity.class, WORKPIECE, MobWorkpiece::new);
+//        registry.registerFor(ZombieEntity.class, WORKPIECE, MobWorkpiece::new);
+        registry.registerFor(MobEntity.class, WORKPIECE, MobWorkpiece::new);
         registry.registerFor(PlayerEntity.class, WORKPIECE, PlayerWorkpiece::new);
+        registry.registerForPlayers(COMPRESSED_AIR, CompressedAirComponent::new);
     }
 
     @Override

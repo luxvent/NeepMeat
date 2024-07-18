@@ -7,6 +7,8 @@ import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
+import java.util.concurrent.Executor;
+
 public class ServerChannelReceiver<T> implements Receiver<T>
 {
     private final Identifier name;
@@ -21,12 +23,12 @@ public class ServerChannelReceiver<T> implements Receiver<T>
         this.format = format;
         this.listener = listener;
         ServerPlayNetworking.registerReceiver(handler, name, (server, player1, handler1, buf, responseSender) ->
-                receive(buf));
+                receive(buf, server));
     }
 
-    public void receive(PacketByteBuf buf)
+    private void receive(PacketByteBuf buf, Executor executor)
     {
-        format.receive(listener, buf);
+        format.receive(listener, buf, executor);
     }
 
     @Override

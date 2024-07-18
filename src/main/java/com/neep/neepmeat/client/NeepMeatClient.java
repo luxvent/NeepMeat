@@ -15,6 +15,7 @@ import com.neep.neepmeat.client.hud.GuideLookupThings;
 import com.neep.neepmeat.client.hud.HUDOverlays;
 import com.neep.neepmeat.client.instance.TreeVacuumInstance;
 import com.neep.neepmeat.client.hud.FarmingScutterHudRenderer;
+import com.neep.neepmeat.client.item.RockDrillItemClient;
 import com.neep.neepmeat.client.model.GlassTankModel;
 import com.neep.neepmeat.client.model.GlomeEntityModel;
 import com.neep.neepmeat.client.model.entity.HoundEntityModel;
@@ -22,15 +23,13 @@ import com.neep.neepmeat.client.plc.PLCClient;
 import com.neep.neepmeat.client.plc.PLCHudRenderer;
 import com.neep.neepmeat.client.renderer.*;
 import com.neep.neepmeat.client.renderer.block.AdvancedIntegratorRenderer;
-import com.neep.neepmeat.client.renderer.entity.DummyEntityRenderer;
-import com.neep.neepmeat.client.renderer.entity.HoundEntityRenderer;
-import com.neep.neepmeat.client.renderer.entity.KeeperEntityRenderer;
-import com.neep.neepmeat.client.renderer.entity.WormEntityRenderer;
+import com.neep.neepmeat.client.renderer.entity.*;
 import com.neep.neepmeat.client.screen.*;
 import com.neep.neepmeat.client.screen.living_machine.ItemOutputPortScreen;
 import com.neep.neepmeat.client.screen.living_machine.LivingMachineScreen;
 import com.neep.neepmeat.client.screen.plc.PLCProgramScreen;
 import com.neep.neepmeat.client.world.NMDimensionEffects;
+import com.neep.neepmeat.entity.follower.FollowerRenderer;
 import com.neep.neepmeat.init.*;
 import com.neep.neepmeat.item.DosimeterItem;
 import com.neep.neepmeat.item.NetworkingToolItem;
@@ -49,6 +48,7 @@ import com.neep.neepmeat.machine.mixer.MixerRenderer;
 import com.neep.neepmeat.machine.multitank.MultiTankRenderer;
 import com.neep.neepmeat.machine.phage_ray.PhageRayClientComponent;
 import com.neep.neepmeat.machine.separator.SeparatorScreen;
+import com.neep.neepmeat.machine.small_compressor.SmallCompressorScreen;
 import com.neep.neepmeat.machine.small_trommel.SmallTrommelRenderer;
 import com.neep.neepmeat.machine.synthesiser.SynthesiserRenderer;
 import com.neep.neepmeat.machine.trough.TroughRenderer;
@@ -60,6 +60,7 @@ import com.neep.neepmeat.transport.block.fluid_transport.FilterPipeBlock;
 import com.neep.neepmeat.transport.block.fluid_transport.FluidPipeBlock;
 import com.neep.neepmeat.transport.client.TransportClient;
 import com.neep.neepmeat.transport.client.renderer.WindowPipeRenderer;
+import com.neep.neepmeat.transport.client.screen.filter.FilterScreen;
 import dev.monarkhes.myron_neepmeat.api.Myron;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -67,10 +68,12 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.model.Dilation;
 import net.minecraft.client.model.TexturedModelData;
@@ -87,6 +90,7 @@ public class NeepMeatClient implements ClientModInitializer
 {
     public static final EntityModelLayer MODEL_GLASS_TANK_LAYER = new EntityModelLayer(new Identifier(NeepMeat.NAMESPACE, "glass_tank"), "main");
     public static final EntityModelLayer TANK_MINECART = new EntityModelLayer(new Identifier(NeepMeat.NAMESPACE, "tank_minecart"), "main");
+    public static final EntityModelLayer SMALL_COMPRESSOR_MINECART = new EntityModelLayer(new Identifier(NeepMeat.NAMESPACE, "small_compressor_minecart"), "main");
     public static final EntityModelLayer GLOME = new EntityModelLayer(new Identifier(NeepMeat.NAMESPACE, "glome"), "main");
     public static final EntityModelLayer EGG = new EntityModelLayer(new Identifier(NeepMeat.NAMESPACE, "egg"), "main");
 
@@ -105,6 +109,7 @@ public class NeepMeatClient implements ClientModInitializer
         MachineHudOverlay.init();
         FarmingScutterHudRenderer.init();
         BigBlockPlacementHelper.init();
+        RockDrillItemClient.init();
 
         TransportClient.init();
 
@@ -154,6 +159,7 @@ public class NeepMeatClient implements ClientModInitializer
         EntityModelLayerRegistry.registerModelLayer(KeeperEntityRenderer.KEEPER_OUTER, () -> keeperOuterLayer);
 
 //        EntityRendererRegistry.register(NMEntities.TANK_MINECART, ctx -> new TankMinecartRenderer(ctx, TANK_MINECART));
+        EntityRendererRegistry.register(NMEntities.SMALL_COMPRESSOR_MINECART, ctx -> new SmallCompressorMinecartRenderer(ctx, SMALL_COMPRESSOR_MINECART));
         EntityRendererRegistry.register(NMEntities.GLOME, ctx -> new GlomeEntityRenderer(ctx, GLOME));
         EntityRendererRegistry.register(NMEntities.EGG, ctx -> new EggEntityRenderer(ctx, EGG));
         EntityRendererRegistry.register(NMEntities.LIMB, DummyEntityRenderer::new);
@@ -163,10 +169,12 @@ public class NeepMeatClient implements ClientModInitializer
         EntityRendererRegistry.register(NMEntities.BOVINE_HORROR, BovineHorrorRenderer::new);
         EntityRendererRegistry.register(NMEntities.ACID_SPRAY, DummyEntityRenderer::new);
         EntityRendererRegistry.register(NMEntities.PHAGE_RAY, DummyEntityRenderer::new);
+        EntityRendererRegistry.register(NMEntities.FOLLOWER, FollowerRenderer::new);
 
         EntityRendererRegistry.register(NMEntities.FARMING_SCUTTER, DummyEntityRenderer::new);
 
         EntityModelLayerRegistry.registerModelLayer(TANK_MINECART, MinecartEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(SMALL_COMPRESSOR_MINECART, MinecartEntityModel::getTexturedModelData);
 
 //        GeoArmorRenderer.regi(new GogglesArmourRenderer(new GenericModel<>(
 //                NeepMeat.NAMESPACE,
@@ -201,6 +209,7 @@ public class NeepMeatClient implements ClientModInitializer
         BlockEntityRendererFactories.register(NMBlockEntities.ADVANCED_INTEGRATOR, AdvancedIntegratorRenderer::new);
         BlockEntityRendererFactories.register(NMBlockEntities.BIG_LEVER, BigLeverRenderer::new);
         BlockEntityRendererFactories.register(NMBlockEntities.PNEUMATIC_PIPE, ItemPipeRenderer::new);
+        BlockEntityRendererFactories.register(NMBlockEntities.ENCASED_PNEUMATIC_PIPE, ItemPipeRenderer::new);
         BlockEntityRendererFactories.register(ItemTransport.STORAGE_BUS_BE, ItemPipeRenderer::new);
         BlockEntityRendererFactories.register(NMBlockEntities.MERGE_ITEM_PIPE, MergePipeRenderer::new);
         BlockEntityRendererFactories.register(NMBlockEntities.ITEM_PUMP, ItemPumpRenderer::new);
@@ -239,6 +248,8 @@ public class NeepMeatClient implements ClientModInitializer
 
 //        BlockEntityRendererFactories.register(PLCBlocks.ROBOTIC_ARM_ENTITY, RoboticArmRenderer::new);
 
+        BuiltinItemRendererRegistry.INSTANCE.register(NMItems.ROCK_DRILL, new RockDrillItemRenderer(MinecraftClient.getInstance()));
+
 
         // Coloured blocks
         for (PaintedBlockManager.PaintedBlock block : NMBlocks.SMOOTH_TILE.entries)
@@ -272,11 +283,14 @@ public class NeepMeatClient implements ClientModInitializer
         HandledScreens.register(ScreenHandlerInit.UPGRADE_MANAGER, UpgradeManagerScreen::new);
         HandledScreens.register(ScreenHandlerInit.DISPLAY_PLATE, DisplayPlateScreen::new);
         HandledScreens.register(ScreenHandlerInit.FABRICATOR, FabricatorScreen::new);
+        HandledScreens.register(ScreenHandlerInit.SMALL_COMPRESSOR, SmallCompressorScreen::new);
+        HandledScreens.register(ScreenHandlerInit.FILTER, FilterScreen::new);
 
         HandledScreens.register(ScreenHandlerInit.LIVING_MACHINE, LivingMachineScreen::new);
         HandledScreens.register(ScreenHandlerInit.ITEM_OUTPUT, ItemOutputPortScreen::new);
 
         HandledScreens.register(ScreenHandlerInit.PLC, PLCProgramScreen::new);
+
     }
 
     public static void registerLayers()
@@ -294,10 +308,11 @@ public class NeepMeatClient implements ClientModInitializer
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.MESH_PANE);
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), FluidTransport.PUMP);
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.RUSTED_BARS);
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.PNEUMATIC_TUBE);
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), ItemTransport.ITEM_PIPE);
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), ItemTransport.OPAQUE_ITEM_PIPE);
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), ItemTransport.STORAGE_BUS);
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.MERGE_ITEM_PIPE);
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.ITEM_PUMP);
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), ItemTransport.MERGE_ITEM_PIPE);
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), ItemTransport.ITEM_PUMP);
 //        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.CONVERTER);
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.DEPLOYER);
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.MIXER);
@@ -348,6 +363,7 @@ public class NeepMeatClient implements ClientModInitializer
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getTranslucent(), NMBlocks.SCAFFOLD_TRAPDOOR);
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.ENCASED_VASCULAR_CONDUIT);
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), FluidTransport.ENCASED_FLUID_PIPE);
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), ItemTransport.ENCASED_PNEUMATIC_PIPE);
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), NMBlocks.CHUTE);
 
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), FluidTransport.FLUID_DRAIN);

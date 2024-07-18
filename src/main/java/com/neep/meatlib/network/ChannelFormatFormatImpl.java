@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 public class ChannelFormatFormatImpl<T> implements ChannelFormat<T>
 {
@@ -90,7 +91,7 @@ public class ChannelFormatFormatImpl<T> implements ChannelFormat<T>
     }
 
     @Override
-    public void receive(T listener, PacketByteBuf buf)
+    public void receive(T listener, PacketByteBuf buf, Executor executor)
     {
         Object[] arguments = new Object[invokeParameters.size()];
         for (int i = 0; i < codecs.size(); ++i)
@@ -99,18 +100,22 @@ public class ChannelFormatFormatImpl<T> implements ChannelFormat<T>
             Object object = codec.decode(buf);
             arguments[i] = object;
         }
-        try
+
+        executor.execute(() ->
         {
-            method.invoke(listener, arguments);
-        }
-        catch (IllegalAccessException e)
-        {
-            throw new IllegalArgumentException("This should probably not happen.");
-        }
-        catch (InvocationTargetException e)
-        {
-            throw new IllegalArgumentException("Incorrect type");
-        }
+            try
+            {
+                method.invoke(listener, arguments);
+            }
+            catch (IllegalAccessException e)
+            {
+                throw new IllegalArgumentException("This should probably not happen.");
+            }
+            catch (InvocationTargetException e)
+            {
+                throw new IllegalStateException(e.getCause());
+            }
+        });
     }
 
     public static class Builder<T>

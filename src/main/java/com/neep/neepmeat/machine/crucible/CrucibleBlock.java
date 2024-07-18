@@ -8,19 +8,28 @@ import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class CrucibleBlock extends BaseBlock implements BlockEntityProvider
 {
+
+    protected static final VoxelShape OUTLINE_SHAPE;
+    private static final VoxelShape RAYCAST_SHAPE = createCuboidShape(2.0, 4.0, 2.0, 14.0, 16.0, 14.0);
+
     public CrucibleBlock(String registryName, ItemSettings itemSettings, Settings settings)
     {
         super(registryName, itemSettings, settings.nonOpaque());
@@ -43,12 +52,23 @@ public class CrucibleBlock extends BaseBlock implements BlockEntityProvider
         return NMBlockEntities.CRUCIBLE.instantiate(pos, state);
     }
 
+
     @Override
-    public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity)
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity)
     {
-        if (entity instanceof ItemEntity itemEntity && !entity.isRemoved() && world.getBlockEntity(pos) instanceof CrucibleBlockEntity be && !world.isClient())
+
+        super.onEntityCollision(state, world, pos, entity);
+        if (!world.isClient() && entity instanceof ItemEntity item &&  entity.isOnGround() && world.getBlockEntity(pos) instanceof CrucibleBlockEntity be)
         {
-            be.receiveItemEntity(itemEntity);
+            be.receiveItemEntity(item);
         }
+    }
+
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return OUTLINE_SHAPE;
+    }
+
+    static {
+        OUTLINE_SHAPE = VoxelShapes.combineAndSimplify(VoxelShapes.fullCube(), VoxelShapes.union(createCuboidShape(0.0, 0.0, 4.0, 16.0, 3.0, 12.0), new VoxelShape[]{createCuboidShape(4.0, 0.0, 0.0, 12.0, 3.0, 16.0), createCuboidShape(2.0, 0.0, 2.0, 14.0, 3.0, 14.0), RAYCAST_SHAPE}), BooleanBiFunction.ONLY_FIRST);
     }
 }

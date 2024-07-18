@@ -59,7 +59,7 @@ public interface MeatgunModuleRenderer<T extends MeatgunModule>
         }
     }
 
-    private void renderBakedItemModel(BakedModel model, ItemStack stack, int light, int overlay, MatrixStack matrices, VertexConsumer consumer)
+    static void renderBakedItemModel(BakedModel model, ItemStack stack, int light, int overlay, MatrixStack matrices, VertexConsumer consumer)
     {
         Random random = Random.create();
         long l = 42L;
@@ -67,14 +67,14 @@ public interface MeatgunModuleRenderer<T extends MeatgunModule>
         for (Direction direction : Direction.values())
         {
             random.setSeed(42L);
-            this.renderBakedItemQuads(matrices, consumer, model.getQuads(null, direction, random), stack, light, overlay);
+            renderBakedItemQuads(matrices, consumer, model.getQuads(null, direction, random), stack, light, overlay);
         }
 
         random.setSeed(42L);
-        this.renderBakedItemQuads(matrices, consumer, model.getQuads(null, null, random), stack, light, overlay);
+        renderBakedItemQuads(matrices, consumer, model.getQuads(null, null, random), stack, light, overlay);
     }
 
-    private void renderBakedItemQuads(MatrixStack matrices, VertexConsumer consumer, List<BakedQuad> quads, ItemStack stack, int light, int overlay)
+    static void renderBakedItemQuads(MatrixStack matrices, VertexConsumer consumer, List<BakedQuad> quads, ItemStack stack, int light, int overlay)
     {
         MatrixStack.Entry entry = matrices.peek();
 

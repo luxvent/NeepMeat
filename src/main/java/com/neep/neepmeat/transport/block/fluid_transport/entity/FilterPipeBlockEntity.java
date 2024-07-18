@@ -14,7 +14,7 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.math.BlockPos;
 
-public class FilterPipeBlockEntity extends FluidPipeBlockEntity implements BlockEntityClientSerializable
+public class FilterPipeBlockEntity extends FluidPipeBlockEntity<FilterPipeBlock.FilterPipeVertex> implements BlockEntityClientSerializable
 {
     protected FluidVariant filterVariant = FluidVariant.blank();
 
@@ -23,7 +23,7 @@ public class FilterPipeBlockEntity extends FluidPipeBlockEntity implements Block
         this(NMBlockEntities.FILTER_PIPE, pos, state, FilterPipeBlock.FilterPipeVertex::new);
     }
 
-    public FilterPipeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, PipeConstructor constructor)
+    public FilterPipeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, PipeConstructor<FilterPipeBlock.FilterPipeVertex> constructor)
     {
         super(type, pos, state, constructor);
     }
@@ -54,19 +54,6 @@ public class FilterPipeBlockEntity extends FluidPipeBlockEntity implements Block
     }
 
     @Override
-    public void sync()
-    {
-        markDirty();
-        world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
-    }
-
-    @Override
-    public Packet<ClientPlayPacketListener> toUpdatePacket()
-    {
-        return BlockEntityUpdateS2CPacket.create(this);
-    }
-
-    @Override
     public NbtCompound toInitialChunkDataNbt()
     {
         return createNbt();
@@ -75,12 +62,18 @@ public class FilterPipeBlockEntity extends FluidPipeBlockEntity implements Block
     @Override
     public void fromClientTag(NbtCompound nbt)
     {
-
+        readNbt(nbt);
     }
 
     @Override
-    public NbtCompound toClientTag(NbtCompound nbt)
+    public void toClientTag(NbtCompound nbt)
     {
-        return null;
+        writeNbt(nbt);
+    }
+
+    @Override
+    public void onReceiveNbt(NbtCompound nbt)
+    {
+        world.updateListeners(pos, getCachedState(), getCachedState(), Block.REDRAW_ON_MAIN_THREAD);
     }
 }

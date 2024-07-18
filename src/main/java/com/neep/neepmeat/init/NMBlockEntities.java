@@ -19,7 +19,6 @@ import com.neep.neepmeat.machine.assembler.AssemblerBlockEntity;
 import com.neep.neepmeat.machine.bottler.BottlerBlockEntity;
 import com.neep.neepmeat.machine.breaker.LinearOscillatorBlockEntity;
 import com.neep.neepmeat.machine.casting_basin.CastingBasinBlockEntity;
-import com.neep.neepmeat.machine.charnel_pump.CharnelPumpBlockEntity;
 import com.neep.neepmeat.machine.charnel_pump.WrithingEarthSpoutBlockEntity;
 import com.neep.neepmeat.machine.content_detector.InventoryDetectorBlockEntity;
 import com.neep.neepmeat.machine.converter.ConverterBlockEntity;
@@ -44,7 +43,6 @@ import com.neep.neepmeat.machine.large_crusher.LargeCrusherBlockEntity;
 import com.neep.neepmeat.machine.large_crusher.LargeCrusherStructureBlockEntity;
 import com.neep.neepmeat.machine.large_motor.LargeMotorBlockEntity;
 import com.neep.neepmeat.machine.large_motor.LargeMotorStructureEntity;
-import com.neep.neepmeat.machine.live_machine.LivingMachines;
 import com.neep.neepmeat.machine.mincer.MincerBlockEnity;
 import com.neep.neepmeat.machine.mixer.MixerBlockEntity;
 import com.neep.neepmeat.machine.motor.LiquidFuelMachine;
@@ -57,6 +55,7 @@ import com.neep.neepmeat.machine.power_flower.PowerFlowerControllerBlockEntity;
 import com.neep.neepmeat.machine.power_flower.PowerFlowerFluidPortBlock;
 import com.neep.neepmeat.machine.pylon.PylonBlockEntity;
 import com.neep.neepmeat.machine.separator.SeparatorBlockEntity;
+import com.neep.neepmeat.machine.small_compressor.SmallCompressorBlockEntity;
 import com.neep.neepmeat.machine.small_trommel.SmallTrommelBlock;
 import com.neep.neepmeat.machine.small_trommel.SmallTrommelBlockEntity;
 import com.neep.neepmeat.machine.solidity_detector.SolidityDetectorBlockEntity;
@@ -73,6 +72,7 @@ import com.neep.neepmeat.machine.well_head.WellHeadBlockEntity;
 import com.neep.neepmeat.plc.component.MutateInPlace;
 import com.neep.neepmeat.plc.component.TableComponent;
 import com.neep.neepmeat.transport.FluidTransport;
+import com.neep.neepmeat.transport.ItemTransport;
 import com.neep.neepmeat.transport.api.pipe.BloodAcceptor;
 import com.neep.neepmeat.transport.api.pipe.VascularConduitEntity;
 import com.neep.neepmeat.transport.block.energy_transport.entity.EncasedConduitBlockEntity;
@@ -81,10 +81,7 @@ import com.neep.neepmeat.transport.block.energy_transport.entity.VascularConduit
 import com.neep.neepmeat.transport.block.fluid_transport.CheckValveBlock;
 import com.neep.neepmeat.transport.block.fluid_transport.StopValveBlock;
 import com.neep.neepmeat.transport.block.fluid_transport.entity.*;
-import com.neep.neepmeat.transport.block.item_transport.entity.ItemDuctBlockEntity;
-import com.neep.neepmeat.transport.block.item_transport.entity.ItemPipeBlockEntity;
-import com.neep.neepmeat.transport.block.item_transport.entity.MergePipeBlockEntity;
-import com.neep.neepmeat.transport.block.item_transport.entity.RouterBlockEntity;
+import com.neep.neepmeat.transport.block.item_transport.entity.*;
 import com.neep.neepmeat.transport.fluid_network.node.BlockPipeVertex;
 import com.neep.neepmeat.transport.machine.fluid.*;
 import com.neep.neepmeat.transport.machine.item.BufferBlockEntity;
@@ -159,6 +156,7 @@ public class NMBlockEntities
     public static BlockEntityType<BigLeverBlockEntity> BIG_LEVER;
 
     public static BlockEntityType<ItemPipeBlockEntity> PNEUMATIC_PIPE;
+    public static BlockEntityType<? extends ItemPipeBlockEntity> ENCASED_PNEUMATIC_PIPE;
     public static BlockEntityType<MergePipeBlockEntity> MERGE_ITEM_PIPE;
     public static BlockEntityType<BufferBlockEntity> BUFFER;
     public static BlockEntityType<ChuteBlock.ChuteBlockEntity> CHUTE;
@@ -212,6 +210,8 @@ public class NMBlockEntities
     public static BlockEntityType<LargeMotorBlockEntity> LARGE_MOTOR;
     public static BlockEntityType<FlywheelBlockEntity> FLYWHEEL;
     public static BlockEntityType<SeparatorBlockEntity> SEPARATOR;
+
+    public static BlockEntityType<SmallCompressorBlockEntity> SMALL_COMPRESSOR;
 
     public static <T extends net.minecraft.block.entity.BlockEntity> BlockEntityType<T> register(String id, FabricBlockEntityTypeBuilder.Factory<T> factory, Block... block)
     {
@@ -314,17 +314,18 @@ public class NMBlockEntities
 
         // --- Item Transfer ---
         ITEM_DUCT_BLOCK_ENTITY = register("item_duct", ItemDuctBlockEntity::new, NMBlocks.ITEM_DUCT);
-        PNEUMATIC_PIPE = register("pneumatic_pipe", ItemPipeBlockEntity::new, NMBlocks.PNEUMATIC_TUBE);
-        MERGE_ITEM_PIPE = register("merge_item_pipe", MergePipeBlockEntity::new, NMBlocks.MERGE_ITEM_PIPE);
-        BUFFER = register("buffer", BufferBlockEntity::new, NMBlocks.BUFFER);
+        PNEUMATIC_PIPE = register("pneumatic_pipe", ItemPipeBlockEntity::new, ItemTransport.ITEM_PIPE, ItemTransport.OPAQUE_ITEM_PIPE);
+        ENCASED_PNEUMATIC_PIPE = register("encased_item_pipe", (p, s) -> new EncasedItemPipeBlockEntity(ENCASED_PNEUMATIC_PIPE, p, s), ItemTransport.ENCASED_PNEUMATIC_PIPE);
+        MERGE_ITEM_PIPE = register("merge_item_pipe", MergePipeBlockEntity::new, ItemTransport.MERGE_ITEM_PIPE);
+        BUFFER = register("buffer", BufferBlockEntity::new, ItemTransport.BUFFER);
         CHUTE = register("chute", (p, s) -> new ChuteBlock.ChuteBlockEntity(CHUTE, p, s), NMBlocks.CHUTE);
         INVENTORY_DETECTOR = register("content_detector", InventoryDetectorBlockEntity::new, NMBlocks.CONTENT_DETECTOR);
         SOLIDITY_DETECTOR = register("solidity_detector", SolidityDetectorBlockEntity::new, NMBlocks.SOLIDITY_DETECTOR);
         ItemStorage.SIDED.registerForBlockEntity(InventoryDetectorBlockEntity::getStorage, INVENTORY_DETECTOR);
-        EJECTOR = register("ejector", EjectorBlockEntity::new, NMBlocks.EJECTOR);
-        ITEM_PUMP = register("item_pump", ItemPumpBlockEntity::new, NMBlocks.ITEM_PUMP);
-        ROUTER = register("router", RouterBlockEntity::new, NMBlocks.ROUTER);
-        DUMPER = register("dumper", DumperBlockEntity::new, NMBlocks.DUMPER);
+        EJECTOR = register("ejector", EjectorBlockEntity::new, ItemTransport.EJECTOR);
+        ITEM_PUMP = register("item_pump", ItemPumpBlockEntity::new, ItemTransport.ITEM_PUMP);
+        ROUTER = register("router", RouterBlockEntity::new, ItemTransport.ROUTER);
+        DUMPER = register("dumper", DumperBlockEntity::new, ItemTransport.DUMPER);
         ItemStorage.SIDED.registerForBlockEntity(DumperBlockEntity::getStorage, DUMPER);
 
         // --- Machines ---
@@ -463,6 +464,8 @@ public class NMBlockEntities
 
         SEPARATOR = register("separator", (p, s) -> new SeparatorBlockEntity(SEPARATOR, p, s), NMBlocks.SEPARATOR);
 
+        SMALL_COMPRESSOR = register("small_compressor", (p, s) -> new SmallCompressorBlockEntity(SMALL_COMPRESSOR, p, s), NMBlocks.SMALL_COMPRESSOR);
+
         MINCER = register("mincer", MincerBlockEnity::new, NMBlocks.MINCER);
         FluidStorage.SIDED.registerForBlockEntity(MincerBlockEnity::getFluidStorage, MINCER);
         FluidPump.SIDED.registerForBlockEntity(MincerBlockEnity::getFluidPump, MINCER);
@@ -548,4 +551,9 @@ public class NMBlockEntities
             }
         }), NMBlocks.POWER_EMITTER);
     }
+
+//    public static <T extends BlockEntity> BlockEntityType.BlockEntityFactory<T> curry(BlockEntityType<T> type, TriFunction<BlockEntityType<T>, BlockPos, BlockState, T> constructor)
+//    {
+//        return (p, s) -> constructor.apply(type, p, s);
+//    }
 }

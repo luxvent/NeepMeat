@@ -1,0 +1,12 @@
+Hey! Just leaving this note as a point of
+reference in case you decide to set up masses yourself:
+
+The [plc_blocks.json] file contains a simple example. To explain it-
+[
+  {
+    "block": "neepmeat:plc", - the block ID
+    "mass": 500.0, - the mass, in kilograms
+    "friction": 0.5, - the friction value against other surfaces
+    "elasticity": 0.0 - the laxness of collision, should not be used for hard blocks
+  },
+]

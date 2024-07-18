@@ -13,13 +13,15 @@ import com.neep.neepmeat.implant.player.ExtraMouthImplant;
 import com.neep.neepmeat.implant.player.LungExtensionsImplant;
 import com.neep.neepmeat.implant.player.PinealEyeImplant;
 import com.neep.neepmeat.item.*;
+import com.neep.neepmeat.machine.small_compressor.SmallCompressorMinecart;
 import net.minecraft.block.ComposterBlock;
 import net.minecraft.item.*;
 
 @SuppressWarnings("unused")
 public class NMItems
 {
-    public static Item TANK_MINECART = new TankMinecartItem("tank_minecart", new MeatlibItemSettings().maxCount(1).group(NMItemGroups.GENERAL));
+//    public static Item TANK_MINECART = new TankMinecartItem("tank_minecart", new MeatlibItemSettings().maxCount(1).group(NMItemGroups.GENERAL));
+    public static Item SMALL_COMPRESSOR_MINECART = new BaseMinecartItem("small_compressor_minecart", new MeatlibItemSettings().maxCount(3).group(NMItemGroups.GENERAL), SmallCompressorMinecart::new);
 
     public static Item COMPOUND_INJECTOR = new CompoundInjectorItem("compound_injector", new MeatlibItemSettings().group(MeatWeapons.WEAPONS));
 
@@ -108,6 +110,8 @@ public class NMItems
     public static Item DOSIMETER = new DosimeterItem("dosimeter", TooltipSupplier.hidden(1), new MeatlibItemSettings().group(NMItemGroups.GENERAL));
 
     public static Item FARMING_SCUTTER = ItemRegistry.queue(new FarmingScutterItem("farming_scutter", () -> NMEntities.FARMING_SCUTTER, TooltipSupplier.hidden(1), new MeatlibItemSettings().group(NMItemGroups.GENERAL)));
+
+    public static Item ROCK_DRILL = ItemRegistry.queue("rock_drill", new RockDrillItem(new MeatlibItemSettings().group(NMItemGroups.GENERAL)));
 
     public static Item DEBUG_ITEM = ItemRegistry.queue(new DebugItem("debug", new MeatlibItemSettings().group(NMItemGroups.GENERAL)));
 

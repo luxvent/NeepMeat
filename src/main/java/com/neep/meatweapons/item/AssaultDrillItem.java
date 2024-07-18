@@ -2,7 +2,7 @@ package com.neep.meatweapons.item;
 
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Multimap;
-import com.neep.meatlib.api.event.KeyboardEvents;
+import com.neep.meatlib.item.ClientBlockAttackListener;
 import com.neep.meatlib.item.CustomEnchantable;
 import com.neep.meatlib.item.MeatlibItem;
 import com.neep.meatlib.item.PoweredItem;
@@ -84,7 +84,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class AssaultDrillItem extends Item implements MeatlibItem, GeoItem, PoweredItem, CustomEnchantable, OverrideSwingItem
+public class AssaultDrillItem extends Item implements MeatlibItem, GeoItem, PoweredItem, CustomEnchantable, OverrideSwingItem, ClientBlockAttackListener
 {
     public static final Identifier CHANNEL_ID = new Identifier("assault_drill");
 
@@ -239,7 +239,10 @@ public class AssaultDrillItem extends Item implements MeatlibItem, GeoItem, Powe
     {
         if (!world.isClient && state.getHardness(world, pos) != 0.0F && stack.getDamage() < getMaxDamage())
         {
-            stack.damage(1, miner, e -> {});
+            if (stack.getDamage() == getMaxDamage(stack) - 1)
+                stack.setDamage(getMaxDamage(stack));
+            else
+                stack.damage(1, miner, e -> {});
         }
         return true;
     }
@@ -336,12 +339,14 @@ public class AssaultDrillItem extends Item implements MeatlibItem, GeoItem, Powe
         return 1;
     }
 
+    @Override
     public void onAttackBlock(ItemStack stack, PlayerEntity player)
     {
         if (stack.getDamage() < getMaxDamage())
             sendAttack(true);
     }
 
+    @Override
     public void onFinishAttackBlock(ItemStack stack, PlayerEntity player)
     {
         sendAttack(false);
@@ -517,31 +522,6 @@ public class AssaultDrillItem extends Item implements MeatlibItem, GeoItem, Powe
         public static void init()
         {
             ClientTickEvents.START_CLIENT_TICK.register(Client::tick);
-
-            KeyboardEvents.POST_INPUT.register((window, key, scancode, action, modifiers) ->
-            {
-                MinecraftClient client = MinecraftClient.getInstance();
-                if (client.player != null && client.options != null)
-                {
-                    ItemStack mainStack = client.player.getMainHandStack();
-
-                    if (mainStack.getItem() instanceof AssaultDrillItem drill &&
-                            (client.options.attackKey.matchesKey(key, scancode)
-                                    || client.options.attackKey.matchesMouse(key))
-                    )
-                    {
-                        if (client.options.attackKey.isPressed())
-                        {
-                            drill.onAttackBlock(mainStack, client.player);
-                        }
-                        else
-                        {
-                            drill.onFinishAttackBlock(mainStack, client.player);
-                        }
-                    }
-                }
-            });
-
         }
 
         public static void tick(MinecraftClient client)

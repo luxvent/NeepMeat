@@ -1,5 +1,6 @@
 package com.neep.neepmeat.machine.surgical_controller;
 
+import com.neep.meatlib.MeatLib;
 import com.neep.meatlib.util.NbtSerialisable;
 import com.neep.neepmeat.api.plc.PLC;
 import com.neep.neepmeat.network.plc.PLCRobotC2S;
@@ -20,6 +21,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Quaterniond;
+import org.joml.Quaterniondc;
+import org.joml.Vector3d;
 
 import java.util.Objects;
 
@@ -56,19 +60,6 @@ public class SurgicalRobot implements PLCRobot, NbtSerialisable
     private final BlockPos basePos;
     private final Vec3d dockingPos;
     private final Vec3d attachPos;
-
-    protected boolean pressingLeft;
-    protected boolean pressingRight;
-    protected boolean pressingForward;
-    protected boolean pressingBack;
-    protected boolean pressingUp;
-    protected boolean pressingDown;
-    protected boolean prevForward;
-    protected boolean prevBack;
-    protected boolean prevLeft;
-    protected boolean prevRight;
-    protected boolean prevUp;
-    protected boolean prevDown;
 
     @Nullable private PlayerEntity controller;
 
@@ -414,7 +405,6 @@ public class SurgicalRobot implements PLCRobot, NbtSerialisable
 
         public void tick()
         {
-            updateKeys();
             motion();
 
             if (be.getWorld().getTime() % 4 == 0)
@@ -427,7 +417,17 @@ public class SurgicalRobot implements PLCRobot, NbtSerialisable
         {
             if (!robot.parent.overrideController())
             {
+                if (robot.controller == null)
+                    return;
+
+                GameOptions options = MinecraftClient.getInstance().options;
                 Camera camera = MinecraftClient.getInstance().gameRenderer.getCamera();
+
+                boolean shouldTransformMotion = false;
+
+                if (MeatLib.vsUtil != null) {
+                    shouldTransformMotion = MeatLib.vsUtil.hasShipAtPosition(be.getPos(), MinecraftClient.getInstance().world);
+                }
 
                 double speed = 0.2;
                 float pitch = camera.getPitch();
@@ -440,42 +440,47 @@ public class SurgicalRobot implements PLCRobot, NbtSerialisable
                 double fvy = 0;
                 double fvz = 0;
 
-                if (robot.pressingForward)
+                if (options.forwardKey.isPressed())
                 {
                     fvx += vx;
                     fvz += vz;
                 }
-                if (robot.pressingBack)
+                if (options.backKey.isPressed())
                 {
                     fvx -= vx;
                     fvz -= vz;
                 }
 
-                if (robot.pressingLeft)
+                if (options.leftKey.isPressed())
                 {
                     fvx -= normal.x;
                     fvz -= normal.z;
                 }
-                if (robot.pressingRight)
+                if (options.rightKey.isPressed())
                 {
                     fvx += normal.x;
                     fvz += normal.z;
                 }
 
-                if (robot.pressingUp)
+                if (options.jumpKey.isPressed())
                 {
                     fvy += speed;
                 }
-                if (robot.pressingDown)
+                if (options.sneakKey.isPressed())
                 {
                     fvy -= speed;
+                }
+
+                Quaterniondc rotation = new Quaterniond();
+
+                if (shouldTransformMotion) {
+                    rotation = MeatLib.vsUtil.getShipToWorldRotation(be.getPos(), MinecraftClient.getInstance().world);
                 }
 
                 double l = Math.sqrt(fvx * fvx + fvz * fvz);
                 if (l != 0)
                 {
                     fvx = fvx / l * speed;
-//                    fvy = fvy * speed;
                     fvz = fvz / l * speed;
 
                     robot.vx = fvx;
@@ -487,6 +492,14 @@ public class SurgicalRobot implements PLCRobot, NbtSerialisable
                     robot.vy = fvy;
                 }
 
+                if (shouldTransformMotion && rotation != null) {
+                    Vector3d holder = new Vector3d(fvx, fvy, fvz);
+                    holder.rotate(rotation.invert(new Quaterniond()));
+                    robot.vx = holder.x;
+                    robot.vy = holder.y;
+                    robot.vz = holder.z;
+                }
+
                 robot.x += robot.vx;
                 robot.y += robot.vy;
                 robot.z += robot.vz;
@@ -495,28 +508,6 @@ public class SurgicalRobot implements PLCRobot, NbtSerialisable
                 robot.vy *= 0.05;
                 robot.vx *= 0.05;
             }
-        }
-
-        public void updateKeys()
-        {
-            if (robot.controller == null)
-                return;
-
-            GameOptions options = MinecraftClient.getInstance().options;
-
-            robot.prevForward = robot.pressingForward;
-            robot.prevBack = robot.pressingBack;
-            robot.prevLeft = robot.pressingLeft;
-            robot.prevRight = robot.pressingRight;
-            robot.prevUp = robot.pressingUp;
-            robot.prevDown = robot.pressingDown;
-
-            robot.pressingForward = options.forwardKey.isPressed();
-            robot.pressingBack = options.backKey.isPressed();
-            robot.pressingLeft = options.leftKey.isPressed();
-            robot.pressingRight = options.rightKey.isPressed();
-            robot.pressingUp = options.jumpKey.isPressed();
-            robot.pressingDown = options.sneakKey.isPressed();
         }
     }
 }

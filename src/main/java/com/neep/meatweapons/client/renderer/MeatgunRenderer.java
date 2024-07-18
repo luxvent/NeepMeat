@@ -1,16 +1,15 @@
 package com.neep.meatweapons.client.renderer;
 
+import com.neep.meatweapons.client.meatgun.RecoilManager;
 import com.neep.meatweapons.client.renderer.meatgun.MeatgunModuleRenderer;
 import com.neep.meatweapons.client.renderer.meatgun.MeatgunModuleRenderers;
 import com.neep.meatweapons.client.renderer.meatgun.MeatgunParticleManager;
 import com.neep.meatweapons.init.MWComponents;
 import com.neep.meatweapons.item.meatgun.MeatgunComponent;
 import com.neep.meatweapons.item.meatgun.MeatgunModule;
-import com.neep.meatweapons.client.meatgun.RecoilManager;
 import com.neep.meatweapons.mixin.HeldItemRendererAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.network.AbstractClientPlayerEntity;

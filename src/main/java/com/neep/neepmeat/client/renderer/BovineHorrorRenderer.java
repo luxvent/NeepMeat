@@ -53,7 +53,7 @@ public class BovineHorrorRenderer extends GeoEntityRenderer<BovineHorrorEntity>
     public Color getRenderColor(BovineHorrorEntity animatable, float partialTick, int packedLight)
     {
         float alpha = animatable.prevVisibility;
-        if (SightUtil.canPlayerSee(MinecraftClient.getInstance().player, animatable))
+        if (SightUtil.canPlayerSee(MinecraftClient.getInstance().player))
         {
             alpha = 1;
         }
@@ -63,7 +63,7 @@ public class BovineHorrorRenderer extends GeoEntityRenderer<BovineHorrorEntity>
     @Override
     public RenderLayer getRenderType(BovineHorrorEntity animatable, Identifier texture, VertexConsumerProvider bufferSource, float partialTick)
     {
-        if (SightUtil.canPlayerSee(MinecraftClient.getInstance().player, animatable))
+        if (SightUtil.canPlayerSee(MinecraftClient.getInstance().player))
         {
             return RenderLayer.getEntityCutout(texture);
         }

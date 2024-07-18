@@ -161,7 +161,7 @@
   "block.neepmeat.meat_steel_block": "Meat Steel Block",
   "block.neepmeat.meat_steel_block_slab": "Meat Steel Slab",
   "block.neepmeat.meat_steel_block_stairs": "Meat Steel Stairs",
-  "block.neepmeat.meat_steel_block_wall": "Meat Steel Stairs",
+  "block.neepmeat.meat_steel_block_wall": "Meat Steel Wall",
 
   "block.neepmeat.asbestos": "Raw Asbestos",
   "block.neepmeat.asbestos_slab": "Raw Asbestos Slab",
@@ -235,6 +235,7 @@
   "block.neepmeat.fluid_pipe_black": "Black Fluid Pipe",
 
   "block.neepmeat.copper_pipe": "Copper Pipe",
+  "block.neepmeat.copper_pipe.ore_0": "Does absolutely nothing.",
   "block.neepmeat.stop_valve": "Stop Valve",
   "block.neepmeat.stop_valve.lore_0": "Prevents flow when closed. Responds to redstone.",
   "block.neepmeat.check_valve": "Check Valve [CURRENTLY BROKEN]",
@@ -250,6 +251,10 @@
 
   "block.neepmeat.item_pipe": "Item Pipe",
   "block.neepmeat.item_pipe.lore_0": "Items must be inserted with an Ejector or Item Pump.",
+  "block.neepmeat.opaque_item_pipe": "Opaque Item Pipe",
+  "block.neepmeat.opaque_item_pipe.lore_0": "Items must be inserted with an Ejector or Item Pump.",
+  "block.neepmeat.encased_item_pipe": "Encased Item Pipe",
+  "block.neepmeat.encased_item_pipe.lore_0": "Takes on the model and shape of the block it is right-clicked with.",
   "block.neepmeat.merge_item_pipe": "Merge Item Pipe",
   "block.neepmeat.pipe_driver": "Pipe Driver",
   "block.neepmeat.pipe_driver.lore_0": "Permits advanced item routing in connected item pipes. One Driver is allowed per network.",
@@ -265,7 +270,7 @@
   "block.neepmeat.vascular_conduit": "Vascular Conduit",
   "block.neepmeat.vascular_conduit.lore_0": "Cycles blood through machines to give them power.",
   "block.neepmeat.encased_vascular_conduit": "Encased Vascular Conduit",
-  "block.neepmeat.encased_vascular_conduit.lore_0": "Takes on the model shape of the block it is right-clicked with.",
+  "block.neepmeat.encased_vascular_conduit.lore_0": "Takes on the model and shape of the block it is right-clicked with.",
   "block.neepmeat.vsc": "Vascular Source Converter",
   "block.neepmeat.vsc.lore_0": "Consumes a configurable amount of power from a vascular network and emits it from the front. Useful for controlling the speed of motors.\n§eDisabled by redstone by default. Right-click while sneaking to toggle.",
   "screen.neepmeat.vsc.text.power": "Target output power",
@@ -438,6 +443,9 @@
   "block.neepmeat.upgrade_manager": "Implant Manager",
   "block.neepmeat.upgrade_manager.lore_0": "Removes and tweaks item or entity implants.",
 
+  "block.neepmeat.small_compressor": "Small Compressor",
+  "block.neepmeat.small_compressor.lore_0": "Burns fuel to compress air. Powers rock drill in a 16x16x16 cube.",
+
   "block.neepmeat.duat_stone": "Duat Stone",
   "block.neepmeat.duat_cobblestone": "Duat Cobblestone",
   "block.neepmeat.duat_gravel": "Duat Gravel",
@@ -538,7 +546,7 @@
   "item.neepmeat.networking_tool.lore_1": "Right-click the sender block and then the",
   "item.neepmeat.networking_tool.lore_2": "receiver block to set a connection.",
 
-  "item.neepmeat.flywheel": "Flywheel",
+  "item.neepmeat.large_flywheel": "Flywheel",
   "item.neepmeat.stator": "Copper Stator",
 
   "item.neepmeat.whisper_brass_ingot": "Whispering Brass Ingot",
@@ -551,6 +559,7 @@
   "item.neepmeat.meat_steel_axe": "Meat Steel Axe",
   "item.neepmeat.meat_steel_shovel": "Meat Steel Shovel",
   "item.neepmeat.meat_steel_hoe": "Meat Steel Hoe",
+  "item.neepmeat.rock_drill": "Rock Drill",
 
   "item.neepmeat.transforming_tool_base": "Transforming Tool Base",
   "item.neepmeat.transforming_tool_base.lore_0": "Can combine two items into one.",
@@ -655,6 +664,7 @@
   "block.neepmeat.compressed_air": "Compressed Air",
 
   "item.neepmeat.tank_minecart": "Tank Minecart",
+  "item.neepmeat.small_compressor_minecart": "Small Compressor Minecart",
 
   "item.neepmeat.essential_saltes": "Essential Saltes: %s",
   "item.neepmeat.essential_saltes.lore_0": "Use in a Synthesiser to replicate an organism.",
@@ -672,7 +682,7 @@
   "item.minecraft.lingering_potion.effect.ash_preparation": "Ash Preparation",
 
   "item.neepmeat.goggles": "AR Goggles",
-  "item.neepmeat.lore_0": "Reveals the unseen",
+  "item.neepmeat.goggles.lore_0": "Reveals the unseen",
 
   "item.neepmeat.farming_scutter": "Farming Scutter",
   "item.neepmeat.farming_scutter.lore_0": "Harvests and replants crops. Must be placed on farmland. Harvested items will be inserted into block that is highlighted when placing.\nSneak-click to pick up.",
@@ -953,6 +963,8 @@
   "subtitles.neepmeat.flesh_machine_place": "Flesh machine placed",
   "subtitles.neepmeat.multiblock_assemble": "Multiblock assembles",
   "subtitles.neepmeat.multiblock_disassemble": "Multiblock disassembles",
+
+  "subtitles.neepmeat.rock_drill": "Rock Drill",
 
   "subtitles.neepmeat.glome_hit": "Glome hurts",
   "subtitles.neepmeat.hound_hit": "Hound hurts",

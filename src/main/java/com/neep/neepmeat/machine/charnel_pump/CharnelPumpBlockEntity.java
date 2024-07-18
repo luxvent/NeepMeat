@@ -1,5 +1,6 @@
 package com.neep.neepmeat.machine.charnel_pump;
 
+import com.neep.meatlib.MeatLib;
 import com.neep.meatlib.blockentity.SyncableBlockEntity;
 import com.neep.meatlib.util.ClientComponents;
 import com.neep.meatlib.util.LazySupplier;
@@ -7,6 +8,7 @@ import com.neep.neepmeat.BalanceConstants;
 import com.neep.neepmeat.api.live_machine.ComponentType;
 import com.neep.neepmeat.api.live_machine.LivingMachineComponent;
 import com.neep.neepmeat.api.processing.PowerUtils;
+import com.neep.neepmeat.datagen.tag.NMTags;
 import com.neep.neepmeat.init.NMBlockEntities;
 import com.neep.neepmeat.init.NMBlocks;
 import com.neep.neepmeat.init.NMFluids;
@@ -25,13 +27,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
@@ -64,9 +64,13 @@ public class CharnelPumpBlockEntity extends SyncableBlockEntity implements Livin
         super(type, pos, state);
     }
 
-    public static boolean canRun(double puPower)
+    public static boolean canRun(double puPower, CharnelPumpBlockEntity be)
     {
-        return puPower >= (double) BalanceConstants.CHARNEL_PUMP_MIN_POWER / PowerUtils.referencePower();
+        if (MeatLib.vsUtil == null) {
+            return puPower >= (double) BalanceConstants.CHARNEL_PUMP_MIN_POWER / PowerUtils.referencePower();
+        }
+        return puPower >= (double) BalanceConstants.CHARNEL_PUMP_MIN_POWER / PowerUtils.referencePower() && !MeatLib.vsUtil.hasShipAtPosition(be.getPos(),be.getWorld());
+
     }
 
     public void serverTick(double puPower, Storage<FluidVariant> inputStorage, Transaction transaction)
@@ -96,7 +100,7 @@ public class CharnelPumpBlockEntity extends SyncableBlockEntity implements Livin
             sync();
         }
 
-        if (canRun(puPower))
+        if (canRun(puPower, this))
         {
             spawnSpouts();
 
@@ -142,12 +146,7 @@ public class CharnelPumpBlockEntity extends SyncableBlockEntity implements Livin
     {
         BlockState surfaceState = world.getBlockState(surfacePos);
         return BlockEntityFinder.chunkRange(pos).contains(world.getChunk(surfacePos).getPos())
-                && (surfaceState.isIn(BlockTags.DIRT)
-                    || surfaceState.isIn(BlockTags.STONE_ORE_REPLACEABLES)
-                    || surfaceState.isIn(BlockTags.LUSH_GROUND_REPLACEABLE)
-                    || surfaceState.isIn(BlockTags.SNOW)
-                    || surfaceState.isIn(BlockTags.SHOVEL_MINEABLE)
-                    || surfaceState.isIn(BlockTags.NETHER_CARVER_REPLACEABLES)
+                && (surfaceState.isIn(NMTags.WRITHING_EARTH_REPLACABLE)
         );
     }
 
@@ -192,12 +191,11 @@ public class CharnelPumpBlockEntity extends SyncableBlockEntity implements Livin
     }
 
     @Override
-    public NbtCompound toClientTag(NbtCompound nbt)
+    public void toClientTag(NbtCompound nbt)
     {
         nbt.putFloat("power", progressIncrement);
         nbt.putBoolean("has_air", hasAir);
         nbt.putBoolean("has_fluid", hasFluid);
-        return nbt;
     }
 
     @Override
@@ -252,7 +250,7 @@ public class CharnelPumpBlockEntity extends SyncableBlockEntity implements Livin
     {
         if (hasAir)
         {
-            if (!canRun(progressIncrement))
+            if (!canRun(progressIncrement, this))
             {
                 spawnAirParticles();
             }
